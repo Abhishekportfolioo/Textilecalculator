@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Textile Engineering Suite: Spinning Production</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --primary: #2c3e50;
+      --secondary: #3498db;
+      --accent: #e74c3c;
+      --light: #ecf0f1;
+      --dark: #2c3e50;
+      --success: #2ecc71;
+      --warning: #f39c12;
+      --card-bg: #ffffff;
+      --body-bg: #f8f9fa;
+      --text-dark: #333;
+      --text-light: #7f8c8d;
+      --border: #ddd;
+    }
+
+    .dark-mode {
+      --primary: #2c3e50;
+      --secondary: #3498db;
+      --accent: #e74c3c;
+      --light: #34495e;
+      --dark: #ecf0f1;
+      --card-bg: #2c3e50;
+      --body-bg: #1a252f;
+      --text-dark: #ecf0f1;
+      --text-light: #bdc3c7;
+      --border: #34495e;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--body-bg);
+      color: var(--text-dark);
+      line-height: 1.6;
+      padding: 20px;
+      transition: background-color 0.3s, color 0.3s;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    }
+
+    .dark-mode {
+      background: linear-gradient(135deg, var(--dark-bg) 0%, #121212 100%);
+      color: var(--dark-text);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid var(--secondary);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    h1 i {
+      color: var(--accent);
+    }
+
+    .header-controls {
+      display: flex;
+      gap: 15px;
+    }
+
+    .btn {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.3s;
+    }
+
+    .btn-primary {
+      background-color: var(--secondary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: #2980b9;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .btn-dark {
+      background-color: var(--primary);
+      color: white;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 30px;
+      background-color: var(--card-bg);
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      padding: 5px;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 15px 20px;
+      text-align: center;
+      background: transparent;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: var(--text-light);
+    }
+
+    .tab.active {
+      background-color: var(--secondary);
+      color: white;
+      box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+    }
+
+    .tab-content {
+      display: none;
+      background-color: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      overflow: hidden;
+      margin-bottom: 30px;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .panel {
+      padding: 30px;
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 25px;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .input-group {
+      display: flex;
+      gap: 15px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 16px;
+      background-color: var(--card-bg);
+      color: var(--text-dark);
+      transition: border 0.3s;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--secondary);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15);
+    }
+
+    .button-group {
+      display: flex;
+      gap: 15px;
+      margin: 30px 0;
+      flex-wrap: wrap;
+    }
+
+    .calculate-btn {
+      background-color: var(--success);
+      color: white;
+      flex: 1;
+    }
+
+    .reset-btn {
+      background-color: var(--accent);
+      color: white;
+      flex: 1;
+    }
+
+    .results-container {
+      background-color: var(--light);
+      padding: 25px;
+      border-radius: 8px;
+      margin-top: 25px;
+      border-left: 4px solid var(--secondary);
+    }
+
+    .dark-mode .results-container {
+      background-color: #34495e;
+    }
+
+    .result-card {
+      margin-bottom: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .result-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+      color: var(--text-light);
+    }
+
+    .result-value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--secondary);
+    }
+
+    .machine-formula {
+      background-color: var(--light);
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 20px;
+      font-family: monospace;
+      font-size: 0.9rem;
+      color: var(--text-dark);
+    }
+
+    .dark-mode .machine-formula {
+      background-color: #34495e;
+    }
+
+    .chart-container {
+      background-color: var(--card-bg);
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      margin-top: 30px;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 20px;
+      color: var(--text-light);
+      font-size: 0.9rem;
+      border-top: 1px solid var(--border);
+      margin-top: 30px;
+    }
+
+    .machine-select {
+      margin-bottom: 25px;
+    }
+
+    .machine-select select {
+      padding: 15px;
+      font-size: 1.1rem;
+      border: 2px solid var(--secondary);
+    }
+
+    .machine-icon {
+      font-size: 3rem;
+      text-align: center;
+      margin: 20px 0;
+      color: var(--secondary);
+    }
+
+    .production-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, #3498db, #2c3e50);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    }
+
+    .stat-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+    }
+
+    .stat-card .value {
+      font-size: 2.2rem;
+      font-weight: 700;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+      
+      .header-controls {
+        width: 100%;
+        justify-content: space-between;
+      }
+      
+      .button-group {
+        flex-direction: column;
+      }
+      
+      .tabs {
+        flex-wrap: wrap;
+      }
+      
+      .tab {
+        flex: 1 0 45%;
+      }
+
+      .production-stats {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1><i class="fas fa-industry"></i> Textile Engineering Suite</h1>
+      <div class="header-controls">
+        <button class="btn btn-dark" onclick="toggleDarkMode()">
+          <i class="fas fa-moon"></i> Dark Mode
+        </button>
+      </div>
+    </header>
+    
+    <div class="tabs">
+      <button class="tab active" data-tab="spinning-production" onclick="window.location.href='home.html'"><i class="fas fa-cogs"></i> HOME</button>
+    </div>
+    
+    <!-- Spinning Production Calculator -->
+    <div id="spinning-production-tab" class="tab-content active">
+      <div class="panel">
+        <h2><i class="fas fa-calculator"></i> Spinning Production Calculator</h2>
+        
+        <div class="machine-select">
+          <label>Select Spinning Machine</label>
+          <select id="machine-type" onchange="changeMachine()">
+            <option value="blow-room">Blow Room</option>
+            <option value="carding">Carding Machine</option>
+            <option value="comber">Comber Machine</option>
+            <option value="draw-frame">Draw Frame</option>
+            <option value="speed-frame">Speed Frame</option>
+            <option value="ring-frame">Ring Frame</option>
+          </select>
+        </div>
+        
+        <div class="machine-icon">
+          <i id="machine-icon" class="fas fa-wind"></i>
+        </div>
+        
+        <!-- Blow Room Form -->
+        <div class="machine-form" id="blow-room-form">
+          <div class="input-group">
+            <div class="form-group" style="flex: 1;">
+              <label>Delivery Speed (m/min)</label>
+              <input type="number" id="br-speed" min="1" value="400">
+            </div>
+            <div class="form-group" style="flex: 1;">
+              <label>Efficiency (%)</label>
+              <input type="number" id="br-efficiency" min="1" max="100" value="85">
+            </div>
+          </div>
+          
+          <div class="input-group">
+            <div class="form-group" style="flex: 1;">
+              <label>Number of Machines</label>
+              <input type="number" id="br-machines" min="1" value="2">
+            </div>
+            <div class="form-group" style="flex: 1;">
+              <label>Yarn Count (Ne)</label>
+              <input type="number" id="br-ne" min="1" value="20">
+            </div>
+          </div>
+        </div>
+        
+        <!-- Carding Machine Form -->
+        <div class="machine-form" id="carding-form" style="display: none;">
+          <div class="input-group">
+            <div class="form-group" style="flex: 1;">
+              <label>Delivery Speed (m/min)</label>
+              <input type="number" id="c-speed" min="1" value="120">
+            </div>
+            <div class="form-group" style="flex: 1;">
+              <label>Efficiency (%)</label>
+              <input type="number" id="c-efficiency" min="1" max="100" value="88">
+            </div>
+          </div>
+          
+          <div class="input-group">
+            <div class="form-group" style="flex: 1;">
+              <label>Number of Machines</label>
+              <input type="number" id="c-machines" min="1" value="4">
+            </div>
+            <div class="form-group" style="flex: 1;">
+              <label>Yarn Count (Ne)</label>
+              <input type="number" id="c-ne" min="1" value="0.15">
+            </div>
+          </div>
+        </div>
+        
+        <!-- Comber Machine Form -->
+        <div class="machine-form" id="comber-form" style="display: none;">
+          <div class="input-group">
+            <div class="form-group" style="flex: 1;">
+              <label>Feed per Nip (grams)</label>
+              <input type="number" id="co-feed" min="0.01" step="0.01" value="0.25">
+            </div>
+            <div class="form-group" style="flex: 1;">
+              <label>Nips per Minute</label>
+              <input type="number" id="co-nips" min="1" value="250">
+            </div>
+          </div>
+          
+          <div class="input-group">
+            <div class="form-group" style="flex: 1;">
+              <label>Number of Heads</label>
+              <input type="number" id="co-heads" min="1" value="8">
+            </div>
+            <div class="form-group" style="flex: 1;">
+              <label>Efficiency (%)</label>
+              <input type="number" id="co-efficiency" min="1" max="100" value="82">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label>Number of Machines</label>
+            <input type="number" id="co-machines" min="1" value="3">
+          </div>
+        </div>
+        
+        <!-- Draw Frame Form -->
+        <div class="machine-form" id="draw-frame-form" style="display: none;">
+          <div class="input-group">
+            <div class="form-group" style="flex: 1;">
+              <label>Delivery Speed (m/min)</label>
+              <input type="number" id="df-speed" min="1" value="500">
+            </div>
+            <div class="form-group" style="flex: 1;">
+              <label>Efficiency (%)</label>
+              <input type="number" id="df-efficiency" min="1" max="100" value="90">
+            </div>
+          </div>
+          
+          <div class="input-group">
+            <div class="form-group" style="flex: 1;">
+              <label>Number of Heads</label>
+              <input type="number" id="df-heads" min="1" value="2">
+            </div>
+            <div class="form-group" style="flex: 1;">
+              <label>Number of Machines</label>
+              <input type="number" id="df-machines" min="1" value="6">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label>Yarn Count (Ne)</label>
+            <input type="number" id="df-ne" min="0.01" step="0.01" value="0.15">
+          </div>
+        </div>
+        
+        <!-- Speed Frame Form -->
+        <div class="machine-form" id="speed-frame-form" style="display: none;">
+          <div class="input-group">
+            <div class="form-group" style="flex: 1;">
+              <label>Spindle Speed (RPM)</label>
+              <input type="number" id="sf-speed" min="1" value="1000">
+            </div>
+            <div class="form-group" style="flex: 1;">
+              <label>Efficiency (%)</label>
+              <input type="number" id="sf-efficiency" min="1" max="100" value="85">
+            </div>
+          </div>
+          
+          <div class="input-group">
+            <div class="form-group" style="flex: 1;">
+              <label>Number of Spindles</label>
+              <input type="number" id="sf-spindles" min="1" value="120">
+            </div>
+            <div class="form-group" style="flex: 1;">
+              <label>Number of Machines</label>
+              <input type="number" id="sf-machines" min="1" value="4">
+            </div>
+          </div>
+          
+          <div class="input-group">
+            <div class="form-group" style="flex: 1;">
+              <label>Twist Per Inch (TPI)</label>
+              <input type="number" id="sf-tpi" min="0.1" step="0.1" value="1.2">
+            </div>
+            <div class="form-group" style="flex: 1;">
+              <label>Yarn Count (Ne)</label>
+              <input type="number" id="sf-ne" min="0.1" step="0.1" value="1.5">
+            </div>
+          </div>
+        </div>
+        
+        <!-- Ring Frame Form -->
+        <div class="machine-form" id="ring-frame-form" style="display: none;">
+          <div class="input-group">
+            <div class="form-group" style="flex: 1;">
+              <label>Spindle Speed (RPM)</label>
+              <input type="number" id="rf-speed" min="1" value="18000">
+            </div>
+            <div class="form-group" style="flex: 1;">
+              <label>Efficiency (%)</label>
+              <input type="number" id="rf-efficiency" min="1" max="100" value="92">
+            </div>
+          </div>
+          
+          <div class="input-group">
+            <div class="form-group" style="flex: 1;">
+              <label>Number of Spindles</label>
+              <input type="number" id="rf-spindles" min="1" value="1000">
+            </div>
+            <div class="form-group" style="flex: 1;">
+              <label>Number of Machines</label>
+              <input type="number" id="rf-machines" min="1" value="10">
+            </div>
+          </div>
+          
+          <div class="input-group">
+            <div class="form-group" style="flex: 1;">
+              <label>Twist Per Inch (TPI)</label>
+              <input type="number" id="rf-tpi" min="0.1" step="0.1" value="22">
+            </div>
+            <div class="form-group" style="flex: 1;">
+              <label>Yarn Count (Ne)</label>
+              <input type="number" id="rf-ne" min="1" value="40">
+            </div>
+          </div>
+        </div>
+        
+        <div class="machine-formula" id="current-formula">
+          Blow Room Formula: Production (kg/hr) = (Delivery speed × 60 × Efficiency × Machines × 453.6) / (840 × 0.9144 × Ne × 100)
+        </div>
+        
+        <div class="button-group">
+          <button class="btn btn-primary calculate-btn" onclick="calculateProduction()">
+            <i class="fas fa-calculator"></i> Calculate Production
+          </button>
+          <button class="btn reset-btn" onclick="resetForm()">
+            <i class="fas fa-redo"></i> Reset Form
+          </button>
+        </div>
+        
+        <div class="results-container">
+          <h2><i class="fas fa-chart-line"></i> Production Results</h2>
+          <div class="production-stats">
+            <div class="stat-card">
+              <h3>Hourly Production</h3>
+              <div class="value" id="production-rate">0.00</div>
+              <p>kg per hour</p>
+            </div>
+            <div class="stat-card">
+              <h3>Daily Production (8h)</h3>
+              <div class="value" id="daily-production">0.00</div>
+              <p>kg per day</p>
+            </div>
+            <div class="stat-card">
+              <h3>Weekly Production (6d)</h3>
+              <div class="value" id="weekly-production">0.00</div>
+              <p>kg per week</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="chart-container">
+          <h2><i class="fas fa-chart-bar"></i> Production Analysis</h2>
+          <canvas id="production-chart"></canvas>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+      <p>Advanced Textile Engineering Suite &copy; 2023 | Spinning Production Calculator</p>
+    </div>
+  </div>
+
+  <script>
+    // Global variables
+    let currentMachine = "blow-room";
+    let productionChart;
+    
+    // Machine icons mapping
+    const machineIcons = {
+      "blow-room": "fa-wind",
+      "carding": "fa-layer-group",
+      "comber": "fa-comb",
+      "draw-frame": "fa-ruler-combined",
+      "speed-frame": "fa-tachometer-alt",
+      "ring-frame": "fa-circle"
+    };
+    
+    // Machine names mapping
+    const machineNames = {
+      "blow-room": "Blow Room",
+      "carding": "Carding Machine",
+      "comber": "Comber Machine",
+      "draw-frame": "Draw Frame",
+      "speed-frame": "Speed Frame",
+      "ring-frame": "Ring Frame"
+    };
+    
+    // Change machine based on dropdown selection
+    function changeMachine() {
+      // Hide all forms
+      document.querySelectorAll('.machine-form').forEach(form => {
+        form.style.display = 'none';
+      });
+      
+      // Show selected form
+      currentMachine = document.getElementById('machine-type').value;
+      document.getElementById(`${currentMachine}-form`).style.display = 'block';
+      
+      // Update machine icon
+      document.getElementById('machine-icon').className = `fas ${machineIcons[currentMachine]}`;
+      
+      // Update formula display
+      updateFormula();
+    }
+    
+    // Update formula display based on current machine
+    function updateFormula() {
+      const formulaElement = document.getElementById('current-formula');
+      let formula = "";
+      
+      switch(currentMachine) {
+        case "blow-room":
+          formula = "Blow Room Formula: Production (kg/hr) = (Delivery speed × 60 × Efficiency × Machines × 453.6) / (840 × 0.9144 × Ne × 100)";
+          break;
+        case "carding":
+          formula = "Carding Formula: Production (kg/hr) = (Delivery speed × 60 × Efficiency × Machines) / (36 × Ne × 840 × 100)";
+          break;
+        case "comber":
+          formula = "Comber Formula: Production (kg/hr) = (Feed/nip × Nips/min × 60 × Heads × Efficiency × Machines) / (1000 × 100)";
+          break;
+        case "draw-frame":
+          formula = "Draw Frame Formula: Production (kg/hr) = (Delivery speed × 60 × Efficiency × Heads × Machines) / (100 × 2.205 × 840 × Ne)";
+          break;
+        case "speed-frame":
+          formula = "Speed Frame Formula: Production (kg/hr) = (7.2 × Spindle speed × Efficiency × Spindles × Machines) / (TPI × 1000 × 100 × Ne × 8)";
+          break;
+        case "ring-frame":
+          formula = "Ring Frame Formula: Production (kg/hr) = (7.2 × Spindle speed × Efficiency × Spindles × Machines) / (TPI × 1000 × 100 × Ne × 8)";
+          break;
+      }
+      
+      formulaElement.textContent = `${machineNames[currentMachine]} Formula: ${formula}`;
+    }
+    
+    // Calculate production based on current machine
+    function calculateProduction() {
+      let production = 0;
+      
+      switch(currentMachine) {
+        case "blow-room":
+          const brSpeed = parseFloat(document.getElementById('br-speed').value) || 0;
+          const brEfficiency = parseFloat(document.getElementById('br-efficiency').value) || 0;
+          const brMachines = parseFloat(document.getElementById('br-machines').value) || 0;
+          const brNe = parseFloat(document.getElementById('br-ne').value) || 0;
+          
+          production = (brSpeed * 60 * (brEfficiency/100) * brMachines * 453.6) / 
+                       (840 * 0.9144 * brNe * 100);
+          break;
+          
+        case "carding":
+          const cSpeed = parseFloat(document.getElementById('c-speed').value) || 0;
+          const cEfficiency = parseFloat(document.getElementById('c-efficiency').value) || 0;
+          const cMachines = parseFloat(document.getElementById('c-machines').value) || 0;
+          const cNe = parseFloat(document.getElementById('c-ne').value) || 0;
+          
+          production = (cSpeed * 60 * (cEfficiency/100) * cMachines) / 
+                       (36 * cNe * 840 * 100);
+          break;
+          
+        case "comber":
+          const coFeed = parseFloat(document.getElementById('co-feed').value) || 0;
+          const coNips = parseFloat(document.getElementById('co-nips').value) || 0;
+          const coHeads = parseFloat(document.getElementById('co-heads').value) || 0;
+          const coEfficiency = parseFloat(document.getElementById('co-efficiency').value) || 0;
+          const coMachines = parseFloat(document.getElementById('co-machines').value) || 0;
+          
+          production = (coFeed * coNips * 60 * coHeads * (coEfficiency/100) * coMachines) / 
+                       (1000 * 100);
+          break;
+          
+        case "draw-frame":
+          const dfSpeed = parseFloat(document.getElementById('df-speed').value) || 0;
+          const dfEfficiency = parseFloat(document.getElementById('df-efficiency').value) || 0;
+          const dfHeads = parseFloat(document.getElementById('df-heads').value) || 0;
+          const dfMachines = parseFloat(document.getElementById('df-machines').value) || 0;
+          const dfNe = parseFloat(document.getElementById('df-ne').value) || 0;
+          
+          production = (dfSpeed * 60 * (dfEfficiency/100) * dfHeads * dfMachines) / 
+                       (100 * 2.205 * 840 * dfNe);
+          break;
+          
+        case "speed-frame":
+          const sfSpeed = parseFloat(document.getElementById('sf-speed').value) || 0;
+          const sfEfficiency = parseFloat(document.getElementById('sf-efficiency').value) || 0;
+          const sfSpindles = parseFloat(document.getElementById('sf-spindles').value) || 0;
+          const sfMachines = parseFloat(document.getElementById('sf-machines').value) || 0;
+          const sfTpi = parseFloat(document.getElementById('sf-tpi').value) || 0;
+          const sfNe = parseFloat(document.getElementById('sf-ne').value) || 0;
+          
+          production = (7.2 * sfSpeed * (sfEfficiency/100) * sfSpindles * sfMachines) / 
+                       (sfTpi * 1000 * 100 * sfNe * 8);
+          break;
+          
+        case "ring-frame":
+          const rfSpeed = parseFloat(document.getElementById('rf-speed').value) || 0;
+          const rfEfficiency = parseFloat(document.getElementById('rf-efficiency').value) || 0;
+          const rfSpindles = parseFloat(document.getElementById('rf-spindles').value) || 0;
+          const rfMachines = parseFloat(document.getElementById('rf-machines').value) || 0;
+          const rfTpi = parseFloat(document.getElementById('rf-tpi').value) || 0;
+          const rfNe = parseFloat(document.getElementById('rf-ne').value) || 0;
+          
+          production = (7.2 * rfSpeed * (rfEfficiency/100) * rfSpindles * rfMachines) / 
+                       (rfTpi * 1000 * 100 * rfNe * 8);
+          break;
+      }
+      
+      // Update results
+      document.getElementById('production-rate').textContent = production.toFixed(2);
+      document.getElementById('daily-production').textContent = (production * 8).toFixed(2);
+      document.getElementById('weekly-production').textContent = (production * 8 * 6).toFixed(2);
+      
+      // Update chart
+      updateChart(production);
+    }
+    
+    // Update production chart
+    function updateChart(production) {
+      const ctx = document.getElementById('production-chart').getContext('2d');
+      
+      // Destroy previous chart if exists
+      if (productionChart) {
+        productionChart.destroy();
+      }
+      
+      productionChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Hourly', 'Daily (8h)', 'Weekly (48h)'],
+          datasets: [{
+            label: 'Production (kg)',
+            data: [production, production * 8, production * 48],
+            backgroundColor: [
+              'rgba(52, 152, 219, 0.7)',
+              'rgba(46, 204, 113, 0.7)',
+              'rgba(155, 89, 182, 0.7)'
+            ],
+            borderColor: [
+              'rgba(52, 152, 219, 1)',
+              'rgba(46, 204, 113, 1)',
+              'rgba(155, 89, 182, 1)'
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              display: false
+            },
+            title: {
+              display: true,
+              text: 'Production Projection',
+              font: {
+                size: 16
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Kilograms'
+              }
+            }
+          }
+        }
+      });
+    }
+    
+    // Reset form
+    function resetForm() {
+      // Reset all input fields
+      document.querySelectorAll('input').forEach(input => {
+        input.value = input.defaultValue;
+      });
+      
+      // Reset results
+      document.getElementById('production-rate').textContent = "0.00";
+      document.getElementById('daily-production').textContent = "0.00";
+      document.getElementById('weekly-production').textContent = "0.00";
+      
+      // Reset chart
+      if (productionChart) {
+        productionChart.destroy();
+        productionChart = null;
+      }
+      
+      // Reinitialize chart with zero values
+      updateChart(0);
+    }
+    
+    // Toggle dark mode
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+    }
+    
+    // Initialize calculator
+    window.onload = function() {
+      // Initialize the form
+      changeMachine();
+      
+      // Initialize chart with zero values
+      updateChart(0);
+    }
+  </script>
+</body>
+</html>

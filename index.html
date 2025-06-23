@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Site Under Maintenance</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      background: #f0f4f8;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 50px;
+    }
+    .box {
+      background: #fff;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      max-width: 400px;
+      margin: auto;
+    }
+    h1 {
+      color: #e63946;
+    }
+    #countdown {
+      font-size: 24px;
+      font-weight: bold;
+      color: #1d3557;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>🚧 We're Under Maintenance</h1>
+    <p>Our website is temporarily unavailable while we perform scheduled maintenance.</p>
+    <p>Time remaining:</p>
+    <div id="countdown">Loading...</div>
+  </div>
+
+  <script>
+    // ✅ GLOBAL end time — EDIT this!
+    // Example: June 22, 2025 at 11:00 PM IST
+    const maintenanceEndTime = new Date("2025-06-23T13:09:00Z").getTime(); 
+    // Note: 17:30 UTC = 11:00 PM IST
+
+    const countdownEl = document.getElementById("countdown");
+
+    const updateCountdown = () => {
+      const now = Date.now();
+      const remaining = maintenanceEndTime - now;
+
+      if (remaining <= 0) {
+        window.location.href = "Home.html"; // redirect to homepage
+        return;
+      }
+
+      const hours = Math.floor(remaining / (1000 * 60 * 60));
+      const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+
+      countdownEl.textContent = `${hours}h ${minutes}m ${seconds}s`;
+    };
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>
