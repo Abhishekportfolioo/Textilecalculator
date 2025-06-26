@@ -44,7 +44,7 @@
     }
 
     /* Base (Mobile First) */
-body {
+/*body {
   font-size: 16px;
   margin: 10px;
 }
@@ -55,19 +55,157 @@ body {
 }
 
 /* Tablet */
-@media (min-width: 768px) {
+/*@media (min-width: 768px) {
   .container {
     flex-direction: row;
   }
 }
 
 /* Desktop */
-@media (min-width: 1024px) {
+/*@media (min-width: 1024px) {
   body {
     font-size: 18px;
     margin: 40px;
   }
 }
+    */
+ /* MOBILE SPECIFIC STYLES */
+    /* ==================== */
+    
+    @media (max-width: 768px) {
+      /* General adjustments */
+      body {
+        padding: 10px;
+        font-size: 14px;
+      }
+      
+      h1 {
+        font-size: 1.5rem;
+      }
+      
+      h2 {
+        font-size: 1.2rem;
+      }
+      
+      /* Header adjustments */
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding-bottom: 10px;
+      }
+      
+      .header-controls {
+        width: 100%;
+        justify-content: space-between;
+      }
+      
+      .toggle-mode {
+        width: 100%;
+        justify-content: center;
+      }
+      
+      /* Tab adjustments */
+      .tabs {
+        flex-direction: column;
+        gap: 5px;
+      }
+      
+      .tab {
+        padding: 10px;
+        justify-content: flex-start;
+      }
+      
+      /* Form adjustments */
+      .calculator-grid, .conversion-tools {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+      
+      .panel, .conversion-tool {
+        padding: 15px;
+      }
+      
+      input, select {
+        padding: 10px;
+        font-size: 14px;
+      }
+      
+      /* Button adjustments */
+      .button-group {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      button {
+        padding: 12px;
+        width: 100%;
+      }
+      
+      /* Result card adjustments */
+      .results-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .result-card {
+        padding: 10px;
+      }
+      
+      /* Chart container adjustments */
+      .chart-container {
+        padding: 15px;
+      }
+      
+      /* Info section adjustments */
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      /* Specific mobile optimizations for conversion tools */
+      .input-group input {
+        width: 60%;
+      }
+      
+      .input-group select {
+        width: 40%;
+      }
+      
+      /* Hide some decorative elements on mobile */
+      .tab i {
+        margin-right: 5px;
+      }
+    }
+    
+    /* Medium screens (tablets) */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .calculator-grid, .conversion-tools {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .button-group {
+        flex-wrap: wrap;
+      }
+      
+      button {
+        flex: 1 1 45%;
+      }
+    }
+    
+    /* Additional touch optimizations */
+    button, .tab {
+      min-height: 44px; /* Minimum touch target size */
+    }
+    
+    input, select {
+      min-height: 44px;
+    }
+    
+    /* Prevent zooming on input focus for iOS */
+    @media screen and (max-width: 768px) {
+      input, select, textarea {
+        font-size: 16px !important;
+      }
+    }
     
     .dark-mode {
       background: linear-gradient(135deg, var(--dark-bg) 0%, #121212 100%);
