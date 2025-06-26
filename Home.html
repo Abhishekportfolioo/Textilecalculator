@@ -42,6 +42,32 @@
       transition: background 0.3s, color 0.3s;
       min-height: 100vh;
     }
+
+    /* Base (Mobile First) */
+body {
+  font-size: 16px;
+  margin: 10px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+  .container {
+    flex-direction: row;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  body {
+    font-size: 18px;
+    margin: 40px;
+  }
+}
     
     .dark-mode {
       background: linear-gradient(135deg, var(--dark-bg) 0%, #121212 100%);
