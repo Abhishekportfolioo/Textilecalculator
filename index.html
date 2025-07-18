@@ -32,6 +32,7 @@
       --spinning-color: #9c27b0;
       --quality-color: #4caf50;
       --defect-color: #f44336;
+      --count-color: #673ab7;
     }
     
     body {
@@ -42,6 +43,16 @@
       transition: background 0.3s, color 0.3s;
       min-height: 100vh;
     }
+
+    .tab-content {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.tab-content.active {
+  opacity: 1;
+}
 
     /* Base (Mobile First) */
 /*body {
@@ -71,6 +82,29 @@
     */
  /* MOBILE SPECIFIC STYLES */
     /* ==================== */
+
+.system-card {
+      padding: 20px;
+      border-radius: 8px;
+      background: #f8f9fa;
+      border-left: 4px solid var(--count-color);
+    }
+    
+    .dark-mode .system-card {
+      background: #2a2a2a;
+      border-left: 4px solid #673ab7;
+    }
+    
+    .system-card h3 {
+      margin-bottom: 10px;
+      color: var(--count-color);
+    }
+    .count h2 {
+      color: var(--count-color);
+    }
+    
+
+
     
     @media (max-width: 768px) {
       /* General adjustments */
@@ -808,7 +842,7 @@
 </head>
 <body>
   <!-- Maintenance Link -->
-  <a href="maintenance.html" style="display: contents;">Maintenance Mode</a>  
+  <!-- <a href="maintenance.html" style="display: contents;">Maintenance Mode</a>   -->
   <div class="container">
     <header>
       <h1><i class="fas fa-industry"></i> Textile Engineering Suite</h1>
@@ -818,6 +852,11 @@
         </button>
       </div>
     </header>
+    <div style="margin-bottom: 20px;">
+      <a href="index.html" class="toggle-mode" style="display: inline-block; text-decoration: none;">
+      <i class="fas fa-home"></i> Home
+      </a>
+    </div>
     
     <div class="tabs">
       <button class="tab active" data-tab="weaving"><i class="fas fa-th-large"></i> Weaving</button>
@@ -825,7 +864,26 @@
       <button class="tab" data-tab="conversion"><i class="fas fa-exchange-alt"></i> Conversion</button>
       <button class="tab" data-tab="quality"><i class="fas fa-chart-line"></i> Quality Analysis</button>
     </div>
-    
+    <div>
+      <!-- Calculator Page Link -->
+      <div id="calculator-link" style="margin-bottom: 20px;">
+        <a href="calculator.html" class="toggle-mode" style="display: inline-block; text-decoration: none; background: none;">
+          <div style="display: flex; flex-direction: column; align-items: center;">
+        <img src="calculator-icon.jpg" alt="Calculator" style="height:64px; vertical-align:middle; margin-left:8px;">
+        <span style="margin-top: 8px; color: #000; font-weight: 600;">Calculator</span>
+          </div>
+        </a>
+      </div>
+      <script>
+        // Hide calculator link when any tab is clicked
+        document.querySelectorAll('.tab').forEach(tab => {
+          tab.addEventListener('click', () => {
+        const calcLink = document.getElementById('calculator-link');
+        if (calcLink) calcLink.style.display = 'none';
+          });
+        });
+      </script>
+    </div>
     <!-- Weaving Calculator -->
     <div id="weaving-tab" class="tab-content active">
       <div class="calculator-grid">
@@ -1273,7 +1331,92 @@
             <p>Weight in grams of 10,000 meters of yarn. 1 dtex = 0.1 tex. Common for microfibers and technical textiles.</p>
           </div>
         </div>
+    
+        
+<div class="panel count">
+        <h2><i class="fas fa-balance-scale"></i> Yarn Count Systems</h2>
+        
+        <div class="system-grid">
+          <div class="system-card">
+            <h3><i class="fas fa-ruler"></i> Indirect System (Ne)</h3>
+            <p>Total number of hanks per one pound is the count of that yarn.</p>
+            <div class="formula-content">
+              Count = Length in hanks (840 yards) / Weight in Pounds
+            </div>
+            <p>Higher yarn count (Ne) means finer yarn.</p>
+            <ul>
+              <li>1 Lea = 120 yards</li>
+              <li>7 Leas = 1 hank</li>
+              <li>1 Hank = 840 yards or 768 meters</li>
+            </ul>
+          </div>
+          
+          <div class="system-card">
+            <h3><i class="fas fa-weight"></i> Direct System (Denier)</h3>
+            <p>Weight in grams per 9,000 meters of yarn.</p>
+            <div class="formula-content">
+              Count = Weight in grams / 9,000 meters
+            </div>
+            <p>Higher denier means coarser yarn.</p>
+            <p>Used for filament yarns like silk, nylon, polyester.</p>
+          </div>
+          
+          <div class="system-card">
+            <h3><i class="fas fa-globe"></i> Universal System (Tex)</h3>
+            <p>Number of grams per 1,000 meters of yarn.</p>
+            <div class="formula-content">
+              Count = Weight in grams / 1,000 meters
+            </div>
+            <p>Standard international system for yarn count.</p>
+          </div>
+        </div>
+        
+        <div class="formula-card">
+          <div class="formula-header">
+            <i class="fas fa-exchange-alt"></i>
+            <h3>Conversion Formulas</h3>
+          </div>
+          <div class="formula-content">
+            Denier = 5315 / Ne<br>
+            Tex = 590.5 / Ne<br>
+            English (Ne) = Nf × 1.181
+          </div>
+          <div class="formula-explanation">
+            Where Ne is English count, Nf is French count
+          </div>
+        </div>
+        
+        <div class="system-grid">
+          <div class="system-card">
+            <h3><i class="fas fa-flag"></i> French Count (Nf)</h3>
+            <p>Number of 1,000 meters length in 0.5 kg of yarn.</p>
+          </div>
+          
+          <div class="system-card">
+            <h3><i class="fas fa-ruler-combined"></i> Metric System (Nm)</h3>
+            <p>Number of 1,000 meters length per kg of yarn.</p>
+          </div>
+          
+          <div class="system-card">
+            <h3><i class="fas fa-wool"></i> Worsted System</h3>
+            <p>Number of 560 yards in one pound.</p>
+          </div>
+          
+          <div class="system-card">
+            <h3><i class="fas fa-leaf"></i> Linen System</h3>
+            <p>Number of leas (300 yards) per pound.</p>
+          </div>
+          
+          <div class="system-card">
+            <h3><i class="fas fa-tree"></i> Hemp, Jute, Flax</h3>
+            <p>Number of 14,400 yards length per pound of yarn.</p>
+          </div>
+        </div>
       </div>
+    </div>
+
+        
+    </div>
     </div>
     
     <!-- Quality Analysis -->
@@ -1364,6 +1507,9 @@
       </div>
     </div>
     
+    
+
+    
     <div class="info-section">
       <h2><i class="fas fa-info-circle"></i> About Textile Calculations</h2>
       <div class="info-grid">
@@ -1397,21 +1543,56 @@
     let spinningChartInstance;
     let qualityChartInstance;
     
-    // Tab switching functionality
-    document.querySelectorAll('.tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        // Remove active class from all tabs and content
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-        
-        // Add active class to clicked tab
-        tab.classList.add('active');
-        
-        // Show corresponding content
-        const tabName = tab.getAttribute('data-tab');
-        document.getElementById(`${tabName}-tab`).classList.add('active');
-      });
+    // Replace the existing tab switching code with this:
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    // Hide all tab contents first
+    document.querySelectorAll('.tab-content').forEach(content => {
+      content.classList.remove('active');
+      content.style.display = 'none';
     });
+
+    // Remove active class from all tabs
+    document.querySelectorAll('.tab').forEach(t => {
+      t.classList.remove('active');
+    });
+
+    // Add active class to clicked tab
+    tab.classList.add('active');
+
+    // Show selected tab content
+    const tabName = tab.getAttribute('data-tab');
+    const selectedContent = document.getElementById(`${tabName}-tab`);
+    selectedContent.style.display = 'block';
+    
+    // Add active class after small delay to ensure display:block is applied
+    setTimeout(() => {
+      selectedContent.classList.add('active');
+    }, 10);
+
+    // Initialize charts if needed
+    if (tabName === 'weaving' && selectedContent.classList.contains('active')) {
+      if (weavingChartInstance) {
+        weavingChartInstance.destroy();
+        calculateWeaving();
+      }
+    } else if (tabName === 'spinning' && selectedContent.classList.contains('active')) {
+      if (spinningChartInstance) {
+        spinningChartInstance.destroy();
+        calculateSpinning();
+      }
+    }
+  });
+});
+
+// Initialize page - hide all tabs initially
+window.addEventListener('load', () => {
+  // Hide all tab contents on load
+  document.querySelectorAll('.tab-content').forEach(content => {
+    content.classList.remove('active');
+    content.style.display = 'none';
+  });
+});
     
     // Dark mode toggle
     function toggleDarkMode() {
