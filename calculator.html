@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scientific Calculator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+            margin: 0;
+        }
+        
+        .calculator-container {
+            display: flex;
+            gap: 20px;
+            max-width: 800px;
+            width: 100%;
+        }
+        
+        .calculator {
+            width: 360px;
+            background-color: #2c3e50;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        .display {
+            padding: 20px;
+            text-align: right;
+            background-color: #34495e;
+            color: white;
+            min-height: 80px;
+            position: relative;
+        }
+        
+        .history {
+            font-size: 14px;
+            opacity: 0.7;
+            min-height: 20px;
+        }
+        
+        .current-input {
+            font-size: 28px;
+            margin-top: 10px;
+            word-wrap: break-word;
+        }
+        
+        .mode-indicator {
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            font-size: 12px;
+            background-color: #1abc9c;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        
+        .shift-indicator {
+            position: absolute;
+            left: 10px;
+            top: 30px;
+            font-size: 12px;
+            background-color: #9b59b6;
+            padding: 2px 5px;
+            border-radius: 3px;
+            display: none;
+        }
+        
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1px;
+            background-color: #34495e;
+        }
+        
+        button {
+            border: none;
+            padding: 20px 0;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #2c3e50;
+            color: white;
+            transition: all 0.2s;
+        }
+        
+        button:hover {
+            background-color: #3d566e;
+        }
+        
+        button:active {
+            transform: scale(0.95);
+        }
+        
+        .function {
+            background-color: #3498db;
+        }
+        
+        .function:hover {
+            background-color: #2980b9;
+        }
+        
+        .operator {
+            background-color: #e67e22;
+        }
+        
+        .operator:hover {
+            background-color: #d35400;
+        }
+        
+        .equals {
+            background-color: #2ecc71;
+        }
+        
+        .equals:hover {
+            background-color: #27ae60;
+        }
+        
+        .shift {
+            background-color: #9b59b6;
+        }
+        
+        .shift:hover {
+            background-color: #8e44ad;
+        }
+        
+        .mode {
+            background-color: #1abc9c;
+        }
+        
+        .mode:hover {
+            background-color: #16a085;
+        }
+        
+        .digit {
+            background-color: #34495e;
+        }
+        
+        .digit:hover {
+            background-color: #3d566e;
+        }
+        
+        .active-shift {
+            box-shadow: 0 0 10px #9b59b6;
+        }
+        
+        .active-mode {
+            box-shadow: 0 0 10px #1abc9c;
+        }
+        
+        .history-panel {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            max-height: 500px;
+        }
+        
+        .history-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        .history-items {
+            overflow-y: auto;
+            flex-grow: 1;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            padding: 10px;
+        }
+        
+        .history-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+        }
+        
+        .history-item:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .history-expression {
+            font-weight: bold;
+        }
+        
+        .history-result {
+            color: #3498db;
+            margin-left: 10px;
+        }
+        
+        .clear-history {
+            margin-top: 15px;
+            padding: 8px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .clear-history:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator-container">
+        <div class="calculator">
+            <div class="display">
+                <div class="mode-indicator" id="mode-indicator">DEG</div>
+                <div class="shift-indicator" id="shift-indicator">SHIFT</div>
+                <div class="history" id="history"></div>
+                <div class="current-input" id="current-input">0</div>
+            </div>
+            <div class="buttons">
+                <!-- Row 1 -->
+                <button class="shift" id="shift-btn" onclick="handleShift()">Shift</button>
+                <button class="mode" id="mode-btn" onclick="handleMode()">Mode</button>
+                <button class="function" onclick="addToInput('(')">(</button>
+                <button class="function" onclick="addToInput(')')">)</button>
+                <button class="function" onclick="clearInput()">AC</button>
+                
+                <!-- Row 2 -->
+                <button class="function" id="sin-btn" onclick="addFunction('sin')">sin</button>
+                <button class="function" id="cos-btn" onclick="addFunction('cos')">cos</button>
+                <button class="function" id="tan-btn" onclick="addFunction('tan')">tan</button>
+                <button class="operator" onclick="addToInput('^')">^</button>
+                <button class="operator" onclick="addToInput('√(')">√</button>
+                
+                <!-- Row 3 -->
+                <button class="function" id="log-btn" onclick="addFunction('log(')">log</button>
+                <button class="function" id="ln-btn" onclick="addFunction('ln(')">ln</button>
+                <button class="function" onclick="addToInput('π')">π</button>
+                <button class="operator" onclick="addToInput('*')">×</button>
+                <button class="operator" onclick="addToInput('/')">÷</button>
+                
+                <!-- Row 4 -->
+                <button class="function" onclick="addToInput('e')">e</button>
+                <button class="function" onclick="addFunction('fact(')">n!</button>
+                <button class="function" onclick="addToInput('²')">x²</button>
+                <button class="operator" onclick="addToInput('+')">+</button>
+                <button class="operator" onclick="addToInput('-')">-</button>
+                
+                <!-- Row 5 - All digits grouped together -->
+                <button class="digit" onclick="addToInput('7')">7</button>
+                <button class="digit" onclick="addToInput('8')">8</button>
+                <button class="digit" onclick="addToInput('9')">9</button>
+                <button class="digit" onclick="addToInput('4')">4</button>
+                <button class="digit" onclick="addToInput('5')">5</button>
+                
+                <!-- Row 6 -->
+                <button class="digit" onclick="addToInput('6')">6</button>
+                <button class="digit" onclick="addToInput('1')">1</button>
+                <button class="digit" onclick="addToInput('2')">2</button>
+                <button class="digit" onclick="addToInput('3')">3</button>
+                <button class="function" onclick="addToInput('|')">|x|</button>
+                
+                <!-- Row 7 -->
+                <button class="digit" onclick="addToInput('0')">0</button>
+                <button class="digit" onclick="addToInput('.')">.</button>
+                <button class="function" onclick="addToInput('%')">%</button>
+                <button class="function" onclick="addToInput('1/')">1/x</button>
+                <button class="equals" onclick="calculate()">=</button>
+            </div>
+        </div>
+        
+        <div class="history-panel">
+            <div class="history-title">Calculation History</div>
+            <div class="history-items" id="history-items"></div>
+            <button class="clear-history" onclick="clearHistory()">Clear History</button>
+        </div>
+    </div>
+
+    <script>
+        let currentInput = '0';
+        let calculationHistory = '';
+        let isShiftActive = false;
+        let currentMode = 'deg'; // 'deg' or 'rad'
+        let savedCalculations = JSON.parse(localStorage.getItem('calculatorHistory')) || [];
+        
+        const currentInputElement = document.getElementById('current-input');
+        const historyElement = document.getElementById('history');
+        const modeIndicator = document.getElementById('mode-indicator');
+        const shiftIndicator = document.getElementById('shift-indicator');
+        const shiftBtn = document.getElementById('shift-btn');
+        const modeBtn = document.getElementById('mode-btn');
+        const historyItemsContainer = document.getElementById('history-items');
+        
+        // Key mappings
+        const keyMap = {
+            '0': '0', '1': '1', '2': '2', '3': '3', '4': '4',
+            '5': '5', '6': '6', '7': '7', '8': '8', '9': '9',
+            '.': '.', '+': '+', '-': '-', '*': '*', '/': '/',
+            '^': '^', '(': '(', ')': ')', '%': '%', '=': '=',
+            'Enter': '=', 'Escape': 'AC', 'Backspace': 'backspace',
+            's': 'sin', 'c': 'cos', 't': 'tan', 'l': 'log(',
+            'n': 'ln(', 'p': 'π', 'e': 'e', '!': 'fact(',
+            'q': '√(', '|': '|', '\\': '1/', 'd': '10^',
+            'E': 'E', 'm': 'mode', 'Shift': 'shift',
+            '²': '²', 'x': '²', 'r': '√('
+        };
+        
+        // Initialize the calculator
+        function init() {
+            updateDisplay();
+            renderHistory();
+        }
+        
+        function updateDisplay() {
+            currentInputElement.textContent = currentInput;
+            historyElement.textContent = calculationHistory;
+            modeIndicator.textContent = currentMode === 'deg' ? 'DEG' : 'RAD';
+            
+            if (isShiftActive) {
+                shiftIndicator.style.display = 'block';
+                shiftBtn.classList.add('active-shift');
+            } else {
+                shiftIndicator.style.display = 'none';
+                shiftBtn.classList.remove('active-shift');
+            }
+        }
+        
+        function addToInput(value) {
+            if (value === 'backspace') {
+                if (currentInput.length === 1) {
+                    currentInput = '0';
+                } else {
+                    currentInput = currentInput.slice(0, -1);
+                }
+                updateDisplay();
+                return;
+            }
+            
+            if (currentInput === '0' && value !== '.' && !isNaN(value) === false && value !== '-') {
+                currentInput = value;
+            } else {
+                currentInput += value;
+            }
+            updateDisplay();
+        }
+        
+        function addFunction(func) {
+            if (isShiftActive) {
+                // Handle inverse functions
+                switch(func) {
+                    case 'sin': func = 'asin('; break;
+                    case 'cos': func = 'acos('; break;
+                    case 'tan': func = 'atan('; break;
+                    case 'log(': func = '10^'; break;
+                    case 'ln(': func = 'e^'; break;
+                    case '√(': func = '²'; break;
+                    case '²': func = '√('; break;
+                }
+                isShiftActive = false;
+                updateDisplay();
+            }
+            
+            if (currentInput === '0') {
+                currentInput = func;
+            } else {
+                currentInput += func;
+            }
+            updateDisplay();
+        }
+        
+        function clearInput() {
+            currentInput = '0';
+            calculationHistory = '';
+            updateDisplay();
+        }
+        
+        function handleShift() {
+            isShiftActive = !isShiftActive;
+            updateDisplay();
+        }
+        
+        function handleMode() {
+            currentMode = currentMode === 'deg' ? 'rad' : 'deg';
+            modeBtn.classList.add('active-mode');
+            setTimeout(() => modeBtn.classList.remove('active-mode'), 200);
+            updateDisplay();
+        }
+        
+        function calculate() {
+            try {
+                // Replace visual representations with JavaScript equivalents
+                let expression = currentInput
+                    .replace(/×/g, '*')
+                    .replace(/÷/g, '/')
+                    .replace(/π/g, 'Math.PI')
+                    .replace(/e/g, 'Math.E')
+                    .replace(/√\(/g, 'Math.sqrt(')
+                    .replace(/\^/g, '**')
+                    .replace(/%/g, '/100')
+                    .replace(/\|([^|]+)\|/g, 'Math.abs($1)')
+                    .replace(/fact\(/g, 'factorial(')
+                    .replace(/1\//g, '1/')
+                    .replace(/E/g, '*10**')
+                    .replace(/10\^/g, '10**')
+                    .replace(/e\^/g, 'Math.exp(')
+                    .replace(/([\d\)])\²/g, '$1**2'); // Handle square
+                
+                // Handle trigonometric functions based on current mode
+                if (currentMode === 'deg') {
+                    expression = expression
+                        .replace(/sin\(/g, 'Math.sin(Math.PI/180*')
+                        .replace(/cos\(/g, 'Math.cos(Math.PI/180*')
+                        .replace(/tan\(/g, 'Math.tan(Math.PI/180*')
+                        .replace(/asin\(/g, '180/Math.PI*Math.asin(')
+                        .replace(/acos\(/g, '180/Math.PI*Math.acos(')
+                        .replace(/atan\(/g, '180/Math.PI*Math.atan(');
+                } else {
+                    expression = expression
+                        .replace(/sin\(/g, 'Math.sin(')
+                        .replace(/cos\(/g, 'Math.cos(')
+                        .replace(/tan\(/g, 'Math.tan(')
+                        .replace(/asin\(/g, 'Math.asin(')
+                        .replace(/acos\(/g, 'Math.acos(')
+                        .replace(/atan\(/g, 'Math.atan(');
+                }
+                
+                // Handle logarithms
+                expression = expression
+                    .replace(/log\(/g, 'Math.log10(')
+                    .replace(/ln\(/g, 'Math.log(');
+                
+                // Custom factorial function
+                function factorial(n) {
+                    if (n < 0) return NaN;
+                    let result = 1;
+                    for (let i = 2; i <= n; i++) result *= i;
+                    return result;
+                }
+                
+                // Evaluate the expression
+                calculationHistory = currentInput + ' =';
+                const result = eval(expression);
+                
+                // Save to history
+                savedCalculations.unshift({
+                    expression: currentInput,
+                    result: result.toString()
+                });
+                
+                // Keep only the last 50 calculations
+                if (savedCalculations.length > 50) {
+                    savedCalculations.pop();
+                }
+                
+                // Save to localStorage
+                localStorage.setItem('calculatorHistory', JSON.stringify(savedCalculations));
+                
+                currentInput = result.toString();
+                updateDisplay();
+                renderHistory();
+            } catch (error) {
+                currentInput = 'Error';
+                updateDisplay();
+            }
+        }
+        
+        function renderHistory() {
+            historyItemsContainer.innerHTML = '';
+            
+            if (savedCalculations.length === 0) {
+                historyItemsContainer.innerHTML = '<div style="color: #999; text-align: center; padding: 20px;">No history yet</div>';
+                return;
+            }
+            
+            savedCalculations.forEach((calc, index) => {
+                const item = document.createElement('div');
+                item.className = 'history-item';
+                item.innerHTML = `
+                    <span class="history-expression">${calc.expression}</span>
+                    <span class="history-result">= ${calc.result}</span>
+                `;
+                item.addEventListener('click', () => {
+                    currentInput = calc.expression;
+                    updateDisplay();
+                });
+                historyItemsContainer.appendChild(item);
+            });
+        }
+        
+        function clearHistory() {
+            savedCalculations = [];
+            localStorage.setItem('calculatorHistory', JSON.stringify(savedCalculations));
+            renderHistory();
+        }
+        
+        // Keyboard event listener
+        document.addEventListener('keydown', (e) => {
+            const key = e.key;
+            
+            // Check if key is mapped
+            if (keyMap.hasOwnProperty(key)) {
+                e.preventDefault();
+                const value = keyMap[key];
+                
+                // Handle special cases
+                if (value === 'AC') {
+                    clearInput();
+                } else if (value === '=') {
+                    calculate();
+                } else if (value === 'shift') {
+                    handleShift();
+                } else if (value === 'mode') {
+                    handleMode();
+                } else if (value === 'backspace') {
+                    addToInput('backspace');
+                } else if (['sin', 'cos', 'tan', 'log(', 'ln('].includes(value)) {
+                    addFunction(value);
+                } else {
+                    addToInput(value);
+                }
+                
+                // Visual feedback for button press
+                const button = findButtonByValue(value);
+                if (button) {
+                    button.classList.add('active');
+                    setTimeout(() => button.classList.remove('active'), 100);
+                }
+            }
+        });
+        
+        // Helper function to find button by value
+        function findButtonByValue(value) {
+            const buttons = document.querySelectorAll('.buttons button');
+            for (const button of buttons) {
+                if (button.textContent === value || 
+                    (value === '-' && button.textContent === '-') ||
+                    (value === '1/' && button.textContent === '1/x') ||
+                    (value === '|' && button.textContent === '|x|') ||
+                    (value === '^' && button.textContent === '^') ||
+                    (value === '√(' && button.textContent === '√') ||
+                    (value === 'fact(' && button.textContent === 'n!') ||
+                    (value === '10^' && button.textContent === '10^x') ||
+                    (value === 'E' && button.textContent === 'EXP') ||
+                    (value === '²' && button.textContent === 'x²')) {
+                    return button;
+                }
+            }
+            return null;
+        }
+        
+        // Initialize the calculator
+        init();
+    </script>
+</body>
+</html>                                                                                                         
