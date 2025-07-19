@@ -3,16 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scientific Calculator</title>
+    <title>Scientific Calculator - Textile Engineering Suite</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* Header styles */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        header h1 i {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 15px;
+        }
+
+        .toggle-mode {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .toggle-mode:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            background: linear-gradient(135deg, #5a67d8, #6b46c1);
+        }
+
+        .toggle-mode:active {
+            transform: translateY(0);
+        }
+
+        .toggle-mode i {
+            font-size: 1rem;
+        }
+
+        /* Dark mode styles */
+        body.dark-mode {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e2e8f0;
+        }
+
+        body.dark-mode header {
+            background: rgba(30, 30, 50, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        body.dark-mode header h1 {
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        body.dark-mode header h1 i {
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        body.dark-mode .toggle-mode {
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            box-shadow: 0 4px 15px rgba(96, 165, 250, 0.3);
+        }
+
+        body.dark-mode .toggle-mode:hover {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            box-shadow: 0 6px 20px rgba(96, 165, 250, 0.4);
+        }
+
+        /* Calculator styles - adjusted for new layout */
+        .calculator-wrapper {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            background-color: #f5f5f5;
-            margin: 0;
+            min-height: calc(100vh - 200px);
         }
         
         .calculator-container {
@@ -80,7 +204,7 @@
             background-color: #34495e;
         }
         
-        button {
+        .calculator button {
             border: none;
             padding: 20px 0;
             font-size: 18px;
@@ -90,11 +214,11 @@
             transition: all 0.2s;
         }
         
-        button:hover {
+        .calculator button:hover {
             background-color: #3d566e;
         }
         
-        button:active {
+        .calculator button:active {
             transform: scale(0.95);
         }
         
@@ -212,73 +336,144 @@
         .clear-history:hover {
             background-color: #c0392b;
         }
+
+        /* Dark mode for calculator components */
+        body.dark-mode .history-panel {
+            background-color: rgba(30, 30, 50, 0.95);
+            color: #e2e8f0;
+            backdrop-filter: blur(10px);
+        }
+
+        body.dark-mode .history-title {
+            color: #e2e8f0;
+        }
+
+        body.dark-mode .history-items {
+            border-color: rgba(255, 255, 255, 0.1);
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark-mode .history-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+                padding: 20px;
+            }
+
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            header h1 i {
+                font-size: 1.6rem;
+            }
+
+            .toggle-mode {
+                font-size: 0.8rem;
+                padding: 10px 16px;
+            }
+
+            .calculator-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .calculator {
+                width: 100%;
+                max-width: 360px;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="calculator-container">
-        <div class="calculator">
-            <div class="display">
-                <div class="mode-indicator" id="mode-indicator">DEG</div>
-                <div class="shift-indicator" id="shift-indicator">SHIFT</div>
-                <div class="history" id="history"></div>
-                <div class="current-input" id="current-input">0</div>
+    <div class="main-container">
+        <header>
+            <h1><i class="fas fa-industry"></i> Textile Engineering Suite</h1>
+            <div class="header-controls">
+                <button class="toggle-mode" onclick="toggleDarkMode()">
+                    <i class="fas fa-moon"></i> Dark Mode
+                </button>
             </div>
-            <div class="buttons">
-                <!-- Row 1 -->
-                <button class="shift" id="shift-btn" onclick="handleShift()">Shift</button>
-                <button class="mode" id="mode-btn" onclick="handleMode()">Mode</button>
-                <button class="function" onclick="addToInput('(')">(</button>
-                <button class="function" onclick="addToInput(')')">)</button>
-                <button class="function" onclick="clearInput()">AC</button>
-                
-                <!-- Row 2 -->
-                <button class="function" id="sin-btn" onclick="addFunction('sin')">sin</button>
-                <button class="function" id="cos-btn" onclick="addFunction('cos')">cos</button>
-                <button class="function" id="tan-btn" onclick="addFunction('tan')">tan</button>
-                <button class="operator" onclick="addToInput('^')">^</button>
-                <button class="operator" onclick="addToInput('√(')">√</button>
-                
-                <!-- Row 3 -->
-                <button class="function" id="log-btn" onclick="addFunction('log(')">log</button>
-                <button class="function" id="ln-btn" onclick="addFunction('ln(')">ln</button>
-                <button class="function" onclick="addToInput('π')">π</button>
-                <button class="operator" onclick="addToInput('*')">×</button>
-                <button class="operator" onclick="addToInput('/')">÷</button>
-                
-                <!-- Row 4 -->
-                <button class="function" onclick="addToInput('e')">e</button>
-                <button class="function" onclick="addFunction('fact(')">n!</button>
-                <button class="function" onclick="addToInput('²')">x²</button>
-                <button class="operator" onclick="addToInput('+')">+</button>
-                <button class="operator" onclick="addToInput('-')">-</button>
-                
-                <!-- Row 5 - All digits grouped together -->
-                <button class="digit" onclick="addToInput('7')">7</button>
-                <button class="digit" onclick="addToInput('8')">8</button>
-                <button class="digit" onclick="addToInput('9')">9</button>
-                <button class="digit" onclick="addToInput('4')">4</button>
-                <button class="digit" onclick="addToInput('5')">5</button>
-                
-                <!-- Row 6 -->
-                <button class="digit" onclick="addToInput('6')">6</button>
-                <button class="digit" onclick="addToInput('1')">1</button>
-                <button class="digit" onclick="addToInput('2')">2</button>
-                <button class="digit" onclick="addToInput('3')">3</button>
-                <button class="function" onclick="addToInput('|')">|x|</button>
-                
-                <!-- Row 7 -->
-                <button class="digit" onclick="addToInput('0')">0</button>
-                <button class="digit" onclick="addToInput('.')">.</button>
-                <button class="function" onclick="addToInput('%')">%</button>
-                <button class="function" onclick="addToInput('1/')">1/x</button>
-                <button class="equals" onclick="calculate()">=</button>
-            </div>
+        </header>
+        <div style="margin-bottom: 20px;">
+            <a href="index.html" class="toggle-mode" style="display: inline-block; text-decoration: none;">
+                <i class="fas fa-home"></i> Home
+            </a>
         </div>
-        
-        <div class="history-panel">
-            <div class="history-title">Calculation History</div>
-            <div class="history-items" id="history-items"></div>
-            <button class="clear-history" onclick="clearHistory()">Clear History</button>
+    </div>
+
+    <div class="calculator-wrapper">
+        <div class="calculator-container">
+            <div class="calculator">
+                <div class="display">
+                    <div class="mode-indicator" id="mode-indicator">DEG</div>
+                    <div class="shift-indicator" id="shift-indicator">SHIFT</div>
+                    <div class="history" id="history"></div>
+                    <div class="current-input" id="current-input">0</div>
+                </div>
+                <div class="buttons">
+                    <!-- Row 1 -->
+                    <button class="shift" id="shift-btn" onclick="handleShift()">Shift</button>
+                    <button class="mode" id="mode-btn" onclick="handleMode()">Mode</button>
+                    <button class="function" onclick="addToInput('(')">(</button>
+                    <button class="function" onclick="addToInput(')')">)</button>
+                    <button class="function" onclick="clearInput()">AC</button>
+                    
+                    <!-- Row 2 -->
+                    <button class="function" id="sin-btn" onclick="addFunction('sin')">sin</button>
+                    <button class="function" id="cos-btn" onclick="addFunction('cos')">cos</button>
+                    <button class="function" id="tan-btn" onclick="addFunction('tan')">tan</button>
+                    <button class="operator" onclick="addToInput('^')">^</button>
+                    <button class="operator" onclick="addToInput('√(')">√</button>
+                    
+                    <!-- Row 3 -->
+                    <button class="function" id="log-btn" onclick="addFunction('log(')">log</button>
+                    <button class="function" id="ln-btn" onclick="addFunction('ln(')">ln</button>
+                    <button class="function" onclick="addToInput('π')">π</button>
+                    <button class="operator" onclick="addToInput('*')">×</button>
+                    <button class="operator" onclick="addToInput('/')">÷</button>
+                    
+                    <!-- Row 4 -->
+                    <button class="function" onclick="addToInput('e')">e</button>
+                    <button class="function" onclick="addFunction('fact(')">n!</button>
+                    <button class="function" onclick="addToInput('²')">x²</button>
+                    <button class="operator" onclick="addToInput('+')">+</button>
+                    <button class="operator" onclick="addToInput('-')">-</button>
+                    
+                    <!-- Row 5 - All digits grouped together -->
+                    <button class="digit" onclick="addToInput('7')">7</button>
+                    <button class="digit" onclick="addToInput('8')">8</button>
+                    <button class="digit" onclick="addToInput('9')">9</button>
+                    <button class="digit" onclick="addToInput('4')">4</button>
+                    <button class="digit" onclick="addToInput('5')">5</button>
+                    
+                    <!-- Row 6 -->
+                    <button class="digit" onclick="addToInput('6')">6</button>
+                    <button class="digit" onclick="addToInput('1')">1</button>
+                    <button class="digit" onclick="addToInput('2')">2</button>
+                    <button class="digit" onclick="addToInput('3')">3</button>
+                    <button class="function" onclick="addToInput('|')">|x|</button>
+                    
+                    <!-- Row 7 -->
+                    <button class="digit" onclick="addToInput('0')">0</button>
+                    <button class="digit" onclick="addToInput('.')">.</button>
+                    <button class="function" onclick="addToInput('%')">%</button>
+                    <button class="function" onclick="addToInput('1/')">1/x</button>
+                    <button class="equals" onclick="calculate()">=</button>
+                </div>
+            </div>
+            
+            <div class="history-panel">
+                <div class="history-title">Calculation History</div>
+                <div class="history-items" id="history-items"></div>
+                <button class="clear-history" onclick="clearHistory()">Clear History</button>
+            </div>
         </div>
     </div>
 
@@ -296,6 +491,21 @@
         const shiftBtn = document.getElementById('shift-btn');
         const modeBtn = document.getElementById('mode-btn');
         const historyItemsContainer = document.getElementById('history-items');
+        
+        // Dark mode toggle function
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const toggleBtn = document.querySelector('.toggle-mode');
+            const icon = toggleBtn.querySelector('i');
+            
+            if (document.body.classList.contains('dark-mode')) {
+                icon.className = 'fas fa-sun';
+                toggleBtn.childNodes[2].textContent = ' Light Mode';
+            } else {
+                icon.className = 'fas fa-moon';
+                toggleBtn.childNodes[2].textContent = ' Dark Mode';
+            }
+        }
         
         // Key mappings
         const keyMap = {
@@ -558,4 +768,4 @@
         init();
     </script>
 </body>
-</html>                                                                                                         
+</html>
