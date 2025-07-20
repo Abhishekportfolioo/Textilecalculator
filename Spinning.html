@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    
     :root {
       --primary: #2c3e50;
       --secondary: #3498db;
@@ -713,7 +712,7 @@
           const brNe = parseFloat(document.getElementById('br-ne').value) || 0;
           
           production = (brSpeed * 60 * (brEfficiency/100) * brMachines * 453.6) / 
-                       (840 * 0.9144 * brNe * 100);
+                       (840 * 0.9144 * brNe);
           break;
           
         case "carding":
@@ -723,7 +722,7 @@
           const cNe = parseFloat(document.getElementById('c-ne').value) || 0;
           
           production = (cSpeed * 60 * (cEfficiency/100) * cMachines) / 
-                       (36 * cNe * 840 * 100);
+                       (36 * cNe * 840);
           break;
           
         case "comber":
@@ -734,7 +733,7 @@
           const coMachines = parseFloat(document.getElementById('co-machines').value) || 0;
           
           production = (coFeed * coNips * 60 * coHeads * (coEfficiency/100) * coMachines) / 
-                       (1000 * 100);
+                       (1000);
           break;
           
         case "draw-frame":
@@ -745,7 +744,7 @@
           const dfNe = parseFloat(document.getElementById('df-ne').value) || 0;
           
           production = (dfSpeed * 60 * (dfEfficiency/100) * dfHeads * dfMachines) / 
-                       (100 * 2.205 * 840 * dfNe);
+                       (2.205 * 840 * dfNe);
           break;
           
         case "speed-frame":
@@ -757,7 +756,7 @@
           const sfNe = parseFloat(document.getElementById('sf-ne').value) || 0;
           
           production = (7.2 * sfSpeed * (sfEfficiency/100) * sfSpindles * sfMachines) / 
-                       (sfTpi * 1000 * 100 * sfNe * 8);
+                       (sfTpi * 1000 * sfNe * 8);
           break;
           
         case "ring-frame":
@@ -769,14 +768,14 @@
           const rfNe = parseFloat(document.getElementById('rf-ne').value) || 0;
           
           production = (7.2 * rfSpeed * (rfEfficiency/100) * rfSpindles * rfMachines) / 
-                       (rfTpi * 1000 * 100 * rfNe * 8);
+                       (rfTpi * 1000 * rfNe * 8);
           break;
       }
       
       // Update results
       document.getElementById('production-rate').textContent = production.toFixed(2);
-      document.getElementById('daily-production').textContent = (production * 8).toFixed(2);
-      document.getElementById('weekly-production').textContent = (production * 8 * 6).toFixed(2);
+      document.getElementById('daily-production').textContent = (production * 24).toFixed(2);
+      document.getElementById('weekly-production').textContent = (production * 24 * 7).toFixed(2);
       
       // Update chart
       updateChart(production);
