@@ -975,11 +975,12 @@
     </div>
     
     <div class="tabs">
-      <button class="tab active" data-tab="weaving"><i class="fas fa-th-large"></i> Weaving</button>
-      <button class="tab" data-tab="spinning"><i class="fas fa-spinner"></i> Spinning</button>
-      <button class="tab" data-tab="conversion"><i class="fas fa-exchange-alt"></i> Conversion</button>
-      <button class="tab" data-tab="quality"><i class="fas fa-chart-line"></i> Quality Analysis</button>
-    </div>
+  <button class="tab active" data-tab="weaving"><i class="fas fa-th-large"></i> Weaving</button>
+  <button class="tab" data-tab="spinning"><i class="fas fa-spinner"></i> Spinning</button>
+  <button class="tab" data-tab="conversion"><i class="fas fa-exchange-alt"></i> Conversion</button>
+  <button class="tab" data-tab="quality"><i class="fas fa-chart-line"></i> Quality Analysis</button>
+  <button class="tab" data-tab="warping"><i class="fas fa-ruler-horizontal"></i> Warping</button> <!-- NEW -->
+</div>
     <div id="calculator-link">
       <h2 class="title" style="-webkit-text-fill-color: #000;">Welcome to Advanced Textile Engineering Suite</h2>
       <h3 class="beautiful-button">
@@ -1141,6 +1142,27 @@
         <h2><i class="fas fa-chart-bar"></i> Fabric Metrics</h2>
         <canvas id="weaving-chart"></canvas>
       </div>
+      <div class="info-section">
+      <h2><i class="fas fa-info-circle"></i> About Textile Calculations</h2>
+      <div class="info-grid">
+        <div class="info-card">
+          <h3><i class="fas fa-ruler"></i> Cover Factor</h3>
+          <p>Indicates fabric density. Calculated as threads per inch divided by the square root of yarn count. Higher values mean tighter weaves.</p>
+        </div>
+        <div class="info-card">
+          <h3><i class="fas fa-weight"></i> GSM</h3>
+          <p>Grams per Square Meter - a key fabric quality indicator. Affects drape, durability, and end-use suitability.</p>
+        </div>
+        <div class="info-card">
+          <h3><i class="fas fa-cogs"></i> Production Rate</h3>
+          <p>In weaving, based on loom speed (RPM) and picks per inch. In spinning, depends on spindle speed, twist, and yarn count.</p>
+        </div>
+        <div class="info-card">
+          <h3><i class="fas fa-microscope"></i> Quality Grading</h3>
+          <p>Based on USTER standards: CV% under 10 is premium quality, 10-12 is excellent, 12-14 is good, 14-16 is fair, above 16 is poor.</p>
+        </div>
+      </div>
+    </div>
     </div>
     
     <!-- Spinning Calculator -->
@@ -1672,38 +1694,211 @@
         <canvas id="quality-chart"></canvas>
       </div>
     </div>
-    
-    
 
-    
-    <div class="info-section">
-      <h2><i class="fas fa-info-circle"></i> About Textile Calculations</h2>
-      <div class="info-grid">
-        <div class="info-card">
-          <h3><i class="fas fa-ruler"></i> Cover Factor</h3>
-          <p>Indicates fabric density. Calculated as threads per inch divided by the square root of yarn count. Higher values mean tighter weaves.</p>
-        </div>
-        <div class="info-card">
-          <h3><i class="fas fa-weight"></i> GSM</h3>
-          <p>Grams per Square Meter - a key fabric quality indicator. Affects drape, durability, and end-use suitability.</p>
-        </div>
-        <div class="info-card">
-          <h3><i class="fas fa-cogs"></i> Production Rate</h3>
-          <p>In weaving, based on loom speed (RPM) and picks per inch. In spinning, depends on spindle speed, twist, and yarn count.</p>
-        </div>
-        <div class="info-card">
-          <h3><i class="fas fa-microscope"></i> Quality Grading</h3>
-          <p>Based on USTER standards: CV% under 10 is premium quality, 10-12 is excellent, 12-14 is good, 14-16 is fair, above 16 is poor.</p>
+
+    <!-- Add the Warping tab content -->
+<div id="warping-tab" class="tab-content">
+  <div class="calculator-grid">
+    <div class="panel">
+      <!-- Beautiful Warping Tab Maintenance Popup -->
+      <div id="warping-maintenance-popup" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.45);z-index:99999;justify-content:center;align-items:center;">
+        <div style="background:#fff;padding:36px 32px;border-radius:18px;box-shadow:0 8px 32px rgba(0,0,0,0.18);text-align:center;max-width:350px;position:relative;">
+          <span style="position:absolute;top:12px;right:16px;cursor:pointer;font-size:1.5rem;color:#007bff;" onclick="document.getElementById('warping-maintenance-popup').style.display='none'">&times;</span>
+          <i class="fas fa-tools" style="font-size:2.5rem;color:#007bff;margin-bottom:18px;"></i>
+          <h2 style="color:#007bff;margin-bottom:12px;">Under Maintenance</h2>
+          <p style="color:#343a40;font-size:1.1rem;margin-bottom:18px;">Warping Tab is currently being upgraded.<br>Please check back soon!</p>
+          <button onclick="document.getElementById('warping-maintenance-popup').style.display='none'" style="background:#007bff;color:#fff;padding:10px 28px;border:none;border-radius:8px;font-weight:600;font-size:1rem;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.08);">OK</button>
         </div>
       </div>
+      <script>
+      document.querySelector('[data-tab="warping"]').addEventListener('click', function(e) {
+        document.getElementById('warping-maintenance-popup').style.display = 'flex';
+      });
+      </script>
+      
+      <h2><i class="fas fa-ruler-horizontal"></i> Warping Calculator</h2>
+      <div class="form-group">
+        <label>Total Ends</label>
+        <input type="number" id="warpingEnds" min="1" value="4800">
+      </div>
+      <div class="form-group">
+        <label>Warp Length (meters)</label>
+        <input type="number" id="warpingLength" min="1" value="1000">
+      </div>
+      <div class="form-group">
+        <label>Yarn Count</label>
+        <div class="input-group">
+          <input type="number" id="warpingCount" min="0.1" step="0.1" value="40" style="width: 100px;">
+          <select id="warpingSystem">
+            <option value="ne">Ne</option>
+            <option value="tex">Tex</option>
+            <option value="denier">Denier</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Crimp %</label>
+        <input type="number" id="warpingCrimp" min="0" value="8">
+      </div>
+      <div class="form-group">
+        <label>Number of Beams</label>
+        <input type="number" id="warpingBeams" min="1" value="1">
+      </div>
+      <div class="form-group">
+        <label>Package Weight (gm)</label>
+        <input type="number" id="warpingPackageWeight" min="0.1" step="0.1" value="1000">
+      </div>
     </div>
+  </div>
+  <div class="button-group">
+    <button class="calculate-btn" onclick="calculateWarping()">
+      <i class="fas fa-calculator"></i> Calculate Warping
+    </button>
+    <button class="reset-btn" onclick="resetForm('warping')">
+      <i class="fas fa-redo"></i> Reset
+    </button>
+  </div>
+  <div class="output" id="warping-result">
+    <h2><i class="fas fa-chart-line"></i> Warping Results</h2>
+    <p>Enter your parameters and click "Calculate Warping" to see results.</p>
+  </div>
+</div>
+    
+  <!-- <div class="footer-container">
+  <div class="footer-content">
+    <p>Advanced Textile Engineering Suite &copy; 2025 | Designed for Textile Professionals</p>
+    <p>Developed by Textile Engineers for Textile Engineers</p>   
+  </div>
+  </div> -->
+
     
     <div class="footer">
-      <p>Advanced Textile Engineering Suite &copy; 2023 | Designed for Textile Professionals</p>
+      <p>Advanced Textile Engineering Suite &copy; 2025 | Designed for Textile Professionals</p>
     </div>
   </div>
 
+
+
   <script>
+
+
+
+
+// ...existing code...
+
+function calculateWarping() {
+  const ends = parseFloat(document.getElementById('warpingEnds').value) || 0;
+  const length = parseFloat(document.getElementById('warpingLength').value) || 0;
+  const count = parseFloat(document.getElementById('warpingCount').value) || 0;
+  const system = document.getElementById('warpingSystem').value;
+  const crimp = parseFloat(document.getElementById('warpingCrimp').value) || 0;
+  const beams = parseFloat(document.getElementById('warpingBeams').value) || 1;
+  const pkgWeight = parseFloat(document.getElementById('warpingPackageWeight').value) || 0;
+
+  if (ends <= 0 || length <= 0 || count <= 0 || beams <= 0 || pkgWeight <= 0) {
+    document.getElementById('warping-result').innerHTML = `
+      <h2><i class="fas fa-exclamation-triangle"></i> Warping Results</h2>
+      <div class="result-card" style="background:#ffeeba; border-left:4px solid #ffc107;">
+        <h3>Input Error</h3>
+        <p>Please enter valid positive values for all fields</p>
+      </div>
+    `;
+    return;
+  }
+
+  // Convert count to Tex
+  let tex;
+  if (system === 'ne') tex = 590.5 / count;
+  else if (system === 'denier') tex = count / 9;
+  else tex = count;
+
+  // Total yarn length (meters), including crimp
+  const totalLength = length * (1 + crimp / 100) * ends;
+  // Total yarn weight (kg)
+  const totalWeight = (tex * totalLength) / 1000000;
+  // Weight per beam
+  const weightPerBeam = totalWeight / beams;
+  // Number of packages required
+  const packagesRequired = Math.ceil((totalWeight * 1000) / pkgWeight);
+
+  document.getElementById('warping-result').innerHTML = `
+    <h2><i class="fas fa-chart-line"></i> Warping Results</h2>
+    <div class="results-grid">
+      <div class="result-card">
+        <h3>Total Yarn Length</h3>
+        <p>${totalLength.toFixed(2)} meters</p>
+      </div>
+      <div class="result-card">
+        <h3>Total Yarn Weight</h3>
+        <p>${totalWeight.toFixed(3)} kg</p>
+      </div>
+      <div class="result-card">
+        <h3>Weight per Beam</h3>
+        <p>${weightPerBeam.toFixed(3)} kg</p>
+      </div>
+      <div class="result-card">
+        <h3>Packages Required</h3>
+        <p>${packagesRequired}</p>
+      </div>
+    </div>
+  `;
+}
+
+// Add tab switching for Warping tab
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    // ...existing code...
+    const tabName = tab.getAttribute('data-tab');
+    const selectedContent = document.getElementById(`${tabName}-tab`);
+    selectedContent.style.display = 'block';
+    setTimeout(() => {
+      selectedContent.classList.add('active');
+    }, 10);
+
+    // Initialize charts if needed
+    if (tabName === 'weaving' && selectedContent.classList.contains('active')) {
+      if (weavingChartInstance) {
+        weavingChartInstance.destroy();
+        calculateWeaving();
+      }
+    } else if (tabName === 'spinning' && selectedContent.classList.contains('active')) {
+      if (spinningChartInstance) {
+        spinningChartInstance.destroy();
+        calculateSpinning();
+      }
+    } else if (tabName === 'warping' && selectedContent.classList.contains('active')) {
+      calculateWarping();
+    }
+  });
+});
+
+// Add resetForm for warping
+function resetForm(type) {
+  if (type === 'warping') {
+    document.getElementById('warpingEnds').value = 4800;
+    document.getElementById('warpingLength').value = 1000;
+    document.getElementById('warpingCount').value = 40;
+    document.getElementById('warpingSystem').value = 'ne';
+    document.getElementById('warpingCrimp').value = 8;
+    document.getElementById('warpingBeams').value = 1;
+    document.getElementById('warpingPackageWeight').value = 1000;
+    document.getElementById('warping-result').innerHTML = `
+      <h2><i class="fas fa-chart-line"></i> Warping Results</h2>
+      <p>Enter your parameters and click "Calculate Warping" to see results.</p>
+    `;
+  }
+  // ...existing code for other types...
+}
+
+// ...existing code...
+
+
+
+
+
+
+
+
     // Global variables
     let weavingChartInstance;
     let spinningChartInstance;
