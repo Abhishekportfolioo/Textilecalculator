@@ -999,6 +999,89 @@
         <span style="margin-top: 8px; color: #000; font-weight: 700;">Calculator</span>
           </div>
         </a>
+        
+        <!-- My portfoliio with Image -->
+        <a href="https://abhishekportfolioo.github.io/Abhi/" class="toggle-mode" style="display: inline-block; text-decoration: none; background: none;">
+          <div style="display: flex; flex-direction: column; align-items: center;">
+        <img src="Screenshot 2025-07-24 212211.png" alt="Calculator" style="height:64px; vertical-align:middle; margin-left:1px;">
+        <span style="margin-top: 8px; color: #000; font-weight: 700;">Created By</span>
+          </div>
+        </a>
+
+        
+        <!-- Spinning Tab Button with Spinner Animation -->
+        <button class="tab" data-tab="spinning" style="display: inline-flex; align-items: center; gap: 8px; background: none; border: none; cursor: pointer;">
+          <span style="display: flex; flex-direction: column; align-items: center;">
+            <span style="position: relative; display: inline-block;">
+              <i class="fas fa-spinner fa-spin" style="font-size: 48px; color: #9c27b0;"></i>
+            </span>
+            <span style="margin-top: 8px; color: #000; font-weight: 700;">Spinning <br>Calculations</span>
+          </span>
+        </button>
+        <!-- Weaving Tab Button with Image -->
+        <button class="tab" data-tab="weaving" style="display: inline-flex; align-items: center; gap: 8px; background: none; border: none; cursor: pointer;">
+          <span style="display: flex; flex-direction: column; align-items: center;">
+            <span style="position: relative; display: inline-block;">
+              <img src="Weaving 1.jpg" alt="Weaving" style="height:48px; vertical-align:middle;">
+            </span>
+            <span style="margin-top: 8px; color: #000; font-weight: 700;">Weaving <br>Calculations</span>
+          </span>
+        </button>
+        
+        <!-- Conversion Tab Button with Icon -->
+        <button class="tab" data-tab="conversion" style="display: inline-flex; align-items: center; gap: 8px; background: none; border: none; cursor: pointer;">
+          <span style="display: flex; flex-direction: column; align-items: center;">
+            <span style="position: relative; display: inline-block;">
+              <i class="fas fa-exchange-alt" style="font-size: 48px; color: #17a2b8;"></i>
+            </span>
+            <span style="margin-top: 8px; color: #000; font-weight: 700;">Conversion<br> Tools</span>
+          </span>
+        </button>
+
+        <!-- Quality Analysis Tab Button with Chart Icon -->
+        <button class="tab" data-tab="quality" style="display: inline-flex; align-items: center; gap: 8px; background: none; border: none; cursor: pointer;">
+          <span style="display: flex; flex-direction: column; align-items: center;">
+            <span style="position: relative; display: inline-block;">
+              <i class="fas fa-chart-line" style="font-size: 48px; color: #4caf50;"></i>
+            </span>
+            <span style="margin-top: 8px; color: #000; font-weight: 700;">Quality <br>Analysis</span>
+          </span>
+        </button>
+
+      <!-- Warping Tab Button without Image -->
+      <button class="tab" data-tab="warping" style="display: inline-flex; align-items: center; gap: 8px; background: none; border: none; cursor: pointer;">
+        <span style="display: flex; flex-direction: column; align-items: center;">
+          <span style="position: relative; display: inline-block;">
+        <i class="fas fa-ruler-horizontal" style="font-size: 48px; color: #007bff;"></i>
+          </span>
+          <span style="margin-top: 8px; color: #000; font-weight: 700;">Warping <br>Calculator</span>
+        </span>
+      </button>
+
+
+      <!-- 2. Add to calculator-link section (copy style from other tab buttons): -->
+<button class="tab" data-tab="weavedesigns" style="display: inline-flex; align-items: center; gap: 8px; background: none; border: none; cursor: pointer;">
+  <span style="display: flex; flex-direction: column; align-items: center;">
+    <span style="position: relative; display: inline-block;">
+      <i class="fas fa-border-style" style="font-size: 48px; color: #795548;"></i>
+    </span>
+    <span style="margin-top: 8px; color: #000; font-weight: 700;">Weave <br>Designs</span>
+  </span>
+</button>
+
+        </div>
+        
+
+
+
+        
+          <!-- Spinning Tab Button with Image -->
+  <!-- <div style="display: flex; flex-direction: column; align-items: center;">
+    <a href="#spinning-tab" class="toggle-mode" style="display: inline-block; text-decoration: none; background: none;">
+      <img src="spinning-icon.jpg" alt="Spinning" style="height:64px; vertical-align:middle;">
+      <span style="margin-top: 8px; color: #000; font-weight: 700;">Spinning</span>
+    </a>
+  </div> -->
       </div>
       <script>
         // Hide calculator link when any tab is clicked
@@ -1700,21 +1783,25 @@
 <div id="warping-tab" class="tab-content">
   <div class="calculator-grid">
     <div class="panel">
-      <!-- Beautiful Warping Tab Maintenance Popup -->
-      <div id="warping-maintenance-popup" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.45);z-index:99999;justify-content:center;align-items:center;">
-        <div style="background:#fff;padding:36px 32px;border-radius:18px;box-shadow:0 8px 32px rgba(0,0,0,0.18);text-align:center;max-width:350px;position:relative;">
-          <span style="position:absolute;top:12px;right:16px;cursor:pointer;font-size:1.5rem;color:#007bff;" onclick="document.getElementById('warping-maintenance-popup').style.display='none'">&times;</span>
-          <i class="fas fa-tools" style="font-size:2.5rem;color:#007bff;margin-bottom:18px;"></i>
-          <h2 style="color:#007bff;margin-bottom:12px;">Under Maintenance</h2>
-          <p style="color:#343a40;font-size:1.1rem;margin-bottom:18px;">Warping Tab is currently being upgraded.<br>Please check back soon!</p>
-          <button onclick="document.getElementById('warping-maintenance-popup').style.display='none'" style="background:#007bff;color:#fff;padding:10px 28px;border:none;border-radius:8px;font-weight:600;font-size:1rem;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.08);">OK</button>
-        </div>
-      </div>
-      <script>
-      document.querySelector('[data-tab="warping"]').addEventListener('click', function(e) {
-        document.getElementById('warping-maintenance-popup').style.display = 'flex';
-      });
-      </script>
+      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 220px; background: linear-gradient(90deg, #007bff 0%, #48dbfb 100%); border-radius: 18px; box-shadow: 0 6px 24px rgba(0,0,0,0.13); margin: 40px 0;">
+  <i class="fas fa-tools fa-3x" style="color: #fff; margin-bottom: 18px; animation: wrench-spin 2s infinite linear;"></i>
+  <h2 style="color: #fff; font-size: 2rem; font-weight: 700; text-shadow: 0 2px 12px rgba(0,0,0,0.18); margin-bottom: 10px;">
+    Warping Tab is Under Maintenance
+  </h2>
+  <p style="color: #fff; font-size: 1.1rem; text-align: center; max-width: 420px; margin-bottom: 12px;">
+    We're working hard to bring you advanced warping calculations.<br>
+    Please check back soon!
+  </p>
+  <span style="background: rgba(255,255,255,0.13); color: #fff; padding: 8px 22px; border-radius: 24px; font-weight: 600; font-size: 1rem;">
+    <i class="fas fa-hourglass-half"></i> Expected Update: August 2025
+  </span>
+</div>
+<style>
+@keyframes wrench-spin {
+  0% { transform: rotate(0deg);}
+  100% { transform: rotate(360deg);}
+}
+</style>
       
       <h2><i class="fas fa-ruler-horizontal"></i> Warping Calculator</h2>
       <div class="form-group">
@@ -1772,12 +1859,77 @@
   </div> -->
 
     
-    <div class="footer">
+    <!-- <div class="footer">
+      <p>Advanced Textile Engineering Suite &copy; 2025 | Designed for Textile Professionals</p>
+    </div>
+  </div> -->
+
+  <!-- 3. Add the tab content just before the footer (after warping-tab): -->
+<div id="weavedesigns-tab" class="tab-content">
+  <div class="calculator-grid">
+    <div class="panel">
+      
+          <!-- ...existing code... -->
+<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 220px; background: linear-gradient(90deg, #007bff 0%, #48dbfb 100%); border-radius: 18px; box-shadow: 0 6px 24px rgba(0,0,0,0.13); margin: 40px 0;">
+  <i class="fas fa-tools fa-3x" style="color: #fff; margin-bottom: 18px; animation: wrench-spin 2s infinite linear;"></i>
+  <h2 style="color: #fff; font-size: 2rem; font-weight: 700; text-shadow: 0 2px 12px rgba(0,0,0,0.18); margin-bottom: 10px;">
+    Weave Design Tab is Under Maintenance
+  </h2>
+  <p style="color: #fff; font-size: 1.1rem; text-align: center; max-width: 420px; margin-bottom: 12px;">
+    We're working hard to bring you advanced Weave Design.<br>
+    Please check back soon!
+  </p>
+  <span style="background: rgba(255,255,255,0.13); color: #fff; padding: 8px 22px; border-radius: 24px; font-weight: 600; font-size: 1rem;">
+    <i class="fas fa-hourglass-half"></i> Expected Update: September 2025
+  </span>
+</div>
+<style>
+@keyframes wrench-spin {
+  0% { transform: rotate(0deg);}
+  100% { transform: rotate(360deg);}
+}
+</style>
+      <h2><i class="fas fa-border-style"></i> Weave Designs Library</h2>
+      <p>Explore basic weave patterns and their structures:</p>
+      <div class="info-grid">
+        <div class="info-card">
+          <h3><i class="fas fa-th"></i> Plain Weave</h3>
+          <p>Each warp alternates over and under each weft. Most basic and strong weave.</p>
+        </div>
+        <div class="info-card">
+          <h3><i class="fas fa-grip-lines"></i> Twill Weave</h3>
+          <p>Diagonal lines formed by passing the weft over two or more warps. Used for denim, gabardine.</p>
+        </div>
+        <div class="info-card">
+          <h3><i class="fas fa-grip-horizontal"></i> Satin Weave</h3>
+          <p>Long floats of warp or weft yarns, giving a smooth surface and sheen. Used for satins.</p>
+        </div>
+        <div class="info-card">
+          <h3><i class="fas fa-border-none"></i> Basket Weave</h3>
+          <p>Groups of warp and weft threads interlaced. Used for towels, canvas.</p>
+        </div>
+        <div class="info-card">
+          <h3><i class="fas fa-grip-vertical"></i> Herringbone</h3>
+          <p>Twill weave with a zigzag pattern. Used for suiting and jackets.</p>
+        </div>
+      </div>
+      <div style="margin-top:20px;">
+        <h3>Want to design your own weave?</h3>
+        <a href="Weave Designer.html" class="toggle-mode" style="display:inline-block;text-decoration:none;">
+          <i class="fas fa-pencil-ruler"></i> Open Weave Designer
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer-container">
+   <div class="footer">
       <p>Advanced Textile Engineering Suite &copy; 2025 | Designed for Textile Professionals</p>
     </div>
   </div>
 
-
+</div>
 
   <script>
 
