@@ -1,0 +1,3035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advanced Textile Engineering Suite</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    :root {
+      --primary: #007bff;
+      --secondary: #6c757d;
+      --success: #28a745;
+      --info: #17a2b8;
+      --warning: #ffc107;
+      --danger: #dc3545;
+      --light: #f8f9fa;
+      --dark: #343a40;
+      --white: #ffffff;
+      --gray: #6c757d;
+      --dark-bg: #1e1e1e;
+      --dark-card: #2a2a2a;
+      --dark-text: #f0f0f0;
+      --spinning-color: #9c27b0;
+      --quality-color: #4caf50;
+      --defect-color: #f44336;
+      --count-color: #673ab7;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 20px;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      color: var(--dark);
+      transition: background 0.3s, color 0.3s;
+      min-height: 100vh;
+    }
+
+    .tab-content {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.tab-content.active {
+  opacity: 1;
+}
+
+    /* Base (Mobile First) */
+/*body {
+  font-size: 16px;
+  margin: 10px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Tablet */
+/*@media (min-width: 768px) {
+  .container {
+    flex-direction: row;
+  }
+}
+
+/* Desktop */
+/*@media (min-width: 1024px) {
+  body {
+    font-size: 18px;
+    margin: 40px;
+  }
+}
+    */
+ /* MOBILE SPECIFIC STYLES */
+    /* ==================== */
+
+.system-card {
+      padding: 20px;
+      border-radius: 8px;
+      background: #f8f9fa;
+      border-left: 4px solid var(--count-color);
+    }
+    
+    .dark-mode .system-card {
+      background: #2a2a2a;
+      border-left: 4px solid #673ab7;
+    }
+    
+    .system-card h3 {
+      margin-bottom: 10px;
+      color: var(--count-color);
+    }
+    .count h2 {
+      color: var(--count-color);
+    }
+    
+
+
+    
+    @media (max-width: 768px) {
+      /* General adjustments */
+      body {
+        padding: 10px;
+        font-size: 14px;
+      }
+      
+      h1 {
+        font-size: 1.5rem;
+      }
+      
+      h2 {
+        font-size: 1.2rem;
+      }
+      
+      /* Header adjustments */
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding-bottom: 10px;
+      }
+      
+      .header-controls {
+        width: 100%;
+        justify-content: space-between;
+      }
+      
+      .toggle-mode {
+        width: 100%;
+        justify-content: center;
+      }
+      
+      /* Tab adjustments */
+      .tabs {
+        flex-direction: column;
+        gap: 5px;
+      }
+      
+      .tab {
+        padding: 10px;
+        justify-content: flex-start;
+      }
+      
+      /* Form adjustments */
+      .calculator-grid, .conversion-tools {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+      
+      .panel, .conversion-tool {
+        padding: 15px;
+      }
+      
+      input, select {
+        padding: 10px;
+        font-size: 14px;
+      }
+      
+      /* Button adjustments */
+      .button-group {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      button {
+        padding: 12px;
+        width: 100%;
+      }
+      
+      /* Result card adjustments */
+      .results-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .result-card {
+        padding: 10px;
+      }
+      
+      /* Chart container adjustments */
+      .chart-container {
+        padding: 15px;
+      }
+      
+      /* Info section adjustments */
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      /* Specific mobile optimizations for conversion tools */
+      .input-group input {
+        width: 60%;
+      }
+      
+      .input-group select {
+        width: 40%;
+      }
+      
+      /* Hide some decorative elements on mobile */
+      .tab i {
+        margin-right: 5px;
+      }
+    }
+    
+    /* Medium screens (tablets) */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .calculator-grid, .conversion-tools {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .button-group {
+        flex-wrap: wrap;
+      }
+      
+      button {
+        flex: 1 1 45%;
+      }
+    }
+    
+    /* Additional touch optimizations */
+    button, .tab {
+      min-height: 44px; /* Minimum touch target size */
+    }
+    
+    input, select {
+      min-height: 44px;
+    }
+    
+    /* Prevent zooming on input focus for iOS */
+    @media screen and (max-width: 768px) {
+      input, select, textarea {
+        font-size: 16px !important;
+      }
+    }
+    
+    .dark-mode {
+      background: linear-gradient(135deg, var(--dark-bg) 0%, #121212 100%);
+      color: var(--dark-text);
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid var(--primary);
+    }
+    
+    .dark-mode header {
+      border-bottom: 2px solid #4dabf7;
+    }
+    
+    h1 {
+      font-size: 2.2rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .dark-mode h1 {
+      color: #4dabf7;
+    }
+    
+    .header-controls {
+      display: flex;
+      gap: 15px;
+    }
+    
+    .toggle-mode {
+      background: var(--primary);
+      color: var(--white);
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+    
+    .dark-mode .toggle-mode {
+      background: #4dabf7;
+    }
+    
+    .toggle-mode:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .tabs {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 25px;
+      background: var(--white);
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 5px;
+    }
+    
+    .dark-mode .tabs {
+      background: var(--dark-card);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+    
+    .tab {
+      flex: 1;
+      padding: 12px 15px;
+      text-align: center;
+      background: transparent;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .tab.active {
+      background: var(--primary);
+      color: var(--white);
+      box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+    }
+    
+    .dark-mode .tab.active {
+      background: #4dabf7;
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    .calculator-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    
+    .panel {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s;
+    }
+    
+    .dark-mode .panel {
+      background: var(--dark-card);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    .panel:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    }
+    
+    h2 {
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .dark-mode h2 {
+      color: #4dabf7;
+    }
+    
+    .spinning h2 {
+      color: var(--spinning-color);
+    }
+    
+    .quality h2 {
+      color: var(--quality-color);
+    }
+    
+    .defect h2 {
+      color: var(--defect-color);
+    }
+    
+    .form-group {
+      margin-bottom: 18px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: var(--dark);
+    }
+    
+    .dark-mode label {
+      color: #e9ecef;
+    }
+    
+    input, select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ced4da;
+      border-radius: 6px;
+      font-size: 16px;
+      transition: border 0.3s;
+    }
+    
+    .dark-mode input, 
+    .dark-mode select {
+      background: #333;
+      border-color: #555;
+      color: var(--dark-text);
+    }
+    
+    input:focus, select:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+    }
+    
+    .dark-mode input:focus, 
+    .dark-mode select:focus {
+      border-color: #4dabf7;
+      box-shadow: 0 0 0 3px rgba(77, 171, 247, 0.2);
+    }
+    
+    .input-group {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .input-group input {
+      flex: 1;
+    }
+    
+    .button-group {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+    
+    button {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .calculate-btn {
+      background: var(--success);
+      color: var(--white);
+      flex: 1;
+    }
+    
+    .calculate-btn:hover {
+      background: #218838;
+      transform: translateY(-2px);
+    }
+    
+    .export-btn {
+      background: var(--info);
+      color: var(--white);
+      flex: 1;
+    }
+    
+    .export-btn:hover {
+      background: #138496;
+      transform: translateY(-2px);
+    }
+    
+    .reset-btn {
+      background: var(--danger);
+      color: var(--white);
+      flex: 1;
+    }
+    
+    .reset-btn:hover {
+      background: #c82333;
+      transform: translateY(-2px);
+    }
+    
+    .convert-btn {
+      background: var(--warning);
+      color: var(--dark);
+      flex: 1;
+    }
+    
+    .convert-btn:hover {
+      background: #e0a800;
+      transform: translateY(-2px);
+    }
+    
+    .output {
+      background: var(--white);
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+      margin-bottom: 30px;
+      color: var(--dark);
+    }
+    
+    .dark-mode .output {
+      background: var(--dark-card);
+      color: var(--dark-text);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    .output h2 {
+      margin-bottom: 15px;
+    }
+    
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    
+    .result-card {
+      background: #e9f7fe;
+      border-radius: 8px;
+      padding: 15px;
+      border-left: 4px solid var(--primary);
+    }
+    
+    .dark-mode .result-card {
+      background: #1a3a4d;
+      border-left: 4px solid #4dabf7;
+    }
+    
+    .result-card h3 {
+      font-size: 0.95rem;
+      margin-bottom: 8px;
+      color: var(--dark);
+    }
+    
+    .dark-mode .result-card h3 {
+      color: #dee2e6;
+    }
+    
+    .result-card p {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    
+    .dark-mode .result-card p {
+      color: #4dabf7;
+    }
+    
+    .chart-container {
+      background: var(--white);
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+      margin-bottom: 30px;
+    }
+    
+    .dark-mode .chart-container {
+      background: var(--dark-card);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    canvas {
+      width: 100% !important;
+    }
+    
+    .conversion-tools {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    
+    .conversion-tool {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    }
+    
+    .dark-mode .conversion-tool {
+      background: var(--dark-card);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    .conversion-results {
+      margin-top: 15px;
+      padding: 15px;
+      background: #e9f7fe;
+      border-radius: 8px;
+      border-left: 4px solid var(--primary);
+    }
+    
+    .dark-mode .conversion-results {
+      background: #1a3a4d;
+      border-left: 4px solid #4dabf7;
+    }
+    
+    .info-section {
+      background: var(--white);
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+      margin-bottom: 30px;
+    }
+    
+    .dark-mode .info-section {
+      background: var(--dark-card);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    
+    .info-card {
+      padding: 15px;
+      border-radius: 8px;
+      background: #f8f9fa;
+    }
+    
+    .dark-mode .info-card {
+      background: #333;
+    }
+    
+    .info-card h3 {
+      margin-bottom: 10px;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .dark-mode .info-card h3 {
+      color: #4dabf7;
+    }
+    
+    .info-card p {
+      color: var(--gray);
+      line-height: 1.6;
+    }
+    
+    .dark-mode .info-card p {
+      color: #adb5bd;
+    }
+    
+    .footer {
+      text-align: center;
+      padding: 20px;
+      color: var(--gray);
+      font-size: 0.9rem;
+      border-top: 1px solid #dee2e6;
+      margin-top: 20px;
+    }
+    
+    .dark-mode .footer {
+      color: #adb5bd;
+      border-top: 1px solid #444;
+    }
+    
+    .quality-indicator {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 5px;
+    }
+    
+    .quality-bar {
+      flex-grow: 1;
+      height: 10px;
+      background: #e0e0e0;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    
+    .quality-fill {
+      height: 100%;
+      border-radius: 5px;
+    }
+    
+    .quality-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    
+    .grade-card {
+      background: #e8f5e9;
+      border-radius: 8px;
+      padding: 15px;
+      border-left: 4px solid var(--quality-color);
+      margin-top: 15px;
+    }
+    
+    .dark-mode .grade-card {
+      background: #1b5e20;
+      border-left: 4px solid #4caf50;
+    }
+    
+    .grade-card h3 {
+      color: var(--quality-color);
+      margin-bottom: 5px;
+    }
+    
+    .dark-mode .grade-card h3 {
+      color: #81c784;
+    }
+    
+    .defect-card {
+      background: #ffebee;
+      border-radius: 8px;
+      padding: 15px;
+      border-left: 4px solid var(--defect-color);
+      margin-top: 15px;
+    }
+    
+    .dark-mode .defect-card {
+      background: #b71c1c;
+      border-left: 4px solid #f44336;
+    }
+    
+    .defect-card h3 {
+      color: var(--defect-color);
+      margin-bottom: 5px;
+    }
+    
+    .dark-mode .defect-card h3 {
+      color: #ef9a9a;
+    }
+
+    .spinningproduction h3 {
+      color: var(--spinning-color);
+      text-align: center;
+      background: #0594e7;
+      
+    }
+    
+    .spinning .result-card {
+      border-left: 4px solid var(--spinning-color);
+    }
+    
+    .dark-mode .spinning .result-card {
+      border-left: 4px solid #ce93d8;
+    }
+    
+    .spinning .result-card p {
+      color: var(--spinning-color);
+    }
+    
+    .dark-mode .spinning .result-card p {
+      color: #ce93d8;
+    }
+    
+    .count-system-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+    
+    .count-system-card {
+      background: #f5f5f5;
+      padding: 10px;
+      border-radius: 6px;
+      text-align: center;
+    }
+    
+    .dark-mode .count-system-card {
+      background: #333;
+    }
+    
+    .count-system-card h4 {
+      color: var(--primary);
+      margin-bottom: 5px;
+    }
+    
+    .dark-mode .count-system-card h4 {
+      color: #4dabf7;
+    }
+    
+    .count-system-card p {
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    
+    .conversion-tool .input-group {
+      margin-top: 10px;
+    }
+    
+    @media (max-width: 768px) {
+      .calculator-grid, .conversion-tools {
+        grid-template-columns: 1fr;
+      }
+      
+      .button-group {
+        flex-direction: column;
+      }
+      
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+      
+      .header-controls {
+        align-self: stretch;
+        justify-content: space-between;
+      }
+    }
+
+
+
+
+
+    .button-container {
+            text-align: center;
+        }
+
+        .beautiful-button {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+            background-size: 300% 300%;
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: gradientShift 3s ease infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .beautiful-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .beautiful-button:hover::before {
+            left: 100%;
+        }
+
+        .beautiful-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            animation-play-state: paused;
+        }
+
+        .beautiful-button:active {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .title {
+            color: white;
+            font-size: 28px;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        /* Alternative button styles */
+        .button-alt {
+            display: inline-block;
+            margin: 10px;
+            padding: 14px 28px;
+            border: 2px solid white;
+            border-radius: 30px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .button-alt:hover {
+            background: white;
+            color: #667eea;
+            transform: scale(1.05);
+        }
+
+        .buttons-section {
+            margin-top: 40px;
+        }
+
+           /* Ripple effect styles */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: ripple-animation 0.6s linear;
+            width: 20px;
+            height: 20px;
+        }
+
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+  </style>
+
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1><i class="fas fa-industry"></i> Textile Engineering Suite</h1>
+      <div class="header-controls">
+        <button class="toggle-mode" onclick="toggleDarkMode()">
+          <i class="fas fa-moon"></i> Dark Mode
+        </button>
+      </div>
+    </header>
+    <div style="margin-bottom: 20px;">
+      <a href="Textile Engineering Suite.html" class="toggle-mode" style="display: inline-block; text-decoration: none;">
+      <i class="fas fa-home"></i> Home
+      </a>
+    </div>
+    
+    <div class="tabs">
+  <button class="tab active" data-tab="weaving"><i class="fas fa-th-large"></i> Weaving</button>
+  <button class="tab" data-tab="spinning"><i class="fas fa-spinner"></i> Spinning</button>
+  <button class="tab" data-tab="conversion"><i class="fas fa-exchange-alt"></i> Conversion</button>
+  <button class="tab" data-tab="quality"><i class="fas fa-chart-line"></i> Quality Analysis</button>
+  <button class="tab" data-tab="warping"><i class="fas fa-ruler-horizontal"></i> Warping</button> <!-- NEW -->
+</div>
+    <div id="calculator-link">
+      <h2 class="title" style="-webkit-text-fill-color: #000;">Welcome to Advanced Textile Engineering Suite</h2>
+      <h3 class="beautiful-button">
+        Click on the tabs above to access different calculators and tools.  <h3>
+      <p class="subtitle" style="-webkit-text-fill-color: #000;">Your one-stop solution for weaving, spinning, conversion, and quality analysis.</p>
+      
+      
+      
+      <br>
+
+      <!-- Calculator Page Link -->
+      <div id="calculator-link" style="margin-bottom: 20px;">
+        <a href="calculator.html" class="toggle-mode" style="display: inline-block; text-decoration: none; background: none;">
+          <div style="display: flex; flex-direction: column; align-items: center;">
+        <img src="calculator-icon.jpg" alt="Calculator" style="height:64px; vertical-align:middle; margin-left:1px;">
+        <span style="margin-top: 8px; color: #000; font-weight: 700;">Calculator</span>
+          </div>
+        </a>
+        
+        <!-- My portfoliio with Image -->
+        <a href="https://abhishekportfolioo.github.io/Abhi/" class="toggle-mode" style="display: inline-block; text-decoration: none; background: none;">
+          <div style="display: flex; flex-direction: column; align-items: center;">
+        <img src="Screenshot 2025-07-24 212211.png" alt="Calculator" style="height:64px; vertical-align:middle; margin-left:1px;">
+        <span style="margin-top: 8px; color: #000; font-weight: 700;">Created By</span>
+          </div>
+        </a>
+
+        
+        <!-- Spinning Tab Button with Spinner Animation -->
+        <button class="tab" data-tab="spinning" style="display: inline-flex; align-items: center; gap: 8px; background: none; border: none; cursor: pointer;">
+          <span style="display: flex; flex-direction: column; align-items: center;">
+            <span style="position: relative; display: inline-block;">
+              <i class="fas fa-spinner fa-spin" style="font-size: 48px; color: #9c27b0;"></i>
+            </span>
+            <span style="margin-top: 8px; color: #000; font-weight: 700;">Spinning <br>Calculations</span>
+          </span>
+        </button>
+        <!-- Weaving Tab Button with Image -->
+        <button class="tab" data-tab="weaving" style="display: inline-flex; align-items: center; gap: 8px; background: none; border: none; cursor: pointer;">
+          <span style="display: flex; flex-direction: column; align-items: center;">
+            <span style="position: relative; display: inline-block;">
+              <img src="Weaving 1.jpg" alt="Weaving" style="height:48px; vertical-align:middle;">
+            </span>
+            <span style="margin-top: 8px; color: #000; font-weight: 700;">Weaving <br>Calculations</span>
+          </span>
+        </button>
+        
+        <!-- Conversion Tab Button with Icon -->
+        <button class="tab" data-tab="conversion" style="display: inline-flex; align-items: center; gap: 8px; background: none; border: none; cursor: pointer;">
+          <span style="display: flex; flex-direction: column; align-items: center;">
+            <span style="position: relative; display: inline-block;">
+              <i class="fas fa-exchange-alt" style="font-size: 48px; color: #17a2b8;"></i>
+            </span>
+            <span style="margin-top: 8px; color: #000; font-weight: 700;">Conversion<br> Tools</span>
+          </span>
+        </button>
+
+        <!-- Quality Analysis Tab Button with Chart Icon -->
+        <button class="tab" data-tab="quality" style="display: inline-flex; align-items: center; gap: 8px; background: none; border: none; cursor: pointer;">
+          <span style="display: flex; flex-direction: column; align-items: center;">
+            <span style="position: relative; display: inline-block;">
+              <i class="fas fa-chart-line" style="font-size: 48px; color: #4caf50;"></i>
+            </span>
+            <span style="margin-top: 8px; color: #000; font-weight: 700;">Quality <br>Analysis</span>
+          </span>
+        </button>
+
+      <!-- Warping Tab Button without Image -->
+      <button class="tab" data-tab="warping" style="display: inline-flex; align-items: center; gap: 8px; background: none; border: none; cursor: pointer;">
+        <span style="display: flex; flex-direction: column; align-items: center;">
+          <span style="position: relative; display: inline-block;">
+        <i class="fas fa-ruler-horizontal" style="font-size: 48px; color: #007bff;"></i>
+          </span>
+          <span style="margin-top: 8px; color: #000; font-weight: 700;">Warping <br>Calculator</span>
+        </span>
+      </button>
+
+
+      <!-- 2. Add to calculator-link section (copy style from other tab buttons): -->
+<button class="tab" data-tab="weavedesigns" style="display: inline-flex; align-items: center; gap: 8px; background: none; border: none; cursor: pointer;">
+  <span style="display: flex; flex-direction: column; align-items: center;">
+    <span style="position: relative; display: inline-block;">
+      <i class="fas fa-border-style" style="font-size: 48px; color: #795548;"></i>
+    </span>
+    <span style="margin-top: 8px; color: #000; font-weight: 700;">Weave <br>Designs</span>
+  </span>
+</button>
+<!-- Project Report Tab Button -->
+<button class="tab" data-tab="projectreport" style="display: inline-flex; align-items: center; gap: 8px; background: none; border: none; cursor: pointer;">
+  <span style="display: flex; flex-direction: column; align-items: center;">
+    <span style="position: relative; display: inline-block;">
+      <i class="fas fa-file-alt" style="font-size: 48px; color: #7952b3;"></i>
+    </span>
+    <span style="margin-top: 8px; color: #000; font-weight: 700;">Project <br>Report</span>
+  </span>
+</button>
+
+        </div>
+        
+
+
+
+        
+          <!-- Spinning Tab Button with Image -->
+  <!-- <div style="display: flex; flex-direction: column; align-items: center;">
+    <a href="#spinning-tab" class="toggle-mode" style="display: inline-block; text-decoration: none; background: none;">
+      <img src="spinning-icon.jpg" alt="Spinning" style="height:64px; vertical-align:middle;">
+      <span style="margin-top: 8px; color: #000; font-weight: 700;">Spinning</span>
+    </a>
+  </div> -->
+      </div>
+      <script>
+        // Hide calculator link when any tab is clicked
+        document.querySelectorAll('.tab').forEach(tab => {
+          tab.addEventListener('click', () => {
+        const calcLink = document.getElementById('calculator-link');
+        if (calcLink) calcLink.style.display = 'none';
+          });
+        });
+      </script>
+    </div>
+    <!-- Weaving Calculator -->
+    <div id="weaving-tab" class="tab-content active">
+      <div class="calculator-grid">
+        <div class="panel">
+          <h2><i class="fas fa-ruler"></i> Warp Settings</h2>
+          <div class="form-group">
+            <label>Warp Ends Per Inch (EPI)</label>
+            <input type="number" id="epi" min="1" value="80">
+          </div>
+          <div class="form-group">
+            <label>Warp Yarn Count</label>
+            <div class="input-group">
+              <input type="number" id="warpCount" min="0.1" step="0.1" value="40" style="width: 100px;">
+              <select id="warpSystem">
+                <option value="ne">Ne</option>
+                <option value="tex">Tex</option>
+                <option value="denier">Denier</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Warp Crimp %</label>
+            <input type="number" id="warpCrimp" min="0" value="8">
+          </div>
+          <div class="form-group">
+            <label>Reed Count (dents/inch)</label>
+            <input type="number" id="reedCount" min="1" value="60">
+          </div>
+          <div class="form-group">
+            <label>Ends Per Dent</label>
+            <input type="number" id="endsPerDent" min="1" value="2">
+          </div>
+        </div>
+        
+        <div class="panel">
+          <h2><i class="fas fa-ruler-combined"></i> Weft Settings</h2>
+          <div class="form-group">
+            <label>Weft Picks Per Inch (PPI)</label>
+            <input type="number" id="ppi" min="1" value="70">
+          </div>
+          <div class="form-group">
+            <label>Weft Yarn Count</label>
+            <div class="input-group">
+              <input type="number" id="weftCount" min="0.1" step="0.1" value="30" style="width: 100px;">
+              <select id="weftSystem">
+                <option value="ne">Ne</option>
+                <option value="tex">Tex</option>
+                <option value="denier">Denier</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Weft Crimp %</label>
+            <input type="number" id="weftCrimp" min="0" value="5">
+          </div>
+          <div class="form-group">
+            <label>PPI for Production</label>
+            <input type="number" id="ppiForProduction" min="1" value="65">
+          </div>
+        </div>
+        
+        <div class="panel">
+          <h2><i class="fas fa-cube"></i> Fabric & Production</h2>
+          <div class="form-group">
+            <label>Fabric Width (inches)</label>
+            <input type="number" id="width" min="1" value="60">
+          </div>
+          <div class="form-group">
+            <label>Fabric Length (meters)</label>
+            <input type="number" id="length" min="1" value="100">
+          </div>
+          <div class="form-group">
+            <label>Machine RPM</label>
+            <input type="number" id="rpm" min="1" value="600">
+          </div>
+          <div class="form-group">
+            <label>Yarn Price (per kg)</label>
+            <input type="number" id="yarnPrice" min="0" step="0.01" value="5.5">
+          </div>
+        </div>
+        
+        <!-- New Panel: Time taken to empty a package on looms -->
+        <div class="panel">
+          <h2><i class="fas fa-clock"></i> Time to Empty Package</h2>
+          <div class="form-group">
+            <label>Package Weight (gm)</label>
+            <input type="number" id="packageWeight" min="0.1" step="0.1" value="1000">
+          </div>
+          <div class="form-group">
+            <label>Yarn Count (Ne)</label>
+            <input type="number" id="packageNe" min="0.1" step="0.1" value="40">
+          </div>
+          <div class="form-group">
+            <label>Reed Width (inches)</label>
+            <input type="number" id="packageReedWidth" min="0.1" step="0.1" value="60">
+          </div>
+          <div class="form-group">
+            <label>Machine RPM</label>
+            <input type="number" id="packageRpm" min="1" value="600">
+          </div>
+          <div class="button-group">
+            <button class="calculate-btn" onclick="calculatePackageTime()">
+              <i class="fas fa-clock"></i> Calculate Time
+            </button>
+          </div>
+          <div class="output" id="packageTimeResult" style="margin-top:15px;">
+            <p>Enter values and click "Calculate Time" to see result.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="button-group">
+        <button class="calculate-btn" onclick="calculateWeaving()">
+          <i class="fas fa-calculator"></i> Calculate Weaving
+        </button>
+        <button class="export-btn" onclick="downloadPDF()">
+          <i class="fas fa-file-pdf"></i> Export as PDF
+        </button>
+        <button class="reset-btn" onclick="resetForm('weaving')">
+          <i class="fas fa-redo"></i> Reset
+        </button>
+      </div>
+      
+      <div class="output" id="weaving-result">
+        <h2><i class="fas fa-chart-line"></i> Weaving Results</h2>
+        <p>Enter your parameters and click "Calculate Weaving" to see results.</p>
+      </div>
+      
+      <div class="chart-container">
+        <h2><i class="fas fa-chart-bar"></i> Fabric Metrics</h2>
+        <canvas id="weaving-chart"></canvas>
+      </div>
+      <div class="info-section">
+      <h2><i class="fas fa-info-circle"></i> About Textile Calculations</h2>
+      <div class="info-grid">
+        <div class="info-card">
+          <h3><i class="fas fa-ruler"></i> Cover Factor</h3>
+          <p>Indicates fabric density. Calculated as threads per inch divided by the square root of yarn count. Higher values mean tighter weaves.</p>
+        </div>
+        <div class="info-card">
+          <h3><i class="fas fa-weight"></i> GSM</h3>
+          <p>Grams per Square Meter - a key fabric quality indicator. Affects drape, durability, and end-use suitability.</p>
+        </div>
+        <div class="info-card">
+          <h3><i class="fas fa-cogs"></i> Production Rate</h3>
+          <p>In weaving, based on loom speed (RPM) and picks per inch. In spinning, depends on spindle speed, twist, and yarn count.</p>
+        </div>
+        <div class="info-card">
+          <h3><i class="fas fa-microscope"></i> Quality Grading</h3>
+          <p>Based on USTER standards: CV% under 10 is premium quality, 10-12 is excellent, 12-14 is good, 14-16 is fair, above 16 is poor.</p>
+        </div>
+      </div>
+    </div>
+    </div>
+    
+    <!-- Spinning Calculator -->
+    <div id="spinning-tab" class="tab-content">
+      <div>
+        <h2 class="spinningproduction"><i class="fas fa-spinner"></i> Spinning Production Calculator</h2>
+        </div>
+    <div class="button-container">
+          <a href="Spinning.html" class="beautiful-button" >
+            Click Here To Calculate Spinning Production Of Each Machine
+          </a>
+          <div class="button-container">
+        <!-- Single beautiful button - replace "other-page.html" with your actual file name -->
+        <a href="Yarn Evenness Calculator.html" class="beautiful-button">
+           Click Here To Calculate Yarn Evenness
+        </a>
+        </div>
+       <script>
+        // Add some interactive effects
+        document.querySelectorAll('.beautiful-button, .button-alt').forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.style.filter = 'brightness(1.1)';
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                this.style.filter = 'brightness(1)';
+            });
+        });
+
+        // Add click ripple effect
+        document.querySelectorAll('.beautiful-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                let ripple = document.createElement('span');
+                ripple.classList.add('ripple');
+                this.appendChild(ripple);
+                
+                let x = e.clientX - e.target.offsetLeft;
+                let y = e.clientY - e.target.offsetTop;
+                
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+       </script>
+
+
+      </div>
+      <div class="calculator-grid">
+       
+        
+        <div class="panel spinning">
+          <h2><i class="fas fa-cogs"></i> Machine Settings</h2>
+          <div class="form-group">
+            <label>Spindle Speed (RPM)</label>
+            <input type="number" id="spindleSpeed" min="1" value="15000">
+          </div>
+          <div class="form-group">
+            <label>Number of Spindles</label>
+            <input type="number" id="numSpindles" min="1" value="100">
+          </div>
+          <div class="form-group">
+            <label>Machine Efficiency (%)</label>
+            <input type="number" id="efficiency" min="1" max="100" value="92">
+          </div>
+          <div class="form-group">
+            <label>Hours of Operation</label>
+            <input type="number" id="hours" min="1" value="8">
+          </div>
+        </div>
+        
+        <div class="panel spinning">
+          <h2><i class="fas fa-weight-hanging"></i> Yarn Parameters</h2>
+          <div class="form-group">
+            <label>Yarn Count</label>
+            <div class="input-group">
+              <input type="number" id="yarnCount" min="0.1" step="0.1" value="30" style="width: 100px;">
+              <select id="yarnCountSystem">
+                <option value="ne">Ne</option>
+                <option value="tex">Tex</option>
+                <option value="denier">Denier</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Twist Per Inch (TPI)</label>
+            <input type="number" id="tpi" min="0.1" step="0.1" value="18">
+          </div>
+          <div class="form-group">
+            <label>Twist Multiplier (TM)</label>
+            <input type="number" id="tm" min="0.1" step="0.1" value="3.2">
+          </div>
+          <div class="form-group">
+            <label>Yarn Waste (%)</label>
+            <input type="number" id="waste" min="0" max="20" value="3">
+          </div>
+        </div>
+        
+        <div class="panel spinning">
+          <h2><i class="fas fa-money-bill-wave"></i> Cost Parameters</h2>
+          <div class="form-group">
+            <label>Power Cost (per kWh)</label>
+            <input type="number" id="powerCost" min="0" step="0.01" value="0.15">
+          </div>
+          <div class="form-group">
+            <label>Machine Power (kW)</label>
+            <input type="number" id="machinePower" min="0" step="0.1" value="25">
+          </div>
+          <div class="form-group">
+            <label>Labor Cost (per hour)</label>
+            <input type="number" id="laborCost" min="0" step="0.01" value="12">
+          </div>
+          <div class="form-group">
+            <label>Raw Material Cost (per kg)</label>
+            <input type="number" id="rawMaterialCost" min="0" step="0.01" value="4.5">
+          </div>
+        </div>
+      </div>
+      
+      <div class="button-group">
+        <button class="calculate-btn" onclick="calculateSpinning()">
+          <i class="fas fa-calculator"></i> Calculate Spinning
+        </button>
+        <button class="reset-btn" onclick="resetForm('spinning')">
+          <i class="fas fa-redo"></i> Reset
+        </button>
+      </div>
+      
+      <div class="output spinning" id="spinning-result">
+        <h2><i class="fas fa-chart-line"></i> Spinning Results</h2>
+        <p>Enter your parameters and click "Calculate Spinning" to see results.</p>
+      </div>
+      
+      <div class="chart-container">
+        <h2><i class="fas fa-chart-bar"></i> Spinning Production Metrics</h2>
+        <canvas id="spinning-chart"></canvas>
+      </div>
+    </div>
+    
+    <!-- Conversion Tools -->
+    <div id="conversion-tab" class="tab-content">
+      <div class="conversion-tools">
+        <div class="conversion-tool">
+          <h2><i class="fas fa-exchange-alt"></i> Yarn Count Conversion</h2>
+          <div class="form-group">
+            <label>Convert From</label>
+            <select id="fromSystem">
+              <option value="ne">Cotton Count (Ne)</option>
+              <option value="tex">Tex</option>
+              <option value="denier">Denier</option>
+              <option value="dtex">Decitex (dtex)</option>
+              <option value="ktex">Kilotex (ktex)</option>
+              <option value="grex">Grex</option>
+              <option value="metric">Metric Count (Nm)</option>
+              <option value="worsted">Worsted Count (Nw)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Value</label>
+            <input type="number" id="convertValue" min="0.1" step="0.1" value="30" oninput="convertYarnCount()">
+          </div>
+          <div class="form-group">
+            <label>Convert To</label>
+            <select id="toSystem" onchange="convertYarnCount()">
+              <option value="tex">Tex</option>
+              <option value="ne">Cotton Count (Ne)</option>
+              <option value="denier">Denier</option>
+              <option value="dtex">Decitex (dtex)</option>
+              <option value="ktex">Kilotex (ktex)</option>
+              <option value="grex">Grex</option>
+              <option value="metric">Metric Count (Nm)</option>
+              <option value="worsted">Worsted Count (Nw)</option>
+            </select>
+          </div>
+          <div class="conversion-results" id="yarnConversionResult">
+            <p>Enter values to see conversion results</p>
+          </div>
+        </div>
+        
+        <div class="conversion-tool">
+          <h2><i class="fas fa-weight"></i> Weight to Count Calculator</h2>
+          <div class="form-group">
+            <label>Weight (grams)</label>
+            <input type="number" id="weightInput" min="0.1" step="0.1" value="1" oninput="calculateWeightToCount()">
+          </div>
+          <div class="form-group">
+            <label>Length (meters)</label>
+            <input type="number" id="lengthInput" min="0.1" step="0.1" value="1000" oninput="calculateWeightToCount()">
+          </div>
+          <div class="conversion-results" id="weightToCountResult">
+            <p>Enter values to see count results</p>
+          </div>
+        </div>
+        
+        <div class="conversion-tool">
+          <h2><i class="fas fa-ruler-vertical"></i> Yarn Diameter Estimator</h2>
+          <div class="form-group">
+            <label>Yarn Count (Tex)</label>
+            <input type="number" id="diameterTex" min="0.1" step="0.1" value="20" oninput="calculateYarnDiameter()">
+          </div>
+          <div class="form-group">
+            <label>Yarn Density (g/cm³)</label>
+            <input type="number" id="yarnDensity" min="0.1" step="0.1" value="0.8" oninput="calculateYarnDiameter()">
+          </div>
+          <div class="conversion-results" id="yarnDiameterResult">
+            <p>Enter values to see diameter results</p>
+          </div>
+        </div>
+        
+        <div class="conversion-tool">
+          <h2><i class="fas fa-ruler-horizontal"></i> Length to Weight</h2>
+          <div class="form-group">
+            <label>Length (meters)</label>
+            <input type="number" id="ltwLength" min="0.1" step="0.1" value="1000" oninput="calculateLengthToWeight()">
+          </div>
+          <div class="form-group">
+            <label>Yarn Count System</label>
+            <select id="ltwSystem" onchange="calculateLengthToWeight()">
+              <option value="tex">Tex</option>
+              <option value="ne">Ne</option>
+              <option value="denier">Denier</option>
+              <option value="dtex">dtex</option>
+              <option value="ktex">ktex</option>
+              <option value="grex">Grex</option>
+              <option value="metric">Nm</option>
+              <option value="worsted">Nw</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Yarn Count Value</label>
+            <input type="number" id="ltwCount" min="0.01" step="0.01" value="30" oninput="calculateLengthToWeight()">
+          </div>
+          <div class="conversion-results" id="lengthToWeightResult">
+            <p>Enter values to see weight result</p>
+          </div>
+        </div>
+        
+        <div class="conversion-tool">
+          <h2><i class="fas fa-balance-scale"></i> Weight to Length</h2>
+          <div class="form-group">
+            <label>Weight (grams)</label>
+            <input type="number" id="wtlWeight" min="0.01" step="0.01" value="10" oninput="calculateWeightToLength()">
+          </div>
+          <div class="form-group">
+            <label>Yarn Count System</label>
+            <select id="wtlSystem" onchange="calculateWeightToLength()">
+              <option value="tex">Tex</option>
+              <option value="ne">Ne</option>
+              <option value="denier">Denier</option>
+              <option value="dtex">dtex</option>
+              <option value="ktex">ktex</option>
+              <option value="grex">Grex</option>
+              <option value="metric">Nm</option>
+              <option value="worsted">Nw</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Yarn Count Value</label>
+            <input type="number" id="wtlCount" min="0.01" step="0.01" value="30" oninput="calculateWeightToLength()">
+          </div>
+          <div class="conversion-results" id="weightToLengthResult">
+            <p>Enter values to see length result</p>
+          </div>
+        </div>
+        
+        <!-- NEW: Length Conversion Panel -->
+        <div class="conversion-tool">
+          <h2><i class="fas fa-ruler-horizontal"></i> Length Conversion</h2>
+          <div class="form-group">
+            <label>From</label>
+            <select id="lengthFromUnit" onchange="convertLengthUnits()">
+              <option value="m">Meters</option>
+              <option value="yd">Yards</option>
+              <option value="ft">Feet</option>
+              <option value="in">Inches</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Value</label>
+            <input type="number" id="lengthFromValue" min="0.0001" step="0.0001" value="1" oninput="convertLengthUnits()">
+          </div>
+          <div class="form-group">
+            <label>To</label>
+            <select id="lengthToUnit" onchange="convertLengthUnits()">
+              <option value="m">Meters</option>
+              <option value="yd">Yards</option>
+              <option value="ft">Feet</option>
+              <option value="in">Inches</option>
+            </select>
+          </div>
+          <div class="conversion-results" id="lengthConversionResult">
+            <p>Enter values to see conversion result</p>
+          </div>
+        </div>
+        <!-- NEW: Weight Conversion Panel -->
+        <div class="conversion-tool">
+          <h2><i class="fas fa-weight-hanging"></i> Weight Conversion</h2>
+          <div class="form-group">
+            <label>From</label>
+            <select id="weightFromUnit" onchange="convertWeightUnits()">
+              <option value="g">Grams</option>
+              <option value="kg">Kilograms</option>
+              <option value="lb">Pounds</option>
+              <option value="oz">Ounces</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Value</label>
+            <input type="number" id="weightFromValue" min="0.0001" step="0.0001" value="1" oninput="convertWeightUnits()">
+          </div>
+          <div class="form-group">
+            <label>To</label>
+            <select id="weightToUnit" onchange="convertWeightUnits()">
+              <option value="g">Grams</option>
+              <option value="kg">Kilograms</option>
+              <option value="lb">Pounds</option>
+              <option value="oz">Ounces</option>
+            </select>
+          </div>
+          <div class="conversion-results" id="weightConversionResult">
+            <p>Enter values to see conversion result</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="info-section">
+        <h2><i class="fas fa-info-circle"></i> Yarn Count Systems</h2>
+        <div class="info-grid">
+          <div class="info-card">
+            <h3><i class="fas fa-cotton-bureau"></i> Cotton Count (Ne)</h3>
+            <p>The number of hanks (840 yards) per pound. Higher number indicates finer yarn. Commonly used for cotton yarns.</p>
+          </div>
+          <div class="info-card">
+            <h3><i class="fas fa-weight"></i> Tex</h3>
+            <p>Weight in grams of 1000 meters of yarn. Lower number indicates finer yarn. International standard system.</p>
+          </div>
+          <div class="info-card">
+            <h3><i class="fas fa-thin"></i> Denier</h3>
+            <p>Weight in grams of 9000 meters of yarn. Primarily used for filament yarns like silk and synthetics.</p>
+          </div>
+          <div class="info-card">
+            <h3><i class="fas fa-globe-europe"></i> Metric Count (Nm)</h3>
+            <p>Number of kilometers per kilogram of yarn. Higher number indicates finer yarn. Used in European countries.</p>
+          </div>
+          <div class="info-card">
+            <h3><i class="fas fa-wool"></i> Worsted Count (Nw)</h3>
+            <p>Number of hanks (560 yards) per pound. Used for worsted wool yarns. Similar to cotton count but with different hank length.</p>
+          </div>
+          <div class="info-card">
+            <h3><i class="fas fa-ruler"></i> Decitex (dtex)</h3>
+            <p>Weight in grams of 10,000 meters of yarn. 1 dtex = 0.1 tex. Common for microfibers and technical textiles.</p>
+          </div>
+        </div>
+    
+        
+<div class="panel count">
+        <h2><i class="fas fa-balance-scale"></i> Yarn Count Systems</h2>
+        
+        <div class="system-grid">
+          <div class="system-card">
+            <h3><i class="fas fa-ruler"></i> Indirect System (Ne)</h3>
+            <p>Total number of hanks per one pound is the count of that yarn.</p>
+            <div class="formula-content">
+              Count = Length in hanks (840 yards) / Weight in Pounds
+            </div>
+            <p>Higher yarn count (Ne) means finer yarn.</p>
+            <ul>
+              <li>1 Lea = 120 yards</li>
+              <li>7 Leas = 1 hank</li>
+              <li>1 Hank = 840 yards or 768 meters</li>
+            </ul>
+          </div>
+          
+          <div class="system-card">
+            <h3><i class="fas fa-weight"></i> Direct System (Denier)</h3>
+            <p>Weight in grams per 9,000 meters of yarn.</p>
+            <div class="formula-content">
+              Count = Weight in grams / 9,000 meters
+            </div>
+            <p>Higher denier means coarser yarn.</p>
+            <p>Used for filament yarns like silk, nylon, polyester.</p>
+          </div>
+          
+          <div class="system-card">
+            <h3><i class="fas fa-globe"></i> Universal System (Tex)</h3>
+            <p>Number of grams per 1,000 meters of yarn.</p>
+            <div class="formula-content">
+              Count = Weight in grams / 1,000 meters
+            </div>
+            <p>Standard international system for yarn count.</p>
+          </div>
+        </div>
+        
+        <div class="formula-card">
+          <div class="formula-header">
+            <i class="fas fa-exchange-alt"></i>
+            <h3>Conversion Formulas</h3>
+          </div>
+          <div class="formula-content">
+            Denier = 5315 / Ne<br>
+            Tex = 590.5 / Ne<br>
+            English (Ne) = Nf × 1.181
+          </div>
+          <div class="formula-explanation">
+            Where Ne is English count, Nf is French count
+          </div>
+        </div>
+        
+        <div class="system-grid">
+          <div class="system-card">
+            <h3><i class="fas fa-flag"></i> French Count (Nf)</h3>
+            <p>Number of 1,000 meters length in 0.5 kg of yarn.</p>
+          </div>
+          
+          <div class="system-card">
+            <h3><i class="fas fa-ruler-combined"></i> Metric System (Nm)</h3>
+            <p>Number of 1,000 meters length per kg of yarn.</p>
+          </div>
+          
+          <div class="system-card">
+            <h3><i class="fas fa-wool"></i> Worsted System</h3>
+            <p>Number of 560 yards in one pound.</p>
+          </div>
+          
+          <div class="system-card">
+            <h3><i class="fas fa-leaf"></i> Linen System</h3>
+            <p>Number of leas (300 yards) per pound.</p>
+          </div>
+          
+          <div class="system-card">
+            <h3><i class="fas fa-tree"></i> Hemp, Jute, Flax</h3>
+            <p>Number of 14,400 yards length per pound of yarn.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+        
+    </div>
+    </div>
+    
+    <!-- Quality Analysis -->
+    <div id="quality-tab" class="tab-content">
+      <div class="calculator-grid">
+        <div class="panel quality">
+          <h2><i class="fas fa-chart-line"></i> Quality Parameters</h2>
+          <div class="form-group">
+            <label>CV% (Coefficient of Variation)</label>
+            <input type="number" id="cvPercent" min="0" step="0.1" value="12.5">
+          </div>
+          <div class="form-group">
+            <label>U% (Yarn Unevenness)</label>
+            <input type="number" id="uPercent" min="0" step="0.1" value="10.2">
+          </div>
+          <div class="form-group">
+            <label>Thin Places (-50%) per km</label>
+            <input type="number" id="thinPlaces" min="0" value="15">
+          </div>
+          <div class="form-group">
+            <label>Thick Places (+50%) per km</label>
+            <input type="number" id="thickPlaces" min="0" value="25">
+          </div>
+          <div class="form-group">
+            <label>Neps (+200%) per km</label>
+            <input type="number" id="neps" min="0" value="35">
+          </div>
+          <div class="form-group">
+            <label>Hairiness Index</label>
+            <input type="number" id="hairiness" min="0" step="0.1" value="4.2">
+          </div>
+        </div>
+        
+        <div class="panel quality">
+          <h2><i class="fas fa-cogs"></i> Machine Settings</h2>
+          <div class="form-group">
+            <label>Yarn Count (Ne)</label>
+            <input type="number" id="qualityYarnCount" min="0.1" step="0.1" value="30">
+          </div>
+          <div class="form-group">
+            <label>Twist Per Inch (TPI)</label>
+            <input type="number" id="qualityTpi" min="0.1" step="0.1" value="18">
+          </div>
+          <div class="form-group">
+            <label>Spindle Speed (RPM)</label>
+            <input type="number" id="qualitySpindleSpeed" min="1" value="15000">
+          </div>
+        </div>
+        
+        <div class="panel defect">
+          <h2><i class="fas fa-exclamation-triangle"></i> Defect Analysis</h2>
+          <div class="form-group">
+            <label>Thin Places (-50%) per km</label>
+            <input type="number" id="defectThinPlaces" min="0" value="15">
+          </div>
+          <div class="form-group">
+            <label>Thick Places (+50%) per km</label>
+            <input type="number" id="defectThickPlaces" min="0" value="25">
+          </div>
+          <div class="form-group">
+            <label>Neps (+200%) per km</label>
+            <input type="number" id="defectNeps" min="0" value="35">
+          </div>
+          <div class="form-group">
+            <label>Hairiness Index</label>
+            <input type="number" id="defectHairiness" min="0" step="0.1" value="4.2">
+          </div>
+        </div>
+      </div>
+      
+      <div class="button-group">
+        <button class="calculate-btn" onclick="calculateQuality()">
+          <i class="fas fa-calculator"></i> Analyze Quality
+        </button>
+        <button class="reset-btn" onclick="resetForm('quality')">
+          <i class="fas fa-redo"></i> Reset
+        </button>
+      </div>
+      
+      <div class="output" id="quality-result">
+        <h2><i class="fas fa-chart-line"></i> Quality Analysis Results</h2>
+        <p>Enter your parameters and click "Analyze Quality" to see results.</p>
+      </div>
+      
+      <div class="chart-container">
+        <h2><i class="fas fa-chart-pie"></i> Quality Metrics</h2>
+        <canvas id="quality-chart"></canvas>
+      </div>
+    </div>
+
+
+    <!-- Add the Warping tab content -->
+<div id="warping-tab" class="tab-content">
+  <div class="calculator-grid">
+    <div class="panel">
+      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 220px; background: linear-gradient(90deg, #007bff 0%, #48dbfb 100%); border-radius: 18px; box-shadow: 0 6px 24px rgba(0,0,0,0.13); margin: 40px 0;">
+  <i class="fas fa-tools fa-3x" style="color: #fff; margin-bottom: 18px; animation: wrench-spin 2s infinite linear;"></i>
+  <h2 style="color: #fff; font-size: 2rem; font-weight: 700; text-shadow: 0 2px 12px rgba(0,0,0,0.18); margin-bottom: 10px;">
+    Warping Tab is Under Maintenance
+  </h2>
+  <p style="color: #fff; font-size: 1.1rem; text-align: center; max-width: 420px; margin-bottom: 12px;">
+    We're working hard to bring you advanced warping calculations.<br>
+    Please check back soon!
+  </p>
+  <span style="background: rgba(255,255,255,0.13); color: #fff; padding: 8px 22px; border-radius: 24px; font-weight: 600; font-size: 1rem;">
+    <i class="fas fa-hourglass-half"></i> Expected Update: August 2025
+  </span>
+</div>
+<style>
+@keyframes wrench-spin {
+  0% { transform: rotate(0deg);}
+  100% { transform: rotate(360deg);}
+}
+</style>
+      
+      <h2><i class="fas fa-ruler-horizontal"></i> Warping Calculator</h2>
+      <div class="form-group">
+        <label>Total Ends</label>
+        <input type="number" id="warpingEnds" min="1" value="4800">
+      </div>
+      <div class="form-group">
+        <label>Warp Length (meters)</label>
+        <input type="number" id="warpingLength" min="1" value="1000">
+      </div>
+      <div class="form-group">
+        <label>Yarn Count</label>
+        <div class="input-group">
+          <input type="number" id="warpingCount" min="0.1" step="0.1" value="40" style="width: 100px;">
+          <select id="warpingSystem">
+            <option value="ne">Ne</option>
+            <option value="tex">Tex</option>
+            <option value="denier">Denier</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Crimp %</label>
+        <input type="number" id="warpingCrimp" min="0" value="8">
+      </div>
+      <div class="form-group">
+        <label>Number of Beams</label>
+        <input type="number" id="warpingBeams" min="1" value="1">
+      </div>
+      <div class="form-group">
+        <label>Package Weight (gm)</label>
+        <input type="number" id="warpingPackageWeight" min="0.1" step="0.1" value="1000">
+      </div>
+    </div>
+  </div>
+  <div class="button-group">
+    <button class="calculate-btn" onclick="calculateWarping()">
+      <i class="fas fa-calculator"></i> Calculate Warping
+    </button>
+    <button class="reset-btn" onclick="resetForm('warping')">
+      <i class="fas fa-redo"></i> Reset
+    </button>
+  </div>
+  <div class="output" id="warping-result">
+    <h2><i class="fas fa-chart-line"></i> Warping Results</h2>
+    <p>Enter your parameters and click "Calculate Warping" to see results.</p>
+  </div>
+</div>
+    
+  <!-- <div class="footer-container">
+  <div class="footer-content">
+    <p>Advanced Textile Engineering Suite &copy; 2025 | Designed for Textile Professionals</p>
+    <p>Developed by Textile Engineers for Textile Engineers</p>   
+  </div>
+  </div> -->
+
+    
+    <!-- <div class="footer">
+      <p>Advanced Textile Engineering Suite &copy; 2025 | Designed for Textile Professionals</p>
+    </div>
+  </div> -->
+
+  <!-- 3. Add the tab content just before the footer (after warping-tab): -->
+<div id="weavedesigns-tab" class="tab-content">
+  <div class="calculator-grid">
+    <div class="panel">
+      
+          <!-- ...existing code... -->
+<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 220px; background: linear-gradient(90deg, #007bff 0%, #48dbfb 100%); border-radius: 18px; box-shadow: 0 6px 24px rgba(0,0,0,0.13); margin: 40px 0;">
+  <i class="fas fa-tools fa-3x" style="color: #fff; margin-bottom: 18px; animation: wrench-spin 2s infinite linear;"></i>
+  <h2 style="color: #fff; font-size: 2rem; font-weight: 700; text-shadow: 0 2px 12px rgba(0,0,0,0.18); margin-bottom: 10px;">
+    Weave Design Tab is Under Maintenance
+  </h2>
+  <p style="color: #fff; font-size: 1.1rem; text-align: center; max-width: 420px; margin-bottom: 12px;">
+    We're working hard to bring you advanced Weave Design.<br>
+    Please check back soon!
+  </p>
+  <span style="background: rgba(255,255,255,0.13); color: #fff; padding: 8px 22px; border-radius: 24px; font-weight: 600; font-size: 1rem;">
+    <i class="fas fa-hourglass-half"></i> Expected Update: September 2025
+  </span>
+</div>
+<style>
+@keyframes wrench-spin {
+  0% { transform: rotate(0deg);}
+  100% { transform: rotate(360deg);}
+}
+</style>
+      <h2><i class="fas fa-border-style"></i> Weave Designs Library</h2>
+      <p>Explore basic weave patterns and their structures:</p>
+      <div class="info-grid">
+        <div class="info-card">
+          <h3><i class="fas fa-th"></i> Plain Weave</h3>
+          <p>Each warp alternates over and under each weft. Most basic and strong weave.</p>
+        </div>
+        <div class="info-card">
+          <h3><i class="fas fa-grip-lines"></i> Twill Weave</h3>
+          <p>Diagonal lines formed by passing the weft over two or more warps. Used for denim, gabardine.</p>
+        </div>
+        <div class="info-card">
+          <h3><i class="fas fa-grip-horizontal"></i> Satin Weave</h3>
+          <p>Long floats of warp or weft yarns, giving a smooth surface and sheen. Used for satins.</p>
+        </div>
+        <div class="info-card">
+          <h3><i class="fas fa-border-none"></i> Basket Weave</h3>
+          <p>Groups of warp and weft threads interlaced. Used for towels, canvas.</p>
+        </div>
+        <div class="info-card">
+          <h3><i class="fas fa-grip-vertical"></i> Herringbone</h3>
+          <p>Twill weave with a zigzag pattern. Used for suiting and jackets.</p>
+        </div>
+      </div>
+      <div style="margin-top:20px;">
+        <h3>Want to design your own weave?</h3>
+        <a href="Weave Designer.html" class="toggle-mode" style="display:inline-block;text-decoration:none;">
+          <i class="fas fa-pencil-ruler"></i> Open Weave Designer
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer-container">
+   <div class="footer">
+      <p>Advanced Textile Engineering Suite &copy; 2025 | Designed for Textile Professionals</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- Add after warping-tab and before weavedesigns-tab -->
+<div id="projectreport-tab" class="tab-content">
+  <div class="calculator-grid">
+    <div class="panel">
+      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 220px; background: linear-gradient(90deg, #7952b3 0%, #48dbfb 100%); border-radius: 18px; box-shadow: 0 6px 24px rgba(0,0,0,0.13); margin: 40px 0;">
+        <i class="fas fa-file-alt fa-3x" style="color: #fff; margin-bottom: 18px;"></i>
+        <h2 style="color: #fff; font-size: 2rem; font-weight: 700; text-shadow: 0 2px 12px rgba(0,0,0,0.18); margin-bottom: 10px;">
+          Project Report On Beam Gaiting
+        </h2>
+        <h2 style="color: red; font-size: xx-large;">
+          Comming Soon....
+        </h2>
+        <p style="color: #fff; font-size: 1.1rem; text-align: center; max-width: 420px; margin-bottom: 12px;">
+          Download or view your textile project report.<br>
+          Summarize calculations, results, and analysis for documentation or sharing.
+        </p>
+        <span style="background: rgba(255,255,255,0.13); color: #fff; padding: 8px 22px; border-radius: 24px; font-weight: 600; font-size: 1rem;">
+          <i class="fas fa-download"></i> Export as PDF or Print
+        </span>
+      </div>
+      <!-- <div style="text-align:center; margin-top:20px;">
+        <button class="beautiful-button" onclick="downloadPDF()">
+          <i class="fas fa-file-pdf"></i> Download PDF Report
+        </button>
+        <button class="button-alt" onclick="window.print()">
+          <i class="fas fa-print"></i> Print Report
+        </button>
+      </div>
+      <div style="margin-top:30px;">
+        <h3>What is included?</h3>
+        <ul style="text-align:left; color:#333; font-size:1.1rem; margin-left:30px;">
+          <li>Weaving, Spinning, Conversion, and Quality Analysis results</li>
+          <li>Charts and metrics for each calculation</li>
+          <li>Summary and recommendations</li>
+        </ul>
+      </div> -->
+    </div>
+  </div>
+</div>
+  <script>
+
+
+
+
+// ...existing code...
+
+function calculateWarping() {
+  const ends = parseFloat(document.getElementById('warpingEnds').value) || 0;
+  const length = parseFloat(document.getElementById('warpingLength').value) || 0;
+  const count = parseFloat(document.getElementById('warpingCount').value) || 0;
+  const system = document.getElementById('warpingSystem').value;
+  const crimp = parseFloat(document.getElementById('warpingCrimp').value) || 0;
+  const beams = parseFloat(document.getElementById('warpingBeams').value) || 1;
+  const pkgWeight = parseFloat(document.getElementById('warpingPackageWeight').value) || 0;
+
+  if (ends <= 0 || length <= 0 || count <= 0 || beams <= 0 || pkgWeight <= 0) {
+    document.getElementById('warping-result').innerHTML = `
+      <h2><i class="fas fa-exclamation-triangle"></i> Warping Results</h2>
+      <div class="result-card" style="background:#ffeeba; border-left:4px solid #ffc107;">
+        <h3>Input Error</h3>
+        <p>Please enter valid positive values for all fields</p>
+      </div>
+    `;
+    return;
+  }
+
+  // Convert count to Tex
+  let tex;
+  if (system === 'ne') tex = 590.5 / count;
+  else if (system === 'denier') tex = count / 9;
+  else tex = count;
+
+  // Total yarn length (meters), including crimp
+  const totalLength = length * (1 + crimp / 100) * ends;
+  // Total yarn weight (kg)
+  const totalWeight = (tex * totalLength) / 1000000;
+  // Weight per beam
+  const weightPerBeam = totalWeight / beams;
+  // Number of packages required
+  const packagesRequired = Math.ceil((totalWeight * 1000) / pkgWeight);
+
+  document.getElementById('warping-result').innerHTML = `
+    <h2><i class="fas fa-chart-line"></i> Warping Results</h2>
+    <div class="results-grid">
+      <div class="result-card">
+        <h3>Total Yarn Length</h3>
+        <p>${totalLength.toFixed(2)} meters</p>
+      </div>
+      <div class="result-card">
+        <h3>Total Yarn Weight</h3>
+        <p>${totalWeight.toFixed(3)} kg</p>
+      </div>
+      <div class="result-card">
+        <h3>Weight per Beam</h3>
+        <p>${weightPerBeam.toFixed(3)} kg</p>
+      </div>
+      <div class="result-card">
+        <h3>Packages Required</h3>
+        <p>${packagesRequired}</p>
+      </div>
+    </div>
+  `;
+}
+
+// Add tab switching for Warping tab
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    // ...existing code...
+    const tabName = tab.getAttribute('data-tab');
+    const selectedContent = document.getElementById(`${tabName}-tab`);
+    selectedContent.style.display = 'block';
+    setTimeout(() => {
+      selectedContent.classList.add('active');
+    }, 10);
+
+    // Initialize charts if needed
+    if (tabName === 'weaving' && selectedContent.classList.contains('active')) {
+      if (weavingChartInstance) {
+        weavingChartInstance.destroy();
+        calculateWeaving();
+      }
+    } else if (tabName === 'spinning' && selectedContent.classList.contains('active')) {
+      if (spinningChartInstance) {
+        spinningChartInstance.destroy();
+        calculateSpinning();
+      }
+    } else if (tabName === 'warping' && selectedContent.classList.contains('active')) {
+      calculateWarping();
+    }
+  });
+});
+
+// Add resetForm for warping
+function resetForm(type) {
+  if (type === 'warping') {
+    document.getElementById('warpingEnds').value = 4800;
+    document.getElementById('warpingLength').value = 1000;
+    document.getElementById('warpingCount').value = 40;
+    document.getElementById('warpingSystem').value = 'ne';
+    document.getElementById('warpingCrimp').value = 8;
+    document.getElementById('warpingBeams').value = 1;
+    document.getElementById('warpingPackageWeight').value = 1000;
+    document.getElementById('warping-result').innerHTML = `
+      <h2><i class="fas fa-chart-line"></i> Warping Results</h2>
+      <p>Enter your parameters and click "Calculate Warping" to see results.</p>
+    `;
+  }
+  // ...existing code for other types...
+}
+
+// ...existing code...
+
+
+
+
+
+
+
+
+    // Global variables
+    let weavingChartInstance;
+    let spinningChartInstance;
+    let qualityChartInstance;
+    
+    // Replace the existing tab switching code with this:
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    // Hide all tab contents first
+    document.querySelectorAll('.tab-content').forEach(content => {
+      content.classList.remove('active');
+      content.style.display = 'none';
+    });
+
+    // Remove active class from all tabs
+    document.querySelectorAll('.tab').forEach(t => {
+      t.classList.remove('active');
+    });
+
+    // Add active class to clicked tab
+    tab.classList.add('active');
+
+    // Show selected tab content
+    const tabName = tab.getAttribute('data-tab');
+    const selectedContent = document.getElementById(`${tabName}-tab`);
+    selectedContent.style.display = 'block';
+    
+    // Add active class after small delay to ensure display:block is applied
+    setTimeout(() => {
+      selectedContent.classList.add('active');
+    }, 10);
+
+    // Initialize charts if needed
+    if (tabName === 'weaving' && selectedContent.classList.contains('active')) {
+      if (weavingChartInstance) {
+        weavingChartInstance.destroy();
+        calculateWeaving();
+      }
+    } else if (tabName === 'spinning' && selectedContent.classList.contains('active')) {
+      if (spinningChartInstance) {
+        spinningChartInstance.destroy();
+        calculateSpinning();
+      }
+    }
+  });
+});
+
+// Initialize page - hide all tabs initially
+window.addEventListener('load', () => {
+  // Hide all tab contents on load
+  document.querySelectorAll('.tab-content').forEach(content => {
+    content.classList.remove('active');
+    content.style.display = 'none';
+  });
+});
+    
+    // Dark mode toggle
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+      const isDarkMode = document.body.classList.contains('dark-mode');
+      localStorage.setItem('darkMode', isDarkMode);
+    }
+    
+    // Weaving calculations
+    function convertCoverFactor(density, count, system) {
+      if (system === 'ne') return density / Math.sqrt(count);
+      if (system === 'tex') return density * Math.sqrt(count) / 1000;
+      if (system === 'denier') return density * Math.sqrt(count) / 3000;
+      return 0;
+    }
+
+    function getWeight(density, count, crimp, widthInches, length, system) {
+      let tex;
+      if (system === 'ne') tex = 590.5 / count;
+      else if (system === 'denier') tex = count / 9;
+      else tex = count;
+      
+      const adjustedDensity = density * (1 + crimp / 100);
+      return (adjustedDensity * widthInches * tex * length * 0.0254) / 1000000;
+    }
+
+    function calculateWeaving() {
+      // Get all input values
+      const epi = parseFloat(document.getElementById('epi').value) || 0;
+      const ppi = parseFloat(document.getElementById('ppi').value) || 0;
+      const warpCount = parseFloat(document.getElementById('warpCount').value) || 0;
+      const weftCount = parseFloat(document.getElementById('weftCount').value) || 0;
+      const warpSystem = document.getElementById('warpSystem').value;
+      const weftSystem = document.getElementById('weftSystem').value;
+      const widthInches = parseFloat(document.getElementById('width').value) || 0;
+      const lengthMeters = parseFloat(document.getElementById('length').value) || 0;
+      const rpm = parseFloat(document.getElementById('rpm').value) || 0;
+      const ppiProd = parseFloat(document.getElementById('ppiForProduction').value) || 0;
+      const reedCount = parseFloat(document.getElementById('reedCount').value) || 0;
+      const endsPerDent = parseFloat(document.getElementById('endsPerDent').value) || 0;
+      const warpCrimp = parseFloat(document.getElementById('warpCrimp').value) || 0;
+      const weftCrimp = parseFloat(document.getElementById('weftCrimp').value) || 0;
+      const yarnPrice = parseFloat(document.getElementById('yarnPrice').value) || 0;
+
+      // Validate inputs
+      if (epi <= 0 || ppi <= 0 || warpCount <= 0 || weftCount <= 0 || 
+          widthInches <= 0 || lengthMeters <= 0 || rpm <= 0 || ppiProd <= 0 || 
+          reedCount <= 0 || endsPerDent <= 0 || yarnPrice < 0) {
+        document.getElementById('weaving-result').innerHTML = `
+          <h2><i class="fas fa-exclamation-triangle"></i> Weaving Results</h2>
+          <div class="result-card" style="background:#ffeeba; border-left:4px solid #ffc107;">
+            <h3>Input Error</h3>
+            <p>Please enter valid positive values for all fields</p>
+          </div>
+        `;
+        return;
+      }
+
+      // Perform calculations
+      const warpCF = convertCoverFactor(epi, warpCount, warpSystem);
+      const weftCF = convertCoverFactor(ppi, weftCount, weftSystem);
+      const totalCF = warpCF + weftCF;
+
+      const widthMeters = widthInches * 0.0254;
+      const area = widthMeters * lengthMeters;
+
+      const warpWeight = getWeight(epi, warpCount, warpCrimp, 1, lengthMeters, warpSystem);
+      const weftWeight = getWeight(ppi, weftCount, weftCrimp, widthInches, 1, weftSystem);
+      const totalWeight = warpWeight + weftWeight;
+      const gsm = (totalWeight * 1000) / area;
+
+      const production = (rpm / ppiProd) * 0.0254;
+      const totalEnds = Math.round(epi * widthInches);
+      const totalDents = Math.ceil(totalEnds / endsPerDent);
+
+      const cost = totalWeight * yarnPrice;
+      const reedWidth = totalEnds / reedCount;
+      
+      const warpLength = lengthMeters * (1 + warpCrimp/100);
+      const weftLength = widthMeters * (1 + weftCrimp/100);
+      const totalYarnLength = (warpLength * totalEnds) + (weftLength * ppi * lengthMeters * 39.37);
+
+      // Display results
+      document.getElementById('weaving-result').innerHTML = `
+        <h2><i class="fas fa-chart-line"></i> Weaving Results</h2>
+        <div class="results-grid">
+          <div class="result-card">
+            <h3>Warp Cover Factor</h3>
+            <p>${warpCF.toFixed(2)}</p>
+          </div>
+          <div class="result-card">
+            <h3>Weft Cover Factor</h3>
+            <p>${weftCF.toFixed(2)}</p>
+          </div>
+          <div class="result-card">
+            <h3>Total Cover Factor</h3>
+            <p>${totalCF.toFixed(2)}</p>
+          </div>
+          <div class="result-card">
+            <h3>Fabric GSM</h3>
+            <p>${gsm.toFixed(2)} g/m²</p>
+          </div>
+          <div class="result-card">
+            <h3>Total Fabric Weight</h3>
+            <p>${totalWeight.toFixed(3)} kg</p>
+          </div>
+          <div class="result-card">
+            <h3>Fabric Cost</h3>
+            <p>₹${cost.toFixed(2)}</p>
+          </div>
+          <div class="result-card">
+            <h3>Production Rate</h3>
+            <p>${production.toFixed(2)} m/min</p>
+          </div>
+          <div class="result-card">
+            <h3>Reed Width Required</h3>
+            <p>${reedWidth.toFixed(2)} inches</p>
+          </div>
+          <div class="result-card">
+            <h3>Total Ends</h3>
+            <p>${totalEnds}</p>
+          </div>
+          <div class="result-card">
+            <h3>Total Dents</h3>
+            <p>${totalDents}</p>
+          </div>
+        </div>
+        <div style="margin-top:20px; background:#e9f7fe; padding:15px; border-radius:8px; border-left:4px solid #007bff;">
+          <h3>Denting Order</h3>
+          <p>${totalDents} dents for ${totalEnds} ends (${endsPerDent} ends/dent)</p>
+          <p style="margin-top:10px;">Total Yarn Length: ${(totalYarnLength/1000).toFixed(2)} km</p>
+        </div>
+      `;
+
+      // Create chart
+      const labels = ['Warp CF', 'Weft CF', 'GSM', 'Weight (kg)', 'Cost (₹)'];
+      const values = [warpCF, weftCF, gsm, totalWeight, cost];
+
+      if (weavingChartInstance) weavingChartInstance.destroy();
+      const ctx = document.getElementById('weaving-chart');
+      weavingChartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Fabric Metrics',
+            data: values,
+            backgroundColor: [
+              '#007bff', 
+              '#28a745', 
+              '#ffc107', 
+              '#17a2b8', 
+              '#dc3545'
+            ],
+            borderColor: [
+              '#0069d9', 
+              '#218838', 
+              '#e0a800', 
+              '#138496', 
+              '#c82333'
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              display: false
+            },
+            title: {
+              display: true,
+              text: 'Fabric Analysis Metrics',
+              font: {
+                size: 16
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              grid: {
+                color: 'rgba(0, 0, 0, 0.1)'
+              }
+            },
+            x: {
+              grid: {
+                display: false
+              }
+            }
+          }
+        }
+      });
+
+      // Save inputs to localStorage
+      localStorage.setItem('weavingCalcInputs', JSON.stringify({
+        epi, ppi, warpCount, weftCount, warpSystem, weftSystem, 
+        widthInches, lengthMeters, rpm, ppiProd, reedCount, 
+        endsPerDent, warpCrimp, weftCrimp, yarnPrice
+      }));
+    }
+    
+    // Spinning calculations
+    function calculateSpinning() {
+      // Get all input values
+      const spindleSpeed = parseFloat(document.getElementById('spindleSpeed').value) || 0;
+      const numSpindles = parseFloat(document.getElementById('numSpindles').value) || 0;
+      const efficiency = parseFloat(document.getElementById('efficiency').value) || 0;
+      const hours = parseFloat(document.getElementById('hours').value) || 0;
+      const yarnCount = parseFloat(document.getElementById('yarnCount').value) || 0;
+      const yarnSystem = document.getElementById('yarnCountSystem').value;
+      const tpi = parseFloat(document.getElementById('tpi').value) || 0;
+      const tm = parseFloat(document.getElementById('tm').value) || 0;
+      const waste = parseFloat(document.getElementById('waste').value) || 0;
+      const powerCost = parseFloat(document.getElementById('powerCost').value) || 0;
+      const machinePower = parseFloat(document.getElementById('machinePower').value) || 0;
+      const laborCost = parseFloat(document.getElementById('laborCost').value) || 0;
+      const rawMaterialCost = parseFloat(document.getElementById('rawMaterialCost').value) || 0;
+
+      // Validate inputs
+      if (spindleSpeed <= 0 || numSpindles <= 0 || efficiency <= 0 || hours <= 0 || 
+          yarnCount <= 0 || tpi <= 0 || waste < 0 || powerCost < 0 || 
+          machinePower < 0 || laborCost < 0 || rawMaterialCost < 0) {
+        document.getElementById('spinning-result').innerHTML = `
+          <h2><i class="fas fa-exclamation-triangle"></i> Spinning Results</h2>
+          <div class="result-card" style="background:#ffeeba; border-left:4px solid #ffc107;">
+            <h3>Input Error</h3>
+            <p>Please enter valid positive values for all fields</p>
+          </div>
+        `;
+        return;
+      }
+      
+      // Convert yarn count to Tex
+      let tex;
+      if (yarnSystem === 'ne') {
+        tex = 590.5 / yarnCount;
+      } else if (yarnSystem === 'denier') {
+        tex = yarnCount / 9;
+      } else {
+        tex = yarnCount;
+      }
+      
+      // Calculate production
+      const effDecimal = efficiency / 100;
+      const wasteDecimal = waste / 100;
+      
+      // Production in kg per spindle per hour
+      const prodPerSpindle = (spindleSpeed * 60 * effDecimal * tex) / (tpi * 1000 * 1000);
+      
+      // Total production
+      const totalProduction = prodPerSpindle * numSpindles * hours * (1 - wasteDecimal);
+      
+      // Calculate costs
+      const powerConsumption = machinePower * hours;
+      const powerCostTotal = powerConsumption * powerCost;
+      const laborCostTotal = laborCost * hours;
+      const materialCost = totalProduction * rawMaterialCost;
+      const totalCost = powerCostTotal + laborCostTotal + materialCost;
+      const costPerKg = totalCost / totalProduction;
+      
+      // Calculate yarn properties
+      const tpm = tpi * 39.37; // Convert TPI to TPM
+      const yarnDiameter = 0.0357 * Math.sqrt(tex / 0.8); // Assuming cotton density
+      
+      // Display results
+      document.getElementById('spinning-result').innerHTML = `
+        <h2><i class="fas fa-chart-line"></i> Spinning Results</h2>
+        <div class="results-grid">
+          <div class="result-card">
+            <h3>Production per Spindle</h3>
+            <p>${prodPerSpindle.toFixed(4)} kg/h</p>
+          </div>
+          <div class="result-card">
+            <h3>Total Production</h3>
+            <p>${totalProduction.toFixed(2)} kg</p>
+          </div>
+          <div class="result-card">
+            <h3>Power Cost</h3>
+            <p>₹${powerCostTotal.toFixed(2)}</p>
+          </div>
+          <div class="result-card">
+            <h3>Labor Cost</h3>
+            <p>₹${laborCostTotal.toFixed(2)}</p>
+          </div>
+          <div class="result-card">
+            <h3>Material Cost</h3>
+            <p>₹${materialCost.toFixed(2)}</p>
+          </div>
+          <div class="result-card">
+            <h3>Total Cost</h3>
+            <p>₹${totalCost.toFixed(2)}</p>
+          </div>
+          <div class="result-card">
+            <h3>Cost per kg</h3>
+            <p>₹${costPerKg.toFixed(2)}</p>
+          </div>
+          <div class="result-card">
+            <h3>Yarn Tex</h3>
+            <p>${tex.toFixed(2)}</p>
+          </div>
+          <div class="result-card">
+            <h3>Yarn Diameter</h3>
+            <p>${(yarnDiameter*1000).toFixed(1)} microns</p>
+          </div>
+          <div class="result-card">
+            <h3>Twist Per Meter (TPM)</h3>
+            <p>${tpm.toFixed(1)}</p>
+          </div>
+        </div>
+      `;
+      
+      // Create chart for spinning production
+      const labels = ['Production (kg)', 'Cost (₹)', 'Yarn Tex', 'TPM', 'Diameter (μm)'];
+      const values = [totalProduction, totalCost, tex, tpm, yarnDiameter*1000];
+
+      if (spinningChartInstance) spinningChartInstance.destroy();
+      const ctx = document.getElementById('spinning-chart');
+      spinningChartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Spinning Metrics',
+            data: values,
+            backgroundColor: '#9c27b0',
+            borderColor: '#7b1fa2',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              display: false
+            },
+            title: {
+              display: true,
+              text: 'Spinning Production Metrics',
+              font: {
+                size: 16
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              grid: {
+                color: 'rgba(0, 0, 0, 0.1)'
+              }
+            },
+            x: {
+              grid: {
+                display: false
+              }
+            }
+          }
+        }
+      });
+    }
+    
+    // Quality analysis calculations
+    function calculateQuality() {
+      // Get all input values
+      const cvPercent = parseFloat(document.getElementById('cvPercent').value) || 0;
+      const uPercent = parseFloat(document.getElementById('uPercent').value) || 0;
+      const thinPlaces = parseFloat(document.getElementById('thinPlaces').value) || 0;
+      const thickPlaces = parseFloat(document.getElementById('thickPlaces').value) || 0;
+      const neps = parseFloat(document.getElementById('neps').value) || 0;
+      const hairiness = parseFloat(document.getElementById('hairiness').value) || 0;
+      const yarnCount = parseFloat(document.getElementById('qualityYarnCount').value) || 0;
+      const tpi = parseFloat(document.getElementById('qualityTpi').value) || 0;
+      const spindleSpeed = parseFloat(document.getElementById('qualitySpindleSpeed').value) || 0;
+
+      // Validate inputs
+      if (cvPercent <= 0 || uPercent <= 0 || yarnCount <= 0) {
+        document.getElementById('quality-result').innerHTML = `
+          <h2><i class="fas fa-exclamation-triangle"></i> Quality Results</h2>
+          <div class="result-card" style="background:#ffeeba; border-left:4px solid #ffc107;">
+            <h3>Input Error</h3>
+            <p>Please enter valid positive values for all fields</p>
+          </div>
+        `;
+        return;
+      }
+      
+      // Calculate quality metrics
+      const tex = 590.5 / yarnCount;
+      const limitCV = 1.25 * cvPercent;
+      const indexOfIrregularity = (uPercent * Math.sqrt(tex)) / 1.414;
+      const blendCV = cvPercent * 0.85; // Placeholder calculation
+      
+      // Quality grading
+      let qualityGrade;
+      let gradeColor;
+      if (cvPercent < 10) {
+        qualityGrade = "Premium (USTER 5)";
+        gradeColor = "#4caf50";
+      } else if (cvPercent < 12) {
+        qualityGrade = "Excellent (USTER 4)";
+        gradeColor = "#8bc34a";
+      } else if (cvPercent < 14) {
+        qualityGrade = "Good (USTER 3)";
+        gradeColor = "#ffeb3b";
+      } else if (cvPercent < 16) {
+        qualityGrade = "Fair (USTER 2)";
+        gradeColor = "#ff9800";
+      } else {
+        qualityGrade = "Poor (USTER 1)";
+        gradeColor = "#f44336";
+      }
+      
+      // Defect classification
+      let defectClass;
+      const totalDefects = thinPlaces + thickPlaces + neps;
+      if (totalDefects < 30) defectClass = "Class 1 (Excellent)";
+      else if (totalDefects < 60) defectClass = "Class 2 (Good)";
+      else if (totalDefects < 100) defectClass = "Class 3 (Acceptable)";
+      else defectClass = "Class 4 (Poor)";
+      
+      // Display results
+      document.getElementById('quality-result').innerHTML = `
+        <h2><i class="fas fa-chart-line"></i> Quality Analysis Results</h2>
+        <div class="results-grid">
+          <div class="result-card">
+            <h3>CV%</h3>
+            <p>${cvPercent.toFixed(2)}%</p>
+            <div class="quality-indicator">
+              <div class="quality-bar">
+                <div class="quality-fill" style="width: ${Math.min(100, cvPercent*5)}%; background: ${gradeColor};"></div>
+              </div>
+              <div class="quality-label">${qualityGrade}</div>
+            </div>
+          </div>
+          <div class="result-card">
+            <h3>U% (Unevenness)</h3>
+            <p>${uPercent.toFixed(2)}%</p>
+          </div>
+          <div class="result-card">
+            <h3>Limit CV%</h3>
+            <p>${limitCV.toFixed(2)}%</p>
+          </div>
+          <div class="result-card">
+            <h3>Index of Irregularity</h3>
+            <p>${indexOfIrregularity.toFixed(2)}</p>
+          </div>
+          <div class="result-card">
+            <h3>CV of Blend</h3>
+            <p>${blendCV.toFixed(2)}%</p>
+          </div>
+        </div>
+        
+        <div class="grade-card">
+          <h3>Quality Grade: ${qualityGrade}</h3>
+          <p>Based on USTER standards for yarn count ${yarnCount} Ne</p>
+        </div>
+        
+        <div class="defect-card">
+          <h3>Defect Classification: ${defectClass}</h3>
+          <p>Thin places: ${thinPlaces}/km, Thick places: ${thickPlaces}/km, Neps: ${neps}/km</p>
+          <p>Hairiness Index: ${hairiness.toFixed(1)}</p>
+        </div>
+      `;
+      
+      // Create chart for quality metrics
+      const labels = ['CV%', 'U%', 'Thin Places', 'Thick Places', 'Neps', 'Hairiness'];
+      const values = [cvPercent, uPercent, thinPlaces, thickPlaces, neps, hairiness];
+
+      if (qualityChartInstance) qualityChartInstance.destroy();
+      const ctx = document.getElementById('quality-chart');
+      qualityChartInstance = new Chart(ctx, {
+        type: 'radar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Quality Metrics',
+            data: values,
+            backgroundColor: 'rgba(76, 175, 80, 0.2)',
+            borderColor: '#4caf50',
+            borderWidth: 2,
+            pointBackgroundColor: '#4caf50',
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor: '#4caf50'
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            r: {
+              angleLines: {
+                display: true
+              },
+              suggestedMin: 0,
+              suggestedMax: Math.max(20, Math.max(...values) * 1.2)
+            }
+          },
+          plugins: {
+            legend: {
+              display: false
+            },
+            title: {
+              display: true,
+              text: 'Yarn Quality Metrics',
+              font: {
+                size: 16
+              }
+            }
+          }
+        }
+      });
+    }
+    
+    // Conversion functions
+    function convertYarnCount() {
+      const fromSystem = document.getElementById('fromSystem').value;
+      const toSystem = document.getElementById('toSystem').value;
+      const value = parseFloat(document.getElementById('convertValue').value) || 0;
+      
+      if (value <= 0) {
+        document.getElementById('yarnConversionResult').innerHTML = `
+          <p>Please enter a valid positive value</p>
+        `;
+        return;
+      }
+      
+      // Convert to Tex first as a common denominator
+      let texValue;
+      
+      // Convert from source system to Tex
+      switch(fromSystem) {
+        case 'ne':
+          texValue = 590.5 / value;
+          break;
+        case 'tex':
+          texValue = value;
+          break;
+        case 'denier':
+          texValue = value / 9;
+          break;
+        case 'dtex':
+          texValue = value / 10;
+          break;
+        case 'ktex':
+          texValue = value * 1000;
+          break;
+        case 'grex':
+          texValue = value / 10;
+          break;
+        case 'metric':
+          texValue = 1000 / value;
+          break;
+        case 'worsted':
+          texValue = 885.8 / value;
+          break;
+        default:
+          texValue = value;
+      }
+      
+      // Convert from Tex to target system
+      let result;
+      switch(toSystem) {
+        case 'ne':
+          result = 590.5 / texValue;
+          break;
+        case 'tex':
+          result = texValue;
+          break;
+        case 'denier':
+          result = texValue * 9;
+          break;
+        case 'dtex':
+          result = texValue * 10;
+          break;
+        case 'ktex':
+          result = texValue / 1000;
+          break;
+        case 'grex':
+          result = texValue * 10;
+          break;
+        case 'metric':
+          result = 1000 / texValue;
+          break;
+        case 'worsted':
+          result = 885.8 / texValue;
+          break;
+        default:
+          result = texValue;
+      }
+      
+      // Get system names for display
+
+      const systemNames = {
+        'ne': 'Cotton Count (Ne)',
+        'tex': 'Tex',
+        'denier': 'Denier',
+        'dtex': 'Decitex (dtex)',
+        'ktex': 'Kilotex (ktex)',
+        'grex': 'Grex',
+        'metric': 'Metric Count (Nm)',
+        'worsted': 'Worsted Count (Nw)'
+      };
+      
+      document.getElementById('yarnConversionResult').innerHTML = `
+        <p>${value.toFixed(2)} ${systemNames[fromSystem]} =</p>
+        <h3>${result.toFixed(2)} ${systemNames[toSystem]}</h3>
+      `;
+    }
+    
+    function calculateWeightToCount() {
+      const weight = parseFloat(document.getElementById('weightInput').value) || 0;
+      const length = parseFloat(document.getElementById('lengthInput').value) || 0;
+      
+      if (weight <= 0 || length <= 0) {
+        document.getElementById('weightToCountResult').innerHTML = `
+          <p>Please enter valid positive values</p>
+        `;
+        return;
+      }
+      
+      // Calculate Tex: weight in grams per 1000 meters
+      const tex = (weight / length) * 1000;
+      
+      // Calculate other count systems
+      const ne = 590.5 / tex;
+      const denier = tex * 9;
+      const dtex = tex * 10;
+      const ktex = tex / 1000;
+      const grex = tex * 10;
+      const metric = 1000 / tex;
+      const worsted = 885.8 / tex;
+      
+      document.getElementById('weightToCountResult').innerHTML = `
+        <p>For ${weight}g / ${length}m:</p>
+        <div class="count-system-grid">
+          <div class="count-system-card">
+            <h4>Tex</h4>
+            <p>${tex.toFixed(2)}</p>
+          </div>
+          <div class="count-system-card">
+            <h4>Ne</h4>
+            <p>${ne.toFixed(2)}</p>
+          </div>
+          <div class="count-system-card">
+            <h4>Denier</h4>
+            <p>${denier.toFixed(2)}</p>
+          </div>
+          <div class="count-system-card">
+            <h4>dtex</h4>
+            <p>${dtex.toFixed(2)}</p>
+          </div>
+          <div class="count-system-card">
+            <h4>ktex</h4>
+            <p>${ktex.toFixed(4)}</p>
+          </div>
+          <div class="count-system-card">
+            <h4>Grex</h4>
+            <p>${grex.toFixed(2)}</p>
+          </div>
+          <div class="count-system-card">
+            <h4>Nm</h4>
+            <p>${metric.toFixed(2)}</p>
+          </div>
+          <div class="count-system-card">
+            <h4>Nw</h4>
+            <p>${worsted.toFixed(2)}</p>
+          </div>
+        </div>
+      `;
+    }
+    
+    function calculateYarnDiameter() {
+      const tex = parseFloat(document.getElementById('diameterTex').value) || 0;
+      const density = parseFloat(document.getElementById('yarnDensity').value) || 0.8;
+      
+      if (tex <= 0 || density <= 0) {
+        document.getElementById('yarnDiameterResult').innerHTML = `
+          <p>Please enter valid positive values</p>
+        `;
+        return;
+      }
+      
+      // Formula: diameter (mm) = 0.0357 * sqrt(tex / density)
+      const diameter = 0.0357 * Math.sqrt(tex / density);
+      
+      document.getElementById('yarnDiameterResult').innerHTML = `
+        <p>Yarn Diameter:</p>
+        <h3>${diameter.toFixed(4)} mm</h3>
+        <p>or ${(diameter*1000).toFixed(1)} microns</p>
+      `;
+    }
+    
+    // Length to Weight conversion
+    function calculateLengthToWeight() {
+      const length = parseFloat(document.getElementById('ltwLength').value) || 0;
+      const count = parseFloat(document.getElementById('ltwCount').value) || 0;
+      const system = document.getElementById('ltwSystem').value;
+      if (length <= 0 || count <= 0) {
+        document.getElementById('lengthToWeightResult').innerHTML = `<p>Please enter valid positive values</p>`;
+        return;
+      }
+      // Convert count to tex
+      let tex;
+      switch(system) {
+        case 'ne': tex = 590.5 / count; break;
+        case 'tex': tex = count; break;
+        case 'denier': tex = count / 9; break;
+        case 'dtex': tex = count / 10; break;
+        case 'ktex': tex = count * 1000; break;
+        case 'grex': tex = count / 10; break;
+        case 'metric': tex = 1000 / count; break;
+        case 'worsted': tex = 885.8 / count; break;
+        default: tex = count;
+      }
+      // Weight (g) = (tex * length) / 1000
+      const weight = (tex * length) / 1000;
+      document.getElementById('lengthToWeightResult').innerHTML = `
+        <p>For ${length} m, ${count} ${system}:</p>
+        <h3>${weight.toFixed(4)} grams</h3>
+      `;
+    }
+
+    // Weight to Length conversion
+    function calculateWeightToLength() {
+      const weight = parseFloat(document.getElementById('wtlWeight').value) || 0;
+      const count = parseFloat(document.getElementById('wtlCount').value) || 0;
+      const system = document.getElementById('wtlSystem').value;
+      if (weight <= 0 || count <= 0) {
+        document.getElementById('weightToLengthResult').innerHTML = `<p>Please enter valid positive values</p>`;
+        return;
+      }
+      // Convert count to tex
+      let tex;
+      switch(system) {
+        case 'ne': tex = 590.5 / count; break;
+        case 'tex': tex = count; break;
+        case 'denier': tex = count / 9; break;
+        case 'dtex': tex = count / 10; break;
+        case 'ktex': tex = count * 1000; break;
+        case 'grex': tex = count / 10; break;
+        case 'metric': tex = 1000 / count; break;
+        case 'worsted': tex = 885.8 / count; break;
+        default: tex = count;
+      }
+      // Length (m) = (weight * 1000) / tex
+      const length = (weight * 1000) / tex;
+      document.getElementById('weightToLengthResult').innerHTML = `
+        <p>For ${weight} g, ${count} ${system}:</p>
+        <h3>${length.toFixed(2)} meters</h3>
+      `;
+    }
+
+    
+    // Initialize page
+    window.onload = function() {
+      // Load saved inputs
+      const savedWeaving = JSON.parse(localStorage.getItem('weavingCalcInputs'));
+      if (savedWeaving) {
+        for (const key in savedWeaving) {
+          if (document.getElementById(key)) {
+            document.getElementById(key).value = savedWeaving[key];
+          }
+        }
+      }
+      
+      // Apply dark mode if saved
+      const darkMode = localStorage.getItem('darkMode') === 'true';
+      if (darkMode) {
+        document.body.classList.add('dark-mode');
+      }
+      
+      // Calculate with saved values
+      if (savedWeaving) calculateWeaving();
+      
+      // Initialize conversion tools
+      convertYarnCount();
+      calculateWeightToCount();
+      calculateYarnDiameter();
+      calculateLengthToWeight();
+      calculateWeightToLength();
+      // Initialize new conversion panels
+      convertLengthUnits();
+      convertWeightUnits();
+    }
+    
+    // Time to empty package calculation
+    function calculatePackageTime() {
+      const pkgWeight = parseFloat(document.getElementById('packageWeight').value) || 0;
+      const pkgNe = parseFloat(document.getElementById('packageNe').value) || 0;
+      const pkgReedWidthInches = parseFloat(document.getElementById('packageReedWidth').value) || 0;
+      const pkgRpm = parseFloat(document.getElementById('packageRpm').value) || 0;
+
+      if (pkgWeight <= 0 || pkgNe <= 0 || pkgReedWidthInches <= 0 || pkgRpm <= 0) {
+        document.getElementById('packageTimeResult').innerHTML = `
+          <div class="result-card" style="background:#ffeeba; border-left:4px solid #ffc107;">
+            <h3>Input Error</h3>
+            <p>Please enter valid positive values for all fields</p>
+          </div>
+        `;
+        return;
+      }
+
+      // Length of yarn in package (m) = (package weight (in gm.) × 840 × 0.9144 × Ne) / (453.6)
+      const yarnLength = (pkgWeight * 840 * 0.9144 * pkgNe) / 453.6;
+
+      // Reed width in meters
+      const reedWidthMeters = pkgReedWidthInches * 0.0254;
+
+      // Length consumed in 1 min = Reed Width (in meters) × rpm
+      const lengthPerMin = reedWidthMeters * pkgRpm;
+
+      // Time taken to empty a package = yarnLength / lengthPerMin (in minutes)
+      const timeMinutes = yarnLength / lengthPerMin;
+
+      // Convert to hours and minutes for display
+      const hours = Math.floor(timeMinutes / 60);
+      const minutes = Math.floor(timeMinutes % 60);
+      const seconds = Math.round((timeMinutes * 60) % 60);
+
+      document.getElementById('packageTimeResult').innerHTML = `
+        <div class="result-card">
+          <h3>Length of Yarn in Package</h3>
+          <p>${yarnLength.toFixed(2)} meters</p>
+        </div>
+        <div class="result-card">
+          <h3>Length Consumed per Minute</h3>
+          <p>${lengthPerMin.toFixed(2)} meters/min</p>
+        </div>
+        <div class="result-card">
+          <h3>Time to Empty Package</h3>
+          <p>${timeMinutes.toFixed(2)} minutes<br>
+          (${hours} hr ${minutes} min ${seconds} sec)</p>
+        </div>
+      `;
+    }
+  </script>
+
+          <!-- Add this above </body> -->
+<!-- <div id="global-countdown" style="position:fixed;bottom:30px;right:30px;z-index:9999;background:#007bff;color:#fff;padding:18px 28px;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,0.18);font-size:1.2rem;font-weight:600;display:flex;align-items:center;gap:16px;">
+  <span id="countdown-label"><i class="fas fa-gift"></i> FREE Only for Seven Days:</span>
+  <span id="countdown-timer"></span>
+</div>
+<div id="payment-contact" style="display:none;position:fixed;bottom:30px;right:30px;z-index:9999;background:#dc3545;color:#fff;padding:18px 28px;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,0.18);font-size:1.2rem;font-weight:600;">
+  <i class="fas fa-lock"></i> FREE period ended.<br>
+  <a href="contact.html" style="color:#fff;text-decoration:underline;font-weight:700;">Payment For Contact</a>
+</div>
+<script>
+// filepath: c:\Users\DELL\OneDrive\Desktop\Abhishek\HTML\Self Projects\Textile Calculations\Textile Engineering Suite.html
+// ...existing code...
+
+(function(){
+  // Set target end date/time: 21 Aug 2025, 13:00 local time
+  const endDate = new Date(2025, 6, 31, 13, 0, 0); // Month is 0-based (7=August)
+  const countdownDiv = document.getElementById('global-countdown');
+  const timerSpan = document.getElementById('countdown-timer');
+  const paymentDiv = document.getElementById('payment-contact');
+
+  function updateCountdown() {
+    const now = new Date();
+    const diff = endDate - now;
+    if (diff > 0) {
+      const days = Math.floor(diff / (1000*60*60*24));
+      const hours = Math.floor((diff / (1000*60*60)) % 24);
+      const mins = Math.floor((diff / (1000*60)) % 60);
+      const secs = Math.floor((diff / 1000) % 60);
+      timerSpan.textContent = `${days}d ${hours}h ${mins}m ${secs}s`;
+    } else {
+      // Time expired: redirect to contact.html
+      window.location.href = "contact.html";
+      clearInterval(timer);
+    }
+  }
+  updateCountdown();
+  const timer = setInterval(updateCountdown, 1000);
+})();
+// ...existing code...
+</script> -->
+</body>
+</html>
