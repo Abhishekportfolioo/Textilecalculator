@@ -1,3 +1,4 @@
+<!-- only Form with name ,phone in admin  DEEPSEEK  -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -332,6 +333,58 @@
       width: auto;
     }
     
+    /* Trial Users Tracking Styles */
+    .trial-users-section {
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 15px;
+      border-left: 5px solid #6c757d;
+    }
+    .trial-users-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
+    .trial-users-table th, .trial-users-table td {
+      color: black;  
+      padding: 8px 12px;
+      border: 1px solid #dee2e6;
+      text-align: left;
+    }
+    .trial-users-table th {
+      background-color: #6c757d;
+      color: white;
+    }
+    .trial-users-table tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    .trial-stats {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+    }
+    .stat-box {
+      background: white;
+      padding: 10px 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      flex: 1;
+      margin: 0 5px;
+      text-align: center;
+    }
+    .stat-box h5 {
+      margin: 0 0 5px 0;
+      color: #6c757d;
+    }
+    .stat-box p {
+      margin: 0;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #495057;
+    }
+    
     @media (max-width: 768px) {
       .container {
         margin: 20px;
@@ -359,11 +412,92 @@
         height: 95%;
         margin: 1% auto;
       }
+      .trial-stats {
+        flex-direction: column;
+      }
+      .stat-box {
+        margin: 5px 0;
+      }
     }
+
+
+
+
+
+
+
+
+/* Trial Form Modal Styles */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+  }
+  
+  .modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 5px 30px rgba(0,0,0,0.3);
+    animation: modalopen 0.5s;
+  }
+  
+  @keyframes modalopen {
+    from { opacity: 0; transform: translateY(-50px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .close-modal {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  
+  .close-modal:hover {
+    color: #333;
+    transform: rotate(90deg);
+  }
+  
+  .submit-trial-btn {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    transition: all 0.3s ease;
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  .submit-trial-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+  }
+  
+  .submit-trial-btn:active {
+    transform: translateY(-1px);
+  }
+
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
- <!-- Website Preview Modal -->
+<body>
+  <!-- Website Preview Modal -->
   <div id="websiteModal" class="website-modal">
     <div class="website-modal-content">
       <div class="modal-header">
@@ -373,7 +507,7 @@
       <iframe id="websiteFrame" class="website-iframe" src=""></iframe>
     </div>
   </div>
-<!-- don't link webpage I want to just add this inside my website page So that my website will show only in trial or with special key -->
+
   <!-- Admin Panel -->
   <button class="admin-toggle" onclick="toggleAdmin()">
     <i class="fas fa-cog"></i> Admin
@@ -383,6 +517,52 @@
     <h4><i class="fas fa-tools"></i> Admin Panel</h4>
     <div class="storage-info" id="storageInfo">
       Loading storage info...
+    </div>
+    
+    <div class="trial-users-section">
+      <h5><i class="fas fa-users"></i> Trial Users Statistics</h5>
+      <div class="trial-stats">
+        <div class="stat-box">
+          <h5>Active Trials</h5>
+          <p id="activeTrialsCount">0</p>
+        </div>
+        <div class="stat-box">
+          <h5>Total Trials Used</h5>
+          <p id="totalTrialsCount">0</p>
+        </div>
+        <div class="stat-box">
+          <h5>Unique Users</h5>
+          <p id="uniqueUsersCount">0</p>
+        </div>
+      </div>
+      
+      <h5><i class="fas fa-user-clock"></i> Currently Active Trials</h5>
+      <table class="trial-users-table" id="activeTrialsTable">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Time Remaining</th>
+            <th>Started At</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      
+      <h5><i class="fas fa-history"></i> All Trial Users</h5>
+      <table class="trial-users-table" id="allTrialsTable">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Used At</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
     </div>
     
     <button class="admin-btn" onclick="resetTrial()">
@@ -430,7 +610,7 @@
   </div>
 
   <div class="container">
-    <h1><i class="fas fa-envelope"></i> Contact Us : To use Textile Engineering Suite Website</h1>
+    <h1><i class="fas fa-envelope"></i> Contact Us OR Trial Textile Engineering Suite Web Calculator</h1>
     
     <div id="successMsg" class="success-message"></div>
     <div id="errorMsg" class="error-message"></div>
@@ -511,6 +691,36 @@
       <p><i class="fas fa-map-marker-alt"></i> Location: India</p>
     </div>
   </div>
+
+  <!-- Add this modal form to your HTML (place it just before the closing </body> tag) -->
+<div id="trialFormModal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <span class="close-modal" onclick="closeTrialForm()">&times;</span>
+    <h2><i class="fas fa-gift"></i> Start Your Free Trial</h2>
+    <p>Please provide your information to start your 2-day free trial of the Textile Engineering Suite:</p>
+    
+    <form id="trialSignupForm">
+      <div class="form-group">
+        <label for="trialName"><i class="fas fa-user"></i> Full Name *</label>
+        <input type="text" id="trialName" name="trialName" required placeholder="Enter your full name">
+      </div>
+      
+      <div class="form-group">
+        <label for="trialPhone"><i class="fas fa-phone"></i> Phone Number *</label>
+        <input type="tel" id="trialPhone" name="trialPhone" required placeholder="Enter your phone number">
+      </div>
+      
+      <div class="form-group">
+        <label for="trialEmail"><i class="fas fa-envelope"></i> Email Address *</label>
+        <input type="email" id="trialEmail" name="trialEmail" required placeholder="your.email@example.com">
+      </div>
+      
+      <button type="submit" class="submit-trial-btn">
+        <i class="fas fa-play"></i> Start Free Trial
+      </button>
+    </form>
+  </div>
+</div>
 
   <script>
     let selectedOption = null;
@@ -703,13 +913,14 @@
       
       if (!adminPanelVisible) {
         const password = prompt('Enter admin password:');
-        if (password !== 'Abhi12345') {
+        if (password !== '1234') {
           alert('❌ Incorrect password! Access denied.');
           return;
         }
         adminPanelVisible = true;
         panel.style.display = 'block';
         updateStorageInfo();
+        updateTrialUsersDisplay();
       } else {
         adminPanelVisible = false;
         panel.style.display = 'none';
@@ -756,6 +967,80 @@
       alert(keyList);
     }
 
+    // Trial Users Tracking Functions
+    function trackTrialUser(name, email, phone) {
+      const trialUsers = JSON.parse(localStorage.getItem('trialUsers')) || [];
+      const now = new Date();
+      
+      const userData = {
+        id: 'user_' + now.getTime() + '_' + Math.random().toString(36).substr(2, 5),
+        name: name,
+        email: email,
+        phone: phone,
+        startTime: now.getTime(),
+        active: true,
+        endTime: now.getTime() + (2 * 24 * 60 * 60 * 1000) // 2 days from now
+      };
+      
+      trialUsers.push(userData);
+      localStorage.setItem('trialUsers', JSON.stringify(trialUsers));
+      updateTrialUsersDisplay();
+    }
+
+    function updateTrialUsersDisplay() {
+      const trialUsers = JSON.parse(localStorage.getItem('trialUsers')) || [];
+      const now = new Date().getTime();
+      
+      // Update active trials
+      const activeTrials = trialUsers.filter(user => 
+        user.active && user.endTime > now
+      );
+      
+      // Update stats
+      document.getElementById('activeTrialsCount').textContent = activeTrials.length;
+      document.getElementById('totalTrialsCount').textContent = trialUsers.length;
+      
+      // Count unique users (by email)
+      const uniqueEmails = [...new Set(trialUsers.map(user => user.email))];
+      document.getElementById('uniqueUsersCount').textContent = uniqueEmails.length;
+      
+      // Populate active trials table
+      const activeTableBody = document.querySelector('#activeTrialsTable tbody');
+      activeTableBody.innerHTML = '';
+      
+      activeTrials.forEach(user => {
+        const timeRemaining = user.endTime - now;
+        const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${user.name}</td>
+          <td>${user.phone}</td>
+          <td>${user.email}</td>
+          <td>${days}d ${hours}h</td>
+          <td>${new Date(user.startTime).toLocaleString()}</td>
+        `;
+        activeTableBody.appendChild(row);
+      });
+      
+      // Populate all trials table
+      const allTableBody = document.querySelector('#allTrialsTable tbody');
+      allTableBody.innerHTML = '';
+      
+      trialUsers.forEach(user => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${user.name}</td>
+          <td>${user.phone}</td>
+          <td>${user.email}</td>
+          <td>${user.active && user.endTime > now ? 'Active' : 'Expired'}</td>
+          <td>${new Date(user.startTime).toLocaleString()}</td>
+        `;
+        allTableBody.appendChild(row);
+      });
+    }
+
     function updateStorageInfo() {
       const info = document.getElementById('storageInfo');
       const trialUsed = localStorage.getItem('trialUsed') || 'null';
@@ -765,6 +1050,11 @@
       const currentPhone = sessionStorage.getItem('currentAccessPhone') || 'null';
       const activeKeysCount = Object.keys(activeKeys).length;
       const validKeysCount = Object.keys(getValidKeys()).length;
+      
+      const trialUsers = JSON.parse(localStorage.getItem('trialUsers')) || [];
+      const activeTrials = trialUsers.filter(user => 
+        user.active && user.endTime > new Date().getTime()
+      );
       
       let startDate = 'null';
       if (trialStartTime !== 'null') {
@@ -778,7 +1068,9 @@
         trialUsed: ${trialUsed}<br>
         trialActive: ${trialActive}<br>
         trialStartTime: ${trialStartTime}<br>
-        Start Date: ${startDate}<br><br>
+        Start Date: ${startDate}<br>
+        Active Trials: ${activeTrials.length}<br>
+        Total Trials: ${trialUsers.length}<br><br>
         <strong>Key System:</strong><br>
         Current Key: ${currentKey}<br>
         Current Phone: ${phoneDisplay}<br>
@@ -786,6 +1078,9 @@
         Valid Keys: ${validKeysCount}<br>
         Key Session: ${keySessionActive ? 'Active' : 'Inactive'}
       `;
+      
+      // Update the trial users display
+      updateTrialUsersDisplay();
     }
 
     function resetTrial() {
@@ -819,10 +1114,19 @@
 
     function clearAllStorage() {
       if (confirm('Are you sure you want to clear all stored data? This cannot be undone.')) {
+        // Optionally preserve trial users data
+        // const trialUsers = JSON.parse(localStorage.getItem('trialUsers')) || [];
+        
         localStorage.clear();
         sessionStorage.clear();
         activeKeys = {};
         keySessionActive = false;
+        
+        // Optionally restore trial users data
+        // if (trialUsers.length > 0) {
+        //   localStorage.setItem('trialUsers', JSON.stringify(trialUsers));
+        // }
+        
         updateStorageInfo();
         showMessage('success', '✅ All localStorage and sessionStorage data has been cleared.');
         setTimeout(() => location.reload(), 1000);
@@ -838,6 +1142,7 @@
         trialUsed: localStorage.getItem('trialUsed'),
         trialActive: localStorage.getItem('trialActive'),
         trialStartTime: localStorage.getItem('trialStartTime'),
+        trialUsers: JSON.parse(localStorage.getItem('trialUsers')) || [],
         validKeys: getValidKeys(),
         activeKeys: activeKeys,
         exportDate: new Date().toLocaleString()
@@ -853,36 +1158,119 @@
       URL.revokeObjectURL(url);
     }
 
-    function selectOption(option) {
-      selectedOption = option;
-      
-      if (option === 'trial') {
-        const trialUsed = localStorage.getItem('trialUsed') === 'true';
-        if (trialUsed) {
-          showMessage('error', '❌ You have already used your free trial on this system. Please contact us for payment options.');
-          return;
-        }
+    // Modify the selectOption function to show the trial form
+  function selectOption(option) {
+    selectedOption = option;
+    
+    if (option === 'trial') {
+      const trialUsed = localStorage.getItem('trialUsed') === 'true';
+      if (trialUsed) {
+        showMessage('error', '❌ You have already used your free trial on this system. Please contact us for payment options.');
+        return;
       }
-      
-      document.querySelectorAll('.trial-option').forEach(opt => {
-        opt.classList.remove('selected');
-      });
-      
-      event.currentTarget.classList.add('selected');
-      
-      if (option === 'trial') {
-        startFreeTrial();
-      } else if (option === 'payment') {
-        contactForPayment();
-      }
+      showTrialForm();
+    } else if (option === 'payment') {
+      contactForPayment();
     }
+    
+    document.querySelectorAll('.trial-option').forEach(opt => {
+      opt.classList.remove('selected');
+    });
+    
+    event.currentTarget.classList.add('selected');
+  }
+
+  // Show trial form modal
+  function showTrialForm() {
+    document.getElementById('trialFormModal').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
+
+  // Close trial form modal
+  function closeTrialForm() {
+    document.getElementById('trialFormModal').style.display = 'none';
+    document.body.style.overflow = 'auto';
+  }
+
+  // Handle trial form submission
+  document.getElementById('trialSignupForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const name = document.getElementById('trialName').value.trim();
+    const phone = document.getElementById('trialPhone').value.trim();
+    const email = document.getElementById('trialEmail').value.trim();
+    
+    if (!name || !phone || !email) {
+      showMessage('error', 'Please fill in all required fields');
+      return;
+    }
+    
+    // Set the values in the main form
+    document.getElementById('name').value = name;
+    document.getElementById('phone').value = phone;
+    document.getElementById('email').value = email;
+    
+    // Close the modal
+    closeTrialForm();
+    
+    // Start the trial
+    startFreeTrial();
+  });
+
+  // Update the startFreeTrial function to use the collected info
+  function startFreeTrial() {
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value || 'Not provided';
+    
+    localStorage.setItem('trialUsed', 'true');
+    
+    trialStartTime = new Date().getTime();
+    localStorage.setItem('trialStartTime', trialStartTime);
+    localStorage.setItem('trialActive', 'true');
+    
+    // Track the user who started the trial
+    trackTrialUser(name, email, phone);
+    
+    document.getElementById('countdownDisplay').style.display = 'block';
+    startCountdown();
+    updateTrialOptions();
+    updateStorageInfo();
+    
+    setTimeout(() => {
+      showMessage('success', '🎉 Free trial activated! You now have 2 days of full access. Opening your dashboard...');
+      setTimeout(() => {
+        openWebsiteModal();
+      }, 2000);
+    }, 1000);
+  }
+
+  // Close modal when clicking outside
+  window.addEventListener('click', function(e) {
+    const modal = document.getElementById('trialFormModal');
+    if (e.target === modal) {
+      closeTrialForm();
+    }
+  });
 
     function startFreeTrial() {
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value || 'Not provided';
+      
+      if (!name || !email) {
+        showMessage('error', 'Please provide your name and email to start the trial');
+        return;
+      }
+      
       localStorage.setItem('trialUsed', 'true');
       
       trialStartTime = new Date().getTime();
       localStorage.setItem('trialStartTime', trialStartTime);
       localStorage.setItem('trialActive', 'true');
+      
+      // Track the user who started the trial
+      trackTrialUser(name, email, phone);
       
       document.getElementById('countdownDisplay').style.display = 'block';
       startCountdown();
@@ -1035,7 +1423,6 @@
       const trialOption = document.querySelector('.trial-option[onclick="selectOption(\'trial\')"]');
       
       if (trialUsed) {
-        trialOption.style.display = 'none';
         trialOption.style.opacity = '0.5';
         trialOption.style.pointerEvents = 'none';
         
