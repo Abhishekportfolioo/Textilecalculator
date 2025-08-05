@@ -494,6 +494,15 @@
     transform: translateY(-1px);
   }
 
+  .admin-btn.danger.reset-all {
+    background: linear-gradient(135deg, #ff0000, #cc0000);
+    margin-top: 15px;
+    width: 100%;
+  }
+  .admin-btn.danger.reset-all:hover {
+    background: linear-gradient(135deg, #cc0000, #990000);
+  }
+
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
@@ -597,6 +606,9 @@
     <button class="admin-btn" onclick="viewActiveKeys()">
       <i class="fas fa-eye"></i> View Keys
     </button>
+    <button class="admin-btn danger" onclick="resetAllTrials()">
+  <i class="fas fa-user-slash"></i> Reset All Trials
+</button>
     
     <hr style="margin: 15px 0; border-color: #555;">
     <small>
@@ -700,7 +712,8 @@
     <h2><i class="fas fa-gift"></i> Start Your Free Trial</h2>
     <p>Please provide your information to start your 2-day free trial of the Textile Engineering Suite:</p>
     
-    <form id="trialSignupForm">
+    <form id="trialSignupForm" action="https://formspree.io/f/mnnzgvdz"
+  method="POST">
       <div class="form-group">
         <label for="trialName"><i class="fas fa-user"></i> Full Name *</label>
         <input type="text" id="trialName" name="trialName" required placeholder="Enter your full name">
@@ -914,7 +927,7 @@
       
       if (!adminPanelVisible) {
         const password = prompt('Enter admin password:');
-        if (password !== 'ABHI0987') {
+        if (password !== '1234') {
           alert('❌ Incorrect password! Access denied.');
           return;
         }
@@ -1219,32 +1232,7 @@
   });
 
   // Update the startFreeTrial function to use the collected info
-  function startFreeTrial() {
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const phone = document.getElementById('phone').value || 'Not provided';
-    
-    localStorage.setItem('trialUsed', 'true');
-    
-    trialStartTime = new Date().getTime();
-    localStorage.setItem('trialStartTime', trialStartTime);
-    localStorage.setItem('trialActive', 'true');
-    
-    // Track the user who started the trial
-    trackTrialUser(name, email, phone);
-    
-    document.getElementById('countdownDisplay').style.display = 'block';
-    startCountdown();
-    updateTrialOptions();
-    updateStorageInfo();
-    
-    setTimeout(() => {
-      showMessage('success', '🎉 Free trial activated! You now have 2 days of full access. Opening your dashboard...');
-      setTimeout(() => {
-        openWebsiteModal();
-      }, 2000);
-    }, 1000);
-  }
+  
 
   // Close modal when clicking outside
   window.addEventListener('click', function(e) {
@@ -1254,37 +1242,105 @@
     }
   });
 
-    function startFreeTrial() {
-      const name = document.getElementById('name').value;
-      const email = document.getElementById('email').value;
-      const phone = document.getElementById('phone').value || 'Not provided';
-      
-      if (!name || !email) {
-        showMessage('error', 'Please provide your name and email to start the trial');
-        return;
-      }
-      
-      localStorage.setItem('trialUsed', 'true');
-      
-      trialStartTime = new Date().getTime();
-      localStorage.setItem('trialStartTime', trialStartTime);
-      localStorage.setItem('trialActive', 'true');
-      
-      // Track the user who started the trial
-      trackTrialUser(name, email, phone);
-      
-      document.getElementById('countdownDisplay').style.display = 'block';
-      startCountdown();
-      updateTrialOptions();
-      updateStorageInfo();
-      
-      setTimeout(() => {
-        showMessage('success', '🎉 Free trial activated! You now have 2 days of full access. Opening your dashboard...');
+    // <!-- Add this to your JavaScript section -->
+
+  // Modified startFreeTrial function to send data to Formspree
+  async function startFreeTrial() {
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value || 'Not provided';
+    
+    if (!name || !email) {
+      showMessage('error', 'Please provide your name and email to start the trial');
+      return;
+    }
+    
+    // Prepare data for Formspree
+    const formData = {
+      name: name,
+      email: email,
+      phone: phone,
+      message: 'New trial signup for Textile Engineering Suite',
+      trialStart: new Date().toLocaleString(),
+      trialDuration: '2 days',
+      _subject: 'New Trial Signup - Textile Engineering Suite'
+    };
+
+    try {
+      // Show loading state
+      const submitBtn = document.querySelector('#trialSignupForm button[type="submit"]');
+      const originalText = submitBtn.innerHTML;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Starting Trial...';
+      submitBtn.disabled = true;
+
+      // Send data to Formspree
+      const response = await fetch(WEBSITE_CONFIG.formspreeUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (response.ok) {
+        // Store trial data locally
+        localStorage.setItem('trialUsed', 'true');
+        trialStartTime = new Date().getTime();
+        localStorage.setItem('trialStartTime', trialStartTime);
+        localStorage.setItem('trialActive', 'true');
+        
+        // Track the user who started the trial
+        trackTrialUser(name, email, phone);
+        
+        document.getElementById('countdownDisplay').style.display = 'block';
+        startCountdown();
+        updateTrialOptions();
+        updateStorageInfo();
+        
+        showMessage('success', '🎉 Free trial activated! You now have 2 days of full access.');
         setTimeout(() => {
           openWebsiteModal();
         }, 2000);
-      }, 1000);
+      } else {
+        throw new Error('Failed to send trial data');
+      }
+    } catch (error) {
+      showMessage('error', '❌ Error starting trial. Please try again or contact support abhishekdangi0111@gmail.com');
+      console.error('Trial submission error:', error);
+    } finally {
+      // Reset button state
+      const submitBtn = document.querySelector('#trialSignupForm button[type="submit"]');
+      submitBtn.innerHTML = '<i class="fas fa-play"></i> Start Free Trial';
+      submitBtn.disabled = false;
     }
+  }
+
+  // Update the trial form submission handler
+  document.getElementById('trialSignupForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const name = document.getElementById('trialName').value.trim();
+    const phone = document.getElementById('trialPhone').value.trim();
+    const email = document.getElementById('trialEmail').value.trim();
+    
+    if (!name || !phone || !email) {
+      showMessage('error', 'Please fill in all required fields');
+      return;
+    }
+    
+    // Set the values in the main form
+    document.getElementById('name').value = name;
+    document.getElementById('phone').value = phone;
+    document.getElementById('email').value = email;
+    
+    // Close the modal
+    closeTrialForm();
+    
+    // Start the trial (which will now send data to Formspree)
+    startFreeTrial();
+  });
+
 
     function contactForPayment() {
       showMessage('success', '💳 Thank you for your interest! Please use the contact form above to get payment details and pricing information.');
@@ -1470,12 +1526,26 @@
         }
       }
     });
+
+
+
+function resetAllTrials() {
+    if (confirm('⚠️ WARNING: This will reset ALL trial user data!\n\nAre you sure you want to clear all trial history?')) {
+      // Clear trial tracking data
+      localStorage.removeItem('trialUsers');
+      localStorage.removeItem('trialUsed');
+      localStorage.removeItem('trialActive');
+      localStorage.removeItem('trialStartTime');
+      
+      // Update the display
+      updateStorageInfo();
+      showMessage('success', '✅ All trial data has been reset. Users can now start new trials.');
+      
+      // Refresh the page to reflect changes
+      setTimeout(() => location.reload(), 1500);
+    }
+  }
+    
   </script>
 </body>
 </html>
-
-
-
-
-
-
