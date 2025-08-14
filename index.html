@@ -503,6 +503,93 @@
     background: linear-gradient(135deg, #cc0000, #990000);
   }
 
+
+
+
+/* Admin Form Styles */
+/* .admin-form-section {
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 15px;
+  border-left: 5px solid #6c757d;
+  color: #333;
+}
+
+.admin-form {
+  margin-top: 15px;
+}
+
+.admin-form-group {
+  margin-bottom: 15px;
+}
+
+.admin-form-group label {
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+  color: #495057;
+}
+
+.admin-form-group input,
+.admin-form-group select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ced4da;
+  font-size: 0.9rem;
+  background: #fff;
+  margin-bottom: 0;
+}
+
+.admin-form-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.admin-form-buttons button {
+  flex: 1;
+  padding: 10px;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.admin-users-list {
+  margin-top: 20px;
+}
+
+.admin-users-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+
+.admin-users-table th, 
+.admin-users-table td {
+  padding: 8px 12px;
+  border: 1px solid #dee2e6;
+  text-align: left;
+}
+
+.admin-users-table th {
+  background-color: #6c757d;
+  color: white;
+}
+
+.admin-users-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.admin-users-table .action-btn {
+  padding: 5px 8px;
+  font-size: 0.8rem;
+  margin: 2px;
+  width: auto;
+  display: inline-block;
+} */
+  
+
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
@@ -514,7 +601,7 @@
         <h3><i class="fas fa-globe"></i> Your Textile Engineering Suite</h3>
         <button class="close-modal" onclick="closeWebsiteModal()">&times;</button>
       </div>
-      <iframe id="websiteFrame" class="website-iframe" src=""></iframe>
+      <iframe id="websiteFrame" class="website-iframe" src="Portfolio/Abhishek Resume Photo.jpg"></iframe>
     </div>
   </div>
 
@@ -609,6 +696,10 @@
     <button class="admin-btn danger" onclick="resetAllTrials()">
   <i class="fas fa-user-slash"></i> Reset All Trials
 </button>
+
+<!-- <button class="admin-btn danger" onclick="resetAllKeys()">
+  <i class="fas fa-key"></i> Reset All Keys
+</button> -->
     
     <hr style="margin: 15px 0; border-color: #555;">
     <small>
@@ -620,10 +711,61 @@
       • Add Key: Create new access key-phone pair<br>
       • View Keys: See all configured keys
     </small>
+    <!-- Add this inside the admin-panel div, just before the closing </div> tag -->
+<!-- <div class="admin-form-section">
+  <h5><i class="fas fa-user-plus"></i> Admin User Management</h5>
+  
+  <form id="adminUserForm" class="admin-form">
+    <div class="admin-form-group">
+      <label for="adminName"><i class="fas fa-user"></i> Name</label>
+      <input type="text" id="adminName" placeholder="Enter full name" required>
+    </div>
+    
+    <div class="admin-form-group">
+      <label for="adminPhone"><i class="fas fa-phone"></i> Phone</label>
+      <input type="tel" id="adminPhone" placeholder="Enter phone number" required>
+    </div>
+    
+    <div class="admin-form-group">
+      <label for="adminRole"><i class="fas fa-user-tag"></i> Role</label>
+      <select id="adminRole" required>
+        <option value="">Select role</option>
+        <option value="admin">Admin</option>
+        <option value="support">Support</option>
+        <option value="sales">Sales</option>
+        <option value="developer">Developer</option>
+      </select>
+    </div>
+    
+    <div class="admin-form-buttons">
+      <button type="submit" class="admin-btn">
+        <i class="fas fa-save"></i> Save User
+      </button>
+      <button type="button" class="admin-btn" onclick="clearAdminForm()">
+        <i class="fas fa-eraser"></i> Clear
+      </button>
+    </div>
+  </form>
+  
+  <div class="admin-users-list">
+    <h5><i class="fas fa-users"></i> Admin Users</h5>
+    <table class="admin-users-table" id="adminUsersTable">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Role</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</div> -->
   </div>
 
   <div class="container">
-    <h1><i class="fas fa-envelope"></i> Contact Us OR Trial Textile Engineering Suite Web Calculator</h1>
+    <h1><i class="fas fa-envelope"></i>  Trial Textile Engineering Suite Web Calculator</h1>
     
     <div id="successMsg" class="success-message"></div>
     <div id="errorMsg" class="error-message"></div>
@@ -641,25 +783,7 @@
       <button onclick="contactForPayment()"><i class="fas fa-credit-card"></i> Contact for Payment</button>
     </div>
 
-    <form id="contactForm" autocomplete="off">
-      <div class="form-group">
-        <label for="name"><i class="fas fa-user"></i> Name</label>
-        <input type="text" id="name" name="name" required maxlength="60" placeholder="Enter your full name">
-      </div>
-      <div class="form-group">
-        <label for="email"><i class="fas fa-at"></i> Email</label>
-        <input type="email" id="email" name="email" required maxlength="80" placeholder="your.email@example.com">
-      </div>
-      <div class="form-group">
-        <label for="phone"><i class="fas fa-phone"></i> Phone (Optional)</label>
-        <input type="tel" id="phone" name="phone" maxlength="15" placeholder="+1 234 567 8900">
-      </div>
-      <div class="form-group">
-        <label for="message"><i class="fas fa-comment-dots"></i> Message</label>
-        <textarea id="message" name="message" required maxlength="500" placeholder="Tell us about your textile engineering needs..."></textarea>
-      </div>
-      <button type="submit" id="submitBtn"><i class="fas fa-paper-plane"></i> Send Message</button>
-    </form>
+    
 
     <div class="trial-section">
       <h3><i class="fas fa-gift"></i> Try Our Textile Engineering Suite</h3>
@@ -695,6 +819,30 @@
         <i class="fas fa-info-circle"></i> Both phone number and key must match. Each key can only be used on one system at a time.
       </small>
     </div>
+
+<h1><i class="fas fa-envelope"></i> Contact Us for Textile Engineering Suite Web Calculator</h1>
+  <form id="contactForm" autocomplete="off">
+      <div class="form-group">
+        <label for="name"><i class="fas fa-user"></i> Name</label>
+        <input type="text" id="name" name="name" required maxlength="60" placeholder="Enter your full name">
+      </div>
+      <div class="form-group">
+        <label for="email"><i class="fas fa-at"></i> Email</label>
+        <input type="email" id="email" name="email" required maxlength="80" placeholder="your.email@example.com">
+      </div>
+      <div class="form-group">
+        <label for="phone"><i class="fas fa-phone"></i> Phone (Optional)</label>
+        <input type="tel" id="phone" name="phone" maxlength="15" placeholder="+1 234 567 8900">
+      </div>
+      <div class="form-group">
+        <label for="message"><i class="fas fa-comment-dots"></i> Message</label>
+        <textarea id="message" name="message" required maxlength="500" placeholder="Tell us about your textile engineering needs..."></textarea>
+      </div>
+      <button type="submit" id="submitBtn"><i class="fas fa-paper-plane"></i> Send Message</button>
+    </form>
+
+
+
 
     <div class="contact-info">
       <h3><i class="fas fa-info-circle"></i> Textile Engineering Suite</h3>
@@ -735,6 +883,9 @@
     </form>
   </div>
 </div>
+<button class="admin-btn danger" onclick="resetAllKeys()">
+  <i class="fas fa-key"></i> Reset All Keys
+</button>
 
   <script>
     let selectedOption = null;
@@ -761,21 +912,51 @@
       loadValidKeys();
     });
 
+    function resetAllKeys() {
+  if (confirm('Are you sure you want to reset ALL access keys to default?')) {
+    localStorage.removeItem('validKeyPhonePairs');
+    loadValidKeys(); // This will recreate the default keys
+    showMessage('success', '✅ All access keys have been reset to default values.');
+    updateStorageInfo();
+  }
+}
+
     // Load valid keys from localStorage or use defaults
     function loadValidKeys() {
-      const storedKeys = localStorage.getItem('validKeyPhonePairs');
-      if (!storedKeys) {
-        // Set default keys if none exist
-        const defaultKeys = {
-          'TEXTILE-2024-PREMIUM': ['1234567890', '9876543210'],
-          'ABHI-SPECIAL-ACCESS': ['1111111111', '2222222222'],
-          'ENGINEERING-SUITE-PRO': ['5555555555', '7777777777'],
-          'DEMO-KEY-12345': ['9999999999', '8888888888'],
-          'VIP-ACCESS-2024': ['1357924680', '0987654321']
-        };
-        localStorage.setItem('validKeyPhonePairs', JSON.stringify(defaultKeys));
-      }
-    }
+  const storedKeys = localStorage.getItem('validKeyPhonePairs');
+  if (!storedKeys) {
+    // Set default keys if none exist (now with 20 total keys)
+    const defaultKeys = {
+      // Original 5 keys
+      'TEXTILE-2024-PREMIUM': ['1234567890', '9876543210'],
+      'ABHI': ['1111111111', '9460448983'],
+      'ENGINEERING-SUITE-PRO': ['5555555555', '7777777777'],
+      'DEMO-KEY-12345': ['9999999999', '8888888888'],
+      'VIP-ACCESS-2024': ['1357924680', '0987654321'],
+      
+      // 15 Additional keys
+      'TEXTILE-MASTER-00111': ['1212121212', '3434343434'],
+      'FABRIC-PRO-2024': ['5656565656', '7878787878'],
+      'WEAVING-SUITE-XP': ['9090909090', '1231231231'],
+      'INDUSTRY-4-TEXTILE': ['4564564564', '7897897897'],
+      'TECH-TEXT-ADVANCE': ['3213213213', '6546546546'],
+      'SMART-LOOM-ACCESS': ['9879879879', '1234567891'],
+      'DIGI-TWILL-PRO': ['2345678912', '3456789123'],
+      'KNIT-ANALYTICS-V2': ['4567891234', '5678912345'],
+      'YARN-OPTIMIZER-PLUS': ['6789123456', '7891234567'],
+      'PATTERN-DESIGN-360': ['8912345678', '9123456789'],
+      'TEXTILE-AI-EDITION': ['1122334455', '2233445566'],
+      'FASHION-TECH-PRO': ['3344556677', '4455667788'],
+      'ECO-FIBER-ACCESS': ['5566778899', '6677889900'],
+      'SUSTAIN-TEXTILE-X': ['7788990011', '8899001122'],
+      'FUTURE-FABRIC-KEY': ['9900112233', '0011223344'],
+      'ABHISHEK': ['9460448983', '9413665044']
+    };
+    localStorage.setItem('validKeyPhonePairs', JSON.stringify(defaultKeys));
+    return defaultKeys; // Return the newly created keys
+  }
+  return JSON.parse(storedKeys); // Return existing keys
+}
 
     function getValidKeys() {
       const keys = localStorage.getItem('validKeyPhonePairs');
@@ -827,66 +1008,69 @@
     });
 
     function validateKey() {
-      const keyInput = document.getElementById('accessKey');
-      const phoneInput = document.getElementById('keyPhoneNumber');
-      const enteredKey = keyInput.value.trim().toUpperCase();
-      const enteredPhone = phoneInput.value.trim();
-      
-      if (!enteredKey || !enteredPhone) {
-        showKeyStatus('error', '❌ Please enter both phone number and access key.');
-        return;
-      }
-      
-      const cleanPhone = enteredPhone.replace(/\D/g, '');
-      const validKeyPhonePairs = getValidKeys();
-      
-      if (!validKeyPhonePairs[enteredKey]) {
-        showKeyStatus('error', '❌ Invalid access key. Please check your key and try again.');
-        return;
-      }
-      
-      if (!validKeyPhonePairs[enteredKey].includes(cleanPhone)) {
-        showKeyStatus('error', '❌ Phone number does not match the provided access key. Please verify both fields.');
-        return;
-      }
-      
-      const uniqueIdentifier = enteredKey + '_' + cleanPhone;
-      
-      if (activeKeys[uniqueIdentifier]) {
-        const existingSession = activeKeys[uniqueIdentifier];
-        const currentSessionId = sessionStorage.getItem('keySessionId');
-        
-        if (existingSession.sessionId !== currentSessionId) {
-          showKeyStatus('error', `❌ This key-phone combination is currently active in another tab/window. Please close that tab first.`);
-          return;
-        }
-      }
-      
-      const currentSessionId = sessionStorage.getItem('keySessionId');
-      activeKeys[uniqueIdentifier] = {
-        sessionId: currentSessionId,
-        key: enteredKey,
-        phone: cleanPhone,
-        activatedAt: Date.now(),
-        tabInfo: {
-          userAgent: navigator.userAgent.substring(0, 50),
-          timestamp: new Date().toLocaleString()
-        }
-      };
-      
-      localStorage.setItem('activeKeys', JSON.stringify(activeKeys));
-      sessionStorage.setItem('currentAccessKey', enteredKey);
-      sessionStorage.setItem('currentAccessPhone', cleanPhone);
-      
-      keySessionActive = true;
-      
-      showKeyStatus('success', `✅ Access validated! Key "${enteredKey}" with phone ending in "${cleanPhone.slice(-4)}" - Opening website...`);
-      
-      setTimeout(() => {
-        openWebsiteModal();
-        showKeyStatus('success', `🚀 Website opened! Your access remains active in this tab.`);
-      }, 1500);
+  const keyInput = document.getElementById('accessKey');
+  const phoneInput = document.getElementById('keyPhoneNumber');
+  const enteredKey = keyInput.value.trim().toUpperCase();
+  let enteredPhone = phoneInput.value.trim();
+  
+  // Clean the phone number by removing all non-digit characters
+  enteredPhone = enteredPhone.replace(/\D/g, '');
+  
+  if (!enteredKey || !enteredPhone) {
+    showKeyStatus('error', '❌ Please enter both phone number and access key.');
+    return;
+  }
+  
+  const validKeyPhonePairs = loadValidKeys(); // Get the current keys
+  
+  if (!validKeyPhonePairs[enteredKey]) {
+    showKeyStatus('error', '❌ Invalid access key. Please check your key and try again.');
+    return;
+  }
+  
+  // Check if the cleaned phone number matches any of the allowed numbers for this key
+  if (!validKeyPhonePairs[enteredKey].includes(enteredPhone)) {
+    showKeyStatus('error', '❌ Phone number does not match the provided access key. Please verify both fields.');
+    return;
+  }
+  
+  const uniqueIdentifier = enteredKey + '_' + enteredPhone;
+  
+  if (activeKeys[uniqueIdentifier]) {
+    const existingSession = activeKeys[uniqueIdentifier];
+    const currentSessionId = sessionStorage.getItem('keySessionId');
+    
+    if (existingSession.sessionId !== currentSessionId) {
+      showKeyStatus('error', `❌ This key-phone combination is currently active in another tab/window. Please close that tab first.`);
+      return;
     }
+  }
+  
+  const currentSessionId = sessionStorage.getItem('keySessionId');
+  activeKeys[uniqueIdentifier] = {
+    sessionId: currentSessionId,
+    key: enteredKey,
+    phone: enteredPhone,
+    activatedAt: Date.now(),
+    tabInfo: {
+      userAgent: navigator.userAgent.substring(0, 50),
+      timestamp: new Date().toLocaleString()
+    }
+  };
+  
+  localStorage.setItem('activeKeys', JSON.stringify(activeKeys));
+  sessionStorage.setItem('currentAccessKey', enteredKey);
+  sessionStorage.setItem('currentAccessPhone', enteredPhone);
+  
+  keySessionActive = true;
+  
+  showKeyStatus('success', `✅ Access validated! Key "${enteredKey}" with phone ending in "${enteredPhone.slice(-4)}" - Opening website...`);
+  
+  setTimeout(() => {
+    openWebsiteModal();
+    showKeyStatus('success', `🚀 Website opened! Your access remains active in this tab.`);
+  }, 1500);
+}
 
     function showKeyStatus(type, message) {
       const statusDiv = document.getElementById('keyStatus');
@@ -1545,7 +1729,119 @@ function resetAllTrials() {
       setTimeout(() => location.reload(), 1500);
     }
   }
+
+
+  // Admin User Management Functions
+// function loadAdminUsers() {
+//   const adminUsers = JSON.parse(localStorage.getItem('adminUsers')) || [];
+//   const tableBody = document.querySelector('#adminUsersTable tbody');
+//   tableBody.innerHTML = '';
+  
+//   adminUsers.forEach((user, index) => {
+//     const row = document.createElement('tr');
+//     row.innerHTML = `
+//       <td>${user.name}</td>
+//       <td>${user.phone}</td>
+//       <td>${user.role}</td>
+//       <td>
+//         <button class="admin-btn action-btn" onclick="editAdminUser(${index})">
+//           <i class="fas fa-edit"></i> Edit
+//         </button>
+//         <button class="admin-btn danger action-btn" onclick="deleteAdminUser(${index})">
+//           <i class="fas fa-trash"></i> Delete
+//         </button>
+//       </td>
+//     `;
+//     tableBody.appendChild(row);
+//   });
+// }
+
+// function saveAdminUser(e) {
+//   e.preventDefault();
+  
+//   const name = document.getElementById('adminName').value.trim();
+//   const phone = document.getElementById('adminPhone').value.trim();
+//   const role = document.getElementById('adminRole').value;
+  
+//   if (!name || !phone || !role) {
+//     alert('Please fill in all fields');
+//     return;
+//   }
+  
+//   const adminUsers = JSON.parse(localStorage.getItem('adminUsers')) || [];
+//   const editingIndex = document.getElementById('adminUserForm').dataset.editingIndex;
+  
+//   if (editingIndex !== undefined) {
+//     // Update existing user
+//     adminUsers[editingIndex] = { name, phone, role };
+//   } else {
+//     // Add new user
+//     adminUsers.push({ name, phone, role });
+//   }
+  
+//   localStorage.setItem('adminUsers', JSON.stringify(adminUsers));
+//   loadAdminUsers();
+//   clearAdminForm();
+//   updateStorageInfo();
+//   showMessage('success', `Admin user ${editingIndex !== undefined ? 'updated' : 'added'} successfully!`);
+// }
+
+// function editAdminUser(index) {
+//   const adminUsers = JSON.parse(localStorage.getItem('adminUsers')) || [];
+//   if (index >= 0 && index < adminUsers.length) {
+//     const user = adminUsers[index];
+//     document.getElementById('adminName').value = user.name;
+//     document.getElementById('adminPhone').value = user.phone;
+//     document.getElementById('adminRole').value = user.role;
+//     document.getElementById('adminUserForm').dataset.editingIndex = index;
+//     document.querySelector('#adminUserForm button[type="submit"]').innerHTML = '<i class="fas fa-save"></i> Update User';
+//   }
+// }
+
+// function deleteAdminUser(index) {
+//   if (confirm('Are you sure you want to delete this admin user?')) {
+//     const adminUsers = JSON.parse(localStorage.getItem('adminUsers')) || [];
+//     if (index >= 0 && index < adminUsers.length) {
+//       adminUsers.splice(index, 1);
+//       localStorage.setItem('adminUsers', JSON.stringify(adminUsers));
+//       loadAdminUsers();
+//       updateStorageInfo();
+//       showMessage('success', 'Admin user deleted successfully!');
+//     }
+//   }
+// }
+
+// function clearAdminForm() {
+//   document.getElementById('adminUserForm').reset();
+//   delete document.getElementById('adminUserForm').dataset.editingIndex;
+//   document.querySelector('#adminUserForm button[type="submit"]').innerHTML = '<i class="fas fa-save"></i> Save User';
+// }
+
+// // Initialize admin form
+// document.getElementById('adminUserForm').addEventListener('submit', saveAdminUser);
+
+// // Add this to your updateStorageInfo function to show admin users count
+// function updateStorageInfo() {
+//   // ... existing code ...
+  
+//   const adminUsers = JSON.parse(localStorage.getItem('adminUsers')) || [];
+  
+//   // Add this to your storageInfo.innerHTML
+//   info.innerHTML += `
+//     <br><br><strong>Admin Users:</strong><br>
+//     Total Admin Users: ${adminUsers.length}
+//   `;
+  
+//   // ... rest of existing code ...
+// }
+
+// // Call loadAdminUsers when the page loads
+// window.addEventListener('load', function() {
+//   // ... existing code ...
+//   loadAdminUsers();
+// });
     
   </script>
 </body>
 </html>
+<!-- line no.1551 -->
