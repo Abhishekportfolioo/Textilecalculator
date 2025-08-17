@@ -955,6 +955,519 @@
                 opacity: 0;
             }
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+         body .gallery {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .tab-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            
+            text-align: center;
+            margin-bottom: 30px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        /* Title animation */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .gallery {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+            animation: slideInFromBottom 0.6s ease-out forwards;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        /* Staggered container animations */
+        .gallery:nth-child(1) { animation-delay: 0s; }
+        .gallery:nth-child(2) { animation-delay: 0.1s; }
+        .gallery:nth-child(3) { animation-delay: 0.2s; }
+        .gallery:nth-child(4) { animation-delay: 0.3s; }
+
+
+        /* Container hover effects */
+        .gallery:hoverr {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Slide in from bottom animation */
+        @keyframes slideInFromBottom {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .gallery h3 {
+            margin-top: 0;
+            color: #333;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            animation: fadeIn 1s ease-out 0.5s both;
+        }
+
+        /* Simple fade in animation for titles */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal-content {
+            position: relative;
+            margin: 1% auto;
+            width: 95%;
+            max-width: 1200px;
+            height: 90vh;
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-body {
+            display: flex;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .modal-image-container {
+            flex: 2;
+            background-color: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow: auto;
+            position: relative;
+            cursor: grab;
+        }
+
+        .modal-image-container.dragging {
+            cursor: grabbing;
+        }
+
+        .modal-image-container.zoomed {
+            overflow: scroll;
+            align-items: flex-start;
+            justify-content: flex-start;
+        }
+
+        .image-wrapper {
+            min-width: 100%;
+            min-height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .modal-image-container img {
+            max-width: none;
+            max-height: none;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease;
+            cursor: zoom-in;
+            transform-origin: center center;
+        }
+
+        .modal-image-container img.zoomed {
+            cursor: zoom-out;
+            max-width: none;
+            max-height: none;
+        }
+
+        .zoom-controls {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .zoom-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s ease;
+        }
+
+        .zoom-btn:hover {
+            background: white;
+            transform: scale(1.1);
+        }
+
+        .zoom-info {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .modal-info {
+            flex: 0 0 380px;
+            padding: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            overflow-y: auto;
+        }
+
+        .modal-info h2 {
+            margin: 0 0 20px 0;
+            font-size: 1.8em;
+            font-weight: 600;
+            color: white;
+        }
+
+        .description-container {
+            margin-bottom: 20px;
+        }
+
+        .description-container p {
+            line-height: 1.6;
+            margin: 0 0 15px 0;
+            font-size: 1rem;
+        }
+
+        .read-more-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            display: inline-block;
+        }
+
+        .read-more-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            color: #666;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1001;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+        }
+
+        .close:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: rotate(90deg);
+            color: #333;
+        }
+
+        /* Responsive Modal */
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 95%;
+                height: 95vh;
+                margin: 2.5vh auto;
+            }
+            
+            .modal-body {
+                flex-direction: column;
+            }
+            
+            .modal-image-container {
+                flex: 2;
+                min-height: 60%;
+            }
+            
+            .modal-info {
+                flex: 1;
+                padding: 20px;
+                min-height: 40%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .modal-content {
+                height: 98vh;
+                margin: 1vh auto;
+            }
+            
+            .modal-info {
+                padding: 15px;
+            }
+            
+            .modal-info h2 {
+                font-size: 1.4em;
+                margin-bottom: 15px;
+            }
+            
+            .modal-image-container {
+                padding: 15px;
+            }
+        }
+
+        .form-groups {
+            margin: 10px 0;
+        }
+
+        /* Main image size controls with animations */
+        .gallery img {
+            width: 100%;
+            max-width: 280px;
+            height: auto;
+            max-height: 250px;
+            object-fit: contain;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateY(30px);
+            background-color: #f9f9f9;
+        }
+
+        /* Staggered animation delays */
+        .gallery:nth-child(1) img { animation-delay: 0.1s; }
+        .gallery:nth-child(2) img { animation-delay: 0.2s; }
+        .gallery:nth-child(3) img { animation-delay: 0.3s; }
+        .gallery:nth-child(4) img { animation-delay: 0.4s; }
+        
+
+        /* Enhanced hover effects */
+        .gallery img:hover {
+            transform: scale(1.1) rotate(2deg);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            border-color: #4CAF50;
+            filter: brightness(1.1) contrast(1.1);
+        }
+
+        /* Floating animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            25% { transform: translateY(-8px) rotate(1deg); }
+            50% { transform: translateY(-15px) rotate(0deg); }
+            75% { transform: translateY(-8px) rotate(-1deg); }
+        }
+
+        /* Fade in up animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Pulse animation */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        /* Bounce animation */
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        /* Shimmer effect */
+        @keyframes shimmer {
+            0% { background-position: -200px 0; }
+            100% { background-position: calc(200px + 100%) 0; }
+        }
+
+        /* Apply floating animation to specific images */
+        .gallery:nth-child(2) img,
+        .gallery:nth-child(4) img, 
+        .gallery:nth-child(6) img,
+        .gallery:nth-child(8) img,
+        .gallery:nth-child(10) img,
+        .gallery:nth-child(12) img,
+        .gallery:nth-child(14) img,
+        .gallery:nth-child(16) img,
+        .gallery:nth-child(18) img,
+        .gallery:nth-child(20) img,
+        .gallery:nth-child(22) img,
+        .gallery:nth-child(24) img,
+        .gallery:nth-child(26) img,
+        .gallery:nth-child(28) img,
+        .gallery:nth-child(30) img,
+        .gallery:nth-child(32) img,
+        .gallery:nth-child(34) img,
+        .gallery:nth-child(36) img,
+        .gallery:nth-child(38) img,
+        .gallery:nth-child(40) img,
+        .gallery:nth-child(42) img{
+            animation: fadeInUp 0.8s ease-out forwards, float 6s ease-in-out infinite;
+        }
+
+        /* Apply pulse animation to the first image */
+        .gallery:nth-child(1) img {
+            animation: fadeInUp 0.8s ease-out forwards, pulse 3s ease-in-out infinite;
+        }
+
+        /* Shimmer effect on hover */
+        .gallery img::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.6),
+                transparent
+            );
+            transition: left 0.5s;
+        }
+
+        .gallery:hover img::before {
+            left: 100%;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .calculator-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .gallery img {
+                max-width: 250px;
+                max-height: 200px;
+            }
+            
+            
+        }
+
+        @media (max-width: 480px) {
+            .gallery img {
+                max-width: 200px;
+                max-height: 180px;
+            }
+            
+            .gallery {
+                padding: 15px;
+            }
+        }
+
+        /* Alternative size classes if you want different sizes for specific images */
+        .large-image {
+            max-width: 350px !important;
+            max-height: 300px !important;
+        }
+
+        .small-image {
+            max-width: 200px !important;
+            max-height: 180px !important;
+        }
+
+        .square-image {
+            width: 250px !important;
+            height: 250px !important;
+            object-fit: cover !important;
+        }
+
   </style>
 
 </head>
@@ -2011,161 +2524,427 @@
 </div>
 
 <!-- Gallery-tab -->
-<div id="Gallery-tab" class="tab-content">
-  <h1 style="margin-bottom: 20px;"><i class="fas fa-image"></i> Image Gallery</h1>
-  <div class="calculator-grid">
+<div id="Gallery-tab" class="tab-content">   
+        <h1 style="margin-bottom: 20px;"><i class="fas fa-image"></i> Image Gallery</h1>   
+        <div class="calculator-grid">      
+            <div class="gallery">             
+                <h3 style="font-size: xx-large; font-weight: 700;">Hello Users</h3>           
+                <div class="form-groups">             
+                    <img src="Screenshot 2025-07-24 212211.png" alt="Welcome screenshot" 
+                         data-title="Welcome to Textile Calculator" 
+                         data-description="This comprehensive textile calculator application helps professionals and students calculate various textile parameters including fabric GSM, yarn count, and construction details."
+                         onclick="openImageModal(this)">           
+                </div>     
+            </div>   
+            
+            <div class="gallery">       
+                <h3>Compact Spinning Vs Normal Spinning</h3>              
+                <div class="form-groups">             
+                    <img src="Compact Spinning Vs Normal Spinning .jpg" alt=""
+                         data-title="Compact Spinning Vs Normal Spinning" 
+                         data-description="Compact Spinning Vs Normal Spinning"
+                         onclick="openImageModal(this)">           
+                </div>   
+            </div>          
+            
+            <div class="gallery">    
+                <h3>Basic Textile</h3>       
+                <div class="form-groups">             
+                    <img src="Basic Textile.jpg" alt="Denim construction diagram"
+                         data-title="Denim Fabric Construction" 
+                         data-description="Diagram showing the weave structure of denim fabric, including warp and weft arrangements, twill patterns, and construction specifications used in quality denim manufacturing."
+                         onclick="openImageModal(this)">           
+                </div>         
+            </div>    
+            
+            <div class="gallery">    
+                <h3>Fabric Types</h3>       
+                <div class="form-groups">             
+                    <img src="Different types of Fabrics.jpg" alt="Different types of fabrics"
+                         data-title="Different Types of Fabrics" 
+                         data-description="Comprehensive overview of various fabric types including cotton, polyester, silk, wool, and blended fabrics. Learn about their properties, uses, and manufacturing processes."
+                         onclick="openImageModal(this)">           
+                </div>              
+            </div>    
+            
+            <div class="gallery">     
+                <h3>Cross section of Textile fibers</h3>           
+                <div class="form-groups">             
+                    <img src="Cross section of Textile fibers .jpg" alt="Cross section of textile fibers"
+                         data-title="Textile Fiber Cross-Sections" 
+                         data-description="Microscopic cross-sectional views of various textile fibers showing their unique structural characteristics. Understanding fiber structure is essential for textile quality assessment and identification."
+                         onclick="openImageModal(this)">           
+                </div>       
+            </div> 
 
-    <div class="gallery">
-     
-      <h3 style="font-size: xx-large; font-weight: 700;">Hello Users</h3>
-          <div class="form-group">
-            <img src="Screenshot 2025-07-24 212211.png" alt="first">
-          </div>
-    </div>
-  <div class="panel">
-         
-          <div class="form-group">
-            <img src="Basic Textile.jpg" alt="weave">
-          </div>
-  </div>
+            <div class="gallery">
+                <h3>Anti-Bullying Comic Strip in Black and White Handdrawn Style</h3>
+                <div class="form-groups">
+                    <img src="" alt="Anti-Bullying "
+                         data-title="Anti-Bullying Comic Strip in Black and White Handdrawn Style"
+                         data-description=""
+                         onclick="openImageModal(this)">
+                </div>
+            </div>
 
-        <div class="panel">
-          <div class="form-group">
-            <img src="Compact Spinning Vs Normal Spinning .jpg" alt="weave">
-          </div>
+            <div class="gallery">
+                <h3>Calculate Fabric Cost</h3>
+                <div class="form-groups">
+                    <img src="Calculate Fabric Cost .jpg" alt="Calculate Fabric Cost"
+                         data-title="Traditional Weaving Loom Process"
+                         data-description=""
+                         onclick="openImageModal(this)">
+                </div>
+            </div>
+
+            <div class="gallery">
+                <h3>Conversion</h3>
+                <div class="form-groups">
+                    <img src="Conversion .jpg" alt="Conversion"
+                         data-title="Industrial Yarn Spinning"
+                         data-description=""
+                         onclick="openImageModal(this)">
+                </div>
+            </div>
+
+            <div class="gallery">
+                <h3>Fabric Dyeing Process</h3>
+                <div class="form-groups">
+                    <img src="" alt="Fabric dyeing vats"
+                         data-title="Industrial Fabric Dyeing"
+                         data-description="."
+                         onclick="openImageModal(this)">
+                </div>
+            </div>
+
+            <div class="gallery">
+                <h3>Cutting Process in Garment</h3>
+                <div class="form-groups">
+                    <img src="Cutting Process in Garment .jpg" alt="Cutting Process in Garment"
+                         data-title="Circular Knitting Technology"
+                         data-description=""
+                         onclick="openImageModal(this)">
+                </div>
+            </div>
+
+            <div class="gallery">
+                <h3>Denim Construction</h3>
+                <div class="form-groups">
+                    <img src="Denim Construction.jpg" alt="Silk cocoons and production"
+                         data-title="Denim Construction"
+                         data-description="Diagram showing the weave structure of denim fabric, including warp and weft arrangements, twill patterns, and construction specifications used in quality denim manufacturing."
+                         onclick="openImageModal(this)">
+                </div>
+            </div>
+
+            <div class="gallery">
+                <h3>CM Calculations in Garment</h3>
+                <div class="form-groups">
+                    <img src="CM Calculations in Garment .jpg" alt="CM Calculations in Garment"
+                         data-title="Textile Quality Testing Laboratory"
+                         data-description=""
+                         onclick="openImageModal(this)">
+                </div>
+            </div>
+
+            <div class="gallery">
+                <h3>Fabric GSM</h3>
+                <div class="form-groups">
+                    <img src="Fabric GSM .jpg" alt="Fabric GSM"
+                         data-title="Wool Fiber Processing Stages"
+                         data-description=""
+                         onclick="openImageModal(this)">
+                </div>
+            </div>
+
+            <div class="gallery">
+                <h3>Fabric inspection Systems</h3>
+                <div class="form-groups">
+                    <img src="Fabric inspection Systems.jpg" alt="Fabric inspection Systems"
+                         data-title="Fabric inspection Systems"
+                         data-description="."
+                         onclick="openImageModal(this)">
+                </div>
+            </div>
+
+            <div class="gallery">
+                <h3>Hidden Fabric losses</h3>
+                <div class="form-groups">
+                    <img src="Hidden Fabric losses.jpg" alt="Hidden Fabric losses"
+                         data-title="Hidden Fabric losses"
+                         data-description=""
+                         onclick="openImageModal(this)">
+                </div>
+            </div>
+
+            <div class="gallery">
+                <h3>Polo shirt construction</h3>
+                <div class="form-groups">
+                    <img src="Polo shirt construction.jpg" alt="Polo shirt construction"
+                         data-title="Polo shirt construction"
+                         data-description="Polo shirt construction"
+                         onclick="openImageModal(this)">
+                </div>
+            </div>
+
+            <div class="gallery">
+                <h3>Fabric Finishing</h3>
+                <div class="form-groups">
+                    <img src="https://i0.wp.com/textilelearner.net/wp-content/uploads/2021/09/Textile-Nanofinishing.png?resize=660%2C274&ssl=1" alt="Fabric finishing treatment"
+                         data-title="Advanced Fabric Finishing Treatments"
+                         data-description="Finishing is the processing operations applied to grey  fabrics to enhance their appearance, and hand properties. To improve appearance, like luster, whiteness etc. And to improves feel which depends on the handle of the fabric and its softness, to improve the wearing qualities, likes non-sailing anti-crease etc. It imparts the serviceability of the material promotion of dimensional stability of the material hence finishing is important for a textile goods before they are placed on the market all that part comes under the conventional finishing process. It’s imperative to article a series of advancements in finishing of textile materials soon see the ways of process and procedures are often improved upon, to realize better performance products. Tons of interesting advancements are witnessed within the last twenty years within the clothing and textile industry. During this article, different methods of textile finishing are hereby explained. Whereas the conventional methods of finishing including wet and dry finishing techniques are still being practiced on cotton and woolen fabrics, advanced textile finishing techniques may include functionalization using nano-coatings, surface modification using enzymes, microencapsulation, and therefore the strengthening of synthetic fibers with nano-coatings and nano-clays."
+                         onclick="openImageModal(this)">
+                </div>
+            </div>
+
+            <div class="gallery">
+                <h3>Single Jersey Details</h3>
+                <div class="form-groups">
+                    <img src="Single Jersey Details.jpg" alt="Single Jersey Details"
+                         data-title="Single Jersey Details"
+                         data-description="Single Jersey Details"
+                         onclick="openImageModal(this)">
+                </div>
+            </div>
+
+            <div class="gallery">
+                <h3>Weaving</h3>
+                <div class="form-groups">
+                    <img src="Weaving 1.jpg" alt="Weaving"
+                         data-title="Weaving"
+                         data-description="Weaving"
+                         onclick="openImageModal(this)">
+                </div>
+            </div>
+
+            <!-- <div class="gallery">
+                <h3>Smart Textiles</h3>
+                <div class="form-groups">
+                    <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=400&h=300&fit=crop" alt="Smart textile with sensors"
+                         data-title="Smart Textile Integration"
+                         data-description="Next-generation smart textiles incorporating electronic components, sensors, and conductive fibers. These innovative materials can monitor physiological parameters, change properties in response to environmental conditions, and integrate with digital systems."
+                         onclick="openImageModal(this)">
+                </div>
+            </div>
+
+            <div class="gallery">
+                <h3>Polyester Production</h3>
+                <div class="form-groups">
+                    <img src="https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?w=400&h=300&fit=crop" alt="Polyester fiber manufacturing"
+                         data-title="Polyester Fiber Manufacturing Process"
+                         data-description="Industrial production of polyester fibers through melt spinning technology. Polyester is the most widely used synthetic fiber, offering excellent durability, wrinkle resistance, and dimensional stability. The production involves polymerization of ethylene glycol and terephthalic acid."
+                         onclick="openImageModal(this)">
+                </div>
+            </div>
+
+            <div class="gallery">
+                <h3>Carpet Manufacturing</h3>
+                <div class="form-groups">
+                    <img src="https://images.unsplash.com/photo-1586941962765-4c2ddbe6b17e?w=400&h=300&fit=crop" alt="Industrial carpet production"
+                         data-title="Industrial Carpet Manufacturing"
+                         data-description="Large-scale carpet production using tufting technology to create pile fabrics. Modern carpet manufacturing involves yarn insertion, backing application, and finishing treatments to produce durable floor coverings with specific texture and performance characteristics."
+                         onclick="openImageModal(this)">
+                </div>
+            </div>
+
+            <div class="gallery">
+                <h3>Embroidery Technology</h3>
+                <div class="form-groups">
+                    <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop" alt="Computer-controlled embroidery machine"
+                         data-title="Computer-Controlled Embroidery"
+                         data-description="Advanced embroidery technology using computer-controlled multi-head machines for decorative textile applications. Digital design systems enable complex patterns, logo reproduction, and custom artwork application on various fabric substrates with precision and consistency."
+                         onclick="openImageModal(this)">
+                </div>
+            </div>
+
+            <div class="gallery">
+                <h3>Textile Recycling</h3>
+                <div class="form-groups">
+                    <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?w=400&h=300&fit=crop" alt="Textile waste recycling process"
+                         data-title="Sustainable Textile Recycling"
+                         data-description="Innovative textile recycling processes converting waste fabrics into new fibers and materials. Mechanical and chemical recycling methods help reduce environmental impact while creating circular economy solutions for the textile industry's sustainability challenges."
+                         onclick="openImageModal(this)">
+                </div>
+            </div>
+
+            <div class="gallery">
+                <h3>Leather Processing</h3>
+                <div class="form-groups">
+                    <img src="https://images.unsplash.com/photo-1584464491033-06628f3a6b7b?w=400&h=300&fit=crop" alt="Leather tanning and processing"
+                         data-title="Leather Tanning and Processing"
+                         data-description="Traditional leather processing involving hide preparation, tanning, and finishing operations. Chrome tanning and vegetable tanning methods convert raw hides into durable leather materials for footwear, apparel, and accessories manufacturing."
+                         onclick="openImageModal(this)">
+                </div>
+            </div>
+
+            <div class="gallery">
+                <h3>Flame Retardant Textiles</h3>
+                <div class="form-groups">
+                    <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=400&h=300&fit=crop" alt="Fire-resistant textile testing"
+                         data-title="Flame Retardant Textile Technology"
+                         data-description="Specialized flame retardant textiles for protective clothing and safety applications. Chemical treatments and inherently flame-resistant fibers provide critical protection in industrial environments, firefighting, and military applications where fire exposure is a risk."
+                         onclick="openImageModal(this)">
+                </div>
+            </div>
+
+            <div class="gallery">
+                <h3>Microfiber Technology</h3>
+                <div class="form-groups">
+                    <img src="https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?w=400&h=300&fit=crop" alt="Microfiber production process"
+                         data-title="Microfiber Production Technology"
+                         data-description="Ultra-fine microfiber manufacturing creating fibers finer than silk. These synthetic fibers offer superior cleaning properties, moisture management, and soft texture. Microfibers are produced through specialized spinning techniques creating sub-denier filaments."
+                         onclick="openImageModal(this)">
+                </div>
+            </div>
+
+            <div class="gallery">
+                <h3>Hemp Fiber Processing</h3>
+                <div class="form-groups">
+                    <img src="https://images.unsplash.com/photo-1584473457302-d942ed35d666?w=400&h=300&fit=crop" alt="Hemp fiber extraction and processing"
+                         data-title="Hemp Fiber Processing Methods"
+                         data-description="Sustainable hemp fiber extraction through retting and mechanical processing. Hemp fibers offer excellent strength, durability, and environmental benefits as a renewable resource for textile applications including apparel, rope, and composite materials."
+                         onclick="openImageModal(this)">
+                </div>
+            </div>
+
+            <div class="gallery">
+                <h3>Waterproof Textiles</h3>
+                <div class="form-groups">
+                    <img src="https://images.unsplash.com/photo-1558681383-3c0154b93983?w=400&h=300&fit=crop" alt="Waterproof membrane technology"
+                         data-title="Waterproof Membrane Technology"
+                         data-description="Advanced waterproof and breathable textile membranes for outdoor and technical applications. Microporous and hydrophilic membranes provide protection against water penetration while allowing vapor transmission for comfort in performance clothing."
+                         onclick="openImageModal(this)">
+                </div>
+            </div>
+
+            <div class="gallery">
+                <h3>Textile Color Matching</h3>
+                <div class="form-groups">
+                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop" alt="Computer color matching system"
+                         data-title="Computer Color Matching Systems"
+                         data-description="Precision color matching technology using spectrophotometry and computer algorithms for accurate color reproduction in textile manufacturing. These systems ensure color consistency across production batches and enable rapid formulation development."
+                         onclick="openImageModal(this)">
+                </div>
+            </div>
+
+            <div class="gallery">
+                <h3>Bamboo Textiles</h3>
+                <div class="form-groups">
+                    <img src="https://images.unsplash.com/photo-1582735689369-4fe89db7114c?w=400&h=300&fit=crop" alt="Bamboo fiber processing"
+                         data-title="Bamboo Fiber Production"
+                         data-description="Sustainable bamboo textile production through mechanical and chemical processing methods. Bamboo fibers offer natural antimicrobial properties, excellent moisture absorption, and environmental sustainability as a rapidly renewable resource for eco-friendly textiles."
+                         onclick="openImageModal(this)">
+                </div>
+            </div>
+
+            <div class="gallery">
+                <h3>Textile Machinery Automation</h3>
+                <div class="form-groups">
+                    <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=400&h=300&fit=crop" alt="Automated textile production line"
+                         data-title="Automated Textile Manufacturing"
+                         data-description="Industry 4.0 automation in textile manufacturing featuring robotics, IoT sensors, and AI-driven quality control systems. Automated production lines increase efficiency, reduce labor costs, and ensure consistent product quality in modern textile facilities."
+                         onclick="openImageModal(this)">
+                </div>
+            </div>
+
+            <div class="gallery">
+                <h3>Medical Textiles</h3>
+                <div class="form-groups">
+                    <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?w=400&h=300&fit=crop" alt="Medical grade textile materials"
+                         data-title="Medical Grade Textile Materials"
+                         data-description="Specialized medical textiles for healthcare applications including surgical implants, wound dressings, and protective equipment. These biocompatible materials must meet strict regulatory standards for safety, sterility, and performance in medical environments."
+                         onclick="openImageModal(this)">
+                </div>
+            </div>
+
+            <div class="gallery">
+                <h3>Nanotechnology in Textiles</h3>
+                <div class="form-groups">
+                    <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=400&h=300&fit=crop" alt="Nanofiber technology application"
+                         data-title="Nanotechnology Textile Applications"
+                         data-description="Revolutionary nanotechnology applications in textiles including nanofiber production, nanoparticle treatments, and molecular-level fabric modifications. These technologies enable self-cleaning surfaces, antimicrobial properties, and enhanced performance characteristics."
+                         onclick="openImageModal(this)">
+                </div>
+            </div>
+
+            <div class="gallery">
+                <h3>Geotextiles</h3>
+                <div class="form-groups">
+                    <img src="https://images.unsplash.com/photo-1586941962765-4c2ddbe6b17e?w=400&h=300&fit=crop" alt="Geotextile installation for soil reinforcement"
+                         data-title="Geotextile Engineering Applications"
+                         data-description="Technical geotextiles for civil engineering and construction applications including soil stabilization, drainage, and erosion control. These permeable fabrics provide structural support while allowing water flow in infrastructure projects."
+                         onclick="openImageModal(this)">
+                </div>
+            </div>
+
+            <div class="gallery">
+                <h3>Sportswear Technology</h3>
+                <div class="form-groups">
+                    <img src="https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=300&fit=crop" alt="High-performance sportswear textiles"
+                         data-title="High-Performance Sportswear Textiles"
+                         data-description="Advanced sportswear textiles featuring moisture-wicking, compression, and temperature regulation properties. These technical fabrics enhance athletic performance through engineered fiber structures and specialized finishing treatments for comfort and functionality."
+                         onclick="openImageModal(this)">
+                </div>
+            </div>
+
+            <div class="gallery">
+                <h3>Textile Waste Management</h3>
+                <div class="form-groups">
+                    <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?w=400&h=300&fit=crop" alt="Textile waste sorting and processing"
+                         data-title="Textile Waste Management Systems"
+                         data-description="Comprehensive textile waste management including collection, sorting, and processing systems for sustainable disposal and recycling. Effective waste management reduces environmental impact and enables recovery of valuable materials from post-consumer and post-industrial textile waste."
+                         onclick="openImageModal(this)">
+                </div>
+            </div>
+
+            <div class="gallery">
+                <h3>Digital Textile Design</h3>
+                <div class="form-groups">
+                    <img src="https://images.unsplash.com/photo-1558681383-3c0154b93983?w=400&h=300&fit=crop" alt="CAD software for textile design"
+                         data-title="Digital Textile Design Software"
+                         data-description="Computer-aided design (CAD) systems for textile pattern development, color management, and production planning. Digital design tools enable rapid prototyping, cost reduction, and improved creativity in textile product development processes."
+                         onclick="openImageModal(this)">
+                </div>
+            </div>
+
+            <div class="gallery">
+                <h3>Aramid Fibers</h3>
+                <div class="form-groups">
+                    <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=400&h=300&fit=crop" alt="Aramid fiber production and applications"
+                         data-title="Aramid Fiber Technology"
+                         data-description="High-strength aramid fibers like Kevlar for ballistic protection, aerospace, and industrial applications. These synthetic fibers offer exceptional strength-to-weight ratios, heat resistance, and cut protection for demanding technical applications requiring maximum performance."
+                         onclick="openImageModal(this)">
+                </div>
+            </div>
+        </div> -->
+
+        <!-- Image Modal -->
+        <div id="imageModal" class="modal" onclick="closeImageModal()">
+            <div class="modal-content" onclick="event.stopPropagation()">
+                <span class="close" onclick="closeImageModal()">&times;</span>
+                <div class="modal-body">
+                    <div class="modal-image-container" id="imageContainer">
+                        <div class="zoom-controls">
+                            <button class="zoom-btn" onclick="zoomIn()" title="Zoom In">+</button>
+                            <button class="zoom-btn" onclick="zoomOut()" title="Zoom Out">−</button>
+                            <button class="zoom-btn" onclick="resetZoom()" title="Reset Zoom">⌂</button>
+                        </div>
+                        <div class="image-wrapper" id="imageWrapper">
+                            <img id="modalImage" src="" alt="">
+                        </div>
+                        <div class="zoom-info" id="zoomInfo">100%</div>
+                    </div>
+                    <div class="modal-info">
+                        <h2 id="modalTitle"></h2>
+                        <div class="description-container">
+                            <p id="modalDescription" class="short-description"></p>
+                            <button id="readMoreBtn" class="read-more-btn" onclick="toggleDescription()">Read More</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-  <div class="panel">
-          <div class="form-group">
-            <img src="Conversion .jpg" alt="weave">
-          </div>
-          
-  </div>
-
-  <div class="panel">
-    <h3>Cross section of Textile fibers</h3>
-          <div class="form-group">
-            <img src="Cross section of Textile fibers .jpg" alt="weave">
-          </div>    
-  </div>
-
-  <div class="panel">
-    <h3>Plain weave designs</h3>
-          <div class="form-group">
-            <img src="CM Calculations in Garment .jpg" alt="weave">
-          </div>       
-  </div>
-
-  <div class="panel">
-    <h3>Cutting Process in Garment
-    </h3>
-          <div class="form-group">
-            <img src="Cutting Process in Garment .jpg" alt="weave">
-          </div>
-  </div>
-
-  <div class="panel">
-    <h3>Calculate Fabric Cost</h3>
-          <div class="form-group">
-            <img src="Calculate Fabric Cost .jpg" alt="weave">
-          </div>
-  </div>
-
-  <div class="panel">
-    <h3>Denim Construction</h3>
-          <div class="form-group">
-            <img src="Denim Construction.jpg" alt="weave">
-          </div>
-  </div>
-
-  <div class="panel">
-    <h3>Different types of Fabrics</h3>
-          <div class="form-group">
-            <img src="Different types of Fabrics.jpg" alt="weave">
-          </div>
-  </div>
-
-  <div class="panel">
-    <h3>Fabric GSM </h3>
-          <div class="form-group">
-            <img src="Fabric GSM .jpg" alt="weave">
-          </div>
-  </div>
-
-  <div class="panel">
-    <h3>Fabric inspection Systems</h3>
-          <div class="form-group">
-            <img src="Fabric inspection Systems.jpg" alt="weave">
-          </div>
-  </div>
-
-  <div class="panel">
-    <h3>Plain weave designs</h3>
-          <div class="form-group">
-            <img src="Plain weave designs.png" alt="weave">
-          </div>
-  </div>
-
-  <div class="panel">
-    <h3>Hidden Fabric losses</h3>
-          <div class="form-group">
-            <img src="Hidden Fabric losses.jpg" alt="weave">
-          </div>
-  </div>
-
-  <div class="panel">
-    <h3>Polo shirt construction</h3>
-          <div class="form-group">
-            <img src="Polo shirt construction.jpg" alt="weave">
-          </div>
-  </div>
-
-  <div class="panel">
-    <h3>Single Jersey Details</h3>
-          <div class="form-group">
-            <img src="Single Jersey Details.jpg" alt="weave">
-          </div>
-  </div>
-
-  <div class="panel">
-    <h3>Trims Vs Accessories</h3>
-          <div class="form-group">
-            <img src="Trims Vs Accessories .jpg" alt="weave">
-          </div>
-  </div>
-
-  <!-- <div class="panel">
-    <h3></h3>
-          <div class="form-group">
-            <img src="" alt="weave">
-          </div>
-  </div>
-
-  <div class="panel">
-    <h3></h3>
-          <div class="form-group">
-            <img src="" alt="weave">
-          </div>
-  </div>
-
-  <div class="panel">
-    <h3></h3>
-          <div class="form-group">
-            <img src="" alt="weave">
-          </div>
-  </div>
-
-  <div class="panel">
-    <h3></h3>
-          <div class="form-group">
-            <img src="" alt="weave">
-          </div>
-  </div> -->
-
-
-  
-  </div>
-  </div>
+    </div>
 
 
 
@@ -3191,6 +3970,212 @@ window.addEventListener('load', () => {
         </div>
       `;
     }
+
+
+
+
+
+
+
+
+
+     let isDescriptionExpanded = false;
+        let fullDescription = '';
+        let shortDescription = '';
+        let currentZoom = 1;
+        let isDragging = false;
+        let startX, startY, translateX = 0, translateY = 0;
+
+        function openImageModal(img) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalDescription = document.getElementById('modalDescription');
+            const readMoreBtn = document.getElementById('readMoreBtn');
+            
+            modal.style.display = 'block';
+            modalImg.src = img.src;
+            modalImg.alt = img.alt;
+            modalTitle.textContent = img.dataset.title;
+            
+            fullDescription = img.dataset.description;
+            shortDescription = fullDescription.length > 100 ? 
+                fullDescription.substring(0, 100) + '...' : fullDescription;
+            
+            modalDescription.textContent = shortDescription;
+            readMoreBtn.style.display = fullDescription.length > 100 ? 'inline-block' : 'none';
+            readMoreBtn.textContent = 'Read More';
+            isDescriptionExpanded = false;
+            
+            // Reset zoom and position
+            resetZoom();
+            
+            // Add animation class
+            modal.querySelector('.modal-content').style.transform = 'scale(0.7)';
+            modal.querySelector('.modal-content').style.opacity = '0';
+            
+            setTimeout(() => {
+                modal.querySelector('.modal-content').style.transform = 'scale(1)';
+                modal.querySelector('.modal-content').style.opacity = '1';
+            }, 10);
+
+            // Setup image interactions
+            setupImageInteractions();
+        }
+
+        function closeImageModal() {
+            const modal = document.getElementById('imageModal');
+            const modalContent = modal.querySelector('.modal-content');
+            
+            modalContent.style.transform = 'scale(0.7)';
+            modalContent.style.opacity = '0';
+            
+            setTimeout(() => {
+                modal.style.display = 'none';
+                resetZoom();
+            }, 300);
+        }
+
+        function toggleDescription() {
+            const modalDescription = document.getElementById('modalDescription');
+            const readMoreBtn = document.getElementById('readMoreBtn');
+            
+            if (isDescriptionExpanded) {
+                modalDescription.textContent = shortDescription;
+                readMoreBtn.textContent = 'Read More';
+                isDescriptionExpanded = false;
+            } else {
+                modalDescription.textContent = fullDescription;
+                readMoreBtn.textContent = 'Read Less';
+                isDescriptionExpanded = true;
+            }
+        }
+
+        function zoomIn() {
+            currentZoom = Math.min(currentZoom * 1.5, 5);
+            applyZoom();
+        }
+
+        function zoomOut() {
+            currentZoom = Math.max(currentZoom / 1.5, 0.5);
+            applyZoom();
+        }
+
+        function resetZoom() {
+            currentZoom = 1;
+            translateX = 0;
+            translateY = 0;
+            const container = document.getElementById('imageContainer');
+            container.scrollTo(0, 0);
+            applyZoom();
+        }
+
+        function applyZoom() {
+            const modalImg = document.getElementById('modalImage');
+            const imageContainer = document.getElementById('imageContainer');
+            const imageWrapper = document.getElementById('imageWrapper');
+            const zoomInfo = document.getElementById('zoomInfo');
+            
+            modalImg.style.transform = `scale(${currentZoom})`;
+            
+            if (currentZoom > 1) {
+                modalImg.classList.add('zoomed');
+                imageContainer.classList.add('zoomed');
+                // Make the wrapper large enough to contain the scaled image
+                const scaledWidth = modalImg.naturalWidth * currentZoom;
+                const scaledHeight = modalImg.naturalHeight * currentZoom;
+                imageWrapper.style.width = scaledWidth + 'px';
+                imageWrapper.style.height = scaledHeight + 'px';
+            } else {
+                modalImg.classList.remove('zoomed');
+                imageContainer.classList.remove('zoomed');
+                imageWrapper.style.width = '';
+                imageWrapper.style.height = '';
+            }
+            
+            zoomInfo.textContent = Math.round(currentZoom * 100) + '%';
+        }
+
+        function setupImageInteractions() {
+            const modalImg = document.getElementById('modalImage');
+            const container = document.getElementById('imageContainer');
+            
+            // Click to zoom
+            modalImg.onclick = function(e) {
+                e.stopPropagation();
+                if (currentZoom === 1) {
+                    currentZoom = 2;
+                } else {
+                    resetZoom();
+                }
+                applyZoom();
+            };
+
+            // Mouse wheel zoom
+            container.addEventListener('wheel', function(e) {
+                e.preventDefault();
+                if (e.deltaY < 0) {
+                    zoomIn();
+                } else {
+                    zoomOut();
+                }
+            });
+
+            // Wait for image to load to get natural dimensions
+            modalImg.onload = function() {
+                applyZoom();
+            };
+        }
+
+        // Remove the complex drag functionality since we're using native scroll now
+        function startDrag(e) {
+            // Removed - using native scroll instead
+        }
+
+        function drag(e) {
+            // Removed - using native scroll instead
+        }
+
+        function endDrag() {
+            // Removed - using native scroll instead
+        }
+
+        // Simplified touch handling for mobile devices
+        function handleTouchStart(e) {
+            if (e.touches.length === 2) {
+                lastTouchDistance = getTouchDistance(e.touches);
+            }
+        }
+
+        function handleTouchMove(e) {
+            if (e.touches.length === 2) {
+                e.preventDefault();
+                const newDistance = getTouchDistance(e.touches);
+                const scale = newDistance / lastTouchDistance;
+                currentZoom = Math.min(Math.max(currentZoom * scale, 0.5), 5);
+                lastTouchDistance = newDistance;
+                applyZoom();
+            }
+        }
+
+        function handleTouchEnd(e) {
+            // Touch end handling for pinch-to-zoom
+        }
+
+        function getTouchDistance(touches) {
+            const dx = touches[0].clientX - touches[1].clientX;
+            const dy = touches[0].clientY - touches[1].clientY;
+            return Math.sqrt(dx * dx + dy * dy);
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeImageModal();
+            }
+        });
+
+    
   </script>
 
           <!-- Add this above </body> -->
