@@ -1,4 +1,3 @@
-<!-- only Form with name ,phone in admin  DEEPSEEK  -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -386,6 +385,116 @@
       color: #495057;
     }
     
+    /* Admin Form Styles */
+    .admin-form-section {
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 15px;
+      border-left: 5px solid #6c757d;
+      color: #333;
+    }
+    .admin-form {
+      margin-top: 15px;
+    }
+    .admin-form-group {
+      margin-bottom: 15px;
+    }
+    .admin-form-group label {
+      font-size: 0.9rem;
+      margin-bottom: 5px;
+      color: #495057;
+    }
+    .admin-form-group input {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid #ced4da;
+      font-size: 0.9rem;
+      background: #fff;
+      margin-bottom: 0;
+    }
+    .admin-form-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    .admin-form-buttons button {
+      flex: 1;
+      padding: 10px;
+      font-size: 0.9rem;
+      margin: 0;
+    }
+    .admin-users-list {
+      margin-top: 20px;
+    }
+    .admin-users-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
+    .admin-users-table th, 
+    .admin-users-table td {
+      padding: 8px 12px;
+      border: 1px solid #dee2e6;
+      text-align: left;
+    }
+    .admin-users-table th {
+      background-color: #6c757d;
+      color: white;
+    }
+    .admin-users-table tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    .admin-users-table .action-btn {
+      padding: 5px 8px;
+      font-size: 0.8rem;
+      margin: 2px;
+      width: auto;
+      display: inline-block;
+    }
+    
+    .admin-btn.danger.reset-all {
+      background: linear-gradient(135deg, #ff0000, #cc0000);
+      margin-top: 15px;
+      width: 100%;
+    }
+    .admin-btn.danger.reset-all:hover {
+      background: linear-gradient(135deg, #cc0000, #990000);
+    }
+    
+    /* Circular Image Styles */
+    .circle-img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      cursor: pointer;
+      display: block;
+      margin-right: 27cm;
+    }
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      backdrop-filter: blur(5px);
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+    .full-img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+      background: white;
+    }
+    
     @media (max-width: 768px) {
       .container {
         margin: 20px;
@@ -419,214 +528,10 @@
       .stat-box {
         margin: 5px 0;
       }
+      .admin-form-buttons {
+        flex-direction: column;
+      }
     }
-
-
-
-
-
-
-
-
-/* Trial Form Modal Styles */
-  .modal {
-    display: none;
-    position: fixed;
-    z-index: 2000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.8);
-  }
-  
-  .modal-content {
-    background-color: #fefefe;
-    margin: 5% auto;
-    padding: 30px;
-    border-radius: 15px;
-    width: 90%;
-    max-width: 500px;
-    box-shadow: 0 5px 30px rgba(0,0,0,0.3);
-    animation: modalopen 0.5s;
-  }
-  
-  @keyframes modalopen {
-    from { opacity: 0; transform: translateY(-50px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  
-  .close-modal {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s;
-  }
-  
-  .close-modal:hover {
-    color: #333;
-    transform: rotate(90deg);
-  }
-  
-  .submit-trial-btn {
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white;
-    border: none;
-    padding: 15px 30px;
-    border-radius: 10px;
-    font-weight: 600;
-    font-size: 1rem;
-    cursor: pointer;
-    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
-    transition: all 0.3s ease;
-    width: 100%;
-    margin-top: 20px;
-  }
-  
-  .submit-trial-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
-  }
-  
-  .submit-trial-btn:active {
-    transform: translateY(-1px);
-  }
-
-  .admin-btn.danger.reset-all {
-    background: linear-gradient(135deg, #ff0000, #cc0000);
-    margin-top: 15px;
-    width: 100%;
-  }
-  .admin-btn.danger.reset-all:hover {
-    background: linear-gradient(135deg, #cc0000, #990000);
-  }
-
-
-
-
-/* Admin Form Styles */
-/* .admin-form-section {
-  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-  padding: 20px;
-  border-radius: 10px;
-  margin-top: 15px;
-  border-left: 5px solid #6c757d;
-  color: #333;
-}
-
-.admin-form {
-  margin-top: 15px;
-}
-
-.admin-form-group {
-  margin-bottom: 15px;
-}
-
-.admin-form-group label {
-  font-size: 0.9rem;
-  margin-bottom: 5px;
-  color: #495057;
-}
-
-.admin-form-group input,
-.admin-form-group select {
-  width: 100%;
-  padding: 10px 12px;
-  border-radius: 8px;
-  border: 1px solid #ced4da;
-  font-size: 0.9rem;
-  background: #fff;
-  margin-bottom: 0;
-}
-
-.admin-form-buttons {
-  display: flex;
-  gap: 10px;
-  margin-top: 15px;
-}
-
-.admin-form-buttons button {
-  flex: 1;
-  padding: 10px;
-  font-size: 0.9rem;
-  margin: 0;
-}
-
-.admin-users-list {
-  margin-top: 20px;
-}
-
-.admin-users-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
-  font-size: 0.9rem;
-}
-
-.admin-users-table th, 
-.admin-users-table td {
-  padding: 8px 12px;
-  border: 1px solid #dee2e6;
-  text-align: left;
-}
-
-.admin-users-table th {
-  background-color: #6c757d;
-  color: white;
-}
-
-.admin-users-table tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-.admin-users-table .action-btn {
-  padding: 5px 8px;
-  font-size: 0.8rem;
-  margin: 2px;
-  width: auto;
-  display: inline-block;
-} */
-  
-
-
-.circle-img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    object-fit: cover;
-    cursor: pointer;
-    display: block;
-    
-    margin-right: 27cm;
-}
-
-/* Overlay (blurred background) */
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    backdrop-filter: blur(5px); /* Blur effect */
-    background: rgba(0, 0, 0, 0.5); /* Dark overlay */
-    display: none; /* Hidden by default */
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
-}
-
-/* Full Image inside popup */
-.full-img {
-    max-width: 90%;
-    max-height: 90%;
-    border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.8);
-    background: white;
-}
-
-
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
@@ -637,16 +542,16 @@
       <div class="modal-header">
         <h3><i class="fas fa-globe"></i> Your Textile Engineering Suite</h3>
         <!-- Circular Thumbnail -->
-<img src="Screenshot 2025-07-24 212211.png" alt="Circular Image" class="circle-img" id="thumbnail" >
-
-<!-- Overlay Popup -->
-<div class="overlay" id="overlay">
-    <img src="Screenshot 2025-07-24 212211.png" alt="Full Image" class="full-img" id="fullImage">
-</div>
+        <img src="Screenshot 2025-07-24 212211.png" alt="Circular Image" class="circle-img" id="thumbnail">
         <button class="close-modal" onclick="closeWebsiteModal()">&times;</button>
       </div>
       <iframe id="websiteFrame" class="website-iframe" src="Screenshot 2025-07-24 212211.png"></iframe>
     </div>
+  </div>
+
+  <!-- Overlay Popup -->
+  <div class="overlay" id="overlay">
+    <img src="Screenshot 2025-07-24 212211.png" alt="Full Image" class="full-img" id="fullImage">
   </div>
 
   <!-- Admin Panel -->
@@ -706,6 +611,46 @@
       </table>
     </div>
     
+    <!-- Admin Form Section -->
+    <div class="admin-form-section">
+      <h5><i class="fas fa-user-plus"></i> Add Admin User</h5>
+      
+      <form id="adminUserForm" class="admin-form">
+        <div class="admin-form-group">
+          <label for="adminName"><i class="fas fa-user"></i> Name</label>
+          <input type="text" id="adminName" placeholder="Enter admin name" required>
+        </div>
+        
+        <div class="admin-form-group">
+          <label for="adminPhone"><i class="fas fa-phone"></i> Phone</label>
+          <input type="tel" id="adminPhone" placeholder="Enter phone number" required>
+        </div>
+        
+        <div class="admin-form-buttons">
+          <button type="submit" class="admin-btn">
+            <i class="fas fa-save"></i> Save Admin
+          </button>
+          <button type="button" class="admin-btn" onclick="clearAdminForm()">
+            <i class="fas fa-eraser"></i> Clear
+          </button>
+        </div>
+      </form>
+      
+      <div class="admin-users-list">
+        <h5><i class="fas fa-users"></i> Admin Users</h5>
+        <table class="admin-users-table" id="adminUsersTable">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Phone</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    
     <button class="admin-btn" onclick="resetTrial()">
       <i class="fas fa-redo"></i> Reset Trial
     </button>
@@ -737,75 +682,25 @@
     <button class="admin-btn" onclick="viewActiveKeys()">
       <i class="fas fa-eye"></i> View Keys
     </button>
+    
     <button class="admin-btn danger" onclick="resetAllTrials()">
-  <i class="fas fa-user-slash"></i> Reset All Trials
-</button>
-
-<!-- <button class="admin-btn danger" onclick="resetAllKeys()">
-  <i class="fas fa-key"></i> Reset All Keys
-</button> -->
+      <i class="fas fa-user-slash"></i> Reset All Trials
+    </button>
+    
+    <button class="admin-btn danger" onclick="resetAllKeys()">
+      <i class="fas fa-key"></i> Reset All Keys
+    </button>
     
     <hr style="margin: 15px 0; border-color: #555;">
     <small>
       <strong>Quick Actions:</strong><br>
       • Reset Trial: Allows user to take trial again<br>
-      • Activate Trial: Starts a new 2-day trial<br>
+      • Activate Trial: Starts a new 7-day trial<br>
       • Expire Trial: Immediately ends current trial<br>
       • Clear All: Removes all stored data<br>
       • Add Key: Create new access key-phone pair<br>
       • View Keys: See all configured keys
     </small>
-    <!-- Add this inside the admin-panel div, just before the closing </div> tag -->
-<!-- <div class="admin-form-section">
-  <h5><i class="fas fa-user-plus"></i> Admin User Management</h5>
-  
-  <form id="adminUserForm" class="admin-form">
-    <div class="admin-form-group">
-      <label for="adminName"><i class="fas fa-user"></i> Name</label>
-      <input type="text" id="adminName" placeholder="Enter full name" required>
-    </div>
-    
-    <div class="admin-form-group">
-      <label for="adminPhone"><i class="fas fa-phone"></i> Phone</label>
-      <input type="tel" id="adminPhone" placeholder="Enter phone number" required>
-    </div>
-    
-    <div class="admin-form-group">
-      <label for="adminRole"><i class="fas fa-user-tag"></i> Role</label>
-      <select id="adminRole" required>
-        <option value="">Select role</option>
-        <option value="admin">Admin</option>
-        <option value="support">Support</option>
-        <option value="sales">Sales</option>
-        <option value="developer">Developer</option>
-      </select>
-    </div>
-    
-    <div class="admin-form-buttons">
-      <button type="submit" class="admin-btn">
-        <i class="fas fa-save"></i> Save User
-      </button>
-      <button type="button" class="admin-btn" onclick="clearAdminForm()">
-        <i class="fas fa-eraser"></i> Clear
-      </button>
-    </div>
-  </form>
-  
-  <div class="admin-users-list">
-    <h5><i class="fas fa-users"></i> Admin Users</h5>
-    <table class="admin-users-table" id="adminUsersTable">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Phone</th>
-          <th>Role</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </div>
-</div> -->
   </div>
 
   <div class="container">
@@ -822,12 +717,10 @@
       </button>
     </div>
     <div id="trialExpired" class="trial-expired">
-      <h3><i class="fas fa-exclamation-triangle"></i> Your 2 Days Trial is Completed</h3>
+      <h3><i class="fas fa-exclamation-triangle"></i> Your 7 Days Trial is Completed</h3>
       <p>Thank you for trying our Textile Engineering Suite! To continue using our services, please contact us for payment options.</p>
       <button onclick="contactForPayment()"><i class="fas fa-credit-card"></i> Contact for Payment</button>
     </div>
-
-    
 
     <div class="trial-section">
       <h3><i class="fas fa-gift"></i> Try Our Textile Engineering Suite</h3>
@@ -835,7 +728,7 @@
       <div class="trial-options">
         <div class="trial-option" onclick="selectOption('trial')">
           <i class="fas fa-clock" style="font-size: 2rem; color: #28a745; margin-bottom: 10px;"></i>
-          <h4>2 Days Free Trial</h4>
+          <h4>7 Days Free Trial</h4>
           <p>Full access to all features</p>
           <small>No payment required</small>
         </div>
@@ -864,8 +757,8 @@
       </small>
     </div>
 
-<h1><i class="fas fa-envelope"></i> Contact Us for Textile Engineering Suite Web Calculator</h1>
-  <form id="contactForm" autocomplete="off">
+    <h1><i class="fas fa-envelope"></i> Contact Us for Textile Engineering Suite Web Calculator</h1>
+    <form id="contactForm" autocomplete="off">
       <div class="form-group">
         <label for="name"><i class="fas fa-user"></i> Name</label>
         <input type="text" id="name" name="name" required maxlength="60" placeholder="Enter your full name">
@@ -885,9 +778,6 @@
       <button type="submit" id="submitBtn"><i class="fas fa-paper-plane"></i> Send Message</button>
     </form>
 
-
-
-
     <div class="contact-info">
       <h3><i class="fas fa-info-circle"></i> Textile Engineering Suite</h3>
       <p><i class="fas fa-envelope"></i> Email: <a href="mailto:22tt010@titsbhiwani.ac.in">22tt010@titsbhiwani.ac.in</a></p>
@@ -896,40 +786,6 @@
       <p><i class="fas fa-map-marker-alt"></i> Location: India</p>
     </div>
   </div>
-
-  <!-- Add this modal form to your HTML (place it just before the closing </body> tag) -->
-<div id="trialFormModal" class="modal" style="display: none;">
-  <div class="modal-content">
-    <span class="close-modal" onclick="closeTrialForm()">&times;</span>
-    <h2><i class="fas fa-gift"></i> Start Your Free Trial</h2>
-    <p>Please provide your information to start your 2-day free trial of the Textile Engineering Suite:</p>
-    
-    <form id="trialSignupForm" action="https://formspree.io/f/mnnzgvdz"
-  method="POST">
-      <div class="form-group">
-        <label for="trialName"><i class="fas fa-user"></i> Full Name *</label>
-        <input type="text" id="trialName" name="trialName" required placeholder="Enter your full name">
-      </div>
-      
-      <div class="form-group">
-        <label for="trialPhone"><i class="fas fa-phone"></i> Phone Number *</label>
-        <input type="tel" id="trialPhone" name="trialPhone" required placeholder="Enter your phone number">
-      </div>
-      
-      <div class="form-group">
-        <label for="trialEmail"><i class="fas fa-envelope"></i> Email Address *</label>
-        <input type="email" id="trialEmail" name="trialEmail" required placeholder="your.email@example.com">
-      </div>
-      
-      <button type="submit" class="submit-trial-btn">
-        <i class="fas fa-play"></i> Start Free Trial
-      </button>
-    </form>
-  </div>
-</div>
-<button class="admin-btn danger" onclick="resetAllKeys()">
-  <i class="fas fa-key"></i> Reset All Keys
-</button>
 
   <script>
     let selectedOption = null;
@@ -954,65 +810,47 @@
       updateStorageInfo();
       initializeKeySession();
       loadValidKeys();
+      loadAdminUsers();
     });
 
     function resetAllKeys() {
-  if (confirm('Are you sure you want to reset ALL access keys to default?')) {
-    localStorage.removeItem('validKeyPhonePairs');
-    loadValidKeys(); // This will recreate the default keys
-    showMessage('success', '✅ All access keys have been reset to default values.');
-    updateStorageInfo();
-  }
-}
+      if (confirm('Are you sure you want to reset ALL access keys to default?')) {
+        localStorage.removeItem('validKeyPhonePairs');
+        loadValidKeys(); // This will recreate the default keys
+        showMessage('success', '✅ All access keys have been reset to default values.');
+        updateStorageInfo();
+      }
+    }
 
-const thumbnail = document.getElementById('thumbnail');
-const overlay = document.getElementById('overlay');
+    const thumbnail = document.getElementById('thumbnail');
+    const overlay = document.getElementById('overlay');
 
-thumbnail.onclick = function() {
-    overlay.style.display = 'flex'; // Show popup
-};
+    thumbnail.onclick = function() {
+        overlay.style.display = 'flex'; // Show popup
+    };
 
-overlay.onclick = function() {
-    overlay.style.display = 'none'; // Hide when clicking anywhere
-};
-
+    overlay.onclick = function() {
+        overlay.style.display = 'none'; // Hide when clicking anywhere
+    };
 
     // Load valid keys from localStorage or use defaults
     function loadValidKeys() {
-  const storedKeys = localStorage.getItem('validKeyPhonePairs');
-  if (!storedKeys) {
-    // Set default keys if none exist (now with 20 total keys)
-    const defaultKeys = {
-      // Original 5 keys
-      'TEXTILE-2024-PREMIUM': ['1234567890', '9876543210'],
-      'ABHI': ['1111111111', '9460448983'],
-      'ENGINEERING-SUITE-PRO': ['5555555555', '7777777777'],
-      'DEMO-KEY-12345': ['9999999999', '8888888888'],
-      'VIP-ACCESS-2024': ['1357924680', '0987654321'],
-      
-      // 15 Additional keys
-      'TEXTILE-MASTER-00111': ['1212121212', '3434343434'],
-      'FABRIC-PRO-2024': ['5656565656', '7878787878'],
-      'WEAVING-SUITE-XP': ['9090909090', '1231231231'],
-      'INDUSTRY-4-TEXTILE': ['4564564564', '7897897897'],
-      'TECH-TEXT-ADVANCE': ['3213213213', '6546546546'],
-      'SMART-LOOM-ACCESS': ['9879879879', '1234567891'],
-      'DIGI-TWILL-PRO': ['2345678912', '3456789123'],
-      'KNIT-ANALYTICS-V2': ['4567891234', '5678912345'],
-      'YARN-OPTIMIZER-PLUS': ['6789123456', '7891234567'],
-      'PATTERN-DESIGN-360': ['8912345678', '9123456789'],
-      'TEXTILE-AI-EDITION': ['1122334455', '2233445566'],
-      'FASHION-TECH-PRO': ['3344556677', '4455667788'],
-      'ECO-FIBER-ACCESS': ['5566778899', '6677889900'],
-      'SUSTAIN-TEXTILE-X': ['7788990011', '8899001122'],
-      'FUTURE-FABRIC-KEY': ['9900112233', '0011223344'],
-      'ABHISHEK': ['9460448983', '9413665044']
-    };
-    localStorage.setItem('validKeyPhonePairs', JSON.stringify(defaultKeys));
-    return defaultKeys; // Return the newly created keys
-  }
-  return JSON.parse(storedKeys); // Return existing keys
-}
+      const storedKeys = localStorage.getItem('validKeyPhonePairs');
+      if (!storedKeys) {
+        // Set default keys if none exist
+        const defaultKeys = {
+          'TEXTILE-2024-PREMIUM': ['1234567890', '9876543210'],
+          'ABHI': ['1111111111', '9460448983'],
+          'ENGINEERING-SUITE-PRO': ['5555555555', '7777777777'],
+          'DEMO-KEY-12345': ['9999999999', '8888888888'],
+          'VIP-ACCESS-2024': ['1357924680', '0987654321'],
+          'ABHISHEK': ['9460448983', '9413665044']
+        };
+        localStorage.setItem('validKeyPhonePairs', JSON.stringify(defaultKeys));
+        return defaultKeys; // Return the newly created keys
+      }
+      return JSON.parse(storedKeys); // Return existing keys
+    }
 
     function getValidKeys() {
       const keys = localStorage.getItem('validKeyPhonePairs');
@@ -1064,69 +902,69 @@ overlay.onclick = function() {
     });
 
     function validateKey() {
-  const keyInput = document.getElementById('accessKey');
-  const phoneInput = document.getElementById('keyPhoneNumber');
-  const enteredKey = keyInput.value.trim().toUpperCase();
-  let enteredPhone = phoneInput.value.trim();
-  
-  // Clean the phone number by removing all non-digit characters
-  enteredPhone = enteredPhone.replace(/\D/g, '');
-  
-  if (!enteredKey || !enteredPhone) {
-    showKeyStatus('error', '❌ Please enter both phone number and access key.');
-    return;
-  }
-  
-  const validKeyPhonePairs = loadValidKeys(); // Get the current keys
-  
-  if (!validKeyPhonePairs[enteredKey]) {
-    showKeyStatus('error', '❌ Invalid access key. Please check your key and try again.');
-    return;
-  }
-  
-  // Check if the cleaned phone number matches any of the allowed numbers for this key
-  if (!validKeyPhonePairs[enteredKey].includes(enteredPhone)) {
-    showKeyStatus('error', '❌ Phone number does not match the provided access key. Please verify both fields.');
-    return;
-  }
-  
-  const uniqueIdentifier = enteredKey + '_' + enteredPhone;
-  
-  if (activeKeys[uniqueIdentifier]) {
-    const existingSession = activeKeys[uniqueIdentifier];
-    const currentSessionId = sessionStorage.getItem('keySessionId');
-    
-    if (existingSession.sessionId !== currentSessionId) {
-      showKeyStatus('error', `❌ This key-phone combination is currently active in another tab/window. Please close that tab first.`);
-      return;
+      const keyInput = document.getElementById('accessKey');
+      const phoneInput = document.getElementById('keyPhoneNumber');
+      const enteredKey = keyInput.value.trim().toUpperCase();
+      let enteredPhone = phoneInput.value.trim();
+      
+      // Clean the phone number by removing all non-digit characters
+      enteredPhone = enteredPhone.replace(/\D/g, '');
+      
+      if (!enteredKey || !enteredPhone) {
+        showKeyStatus('error', '❌ Please enter both phone number and access key.');
+        return;
+      }
+      
+      const validKeyPhonePairs = loadValidKeys(); // Get the current keys
+      
+      if (!validKeyPhonePairs[enteredKey]) {
+        showKeyStatus('error', '❌ Invalid access key. Please check your key and try again.');
+        return;
+      }
+      
+      // Check if the cleaned phone number matches any of the allowed numbers for this key
+      if (!validKeyPhonePairs[enteredKey].includes(enteredPhone)) {
+        showKeyStatus('error', '❌ Phone number does not match the provided access key. Please verify both fields.');
+        return;
+      }
+      
+      const uniqueIdentifier = enteredKey + '_' + enteredPhone;
+      
+      if (activeKeys[uniqueIdentifier]) {
+        const existingSession = activeKeys[uniqueIdentifier];
+        const currentSessionId = sessionStorage.getItem('keySessionId');
+        
+        if (existingSession.sessionId !== currentSessionId) {
+          showKeyStatus('error', `❌ This key-phone combination is currently active in another tab/window. Please close that tab first.`);
+          return;
+        }
+      }
+      
+      const currentSessionId = sessionStorage.getItem('keySessionId');
+      activeKeys[uniqueIdentifier] = {
+        sessionId: currentSessionId,
+        key: enteredKey,
+        phone: enteredPhone,
+        activatedAt: Date.now(),
+        tabInfo: {
+          userAgent: navigator.userAgent.substring(0, 50),
+          timestamp: new Date().toLocaleString()
+        }
+      };
+      
+      localStorage.setItem('activeKeys', JSON.stringify(activeKeys));
+      sessionStorage.setItem('currentAccessKey', enteredKey);
+      sessionStorage.setItem('currentAccessPhone', enteredPhone);
+      
+      keySessionActive = true;
+      
+      showKeyStatus('success', `✅ Access validated! Key "${enteredKey}" with phone ending in "${enteredPhone.slice(-4)}" - Opening website...`);
+      
+      setTimeout(() => {
+        openWebsiteModal();
+        showKeyStatus('success', `🚀 Website opened! Your access remains active in this tab.`);
+      }, 1500);
     }
-  }
-  
-  const currentSessionId = sessionStorage.getItem('keySessionId');
-  activeKeys[uniqueIdentifier] = {
-    sessionId: currentSessionId,
-    key: enteredKey,
-    phone: enteredPhone,
-    activatedAt: Date.now(),
-    tabInfo: {
-      userAgent: navigator.userAgent.substring(0, 50),
-      timestamp: new Date().toLocaleString()
-    }
-  };
-  
-  localStorage.setItem('activeKeys', JSON.stringify(activeKeys));
-  sessionStorage.setItem('currentAccessKey', enteredKey);
-  sessionStorage.setItem('currentAccessPhone', enteredPhone);
-  
-  keySessionActive = true;
-  
-  showKeyStatus('success', `✅ Access validated! Key "${enteredKey}" with phone ending in "${enteredPhone.slice(-4)}" - Opening website...`);
-  
-  setTimeout(() => {
-    openWebsiteModal();
-    showKeyStatus('success', `🚀 Website opened! Your access remains active in this tab.`);
-  }, 1500);
-}
 
     function showKeyStatus(type, message) {
       const statusDiv = document.getElementById('keyStatus');
@@ -1222,18 +1060,15 @@ overlay.onclick = function() {
     }
 
     // Trial Users Tracking Functions
-    function trackTrialUser(name, email, phone) {
+    function trackTrialUser() {
       const trialUsers = JSON.parse(localStorage.getItem('trialUsers')) || [];
       const now = new Date();
       
       const userData = {
         id: 'user_' + now.getTime() + '_' + Math.random().toString(36).substr(2, 5),
-        name: name,
-        email: email,
-        phone: phone,
         startTime: now.getTime(),
         active: true,
-        endTime: now.getTime() + (2 * 24 * 60 * 60 * 1000) // 2 days from now
+        endTime: now.getTime() + (7 * 24 * 60 * 60 * 1000) // 7 days from now
       };
       
       trialUsers.push(userData);
@@ -1254,9 +1089,9 @@ overlay.onclick = function() {
       document.getElementById('activeTrialsCount').textContent = activeTrials.length;
       document.getElementById('totalTrialsCount').textContent = trialUsers.length;
       
-      // Count unique users (by email)
-      const uniqueEmails = [...new Set(trialUsers.map(user => user.email))];
-      document.getElementById('uniqueUsersCount').textContent = uniqueEmails.length;
+      // Count unique users (by id)
+      const uniqueIds = [...new Set(trialUsers.map(user => user.id))];
+      document.getElementById('uniqueUsersCount').textContent = uniqueIds.length;
       
       // Populate active trials table
       const activeTableBody = document.querySelector('#activeTrialsTable tbody');
@@ -1269,9 +1104,9 @@ overlay.onclick = function() {
         
         const row = document.createElement('tr');
         row.innerHTML = `
-          <td>${user.name}</td>
-          <td>${user.phone}</td>
-          <td>${user.email}</td>
+          <td>Anonymous User</td>
+          <td>N/A</td>
+          <td>N/A</td>
           <td>${days}d ${hours}h</td>
           <td>${new Date(user.startTime).toLocaleString()}</td>
         `;
@@ -1285,9 +1120,9 @@ overlay.onclick = function() {
       trialUsers.forEach(user => {
         const row = document.createElement('tr');
         row.innerHTML = `
-          <td>${user.name}</td>
-          <td>${user.phone}</td>
-          <td>${user.email}</td>
+          <td>Anonymous User</td>
+          <td>N/A</td>
+          <td>N/A</td>
           <td>${user.active && user.endTime > now ? 'Active' : 'Expired'}</td>
           <td>${new Date(user.startTime).toLocaleString()}</td>
         `;
@@ -1310,6 +1145,8 @@ overlay.onclick = function() {
         user.active && user.endTime > new Date().getTime()
       );
       
+      const adminUsers = JSON.parse(localStorage.getItem('adminUsers')) || [];
+      
       let startDate = 'null';
       if (trialStartTime !== 'null') {
         startDate = new Date(parseInt(trialStartTime)).toLocaleString();
@@ -1330,7 +1167,9 @@ overlay.onclick = function() {
         Current Phone: ${phoneDisplay}<br>
         Active Keys: ${activeKeysCount}<br>
         Valid Keys: ${validKeysCount}<br>
-        Key Session: ${keySessionActive ? 'Active' : 'Inactive'}
+        Key Session: ${keySessionActive ? 'Active' : 'Inactive'}<br><br>
+        <strong>Admin Users:</strong><br>
+        Total Admin Users: ${adminUsers.length}
       `;
       
       // Update the trial users display
@@ -1351,15 +1190,16 @@ overlay.onclick = function() {
       localStorage.setItem('trialUsed', 'true');
       localStorage.setItem('trialActive', 'true');
       localStorage.setItem('trialStartTime', now.toString());
+      trackTrialUser();
       updateStorageInfo();
-      showMessage('success', '✅ Trial activated! 2-day countdown started.');
+      showMessage('success', '✅ 7-day trial activated! Countdown started.');
       setTimeout(() => location.reload(), 1000);
     }
 
     function expireTrial() {
       localStorage.setItem('trialUsed', 'true');
       localStorage.setItem('trialActive', 'false');
-      const expiredTime = new Date().getTime() - (3 * 24 * 60 * 60 * 1000);
+      const expiredTime = new Date().getTime() - (8 * 24 * 60 * 60 * 1000);
       localStorage.setItem('trialStartTime', expiredTime.toString());
       updateStorageInfo();
       showMessage('success', '✅ Trial has been expired.');
@@ -1368,18 +1208,10 @@ overlay.onclick = function() {
 
     function clearAllStorage() {
       if (confirm('Are you sure you want to clear all stored data? This cannot be undone.')) {
-        // Optionally preserve trial users data
-        // const trialUsers = JSON.parse(localStorage.getItem('trialUsers')) || [];
-        
         localStorage.clear();
         sessionStorage.clear();
         activeKeys = {};
         keySessionActive = false;
-        
-        // Optionally restore trial users data
-        // if (trialUsers.length > 0) {
-        //   localStorage.setItem('trialUsers', JSON.stringify(trialUsers));
-        // }
         
         updateStorageInfo();
         showMessage('success', '✅ All localStorage and sessionStorage data has been cleared.');
@@ -1399,6 +1231,7 @@ overlay.onclick = function() {
         trialUsers: JSON.parse(localStorage.getItem('trialUsers')) || [],
         validKeys: getValidKeys(),
         activeKeys: activeKeys,
+        adminUsers: JSON.parse(localStorage.getItem('adminUsers')) || [],
         exportDate: new Date().toLocaleString()
       };
       
@@ -1412,175 +1245,28 @@ overlay.onclick = function() {
       URL.revokeObjectURL(url);
     }
 
-    // Modify the selectOption function to show the trial form
-  function selectOption(option) {
-    selectedOption = option;
-    
-    if (option === 'trial') {
-      const trialUsed = localStorage.getItem('trialUsed') === 'true';
-      if (trialUsed) {
-        showMessage('error', '❌ You have already used your free trial on this system. Please contact us for payment options.');
-        return;
+    // Modified selectOption function for direct trial start
+    function selectOption(option) {
+      selectedOption = option;
+      
+      if (option === 'trial') {
+        const trialUsed = localStorage.getItem('trialUsed') === 'true';
+        if (trialUsed) {
+          showMessage('error', '❌ You have already used your free trial on this system. Please contact us for payment options.');
+          return;
+        }
+        // Directly start the 7-day trial without form
+        startFreeTrial();
+      } else if (option === 'payment') {
+        contactForPayment();
       }
-      showTrialForm();
-    } else if (option === 'payment') {
-      contactForPayment();
-    }
-    
-    document.querySelectorAll('.trial-option').forEach(opt => {
-      opt.classList.remove('selected');
-    });
-    
-    event.currentTarget.classList.add('selected');
-  }
-
-  // Show trial form modal
-  function showTrialForm() {
-    document.getElementById('trialFormModal').style.display = 'block';
-    document.body.style.overflow = 'hidden';
-  }
-
-  // Close trial form modal
-  function closeTrialForm() {
-    document.getElementById('trialFormModal').style.display = 'none';
-    document.body.style.overflow = 'auto';
-  }
-
-  // Handle trial form submission
-  document.getElementById('trialSignupForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const name = document.getElementById('trialName').value.trim();
-    const phone = document.getElementById('trialPhone').value.trim();
-    const email = document.getElementById('trialEmail').value.trim();
-    
-    if (!name || !phone || !email) {
-      showMessage('error', 'Please fill in all required fields');
-      return;
-    }
-    
-    // Set the values in the main form
-    document.getElementById('name').value = name;
-    document.getElementById('phone').value = phone;
-    document.getElementById('email').value = email;
-    
-    // Close the modal
-    closeTrialForm();
-    
-    // Start the trial
-    startFreeTrial();
-  });
-
-  // Update the startFreeTrial function to use the collected info
-  
-
-  // Close modal when clicking outside
-  window.addEventListener('click', function(e) {
-    const modal = document.getElementById('trialFormModal');
-    if (e.target === modal) {
-      closeTrialForm();
-    }
-  });
-
-    // <!-- Add this to your JavaScript section -->
-
-  // Modified startFreeTrial function to send data to Formspree
-  async function startFreeTrial() {
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const phone = document.getElementById('phone').value || 'Not provided';
-    
-    if (!name || !email) {
-      showMessage('error', 'Please provide your name and email to start the trial');
-      return;
-    }
-    
-    // Prepare data for Formspree
-    const formData = {
-      name: name,
-      email: email,
-      phone: phone,
-      message: 'New trial signup for Textile Engineering Suite',
-      trialStart: new Date().toLocaleString(),
-      trialDuration: '2 days',
-      _subject: 'New Trial Signup - Textile Engineering Suite'
-    };
-
-    try {
-      // Show loading state
-      const submitBtn = document.querySelector('#trialSignupForm button[type="submit"]');
-      const originalText = submitBtn.innerHTML;
-      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Starting Trial...';
-      submitBtn.disabled = true;
-
-      // Send data to Formspree
-      const response = await fetch(WEBSITE_CONFIG.formspreeUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify(formData)
+      
+      document.querySelectorAll('.trial-option').forEach(opt => {
+        opt.classList.remove('selected');
       });
-
-      if (response.ok) {
-        // Store trial data locally
-        localStorage.setItem('trialUsed', 'true');
-        trialStartTime = new Date().getTime();
-        localStorage.setItem('trialStartTime', trialStartTime);
-        localStorage.setItem('trialActive', 'true');
-        
-        // Track the user who started the trial
-        trackTrialUser(name, email, phone);
-        
-        document.getElementById('countdownDisplay').style.display = 'block';
-        startCountdown();
-        updateTrialOptions();
-        updateStorageInfo();
-        
-        showMessage('success', '🎉 Free trial activated! You now have 2 days of full access.');
-        setTimeout(() => {
-          openWebsiteModal();
-        }, 2000);
-      } else {
-        throw new Error('Failed to send trial data');
-      }
-    } catch (error) {
-      showMessage('error', '❌ Error starting trial. Please try again or contact support abhishekdangi0111@gmail.com');
-      console.error('Trial submission error:', error);
-    } finally {
-      // Reset button state
-      const submitBtn = document.querySelector('#trialSignupForm button[type="submit"]');
-      submitBtn.innerHTML = '<i class="fas fa-play"></i> Start Free Trial';
-      submitBtn.disabled = false;
+      
+      event.currentTarget.classList.add('selected');
     }
-  }
-
-  // Update the trial form submission handler
-  document.getElementById('trialSignupForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const name = document.getElementById('trialName').value.trim();
-    const phone = document.getElementById('trialPhone').value.trim();
-    const email = document.getElementById('trialEmail').value.trim();
-    
-    if (!name || !phone || !email) {
-      showMessage('error', 'Please fill in all required fields');
-      return;
-    }
-    
-    // Set the values in the main form
-    document.getElementById('name').value = name;
-    document.getElementById('phone').value = phone;
-    document.getElementById('email').value = email;
-    
-    // Close the modal
-    closeTrialForm();
-    
-    // Start the trial (which will now send data to Formspree)
-    startFreeTrial();
-  });
-
 
     function contactForPayment() {
       showMessage('success', '💳 Thank you for your interest! Please use the contact form above to get payment details and pricing information.');
@@ -1595,7 +1281,7 @@ overlay.onclick = function() {
       
       if (trialStart && trialActive === 'true') {
         const now = new Date().getTime();
-        const trialDuration = 2 * 24 * 60 * 60 * 1000;
+        const trialDuration = 7 * 24 * 60 * 60 * 1000; // 7 days
         const timeElapsed = now - parseInt(trialStart);
         
         if (timeElapsed < trialDuration) {
@@ -1614,7 +1300,7 @@ overlay.onclick = function() {
     }
 
     function startCountdown() {
-      const trialDuration = 2 * 24 * 60 * 60 * 1000;
+      const trialDuration = 7 * 24 * 60 * 60 * 1000; // 7 days
       
       countdownInterval = setInterval(() => {
         const now = new Date().getTime();
@@ -1640,6 +1326,28 @@ overlay.onclick = function() {
         document.getElementById('countdownTimer').innerHTML = 
           `${days}d ${hours}h ${minutes}m ${seconds}s`;
       }, 1000);
+    }
+
+    // Start free trial directly without form
+    function startFreeTrial() {
+      // Store trial data locally
+      localStorage.setItem('trialUsed', 'true');
+      trialStartTime = new Date().getTime();
+      localStorage.setItem('trialStartTime', trialStartTime);
+      localStorage.setItem('trialActive', 'true');
+      
+      // Track the trial usage
+      trackTrialUser();
+      
+      document.getElementById('countdownDisplay').style.display = 'block';
+      startCountdown();
+      updateTrialOptions();
+      updateStorageInfo();
+      
+      showMessage('success', '🎉 7-day free trial activated! You now have full access for 7 days.');
+      setTimeout(() => {
+        openWebsiteModal();
+      }, 2000);
     }
 
     // Enhanced form submission
@@ -1767,137 +1475,108 @@ overlay.onclick = function() {
       }
     });
 
-
-
-function resetAllTrials() {
-    if (confirm('⚠️ WARNING: This will reset ALL trial user data!\n\nAre you sure you want to clear all trial history?')) {
-      // Clear trial tracking data
-      localStorage.removeItem('trialUsers');
-      localStorage.removeItem('trialUsed');
-      localStorage.removeItem('trialActive');
-      localStorage.removeItem('trialStartTime');
-      
-      // Update the display
-      updateStorageInfo();
-      showMessage('success', '✅ All trial data has been reset. Users can now start new trials.');
-      
-      // Refresh the page to reflect changes
-      setTimeout(() => location.reload(), 1500);
+    function resetAllTrials() {
+      if (confirm('⚠️ WARNING: This will reset ALL trial user data!\n\nAre you sure you want to clear all trial history?')) {
+        // Clear trial tracking data
+        localStorage.removeItem('trialUsers');
+        localStorage.removeItem('trialUsed');
+        localStorage.removeItem('trialActive');
+        localStorage.removeItem('trialStartTime');
+        
+        // Update the display
+        updateStorageInfo();
+        showMessage('success', '✅ All trial data has been reset. Users can now start new trials.');
+        
+        // Refresh the page to reflect changes
+        setTimeout(() => location.reload(), 1500);
+      }
     }
-  }
 
+    // Admin User Management Functions
+    function loadAdminUsers() {
+      const adminUsers = JSON.parse(localStorage.getItem('adminUsers')) || [];
+      const tableBody = document.querySelector('#adminUsersTable tbody');
+      tableBody.innerHTML = '';
+      
+      adminUsers.forEach((user, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${user.name}</td>
+          <td>${user.phone}</td>
+          <td>
+            <button class="admin-btn action-btn" onclick="editAdminUser(${index})">
+              <i class="fas fa-edit"></i> Edit
+            </button>
+            <button class="admin-btn danger action-btn" onclick="deleteAdminUser(${index})">
+              <i class="fas fa-trash"></i> Delete
+            </button>
+          </td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
 
-  // Admin User Management Functions
-// function loadAdminUsers() {
-//   const adminUsers = JSON.parse(localStorage.getItem('adminUsers')) || [];
-//   const tableBody = document.querySelector('#adminUsersTable tbody');
-//   tableBody.innerHTML = '';
-  
-//   adminUsers.forEach((user, index) => {
-//     const row = document.createElement('tr');
-//     row.innerHTML = `
-//       <td>${user.name}</td>
-//       <td>${user.phone}</td>
-//       <td>${user.role}</td>
-//       <td>
-//         <button class="admin-btn action-btn" onclick="editAdminUser(${index})">
-//           <i class="fas fa-edit"></i> Edit
-//         </button>
-//         <button class="admin-btn danger action-btn" onclick="deleteAdminUser(${index})">
-//           <i class="fas fa-trash"></i> Delete
-//         </button>
-//       </td>
-//     `;
-//     tableBody.appendChild(row);
-//   });
-// }
+    function saveAdminUser(e) {
+      e.preventDefault();
+      
+      const name = document.getElementById('adminName').value.trim();
+      const phone = document.getElementById('adminPhone').value.trim();
+      
+      if (!name || !phone) {
+        alert('Please fill in all fields');
+        return;
+      }
+      
+      const adminUsers = JSON.parse(localStorage.getItem('adminUsers')) || [];
+      const editingIndex = document.getElementById('adminUserForm').dataset.editingIndex;
+      
+      if (editingIndex !== undefined) {
+        // Update existing user
+        adminUsers[editingIndex] = { name, phone };
+      } else {
+        // Add new user
+        adminUsers.push({ name, phone });
+      }
+      
+      localStorage.setItem('adminUsers', JSON.stringify(adminUsers));
+      loadAdminUsers();
+      clearAdminForm();
+      updateStorageInfo();
+      showMessage('success', `Admin user ${editingIndex !== undefined ? 'updated' : 'added'} successfully!`);
+    }
 
-// function saveAdminUser(e) {
-//   e.preventDefault();
-  
-//   const name = document.getElementById('adminName').value.trim();
-//   const phone = document.getElementById('adminPhone').value.trim();
-//   const role = document.getElementById('adminRole').value;
-  
-//   if (!name || !phone || !role) {
-//     alert('Please fill in all fields');
-//     return;
-//   }
-  
-//   const adminUsers = JSON.parse(localStorage.getItem('adminUsers')) || [];
-//   const editingIndex = document.getElementById('adminUserForm').dataset.editingIndex;
-  
-//   if (editingIndex !== undefined) {
-//     // Update existing user
-//     adminUsers[editingIndex] = { name, phone, role };
-//   } else {
-//     // Add new user
-//     adminUsers.push({ name, phone, role });
-//   }
-  
-//   localStorage.setItem('adminUsers', JSON.stringify(adminUsers));
-//   loadAdminUsers();
-//   clearAdminForm();
-//   updateStorageInfo();
-//   showMessage('success', `Admin user ${editingIndex !== undefined ? 'updated' : 'added'} successfully!`);
-// }
+    function editAdminUser(index) {
+      const adminUsers = JSON.parse(localStorage.getItem('adminUsers')) || [];
+      if (index >= 0 && index < adminUsers.length) {
+        const user = adminUsers[index];
+        document.getElementById('adminName').value = user.name;
+        document.getElementById('adminPhone').value = user.phone;
+        document.getElementById('adminUserForm').dataset.editingIndex = index;
+        document.querySelector('#adminUserForm button[type="submit"]').innerHTML = '<i class="fas fa-save"></i> Update Admin';
+      }
+    }
 
-// function editAdminUser(index) {
-//   const adminUsers = JSON.parse(localStorage.getItem('adminUsers')) || [];
-//   if (index >= 0 && index < adminUsers.length) {
-//     const user = adminUsers[index];
-//     document.getElementById('adminName').value = user.name;
-//     document.getElementById('adminPhone').value = user.phone;
-//     document.getElementById('adminRole').value = user.role;
-//     document.getElementById('adminUserForm').dataset.editingIndex = index;
-//     document.querySelector('#adminUserForm button[type="submit"]').innerHTML = '<i class="fas fa-save"></i> Update User';
-//   }
-// }
+    function deleteAdminUser(index) {
+      if (confirm('Are you sure you want to delete this admin user?')) {
+        const adminUsers = JSON.parse(localStorage.getItem('adminUsers')) || [];
+        if (index >= 0 && index < adminUsers.length) {
+          adminUsers.splice(index, 1);
+          localStorage.setItem('adminUsers', JSON.stringify(adminUsers));
+          loadAdminUsers();
+          updateStorageInfo();
+          showMessage('success', 'Admin user deleted successfully!');
+        }
+      }
+    }
 
-// function deleteAdminUser(index) {
-//   if (confirm('Are you sure you want to delete this admin user?')) {
-//     const adminUsers = JSON.parse(localStorage.getItem('adminUsers')) || [];
-//     if (index >= 0 && index < adminUsers.length) {
-//       adminUsers.splice(index, 1);
-//       localStorage.setItem('adminUsers', JSON.stringify(adminUsers));
-//       loadAdminUsers();
-//       updateStorageInfo();
-//       showMessage('success', 'Admin user deleted successfully!');
-//     }
-//   }
-// }
+    function clearAdminForm() {
+      document.getElementById('adminUserForm').reset();
+      delete document.getElementById('adminUserForm').dataset.editingIndex;
+      document.querySelector('#adminUserForm button[type="submit"]').innerHTML = '<i class="fas fa-save"></i> Save Admin';
+    }
 
-// function clearAdminForm() {
-//   document.getElementById('adminUserForm').reset();
-//   delete document.getElementById('adminUserForm').dataset.editingIndex;
-//   document.querySelector('#adminUserForm button[type="submit"]').innerHTML = '<i class="fas fa-save"></i> Save User';
-// }
-
-// // Initialize admin form
-// document.getElementById('adminUserForm').addEventListener('submit', saveAdminUser);
-
-// // Add this to your updateStorageInfo function to show admin users count
-// function updateStorageInfo() {
-//   // ... existing code ...
-  
-//   const adminUsers = JSON.parse(localStorage.getItem('adminUsers')) || [];
-  
-//   // Add this to your storageInfo.innerHTML
-//   info.innerHTML += `
-//     <br><br><strong>Admin Users:</strong><br>
-//     Total Admin Users: ${adminUsers.length}
-//   `;
-  
-//   // ... rest of existing code ...
-// }
-
-// // Call loadAdminUsers when the page loads
-// window.addEventListener('load', function() {
-//   // ... existing code ...
-//   loadAdminUsers();
-// });
-    
+    // Initialize admin form
+    document.getElementById('adminUserForm').addEventListener('submit', saveAdminUser);
   </script>
 </body>
 </html>
-<!-- line no.1551 -->
