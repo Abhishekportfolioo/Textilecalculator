@@ -2,6 +2,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Google tag (gtag.js) -->
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-0GXV4DC1CL"></script> <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-0GXV4DC1CL'); </script> -->
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Advanced Textile Engineering Suite</title>
@@ -1660,6 +1663,474 @@
         .galaxy-loader.fade-out {
             animation: fadeOutLoader 1s ease-out forwards;
         }
+.search-container {
+            position: relative;
+            flex: 1;
+            min-width: 300px;
+        }
+
+
+
+
+        
+        
+
+        .search-box {
+            width: 100%;
+            padding: 12px 45px 12px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+
+        .progress-container {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 15px;
+            text-align: center;
+            min-width: 200px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 4px;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .main-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .main-tab {
+            padding: 12px 24px;
+            background: #f8f9fa;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .main-tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .tab-content-section {
+            display: none;
+        }
+
+        .tab-content-section.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .study-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .study-card {
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+        }
+
+        .study-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            border-color: #667eea;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+        }
+
+        .bookmark-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #ccc;
+            transition: all 0.3s ease;
+        }
+
+        .bookmark-btn.active {
+            color: #ffd700;
+            transform: scale(1.2);
+        }
+
+        .progress-checkbox {
+            position: absolute;
+            top: 15px;
+            right: 50px;
+            width: 20px;
+            height: 20px;
+            accent-color: #667eea;
+            cursor: pointer;
+        }
+
+        .card-title {
+            color: #2c3e50;
+            font-size: 1.3em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .card-description {
+            color: #6c757d;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .action-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-btn {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .video-btn {
+            background: #e67e22;
+            color: white;
+        }
+
+        .notes-btn {
+            background: #27ae60;
+            color: white;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-topics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .topic-tag {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+        }
+
+        /* .modal-contents {
+            background: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        } */
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: -10px;
+        }
+
+        .close:hover {
+            color: #667eea;
+        }
+
+        .quiz-container {
+            margin-top: 20px;
+        }
+
+        .question {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .question h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .option {
+            margin: 10px 0;
+        }
+
+        .option input {
+            margin-right: 10px;
+            accent-color: #667eea;
+        }
+
+        .notes-area {
+            width: 100%;
+            min-height: 200px;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-family: inherit;
+            resize: vertical;
+            margin-top: 15px;
+        }
+
+        .notes-area:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .save-notes-btn {
+            background: #27ae60;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            background: #000;
+            border-radius: 12px;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+
+        .video-player {
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+        }
+
+        .video-placeholder {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .video-placeholder:hover {
+            background: linear-gradient(135deg, #34495e 0%, #2980b9 100%);
+            transform: scale(1.02);
+        }
+
+        .play-button {
+            font-size: 64px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .play-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .video-info {
+            text-align: center;
+        }
+
+        .video-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .video-duration {
+            font-size: 16px;
+            opacity: 0.8;
+        }
+
+        .video-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            justify-content: center;
+        }
+
+        .control-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .control-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .video-library {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+        }
+
+        .embedded-video {
+            width: 100%;
+            height: 315px;
+            border-radius: 12px;
+        }
+
+        .bookmarks-section {
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            color: white;
+        }
+
+        .bookmark-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .remove-bookmark {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .header-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-container {
+                min-width: auto;
+            }
+            
+            .study-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-tabs {
+                justify-content: center;
+            }
+        }
+        
 
   </style>
 
@@ -1766,7 +2237,7 @@
       </button>
 
 
-      <!-- 8. Add to calculator-link section (copy style from other tab buttons): -->
+      <!-- 8. Add to weave design section (copy style from other tab buttons): -->
 <button class="tab" data-tab="weavedesigns" style="display: inline-flex; align-items: center; gap: 8px; background: none; border: none; cursor: pointer;">
   <span style="display: flex; flex-direction: column; align-items: center;">
     <span style="position: relative; display: inline-block;">
@@ -1775,16 +2246,36 @@
     <span style="margin-top: 8px; color: #000; font-weight: 700;">Weave <br>Designs</span>
   </span>
 </button>
-<!--  9.  Project Report Tab Button -->
-<button class="tab" data-tab="projectreport" style="display: inline-flex; align-items: center; gap: 8px; background: none; border: none; cursor: pointer;">
+<!--  9.  Training Report Tab Button -->
+<button class="tab" data-tab="trainingreport" style="display: inline-flex; align-items: center; gap: 8px; background: none; border: none; cursor: pointer;">
+  <span style="display: flex; flex-direction: column; align-items: center;">
+    <span style="position: relative; display: inline-block;">
+      <i class="fas fa-file-alt" style="font-size: 48px; color: #7952b3;"></i>
+    </span>
+    <span style="margin-top: 8px; color: #000; font-weight: 700;">Training <br>Report</span>
+  </span>
+</button>
+
+<!--  10.  Project Report Tab Button -->
+<!-- <button class="tab" data-tab="projectreport" style="display: inline-flex; align-items: center; gap: 8px; background: none; border: none; cursor: pointer;">
   <span style="display: flex; flex-direction: column; align-items: center;">
     <span style="position: relative; display: inline-block;">
       <i class="fas fa-file-alt" style="font-size: 48px; color: #7952b3;"></i>
     </span>
     <span style="margin-top: 8px; color: #000; font-weight: 700;">Project <br>Report</span>
   </span>
+</button> -->
+
+<!--  11.  Seminar Report Tab Button -->
+<button class="tab" data-tab="seminarreport" style="display: inline-flex; align-items: center; gap: 8px; background: none; border: none; cursor: pointer;">
+  <span style="display: flex; flex-direction: column; align-items: center;">
+    <span style="position: relative; display: inline-block;">
+      <i class="fas fa-file-alt" style="font-size: 48px; color: #7952b3;"></i>
+    </span>
+    <span style="margin-top: 8px; color: #000; font-weight: 700;">Seminar <br>Report</span>
+  </span>
 </button>
-<!--  10. Image Gallery Tab Button -->
+<!--  12. Image Gallery Tab Button -->
         <button class="tab" data-tab="Gallery" style="display: inline-flex; align-items: center; gap: 8px; background: none; border: none; cursor: pointer;">
           <span style="display: flex; flex-direction: column; align-items: center;">
             <span style="position: relative; display: inline-block;">
@@ -1794,7 +2285,7 @@
           </span>
         </button>
 
-        <!--  11. Wikipedia Tab Button -->
+        <!--  13. Wikipedia Tab Button -->
        <a href="https://www.wikipedia.org/" class="toggle-mode" style="display: inline-block; text-decoration: none; background: none;">
           <div style="display: flex; flex-direction: column; align-items: center;">
         <img src="Wikipedia logo.webp" alt="Calculator" style="height:64px; vertical-align:middle; margin-left:1px; border-radius: 50%;">
@@ -1802,7 +2293,7 @@
           </div>
         </a>
 
-         <!-- 12.  Latest Textile Jobs Tab Button -->
+         <!-- 14.  Latest Textile Jobs Tab Button -->
         <button class="tab" data-tab="Jobs" style="display: inline-flex; align-items: center; gap: 8px; background: none; border: none; cursor: pointer;">
           <span style="display: flex; flex-direction: column; align-items: center;">
             <span style="position: relative; display: inline-block;">
@@ -1813,7 +2304,17 @@
         </button>
 
 
-       <!--  12.  Latest Textile Jobs Tab Button -->
+        <!--  15. Textile Study Material Tab Button -->
+        <button class="tab" data-tab="studymaterial" style="display: inline-flex; align-items: center; gap: 8px; background: none; border: none; cursor: pointer;">
+          <span style="display: flex; flex-direction: column; align-items: center;">
+            <span style="position: relative; display: inline-block;">
+              <img src="https://th.bing.com/th/id/OIP.PfVE0lyPEOiHZ_SLwQyd9gHaHZ?w=89&h=90&c=1&rs=1&qlt=70&r=0&o=7&dpr=1.3&pid=InlineBlock&rm=3" alt="material" style="height:64px; vertical-align:middle;">
+            </span>
+            <span style="margin-top: 8px; color: #000; font-weight: 700;">Study <br>Material</span>
+          </span>
+        </button>
+
+       <!--  15.  Latest Textile Jobs Tab Button -->
         <!-- <a href="https://ikonlb.com/wp-content/uploads/2019/01/Predictive-Maint..jpg" class="toggle-mode" style="display: inline-block; text-decoration: none; background: none;">
           <div style="display: flex; flex-direction: column; align-items: center;">
         <img src="https://static.vecteezy.com/system/resources/previews/011/401/368/original/job-search-logo-vector.jpg" alt="Calculator" style="height:64px; vertical-align:middle; margin-left:1px; border-radius: 50%;" >
@@ -2535,7 +3036,7 @@
 <div id="warping-tab" class="tab-content">
   <div class="calculator-grid">
     <div class="panel">
-      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 220px; background: linear-gradient(90deg, #007bff 0%, #48dbfb 100%); border-radius: 18px; box-shadow: 0 6px 24px rgba(0,0,0,0.13); margin: 40px 0;">
+      <!-- <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 220px; background: linear-gradient(90deg, #007bff 0%, #48dbfb 100%); border-radius: 18px; box-shadow: 0 6px 24px rgba(0,0,0,0.13); margin: 40px 0;">
   <i class="fas fa-tools fa-3x" style="color: #fff; margin-bottom: 18px; animation: wrench-spin 2s infinite linear;"></i>
   <h2 style="color: #fff; font-size: 2rem; font-weight: 700; text-shadow: 0 2px 12px rgba(0,0,0,0.18); margin-bottom: 10px;">
     Warping Tab is Under Maintenance
@@ -2545,7 +3046,7 @@
     Please check back soon!
   </p>
   <span style="background: rgba(255,255,255,0.13); color: #fff; padding: 8px 22px; border-radius: 24px; font-weight: 600; font-size: 1rem;">
-    <i class="fas fa-hourglass-half"></i> Expected Update: August 2025
+    <i class="fas fa-hourglass-half"></i> Expected Update: November 2025
   </span>
 </div>
 <style>
@@ -2553,7 +3054,7 @@
   0% { transform: rotate(0deg);}
   100% { transform: rotate(360deg);}
 }
-</style>
+</style> -->
       
       <h2><i class="fas fa-ruler-horizontal"></i> Warping Calculator</h2>
       <div class="form-group">
@@ -2673,8 +3174,9 @@
       </div>
     </div>
   </div>
-  <!-- Add after warping-tab and before weavedesigns-tab -->
-<div id="projectreport-tab" class="tab-content">
+  </div>
+  <!-- Add project report after warping-tab and before weavedesigns-tab -->
+<div id="trainingreport-tab" class="tab-content">
   <div class="calculator-grid">
     <div class="panel">
       <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 220px; background: linear-gradient(90deg, #7952b3 0%, #48dbfb 100%); border-radius: 18px; box-shadow: 0 6px 24px rgba(0,0,0,0.13); margin: 40px 0;">
@@ -2682,25 +3184,46 @@
         <h2 style="color: #fff; font-size: 2rem; font-weight: 700; text-shadow: 0 2px 12px rgba(0,0,0,0.18); margin-bottom: 10px;">
           Project Report On Beam Gaiting
         </h2>
-        <h2 style="color: red; font-size: xx-large;">
-          Comming Soon....
-        </h2>
+        
         <p style="color: #fff; font-size: 1.1rem; text-align: center; max-width: 420px; margin-bottom: 12px;">
-          Download or view your textile project report.<br>
-          Summarize calculations, results, and analysis for documentation or sharing.
+          Report access is <strong style="color: red;">limited to 2 hours</strong> only.<br>
+          Please review it before the link expires.
         </p>
-        <span style="background: rgba(255,255,255,0.13); color: #fff; padding: 8px 22px; border-radius: 24px; font-weight: 600; font-size: 1rem;">
-          <i class="fas fa-download"></i> Export as PDF or Print
+        <button id="previewBtn" onclick="startReportAccess()" class="beautiful-button" style="margin-top:10px;">
+          <i class="fas fa-eye"></i> Report Preview
+        </button>
+      </div>
+
+      <!-- Countdown -->
+      <div id="countdown" style="display:none; text-align:center; margin:20px 0;">
+        <span style="background:#48dbfb; color:#fff; padding:10px 24px; border-radius:30px; font-size:1.2rem; font-weight:700; box-shadow:0 4px 12px rgba(0,0,0,0.15);">
+          ⏳ Time left: <span id="timeLeft"></span>
         </span>
       </div>
-      <!-- <div style="text-align:center; margin-top:20px;">
-        <button class="beautiful-button" onclick="downloadPDF()">
-          <i class="fas fa-file-pdf"></i> Download PDF Report
-        </button>
-        <button class="button-alt" onclick="window.print()">
-          <i class="fas fa-print"></i> Print Report
-        </button>
+
+      <!-- Embedded PDF Viewer (hidden initially) -->
+      <div id="reportContainer" style="margin-top:20px; text-align:center; display:none;">
+        <iframe id="reportFrame" 
+                src="https://drive.google.com/file/d/1ZEuUoXY4nw0jZiOfxeVIUy5ppqMlVsA8/preview" 
+                width="100%" height="600" style="border:none; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,0.1);">
+        </iframe>
       </div>
+
+      <!-- Expired Page -->
+      <div id="expiredMessage" style="display:none; text-align:center; margin-top:40px;">
+        <div style="background:linear-gradient(135deg,#ff6b6b,#ff4757); padding:40px; border-radius:16px; color:#fff; box-shadow:0 6px 20px rgba(0,0,0,0.2); max-width:600px; margin:auto;">
+          <i class="fas fa-clock fa-3x" style="margin-bottom:20px;"></i>
+          <h2 style="font-size:2rem; margin-bottom:10px;">Access Expired</h2>
+          <p style="font-size:1.2rem; margin-bottom:20px;">
+            ⏳ The 2-hour viewing window has ended.<br>
+            Please request a new link to continue reviewing the report.
+          </p>
+          <button onclick="requestNewLink()" style="background:#fff; color:#ff4757; border:none; padding:10px 20px; border-radius:24px; font-weight:700; cursor:pointer; font-size:1rem; box-shadow:0 4px 10px rgba(0,0,0,0.15);">
+            🔄 Request New Access
+          </button>
+        </div>
+      </div>
+
       <div style="margin-top:30px;">
         <h3>What is included?</h3>
         <ul style="text-align:left; color:#333; font-size:1.1rem; margin-left:30px;">
@@ -2708,11 +3231,107 @@
           <li>Charts and metrics for each calculation</li>
           <li>Summary and recommendations</li>
         </ul>
-      </div> -->
+      </div>
     </div>
   </div>
 </div>
+
+<script>
+  let countdownInterval;
+
+  function startReportAccess() {
+    // Hide preview button once clicked
+    document.getElementById('previewBtn').style.display = 'none';
+
+    // Check if already started
+    if (!localStorage.getItem("reportExpiry")) {
+      const expiryTime = Date.now() + (2 * 60 * 60 * 1000); // 2 hours
+      localStorage.setItem("reportExpiry", expiryTime);
+    }
+    showReport();
+  }
+
+  function showReport() {
+    const expiryTime = localStorage.getItem("reportExpiry");
+    if (!expiryTime) return;
+
+    const now = Date.now();
+
+    if (now >= expiryTime) {
+      showExpiredPage();
+      return;
+    }
+
+    // Show report and countdown
+    document.getElementById('reportContainer').style.display = 'block';
+    document.getElementById('expiredMessage').style.display = 'none';
+    document.getElementById('countdown').style.display = 'block';
+
+    // Update countdown every second
+    if (countdownInterval) clearInterval(countdownInterval);
+
+    countdownInterval = setInterval(() => {
+      const remaining = expiryTime - Date.now();
+
+      if (remaining <= 0) {
+        clearInterval(countdownInterval);
+        showExpiredPage();
+        localStorage.removeItem("reportExpiry"); // clear key
+      } else {
+        const hours = Math.floor((remaining / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((remaining / (1000 * 60)) % 60);
+        const seconds = Math.floor((remaining / 1000) % 60);
+        document.getElementById('timeLeft').textContent = 
+          `${hours}h ${minutes}m ${seconds}s`;
+      }
+    }, 1000);
+  }
+
+  function showExpiredPage() {
+    document.getElementById('reportContainer').style.display = 'none';
+    document.getElementById('countdown').style.display = 'none';
+    document.getElementById('expiredMessage').style.display = 'block';
+    document.getElementById('previewBtn').style.display = 'none';
+  }
+
+  function requestNewLink() {
+    alert("Please contact the administrator to get a new access link.");
+  }
+
+  // If user refreshes, continue countdown
+  window.onload = showReport;
+</script>
+
+
+
+
+<div id="seminarreport-tab" class="tab-content">
+  <div class="calculator-grid">
+    <div class="panel" style="text-align:center; padding:30px;">
+      <h2 style="color:#444; font-size:2rem; margin-bottom:15px;">Seminar Presentation</h2>
+      <p style="font-size:1.1rem; color:#555; margin-bottom:20px;">
+        View the seminar PPT directly below (only viewing allowed, no download).
+      </p>
+
+      <!-- Embedded Seminar PPT -->
+      <iframe 
+        src="https://1drv.ms/p/c/accb9cb308d195ff/IQQPm7mBoIGsSJoGV6ZwLJ_EAfSxRr36Wks110X_uYS32MY?em=2&amp;wdAr=1.7777777777777777&amp;wdEaaCheck=1" 
+        width="100%" 
+        height="600" 
+        frameborder="0" 
+        scrolling="no" 
+        style="border:none; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,0.1);">
+      </iframe>
+
+      <div style="margin-top:20px; font-size:1rem; color:#777;">
+        ⚠️ Download and print options are disabled. Viewing only.
+      </div>
+    </div>
+  </div>
 </div>
+
+
+
 
 <!-- Gallery-tab -->
 
@@ -2772,12 +3391,82 @@
                 </div>
             </div>
 
-            <!-- <div class="gallery">
-                <h3></h3>
+            <div class="gallery">
+                <h3>key skills for every merchandiser</h3>
                 <div class="form-groups">
-                    <img src="" alt=""
+                    <img src="https://media.licdn.com/dms/image/v2/D5622AQHR6sLwXBkSYQ/feedshare-shrink_800/B56ZlO1gF0I4Ag-/0/1757964274114?e=1761177600&v=beta&t=4_q5kNADPbofCl7IoXHy4P6BFod7aO8tbFZ9PWBLJCE" alt=""
                          data-title=""
-                         data-description=""
+                         data-description="Understanding fabric weave helps you make better decisions in quality, costing, and buyer satisfaction – key skills for every merchandiser! 👗📊
+
+Here’s a quick guide to some common weaves:
+
+📌 Plain Weave – Strong & basic. Used in Poplin, Chiffon
+📌 Twill Weave – Diagonal lines, long-lasting. Found in Denim, Gabardine
+📌 Satin Weave – Shiny & smooth. Used in Satin, Charmeuse
+📌 Basket Weave – Soft and flexible. Seen in Oxford shirting
+📌 Herringbone Twill – V-shape pattern, stylish. Used in suits
+📌 Houndstooth – Broken check design. Common in jackets, skirts
+📌 Leno Weave – Open mesh but strong. Used in nets, curtains
+📌 Jacquard Weave – Decorative and complex. Found in Brocade, Damask
+📌 Dobby Weave – Small geometric patterns. Seen in dobby shirts
+📌 Pile Weave – Soft raised surface. Used in Velvet, Towels
+📌 Corduroy – Vertical ridges. Used in pants, jackets
+📌 Crepe Weave – Crinkled look. Great for crepe dresses
+
+💡 Merchandising Tip: Knowing these weaves helps you select the right fabric for the product, plan better costing, and keep your buyers happy!"
+                         onclick="openImageModal(this)">
+                </div>
+            </div>
+
+            <div class="gallery">
+                <h3>Top 10 Companies Share in Textile market</h3>
+                <div class="form-groups">
+                    <img src="https://media.licdn.com/dms/image/v2/D4D22AQFjt7TLnHjcGg/feedshare-shrink_800/B4DZlsaoIRJYAg-/0/1758460545862?e=1761177600&v=beta&t=_vnJ469DW67atLWKbUsXMlWE8-EViNttoVb8Yyb5SQ8" alt=""
+                         data-title=""
+                         data-description="Top Textile Companies in India by Market Capitalization💰
+
+The textile industry has been the backbone of India’s economy for decades, contributing significantly to employment, exports, and industrial growth. With a growing global demand for apparel, home textiles, and technical fabrics, Indian textile companies are scaling up operations and strengthening their market positions.
+
+Here’s a look at the top textile companies in India by market capitalization:
+
+1. Page Industries – ₹49,430 Cr.
+
+Best known as the exclusive licensee of Jockey in India, Page Industries dominates the premium innerwear and leisurewear market. Its strong brand presence and customer loyalty have made it the most valuable textile company in India.
+
+2. KPR Mill – ₹38,268 Cr.
+
+A vertically integrated player, KPR Mill operates across yarn, fabric, garments, and sugar segments. Its ability to manage the entire textile value chain makes it one of the strongest and most consistent performers in the industry.
+
+3. Trident Group – ₹15,222 Cr.
+
+Trident has established itself as a global leader in home textiles, especially towels and bedsheets. Its presence in paper and chemicals also adds to its diversification strategy.
+
+4. Vardhman Textiles – ₹12,590 Cr.
+
+Known for its leadership in yarn manufacturing, Vardhman has built a reputation for quality and scale. It supplies fabrics and yarn to major global and domestic apparel brands.
+
+5. Welspun India – ₹12,312 Cr.
+
+One of the largest exporters of home textiles, Welspun has made its mark with innovative products in towels, rugs, and bedsheets. It is a trusted supplier to global retail giants like Walmart and Target.
+
+6. Alok Industries – ₹9,384 Cr.
+
+A Reliance-backed company, Alok Industries has a wide product portfolio including apparel fabrics, garments, and polyester. It is regaining momentum after a challenging financial phase.
+
+7. Arvind – ₹8,570 Cr.
+
+Arvind is a heritage textile company known for its denim, shirting, and branded apparel. It also has a growing presence in advanced materials and sustainable textiles.
+
+8. Garware Technical Fibres – ₹8,037 Cr.
+A unique player in the technical textiles segment, Garware focuses on fisheries, aquaculture, sports nets, and industrial applications. Its specialized focus has carved a niche in global markets.
+
+9. Raymond – ₹7,987 Cr.
+
+A household name in India, Raymond is synonymous with premium suiting and apparel. Beyond textiles, it has diversified into lifestyle products, real estate, and engineering.
+
+10. Pearl Global – ₹6,240 Cr.
+
+Pearl Global is a leading apparel manufacturer catering to some of the world’s top fashion brands. With its strong global presence, it contributes significantly to India’s garment export story."
                          onclick="openImageModal(this)">
                 </div>
             </div>
@@ -2785,7 +3474,7 @@
             <div class="gallery">
                 <h3></h3>
                 <div class="form-groups">
-                    <img src="" alt=""
+                    <img src="https://media.licdn.com/dms/image/v2/D5622AQFS93YO5qQK5Q/feedshare-shrink_800/B56Zlj0pXlI4Ak-/0/1758316371136?e=1761177600&v=beta&t=i-gKKLSid827--N72OwZVhPWifBzrGWnnCbqDCaOuIY" alt=""
                          data-title=""
                          data-description=""
                          onclick="openImageModal(this)">
@@ -2793,9 +3482,9 @@
             </div>
 
             <div class="gallery">
-                <h3></h3>
+                <h3>Moisture Regain & Fabric Weight</h3>
                 <div class="form-groups">
-                    <img src="" alt=""
+                    <img src="https://media.licdn.com/dms/image/v2/D5622AQEt72axOHOY1Q/feedshare-shrink_800/B56ZlxEYD9JoAg-/0/1758538599123?e=1761177600&v=beta&t=fTiwrpC6kn0EJ_3-gU7f51ZnVB5cSlz2bY9QsxhIqMU" alt=""
                          data-title=""
                          data-description=""
                          onclick="openImageModal(this)">
@@ -2803,34 +3492,42 @@
             </div>
 
             <div class="gallery">
-                <h3></h3>
+                <h3>Cutting Section is Called the Heart of Garment Manufacturing</h3>
                 <div class="form-groups">
-                    <img src="" alt=""
+                    <img src="https://media.licdn.com/dms/image/v2/D5622AQGKw11GCdIPow/feedshare-shrink_800/B56ZlcGVr2I4Ag-/0/1758186790217?e=1761177600&v=beta&t=2MjTSFhzJSyTVu7FqkYNeQ3FqDFhSnAXsR65OtC8dow" alt=""
                          data-title=""
-                         data-description=""
+                         data-description="🧵 Why the Cutting Section is Called the Heart of Garment Manufacturing
+
+In apparel production, every section is important—but the cutting section holds a very special place. It acts as the bridge between CAD/marker making and sewing, ensuring that fabric is converted into precise garment components.
+
+If cutting goes wrong, the entire downstream process—sewing, finishing, and even final delivery—gets affected. That’s why many industry experts call it the “Heart of Garment Manufacturing.” ❤️
+
+Here’s a simple flow of how it connects the process:
+
+📌 Production order sheet →Pattern received →Marking Making →Fabric Received →Fabric Sperading →Marker placeing →Cutting →Numbering & Checking → Input to Sewing
+
+✅ Key Role of Cutting Section:
+
+-Ensures accurate dimensions & shape as per the marker
+-Minimizes fabric wastage (directly impacting cost)
+-Provides properly numbered & bundled panels for smooth sewing
+-Acts as the starting point of production quality
+
+👉 Without precise cutting, even the best sewing operators can’t achieve perfect garments.
+"
                          onclick="openImageModal(this)">
                 </div>
             </div>
 
             <div class="gallery">
-                <h3></h3>
+                <h3> Textile Chemicals</h3>
                 <div class="form-groups">
-                    <img src="" alt=""
+                    <img src="https://media.licdn.com/dms/image/v2/D5622AQFJ4DPykI2WLw/feedshare-shrink_800/B56ZlRDAozHMAg-/0/1758001368757?e=1761177600&v=beta&t=gb1yWzzXiOzarEpsr6OH1EEzBgP4QgjrgPR6GIlnrfk" alt=""
                          data-title=""
                          data-description=""
                          onclick="openImageModal(this)">
                 </div>
             </div>
-
-            <div class="gallery">
-                <h3></h3>
-                <div class="form-groups">
-                    <img src="" alt=""
-                         data-title=""
-                         data-description=""
-                         onclick="openImageModal(this)">
-                </div>
-            </div> -->
 
             <div class="gallery">       
                 <h3>Compact Spinning Vs Normal Spinning</h3>              
@@ -3841,6 +4538,1200 @@ The 4-Point System helps ensure consistency in inspection and provides a clear b
  </div>
 
     
+ <!-- Enhanced Tab Content -->
+        <div id="studymaterial-tab" class="tab-content">
+            <!-- Header with Search and Progress -->
+            <div class="header-controls">
+                <div class="search-container">
+                    <input type="text" class="search-box" placeholder="Search study materials..." id="searchInput">
+                    <span class="search-icon">🔍</span>
+                </div>
+                <div class="progress-container">
+                    <div>Progress: <span id="progressText">0/24 Complete</span></div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Navigation Tabs -->
+            <div class="main-tabs">
+                <button class="main-tab active" data-content="materials">📚 Study Materials</button>
+                <button class="main-tab" data-content="videos">🎥 Video Lectures</button>
+                <button class="main-tab" data-content="quizzes">❓ Practice Quizzes</button>
+                <button class="main-tab" data-content="notes">📝 My Notes</button>
+                <button class="main-tab" data-content="bookmarks">⭐ Bookmarks</button>
+            </div>
+
+            <!-- Study Materials Section -->
+            <div class="tab-content-section active" id="materials">
+                <div class="study-grid" id="studyGrid">
+                    <!-- Fiber Science -->
+                    <div class="study-card" data-category="fiber">
+                        <input type="checkbox" class="progress-checkbox" data-topic="fiber-science">
+                        <div class="card-header">
+                            <div class="card-icon">🧬</div>
+                            <button class="bookmark-btn" data-topic="fiber-science">⭐</button>
+                        </div>
+                        <h3 class="card-title">Fiber Science</h3>
+                        <p class="card-description">Understanding natural and synthetic fibers, their molecular structure, properties, and applications.</p>
+                        <div class="card-actions">
+                            <button class="action-btn quiz-btn" data-quiz="fiber">Take Quiz</button>
+                            <button class="action-btn video-btn" data-video="fiber">Watch Video</button>
+                            <button class="action-btn notes-btn" data-notes="fiber">My Notes</button>
+                        </div>
+                        <div class="card-topics">
+                            <span class="topic-tag">Cotton</span>
+                            <span class="topic-tag">Polyester</span>
+                            <span class="topic-tag">Wool</span>
+                            <span class="topic-tag">Nylon</span>
+                        </div>
+                    </div>
+
+                    <!-- Yarn Manufacturing -->
+                    <div class="study-card" data-category="yarn">
+                        <input type="checkbox" class="progress-checkbox" data-topic="yarn-manufacturing">
+                        <div class="card-header">
+                            <div class="card-icon">🧵</div>
+                            <button class="bookmark-btn" data-topic="yarn-manufacturing">⭐</button>
+                        </div>
+                        <h3 class="card-title">Yarn Manufacturing</h3>
+                        <p class="card-description">Complete guide to spinning processes, yarn structures, twist, and quality control methods.</p>
+                        <div class="card-actions">
+                            <button class="action-btn quiz-btn" data-quiz="yarn">Take Quiz</button>
+                            <button class="action-btn video-btn" data-video="yarn">Watch Video</button>
+                            <button class="action-btn notes-btn" data-notes="yarn">My Notes</button>
+                        </div>
+                        <div class="card-topics">
+                            <span class="topic-tag">Spinning</span>
+                            <span class="topic-tag">Carding</span>
+                            <span class="topic-tag">Combing</span>
+                            <span class="topic-tag">Ring Spinning</span>
+                        </div>
+                    </div>
+
+                    <!-- Fabric Production -->
+                    <div class="study-card" data-category="fabric">
+                        <input type="checkbox" class="progress-checkbox" data-topic="fabric-production">
+                        <div class="card-header">
+                            <div class="card-icon">🏭</div>
+                            <button class="bookmark-btn" data-topic="fabric-production">⭐</button>
+                        </div>
+                        <h3 class="card-title">Fabric Production</h3>
+                        <p class="card-description">Weaving, knitting, and non-woven fabric production techniques and advanced machinery.</p>
+                        <div class="card-actions">
+                            <button class="action-btn quiz-btn" data-quiz="fabric">Take Quiz</button>
+                            <button class="action-btn video-btn" data-video="fabric">Watch Video</button>
+                            <button class="action-btn notes-btn" data-notes="fabric">My Notes</button>
+                        </div>
+                        <div class="card-topics">
+                            <span class="topic-tag">Weaving</span>
+                            <span class="topic-tag">Knitting</span>
+                            <span class="topic-tag">Non-woven</span>
+                            <span class="topic-tag">Jacquard</span>
+                        </div>
+                    </div>
+
+                    <!-- Dyeing & Finishing -->
+                    <div class="study-card" data-category="dyeing">
+                        <input type="checkbox" class="progress-checkbox" data-topic="dyeing-finishing">
+                        <div class="card-header">
+                            <div class="card-icon">🎨</div>
+                            <button class="bookmark-btn" data-topic="dyeing-finishing">⭐</button>
+                        </div>
+                        <h3 class="card-title">Dyeing & Finishing</h3>
+                        <p class="card-description">Chemical processes, color theory, dyeing mechanisms, and advanced finishing treatments.</p>
+                        <div class="card-actions">
+                            <button class="action-btn quiz-btn" data-quiz="dyeing">Take Quiz</button>
+                            <button class="action-btn video-btn" data-video="dyeing">Watch Video</button>
+                            <button class="action-btn notes-btn" data-notes="dyeing">My Notes</button>
+                        </div>
+                        <div class="card-topics">
+                            <span class="topic-tag">Reactive Dyes</span>
+                            <span class="topic-tag">Printing</span>
+                            <span class="topic-tag">Finishing</span>
+                            <span class="topic-tag">Color Matching</span>
+                        </div>
+                    </div>
+
+                    <!-- Textile Testing -->
+                    <div class="study-card" data-category="testing">
+                        <input type="checkbox" class="progress-checkbox" data-topic="textile-testing">
+                        <div class="card-header">
+                            <div class="card-icon">🔬</div>
+                            <button class="bookmark-btn" data-topic="textile-testing">⭐</button>
+                        </div>
+                        <h3 class="card-title">Textile Testing</h3>
+                        <p class="card-description">Quality control, testing methods, international standards, and statistical analysis.</p>
+                        <div class="card-actions">
+                            <button class="action-btn quiz-btn" data-quiz="testing">Take Quiz</button>
+                            <button class="action-btn video-btn" data-video="testing">Watch Video</button>
+                            <button class="action-btn notes-btn" data-notes="testing">My Notes</button>
+                        </div>
+                        <div class="card-topics">
+                            <span class="topic-tag">Tensile Strength</span>
+                            <span class="topic-tag">Color Fastness</span>
+                            <span class="topic-tag">Shrinkage</span>
+                            <span class="topic-tag">ASTM Standards</span>
+                        </div>
+                    </div>
+
+                    <!-- Technical Textiles -->
+                    <div class="study-card" data-category="technical">
+                        <input type="checkbox" class="progress-checkbox" data-topic="technical-textiles">
+                        <div class="card-header">
+                            <div class="card-icon">⚡</div>
+                            <button class="bookmark-btn" data-topic="technical-textiles">⭐</button>
+                        </div>
+                        <h3 class="card-title">Technical Textiles</h3>
+                        <p class="card-description">Advanced materials for industrial, medical, automotive, and aerospace applications.</p>
+                        <div class="card-actions">
+                            <button class="action-btn quiz-btn" data-quiz="technical">Take Quiz</button>
+                            <button class="action-btn video-btn" data-video="technical">Watch Video</button>
+                            <button class="action-btn notes-btn" data-notes="technical">My Notes</button>
+                        </div>
+                        <div class="card-topics">
+                            <span class="topic-tag">Geotextiles</span>
+                            <span class="topic-tag">Medical Textiles</span>
+                            <span class="topic-tag">Composites</span>
+                            <span class="topic-tag">Smart Fabrics</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video Lectures Section -->
+            <div class="tab-content-section" id="videos">
+                <h2 style="margin-bottom: 20px; color: #2c3e50;">📹 Video Lecture Library</h2>
+                <p style="margin-bottom: 20px; color: #666;">Interactive video lessons covering all aspects of textile engineering.</p>
+                
+                <div class="video-library">
+                    <!-- Fiber Science Video -->
+                    <div class="study-card">
+                        <div class="card-icon">🧬</div>
+                        <h3 class="card-title">Fiber Science Fundamentals</h3>
+                        <div class="video-container">
+                            <div class="video-placeholder" onclick="playVideo('fiber')">
+                                <div class="play-button">▶️</div>
+                                <div class="video-info">
+                                    <div class="video-title">Introduction to Fiber Science</div>
+                                    <div class="video-duration">Duration: 12:30</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="video-controls">
+                            <button class="control-btn" onclick="playVideo('fiber')">Play Video</button>
+                            <button class="control-btn" onclick="showVideoDetails('fiber')">Details</button>
+                        </div>
+                        <div class="card-topics">
+                            <span class="topic-tag">Natural Fibers</span>
+                            <span class="topic-tag">Synthetic Fibers</span>
+                            <span class="topic-tag">Properties</span>
+                        </div>
+                    </div>
+
+                    <!-- Yarn Manufacturing Video -->
+                    <div class="study-card">
+                        <div class="card-icon">🧵</div>
+                        <h3 class="card-title">Yarn Manufacturing Process</h3>
+                        <div class="video-container">
+                            <div class="video-placeholder" onclick="playVideo('yarn')">
+                                <div class="play-button">▶️</div>
+                                <div class="video-info">
+                                    <div class="video-title">Spinning Technology</div>
+                                    <div class="video-duration">Duration: 15:45</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="video-controls">
+                            <button class="control-btn" onclick="playVideo('yarn')">Play Video</button>
+                            <button class="control-btn" onclick="showVideoDetails('yarn')">Details</button>
+                        </div>
+                        <div class="card-topics">
+                            <span class="topic-tag">Ring Spinning</span>
+                            <span class="topic-tag">Open End</span>
+                            <span class="topic-tag">Quality Control</span>
+                        </div>
+                    </div>
+
+                    <!-- Fabric Production Video -->
+                    <div class="study-card">
+                        <div class="card-icon">🏭</div>
+                        <h3 class="card-title">Fabric Construction</h3>
+                        <div class="video-container">
+                            <div class="video-placeholder" onclick="playVideo('fabric')">
+                                <div class="play-button">▶️</div>
+                                <div class="video-info">
+                                    <div class="video-title">Weaving & Knitting</div>
+                                    <div class="video-duration">Duration: 18:20</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="video-controls">
+                            <button class="control-btn" onclick="playVideo('fabric')">Play Video</button>
+                            <button class="control-btn" onclick="showVideoDetails('fabric')">Details</button>
+                        </div>
+                        <div class="card-topics">
+                            <span class="topic-tag">Loom Operations</span>
+                            <span class="topic-tag">Knitting Machines</span>
+                            <span class="topic-tag">Fabric Structures</span>
+                        </div>
+                    </div>
+
+                    <!-- Dyeing & Finishing Video -->
+                    <div class="study-card">
+                        <div class="card-icon">🎨</div>
+                        <h3 class="card-title">Dyeing & Finishing</h3>
+                        <div class="video-container">
+                            <div class="video-placeholder" onclick="playVideo('dyeing')">
+                                <div class="play-button">▶️</div>
+                                <div class="video-info">
+                                    <div class="video-title">Color Application & Finishing</div>
+                                    <div class="video-duration">Duration: 14:10</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="video-controls">
+                            <button class="control-btn" onclick="playVideo('dyeing')">Play Video</button>
+                            <button class="control-btn" onclick="showVideoDetails('dyeing')">Details</button>
+                        </div>
+                        <div class="card-topics">
+                            <span class="topic-tag">Reactive Dyeing</span>
+                            <span class="topic-tag">Printing</span>
+                            <span class="topic-tag">Finishing Treatments</span>
+                        </div>
+                    </div>
+
+                    <!-- Textile Testing Video -->
+                    <div class="study-card">
+                        <div class="card-icon">🔬</div>
+                        <h3 class="card-title">Textile Testing Methods</h3>
+                        <div class="video-container">
+                            <div class="video-placeholder" onclick="playVideo('testing')">
+                                <div class="play-button">▶️</div>
+                                <div class="video-info">
+                                    <div class="video-title">Quality Control & Testing</div>
+                                    <div class="video-duration">Duration: 11:30</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="video-controls">
+                            <button class="control-btn" onclick="playVideo('testing')">Play Video</button>
+                            <button class="control-btn" onclick="showVideoDetails('testing')">Details</button>
+                        </div>
+                        <div class="card-topics">
+                            <span class="topic-tag">Strength Testing</span>
+                            <span class="topic-tag">Color Fastness</span>
+                            <span class="topic-tag">Standards</span>
+                        </div>
+                    </div>
+
+                    <!-- Technical Textiles Video -->
+                    <div class="study-card">
+                        <div class="card-icon">⚡</div>
+                        <h3 class="card-title">Technical Textiles</h3>
+                        <div class="video-container">
+                            <div class="video-placeholder" onclick="playVideo('technical')">
+                                <div class="play-button">▶️</div>
+                                <div class="video-info">
+                                    <div class="video-title">Advanced Applications</div>
+                                    <div class="video-duration">Duration: 16:40</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="video-controls">
+                            <button class="control-btn" onclick="playVideo('technical')">Play Video</button>
+                            <button class="control-btn" onclick="showVideoDetails('technical')">Details</button>
+                        </div>
+                        <div class="card-topics">
+                            <span class="topic-tag">Smart Textiles</span>
+                            <span class="topic-tag">Medical Applications</span>
+                            <span class="topic-tag">Automotive</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quiz Section -->
+            <div class="tab-content-section" id="quizzes">
+                <h2 style="margin-bottom: 20px; color: #2c3e50;">🧠 Practice Your Knowledge</h2>
+                <p style="margin-bottom: 20px; color: #666;">Test your understanding with interactive quizzes for each topic.</p>
+                <div class="study-grid">
+                    <div class="study-card">
+                        <div class="card-icon">❓</div>
+                        <h3 class="card-title">Quick Assessment Available</h3>
+                        <p class="card-description">Click on any "Take Quiz" button in the Study Materials section to start a practice quiz!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notes Section -->
+            <div class="tab-content-section" id="notes">
+                <h2 style="margin-bottom: 20px; color: #2c3e50;">📝 My Personal Notes</h2>
+                <div id="notesContainer">
+                    <div class="study-card">
+                        <div class="card-icon">📖</div>
+                        <h3 class="card-title">Your Notes Will Appear Here</h3>
+                        <p class="card-description">Click "My Notes" on any study card to create topic-specific notes.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bookmarks Section -->
+            <div class="tab-content-section" id="bookmarks">
+                <h2 style="margin-bottom: 20px; color: #2c3e50;">⭐ Bookmarked Materials</h2>
+                <div class="bookmarks-section">
+                    <h3 style="margin-bottom: 15px;">Your Favorite Topics</h3>
+                    <div id="bookmarksList">
+                        <p style="opacity: 0.8;">No bookmarks yet. Click the star icon on any study card to bookmark it!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <!-- Modal for Quizzes, Videos, and Notes -->
+    <div id="modal" class="modal">
+        <div class="modal-contents">
+            <span class="close">&times;</span>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let completedTopics = new Set();
+        let bookmarks = new Set();
+        let notes = {};
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            setupEventListeners();
+            updateProgress();
+            loadFromStorage();
+        });
+
+        function setupEventListeners() {
+            // Tab switching
+            document.querySelectorAll('.main-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    switchTab(this.dataset.content);
+                });
+            });
+
+            // Search functionality
+            document.getElementById('searchInput').addEventListener('input', handleSearch);
+
+            // Progress checkboxes
+            document.querySelectorAll('.progress-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', handleProgressChange);
+            });
+
+            // Bookmark buttons
+            document.querySelectorAll('.bookmark-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    toggleBookmark(this.dataset.topic);
+                });
+            });
+
+            // Action buttons
+            document.querySelectorAll('.quiz-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    openQuiz(this.dataset.quiz);
+                });
+            });
+
+            document.querySelectorAll('.video-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    openVideo(this.dataset.video);
+                });
+            });
+
+            document.querySelectorAll('.notes-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    openNotes(this.dataset.notes);
+                });
+            });
+
+            // Modal close
+            document.querySelector('.close').addEventListener('click', closeModal);
+            document.getElementById('modal').addEventListener('click', function(e) {
+                if (e.target === this) closeModal();
+            });
+        }
+
+        function switchTab(contentId) {
+            // Update tab buttons
+            document.querySelectorAll('.main-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Update content sections
+            document.querySelectorAll('.tab-content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(contentId).classList.add('active');
+        }
+
+        function handleSearch() {
+            const searchTerm = this.value.toLowerCase();
+            const cards = document.querySelectorAll('.study-card');
+
+            cards.forEach(card => {
+                const title = card.querySelector('.card-title').textContent.toLowerCase();
+                const description = card.querySelector('.card-description').textContent.toLowerCase();
+                const topics = Array.from(card.querySelectorAll('.topic-tag')).map(tag => tag.textContent.toLowerCase()).join(' ');
+
+                if (title.includes(searchTerm) || description.includes(searchTerm) || topics.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = searchTerm === '' ? 'block' : 'none';
+                }
+            });
+        }
+
+        function handleProgressChange() {
+            const topic = this.dataset.topic;
+            if (this.checked) {
+                completedTopics.add(topic);
+            } else {
+                completedTopics.delete(topic);
+            }
+            updateProgress();
+            saveToStorage();
+        }
+
+        function updateProgress() {
+            const total = document.querySelectorAll('.progress-checkbox').length;
+            const completed = completedTopics.size;
+            const percentage = (completed / total) * 100;
+
+            document.getElementById('progressText').textContent = `${completed}/${total} Complete`;
+            document.getElementById('progressFill').style.width = `${percentage}%`;
+        }
+
+        function toggleBookmark(topic) {
+            const btn = document.querySelector(`[data-topic="${topic}"].bookmark-btn`);
+            const card = btn.closest('.study-card');
+            const title = card.querySelector('.card-title').textContent;
+
+            if (bookmarks.has(topic)) {
+                bookmarks.delete(topic);
+                btn.classList.remove('active');
+            } else {
+                bookmarks.add(topic);
+                btn.classList.add('active');
+            }
+
+            updateBookmarksList();
+            saveToStorage();
+        }
+
+        function updateBookmarksList() {
+            const container = document.getElementById('bookmarksList');
+            if (bookmarks.size === 0) {
+                container.innerHTML = '<p style="opacity: 0.8;">No bookmarks yet. Click the star icon on any study card to bookmark it!</p>';
+                return;
+            }
+
+            container.innerHTML = '';
+            bookmarks.forEach(topic => {
+                const card = document.querySelector(`[data-topic="${topic}"].bookmark-btn`).closest('.study-card');
+                const title = card.querySelector('.card-title').textContent;
+                
+                const bookmarkItem = document.createElement('div');
+                bookmarkItem.className = 'bookmark-item';
+                bookmarkItem.innerHTML = `
+                    <span>${title}</span>
+                    <button class="remove-bookmark" onclick="toggleBookmark('${topic}')">Remove</button>
+                `;
+                container.appendChild(bookmarkItem);
+            });
+        }
+
+        function openQuiz(topic) {
+            const quizData = getQuizData(topic);
+            const modalBody = document.getElementById('modalBody');
+            
+            modalBody.innerHTML = `
+                <h2>📝 ${quizData.title}</h2>
+                <div class="quiz-container">
+                    ${quizData.questions.map((q, index) => `
+                        <div class="question">
+                            <h4>Question ${index + 1}: ${q.question}</h4>
+                            ${q.options.map((option, optIndex) => `
+                                <div class="option">
+                                    <input type="radio" name="q${index}" value="${optIndex}" id="q${index}_${optIndex}">
+                                    <label for="q${index}_${optIndex}">${option}</label>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `).join('')}
+                    <button class="action-btn quiz-btn" onclick="checkQuizAnswers('${topic}')">Submit Quiz</button>
+                    <div id="quizResults" style="margin-top: 20px;"></div>
+                </div>
+            `;
+            
+            document.getElementById('modal').style.display = 'block';
+        }
+
+        function openVideo(topic) {
+            const videoData = getVideoData(topic);
+            const modalBody = document.getElementById('modalBody');
+            
+            modalBody.innerHTML = `
+                <h2>🎥 ${videoData.title}</h2>
+                <div class="video-container">
+                    <iframe class="embedded-video" 
+                        src="${videoData.embedUrl}" 
+                        title="${videoData.title}"
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div style="margin-top: 20px;">
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 12px;">
+                        <h4 style="color: #2c3e50; margin-bottom: 10px;">📋 Video Description</h4>
+                        <p style="color: #666; margin-bottom: 15px;">${videoData.description}</p>
+                        <div style="display: flex; gap: 20px; margin-bottom: 15px;">
+                            <span><strong>⏱️ Duration:</strong> ${videoData.duration}</span>
+                            <span><strong>📊 Level:</strong> ${videoData.level}</span>
+                        </div>
+                        <h5 style="color: #2c3e50; margin-bottom: 10px;">📚 Topics Covered:</h5>
+                        <div class="card-topics">
+                            ${videoData.topics.map(topic => `<span class="topic-tag">${topic}</span>`).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('modal').style.display = 'block';
+        }
+
+        // New function for playing videos in modal
+        function playVideo(topic) {
+            openVideo(topic);
+        }
+
+        // New function for showing video details
+        function showVideoDetails(topic) {
+            const videoData = getVideoData(topic);
+            const modalBody = document.getElementById('modalBody');
+            
+            modalBody.innerHTML = `
+                <h2>📋 Video Details: ${videoData.title}</h2>
+                <div style="background: #f8f9fa; padding: 25px; border-radius: 12px;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 20px;">
+                        <div>
+                            <h4 style="color: #2c3e50; margin-bottom: 8px;">⏱️ Duration</h4>
+                            <p style="color: #666;">${videoData.duration}</p>
+                        </div>
+                        <div>
+                            <h4 style="color: #2c3e50; margin-bottom: 8px;">📊 Difficulty Level</h4>
+                            <p style="color: #666;">${videoData.level}</p>
+                        </div>
+                        <div>
+                            <h4 style="color: #2c3e50; margin-bottom: 8px;">👨‍🏫 Instructor</h4>
+                            <p style="color: #666;">${videoData.instructor}</p>
+                        </div>
+                        <div>
+                            <h4 style="color: #2c3e50; margin-bottom: 8px;">🎯 Prerequisites</h4>
+                            <p style="color: #666;">${videoData.prerequisites}</p>
+                        </div>
+                    </div>
+                    
+                    <h4 style="color: #2c3e50; margin-bottom: 10px;">📝 Description</h4>
+                    <p style="color: #666; line-height: 1.6; margin-bottom: 20px;">${videoData.description}</p>
+                    
+                    <h4 style="color: #2c3e50; margin-bottom: 10px;">📚 Learning Objectives</h4>
+                    <ul style="color: #666; margin-bottom: 20px; padding-left: 20px;">
+                        ${videoData.objectives.map(obj => `<li style="margin-bottom: 5px;">${obj}</li>`).join('')}
+                    </ul>
+                    
+                    <h4 style="color: #2c3e50; margin-bottom: 10px;">🏷️ Topics Covered</h4>
+                    <div class="card-topics" style="margin-bottom: 20px;">
+                        ${videoData.topics.map(topic => `<span class="topic-tag">${topic}</span>`).join('')}
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 25px;">
+                        <button class="action-btn video-btn" onclick="playVideo('${topic}')" style="font-size: 16px; padding: 12px 24px;">
+                            ▶️ Watch Now
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('modal').style.display = 'block';
+        }
+
+        function openNotes(topic) {
+            const modalBody = document.getElementById('modalBody');
+            const existingNotes = notes[topic] || '';
+            
+            modalBody.innerHTML = `
+                <h2>📝 Notes for ${topic.charAt(0).toUpperCase() + topic.slice(1)}</h2>
+                <textarea class="notes-area" id="notesTextarea" placeholder="Write your notes here...">${existingNotes}</textarea>
+                <button class="save-notes-btn" onclick="saveNotes('${topic}')">💾 Save Notes</button>
+                <div id="saveStatus" style="margin-top: 10px; color: #27ae60; opacity: 0;"></div>
+            `;
+            
+            document.getElementById('modal').style.display = 'block';
+        }
+
+        function checkQuizAnswers(topic) {
+            const quizData = getQuizData(topic);
+            const resultsDiv = document.getElementById('quizResults');
+            let score = 0;
+            let results = [];
+
+            quizData.questions.forEach((q, index) => {
+                const selectedAnswer = document.querySelector(`input[name="q${index}"]:checked`);
+                if (selectedAnswer) {
+                    const answerIndex = parseInt(selectedAnswer.value);
+                    const isCorrect = answerIndex === q.correct;
+                    if (isCorrect) score++;
+                    
+                    results.push({
+                        question: q.question,
+                        selected: q.options[answerIndex],
+                        correct: q.options[q.correct],
+                        isCorrect: isCorrect
+                    });
+                } else {
+                    results.push({
+                        question: q.question,
+                        selected: 'No answer selected',
+                        correct: q.options[q.correct],
+                        isCorrect: false
+                    });
+                }
+            });
+
+            const percentage = Math.round((score / quizData.questions.length) * 100);
+            let resultColor = percentage >= 70 ? '#27ae60' : percentage >= 50 ? '#f39c12' : '#e74c3c';
+
+            resultsDiv.innerHTML = `
+                <div style="background: ${resultColor}; color: white; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 20px;">
+                    <h3>Quiz Results</h3>
+                    <p style="font-size: 24px; margin: 10px 0;">${score}/${quizData.questions.length}</p>
+                    <p>Score: ${percentage}%</p>
+                    <p>${percentage >= 70 ? '🎉 Excellent!' : percentage >= 50 ? '👍 Good job!' : '📚 Keep studying!'}</p>
+                </div>
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 12px;">
+                    <h4 style="margin-bottom: 15px;">Detailed Results:</h4>
+                    ${results.map((result, index) => `
+                        <div style="margin-bottom: 15px; padding: 15px; background: white; border-radius: 8px; border-left: 4px solid ${result.isCorrect ? '#27ae60' : '#e74c3c'};">
+                            <p><strong>Q${index + 1}:</strong> ${result.question}</p>
+                            <p><strong>Your answer:</strong> ${result.selected}</p>
+                            ${!result.isCorrect ? `<p><strong>Correct answer:</strong> ${result.correct}</p>` : ''}
+                            <p style="color: ${result.isCorrect ? '#27ae60' : '#e74c3c'};">
+                                ${result.isCorrect ? '✅ Correct' : '❌ Incorrect'}
+                            </p>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+
+            resultsDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function saveNotes(topic) {
+            const notesContent = document.getElementById('notesTextarea').value;
+            const statusDiv = document.getElementById('saveStatus');
+            
+            notes[topic] = notesContent;
+            saveToStorage();
+            updateNotesSection();
+            
+            statusDiv.textContent = '✅ Notes saved successfully!';
+            statusDiv.style.opacity = '1';
+            setTimeout(() => {
+                statusDiv.style.opacity = '0';
+            }, 3000);
+        }
+
+        function updateNotesSection() {
+            const container = document.getElementById('notesContainer');
+            
+            if (Object.keys(notes).length === 0 || Object.values(notes).every(note => note.trim() === '')) {
+                container.innerHTML = `
+                    <div class="study-card">
+                        <div class="card-icon">📖</div>
+                        <h3 class="card-title">Your Notes Will Appear Here</h3>
+                        <p class="card-description">Click "My Notes" on any study card to create topic-specific notes.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = '';
+            Object.entries(notes).forEach(([topic, noteContent]) => {
+                if (noteContent.trim() !== '') {
+                    const noteCard = document.createElement('div');
+                    noteCard.className = 'study-card';
+                    noteCard.innerHTML = `
+                        <div class="card-header">
+                            <div class="card-icon">📝</div>
+                        </div>
+                        <h3 class="card-title">${topic.charAt(0).toUpperCase() + topic.slice(1)} Notes</h3>
+                        <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-top: 10px; white-space: pre-wrap; max-height: 200px; overflow-y: auto;">
+                            ${noteContent}
+                        </div>
+                        <div style="margin-top: 15px;">
+                            <button class="action-btn notes-btn" onclick="openNotes('${topic}')">Edit Notes</button>
+                            <button class="action-btn" style="background: #e74c3c; color: white;" onclick="deleteNotes('${topic}')">Delete</button>
+                        </div>
+                    `;
+                    container.appendChild(noteCard);
+                }
+            });
+        }
+
+        function deleteNotes(topic) {
+            if (confirm('Are you sure you want to delete these notes?')) {
+                delete notes[topic];
+                saveToStorage();
+                updateNotesSection();
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        function saveToStorage() {
+            // In a real application, you would save to localStorage or a server
+            // For demonstration, we'll just store in memory
+            console.log('Saving data:', {
+                completedTopics: Array.from(completedTopics),
+                bookmarks: Array.from(bookmarks),
+                notes: notes
+            });
+        }
+
+        function loadFromStorage() {
+            // In a real application, you would load from localStorage or a server
+            // For demonstration, we'll start with empty data
+            updateBookmarksList();
+            updateNotesSection();
+        }
+
+        function getQuizData(topic) {
+            const quizzes = {
+                fiber: {
+                    title: 'Fiber Science Quiz',
+                    questions: [
+                        {
+                            question: 'Which fiber has the highest tensile strength among the following?',
+                            options: ['Cotton', 'Polyester', 'Aramid (Kevlar)', 'Wool'],
+                            correct: 2
+                        },
+                        {
+                            question: 'What is the main chemical component of cotton fiber?',
+                            options: ['Protein', 'Cellulose', 'Synthetic polymer', 'Keratin'],
+                            correct: 1
+                        },
+                        {
+                            question: 'Which property is most important for moisture-wicking performance?',
+                            options: ['Color', 'Capillary action', 'Density', 'Elasticity'],
+                            correct: 1
+                        },
+                        {
+                            question: 'What is the degree of polymerization (DP) of cotton cellulose approximately?',
+                            options: ['500-1000', '2000-3000', '8000-12000', '15000-20000'],
+                            correct: 2
+                        },
+                        {
+                            question: 'Which natural fiber has the highest elasticity?',
+                            options: ['Cotton', 'Linen', 'Wool', 'Silk'],
+                            correct: 2
+                        },
+                        {
+                            question: 'What is the melting point of Nylon 6,6?',
+                            options: ['180°C', '220°C', '265°C', '300°C'],
+                            correct: 2
+                        },
+                        {
+                            question: 'Which fiber structure is responsible for wool\'s crimp?',
+                            options: ['Cuticle scales', 'Cortex cell arrangement', 'Medulla', 'Surface coating'],
+                            correct: 1
+                        },
+                        {
+                            question: 'What is the moisture regain of cotton at standard conditions?',
+                            options: ['4.5%', '8.5%', '11%', '13.5%'],
+                            correct: 1
+                        }
+                    ]
+                },
+                yarn: {
+                    title: 'Yarn Manufacturing Quiz',
+                    questions: [
+                        {
+                            question: 'What is the primary purpose of the carding process?',
+                            options: ['Twisting fibers', 'Cleaning and aligning fibers', 'Dyeing fibers', 'Cutting fibers'],
+                            correct: 1
+                        },
+                        {
+                            question: 'Ring spinning produces which type of yarn structure?',
+                            options: ['Open-end yarn', 'Air-jet yarn', 'True twisted yarn', 'Wrap-spun yarn'],
+                            correct: 2
+                        },
+                        {
+                            question: 'What does the term "draft" mean in spinning?',
+                            options: ['Yarn twist', 'Fiber length', 'Drawing ratio', 'Spindle speed'],
+                            correct: 2
+                        },
+                        {
+                            question: 'Which spinning system produces the highest production rate?',
+                            options: ['Ring spinning', 'Open-end spinning', 'Air-jet spinning', 'Friction spinning'],
+                            correct: 1
+                        },
+                        {
+                            question: 'What is the function of the traveler in ring spinning?',
+                            options: ['Guide the yarn', 'Provide twist and wind-on', 'Control tension', 'Clean the ring'],
+                            correct: 1
+                        },
+                        {
+                            question: 'In combing, what percentage of fibers is typically removed as noil?',
+                            options: ['5-10%', '15-25%', '30-35%', '40-50%'],
+                            correct: 1
+                        },
+                        {
+                            question: 'What is the twist multiplier (αe) for cotton yarn typically?',
+                            options: ['2.5-3.5', '3.5-4.5', '4.5-5.5', '5.5-6.5'],
+                            correct: 1
+                        },
+                        {
+                            question: 'Which factor most affects yarn strength?',
+                            options: ['Yarn count only', 'Fiber length and twist', 'Spindle speed', 'Ring diameter'],
+                            correct: 1
+                        }
+                    ]
+                },
+                fabric: {
+                    title: 'Fabric Production Quiz',
+                    questions: [
+                        {
+                            question: 'Which weave structure provides the highest fabric strength?',
+                            options: ['Plain weave', 'Twill weave', 'Satin weave', 'Basket weave'],
+                            correct: 0
+                        },
+                        {
+                            question: 'What does GSM stand for in fabric specifications?',
+                            options: ['Grams per Square Meter', 'General Strength Measure', 'Gauge System Metric', 'Garment Size Measurement'],
+                            correct: 0
+                        },
+                        {
+                            question: 'In a 2/1 twill weave, what does the notation mean?',
+                            options: ['2 warp, 1 weft interlacement', 'Warp floats over 2, under 1', 'Yarn count ratio', 'Reed denting'],
+                            correct: 1
+                        },
+                        {
+                            question: 'What is the primary advantage of jacquard weaving?',
+                            options: ['Higher speed', 'Lower cost', 'Complex pattern capability', 'Better strength'],
+                            correct: 2
+                        },
+                        {
+                            question: 'In knitting, what creates the loop formation?',
+                            options: ['Needle hook', 'Yarn feeder', 'Cam system', 'All of the above'],
+                            correct: 3
+                        },
+                        {
+                            question: 'What is the difference between warp and weft knitting?',
+                            options: ['Yarn direction', 'Loop formation direction', 'Machine type', 'All of the above'],
+                            correct: 3
+                        },
+                        {
+                            question: 'Which non-woven bonding method uses heat and pressure?',
+                            options: ['Chemical bonding', 'Thermal bonding', 'Needle punching', 'Spunlace'],
+                            correct: 1
+                        },
+                        {
+                            question: 'What is the cover factor in woven fabrics?',
+                            options: ['Fabric thickness', 'Yarn spacing ratio', 'Thread density measure', 'Weave tightness'],
+                            correct: 3
+                        }
+                    ]
+                },
+                dyeing: {
+                    title: 'Dyeing & Finishing Quiz',
+                    questions: [
+                        {
+                            question: 'Which dye class forms covalent bonds with cotton fiber?',
+                            options: ['Direct dyes', 'Reactive dyes', 'Acid dyes', 'Disperse dyes'],
+                            correct: 1
+                        },
+                        {
+                            question: 'What is the primary purpose of mercerization?',
+                            options: ['Dyeing preparation', 'Strength and luster improvement', 'Shrinkage control', 'Water repellency'],
+                            correct: 1
+                        },
+                        {
+                            question: 'Which chemical is commonly used as a reducing agent in vat dyeing?',
+                            options: ['Hydrogen peroxide', 'Sodium hydrosulfite', 'Sodium chlorite', 'Potassium permanganate'],
+                            correct: 1
+                        },
+                        {
+                            question: 'What is the function of salt in reactive dyeing of cotton?',
+                            options: ['pH adjustment', 'Electrolyte for dye exhaustion', 'Catalyst', 'Reducing agent'],
+                            correct: 1
+                        },
+                        {
+                            question: 'Which printing method provides the highest production speed?',
+                            options: ['Block printing', 'Screen printing', 'Roller printing', 'Digital printing'],
+                            correct: 2
+                        },
+                        {
+                            question: 'What does L*a*b* color space represent?',
+                            options: ['RGB values', 'CMYK values', 'Lightness and color coordinates', 'Wavelength measurements'],
+                            correct: 2
+                        },
+                        {
+                            question: 'Which finishing treatment improves wrinkle resistance?',
+                            options: ['Sanforizing', 'Resin finishing', 'Calendering', 'Singeing'],
+                            correct: 1
+                        },
+                        {
+                            question: 'What is the metamerism in color matching?',
+                            options: ['Color bleeding', 'Color matching under different lights', 'Color fading', 'Color contamination'],
+                            correct: 1
+                        }
+                    ]
+                },
+                testing: {
+                    title: 'Textile Testing Quiz',
+                    questions: [
+                        {
+                            question: 'Which test method measures fabric drapeability?',
+                            options: ['Taber test', 'Cantilever test', 'Drapemeter test', 'Pilling test'],
+                            correct: 2
+                        },
+                        {
+                            question: 'What does colorfastness to washing test measure?',
+                            options: ['Color bleeding during washing', 'Fabric shrinkage', 'Strength loss', 'pH change'],
+                            correct: 0
+                        },
+                        {
+                            question: 'Which standard is used for tensile strength testing of textiles?',
+                            options: ['ASTM D5034', 'ISO 9001', 'AATCC 61', 'BS 5811'],
+                            correct: 0
+                        },
+                        {
+                            question: 'What is the grab test method used for?',
+                            options: ['Color measurement', 'Tensile strength of fabrics', 'Abrasion resistance', 'Water repellency'],
+                            correct: 1
+                        },
+                        {
+                            question: 'Which instrument measures fabric thickness accurately?',
+                            options: ['Ruler', 'Micrometer', 'Thickness gauge', 'Caliper'],
+                            correct: 2
+                        },
+                        {
+                            question: 'What does the Martindale test measure?',
+                            options: ['Tensile strength', 'Abrasion resistance', 'Color fastness', 'Air permeability'],
+                            correct: 1
+                        },
+                        {
+                            question: 'Which factor affects the accuracy of moisture regain testing?',
+                            options: ['Temperature only', 'Humidity only', 'Both temperature and humidity', 'Air circulation only'],
+                            correct: 2
+                        },
+                        {
+                            question: 'What is the purpose of conditioning textiles before testing?',
+                            options: ['Cleaning', 'Standardizing moisture content', 'Removing wrinkles', 'Color stabilization'],
+                            correct: 1
+                        }
+                    ]
+                },
+                technical: {
+                    title: 'Technical Textiles Quiz',
+                    questions: [
+                        {
+                            question: 'What are geotextiles primarily used for?',
+                            options: ['Fashion applications', 'Soil stabilization and drainage', 'Thermal insulation', 'Medical applications'],
+                            correct: 1
+                        },
+                        {
+                            question: 'Which fiber is commonly used in bulletproof vests?',
+                            options: ['Cotton', 'Polyester', 'Aramid (Kevlar)', 'Nylon'],
+                            correct: 2
+                        },
+                        {
+                            question: 'What does "smart textiles" refer to?',
+                            options: ['High-tech manufacturing', 'Textiles with sensing/responding capabilities', 'Expensive fabrics', 'Automated production'],
+                            correct: 1
+                        },
+                        {
+                            question: 'Which application is NOT typically associated with medical textiles?',
+                            options: ['Surgical sutures', 'Wound dressings', 'Artificial organs', 'Automotive seats'],
+                            correct: 3
+                        },
+                        {
+                            question: 'What is the main advantage of carbon fiber composites?',
+                            options: ['Low cost', 'High strength-to-weight ratio', 'Easy processing', 'Color variety'],
+                            correct: 1
+                        },
+                        {
+                            question: 'Which property is most important for filtration textiles?',
+                            options: ['Color', 'Pore size and distribution', 'Texture', 'Thickness only'],
+                            correct: 1
+                        },
+                        {
+                            question: 'What are Phase Change Materials (PCM) in textiles used for?',
+                            options: ['Color changing', 'Temperature regulation', 'Strength improvement', 'Water resistance'],
+                            correct: 1
+                        },
+                        {
+                            question: 'Which textile application is growing fastest in the automotive industry?',
+                            options: ['Seat covers', 'Airbags and safety systems', 'Carpets', 'Headliners'],
+                            correct: 1
+                        }
+                    ]
+                }
+            };
+            
+            return quizzes[topic] || {
+                title: 'Sample Quiz',
+                questions: [
+                    {
+                        question: 'This is a sample question for ' + topic,
+                        options: ['Option A', 'Option B', 'Option C', 'Option D'],
+                        correct: 0
+                    }
+                ]
+            };
+        }
+
+        function getVideoData(topic) {
+            const videos = {
+                fiber: {
+                    title: 'Introduction to Fiber Science',
+                    duration: '12:30',
+                    level: 'Beginner',
+                    instructor: 'Dr. Sarah Johnson',
+                    prerequisites: 'Basic Chemistry',
+                    description: 'This comprehensive video covers the fundamentals of fiber science, including the molecular structure of natural and synthetic fibers, their unique properties, and applications in textile manufacturing.',
+                    objectives: [
+                        'Understand the molecular structure of different fiber types',
+                        'Learn about natural fiber properties and characteristics',
+                        'Explore synthetic fiber manufacturing processes',
+                        'Compare and contrast different fiber classes'
+                    ],
+                    topics: ['Natural Fibers', 'Synthetic Fibers', 'Molecular Structure', 'Fiber Properties'],
+                    embedUrl: 'https://www.youtube.com/embed/hNC1fK6GjF4?si=ngFbxeQzxfZY6c_U', // Educational placeholder - replace with actual videos
+                    embedUrl: 'https://www.youtube.com/embed/PDuiSnBYCQc?si=KgGPYmFV4GmxaCb8'
+                },
+                yarn: {
+                    title: 'Yarn Manufacturing Process',
+                    duration: '15:45',
+                    level: 'Intermediate',
+                    instructor: 'Prof. Michael Chen',
+                    prerequisites: 'Fiber Science Basics',
+                    description: 'Detailed exploration of yarn manufacturing processes, from fiber preparation through spinning, including different spinning systems and quality control measures.',
+                    objectives: [
+                        'Master the principles of spinning technology',
+                        'Understand different spinning systems and their applications',
+                        'Learn yarn quality assessment techniques',
+                        'Analyze the relationship between fiber properties and yarn characteristics'
+                    ],
+                    topics: ['Ring Spinning', 'Open End Spinning', 'Twist Theory', 'Quality Control'],
+                    embedUrl: 'https://www.youtube.com/embed/yqbDlpu3XOc?si=Wenxt77h9BDRreQ4'
+                },
+                fabric: {
+                    title: 'Fabric Construction Methods',
+                    duration: '18:20',
+                    level: 'Intermediate',
+                    instructor: 'Dr. Emily Rodriguez',
+                    prerequisites: 'Yarn Manufacturing Knowledge',
+                    description: 'Comprehensive study of fabric construction methods including weaving, knitting, and non-woven technologies, with focus on machinery and fabric properties.',
+                    objectives: [
+                        'Understand fundamental weaving principles',
+                        'Learn knitting technology and applications',
+                        'Explore non-woven fabric production',
+                        'Analyze fabric structure and properties'
+                    ],
+                    topics: ['Loom Operations', 'Knitting Machines', 'Fabric Structures', 'Non-woven Technology'],
+                    embedUrl: 'https://www.youtube.com/embed/n2IFnsXAzHw?si=l9w-XZLjopP2pee_'
+
+                },
+                dyeing: {
+                    title: 'Dyeing Science and Practice',
+                    duration: '14:10',
+                    level: 'Advanced',
+                    instructor: 'Dr. James Thompson',
+                    prerequisites: 'Chemistry and Fabric Knowledge',
+                    description: 'Advanced study of dyeing science, color theory, dye chemistry, and industrial dyeing processes with emphasis on environmental considerations.',
+                    objectives: [
+                        'Master color theory and measurement principles',
+                        'Understand dye-fiber interactions',
+                        'Learn industrial dyeing processes',
+                        'Explore sustainable dyeing practices'
+                    ],
+                    topics: ['Reactive Dyeing', 'Color Theory', 'Printing Technologies', 'Sustainable Processes'],
+                         embedUrl: 'https://www.youtube.com/embed/WRMmGE81OR8?si=LMr-9JY_R5WLYCvg'
+
+                },
+                testing: {
+                    title: 'Textile Testing Standards',
+                    duration: '11:30',
+                    level: 'Intermediate',
+                    instructor: 'Dr. Lisa Wang',
+                    prerequisites: 'Basic Textile Knowledge',
+                    description: 'Comprehensive overview of textile testing methods, international standards, statistical analysis of test results, and quality control procedures.',
+                    objectives: [
+                        'Learn standard testing procedures',
+                        'Understand statistical analysis of test data',
+                        'Master quality control principles',
+                        'Apply international testing standards'
+                    ],
+                    topics: ['Strength Testing', 'Color Fastness', 'ASTM Standards', 'Statistical Analysis'],
+                          embedUrl: 'https://www.youtube.com/embed/TtEHYQI6fmg?si=dHizmsOHmHmpO-_P'
+
+                },
+                technical: {
+                    title: 'Advanced Technical Textiles',
+                    duration: '16:40',
+                    level: 'Advanced',
+                    instructor: 'Prof. David Kumar',
+                    prerequisites: 'Comprehensive Textile Background',
+                    description: 'Cutting-edge exploration of technical textiles, smart materials, nanotechnology applications, and future trends in advanced textile applications.',
+                    objectives: [
+                        'Explore smart textile technologies',
+                        'Understand nanotechnology in textiles',
+                        'Learn about medical textile applications',
+                        'Analyze future trends and innovations'
+                    ],
+                    topics: ['Smart Textiles', 'Nanotechnology', 'Medical Applications', 'Automotive Textiles'],
+                    embedUrl: 'https://www.youtube.com/embed/e0OcLwPuafg?si=TEeA6jOcWfKzLWwF'
+
+                }
+            };
+            
+            return videos[topic] || {
+                title: 'Sample Video for ' + topic,
+                duration: '30 minutes',
+                level: 'Intermediate',
+                instructor: 'Dr. Example',
+                prerequisites: 'Basic Knowledge',
+                description: 'Sample video description for ' + topic,
+                objectives: ['Sample objective 1', 'Sample objective 2'],
+                topics: ['Topic 1', 'Topic 2', 'Topic 3'],
+                embedUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ'
+            };
+        }
+
+        // Main tab button functionality
+        document.querySelector('.tab-button').addEventListener('click', function() {
+            const content = document.getElementById('studymaterial-content');
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                content.style.animation = 'fadeIn 0.3s ease';
+            } else {
+                content.style.display = 'none';
+            }
+        });
+    </script>
 
 
 
@@ -5112,8 +7003,7 @@ window.addEventListener('load', () => {
 
     
   </script>
-
-          <!-- Add this above </body> -->
+  <!-- Add this above </body> -->
 <!-- <div id="global-countdown" style="position:fixed;bottom:30px;right:30px;z-index:9999;background:#007bff;color:#fff;padding:18px 28px;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,0.18);font-size:1.2rem;font-weight:600;display:flex;align-items:center;gap:16px;">
   <span id="countdown-label"><i class="fas fa-gift"></i> FREE Only for Seven Days:</span>
   <span id="countdown-timer"></span>
