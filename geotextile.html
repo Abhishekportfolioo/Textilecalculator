@@ -1,0 +1,1762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geotextile Poster</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .poster {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.3em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 35px;
+        }
+        
+        .section-title {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+            display: inline-block;
+        }
+        
+        .definition {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 25px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            line-height: 1.6;
+            border-left: 5px solid #667eea;
+        }
+        
+        .hero-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 4px solid #667eea;
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .card h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+        
+        .card p {
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        .card-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            background: #f0f4f8;
+        }
+        
+        .detail-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            width: 100%;
+        }
+        
+        .detail-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+        
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .icon-item {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .icon-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+        
+        .icon-label {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 0.95em;
+        }
+        
+        .applications {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .app-item {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            color: #2c3e50;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .gallery-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+            padding: 15px;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+        
+        .visual-diagram {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .layer {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            font-weight: 600;
+        }
+        
+        .layer.geo {
+            background: #667eea;
+            color: white;
+            position: relative;
+        }
+        
+        .advantages {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+        
+        .advantages ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .advantages li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+            color: #2c3e50;
+            font-size: 1.05em;
+        }
+        
+        .advantages li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+            font-weight: bold;
+            font-size: 1.3em;
+        }
+        
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .modal.active {
+            display: block;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            max-width: 900px;
+            width: 100%;
+            margin: 20px auto;
+            position: relative;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px 15px 0 0;
+            position: relative;
+        }
+        
+        .modal-header h2 {
+            margin: 0;
+            font-size: 2em;
+            padding-right: 50px;
+        }
+        
+        .close-button {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 2em;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            line-height: 1;
+        }
+        
+        .close-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+        
+        .modal-body {
+            padding: 30px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        
+        .detail-section {
+            margin-bottom: 30px;
+        }
+        
+        .detail-section h3 {
+            color: #667eea;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 8px;
+        }
+        
+        .detail-section p, .detail-section ul {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+        
+        .detail-section ul {
+            padding-left: 25px;
+        }
+        
+        .detail-section li {
+            margin-bottom: 10px;
+        }
+        
+        .info-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            margin: 15px 0;
+        }
+        
+        .info-box strong {
+            color: #2c3e50;
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .specs-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        .specs-table th, .specs-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .specs-table th {
+            background: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .specs-table tr:hover {
+            background: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <div class="poster">
+        <div class="header">
+            <h1>GEOTEXTILE</h1>
+            <p>Engineered Fabrics for Ground Reinforcement & Soil Stability</p>
+        </div>
+        
+        <div class="content">
+            <div class="section">
+                <h2 class="section-title">What is Geotextile?</h2>
+                <img src="https://images.unsplash.com/photo-1620752088417-4e3ae7168775?w=800&q=80" alt="Geotextile fabric roll" class="hero-image" onerror="this.src='https://images.unsplash.com/photo-1591696331111-ef9586a5b17a?w=800&q=80'">
+                <div class="definition">
+                    Geotextiles are permeable synthetic fabrics made from polymeric materials (polyester or polypropylene) used in geotechnical engineering applications. These fabrics are placed in soil to improve its engineering performance by providing functions such as separation, filtration, reinforcement, protection, and drainage.
+                    <button class="detail-button" onclick="openGeneralModal()">📖 Learn More Details</button>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">Types of Geotextiles</h2>
+                <div class="grid">
+                    <div class="card">
+                        <img src="https://images.unsplash.com/photo-1620752088417-4e3ae7168775?w=400&q=80" alt="Woven geotextile fabric" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1591696331111-ef9586a5b17a?w=400&q=80'">
+                        <h3>Woven Geotextiles</h3>
+                        <p>Manufactured by interlacing two sets of parallel yarns. High tensile strength, low elongation. Ideal for soil reinforcement and stabilization projects.</p>
+                        <button class="detail-button" onclick="openWovenModal()">📖 Detailed Info</button>
+                    </div>
+                    <div class="card">
+                        <img src="https://images.unsplash.com/photo-1604871000636-074fa5117945?w=400&q=80" alt="Non-woven geotextile fabric" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1582582621959-48d27397dc69?w=400&q=80'">
+                        <h3>Non-Woven Geotextiles</h3>
+                        <p>Made by bonding fibers mechanically, thermally, or chemically. Higher permeability, excellent filtration properties. Best for drainage and filtration.</p>
+                        <button class="detail-button" onclick="openNonWovenModal()">📖 Detailed Info</button>
+                    </div>
+                    <div class="card">
+                        <img src="https://images.unsplash.com/photo-1620752088417-4e3ae7168775?w=400&q=80" alt="Knitted geotextile fabric" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80'">
+                        <h3>Knitted Geotextiles</h3>
+                        <p>Created by interlocking loops of yarn. Combines properties of woven and non-woven types. Used for specialized applications requiring flexibility.</p>
+                        <button class="detail-button" onclick="openKnittedModal()">📖 Detailed Info</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">Primary Functions</h2>
+                <div class="icon-grid">
+                    <div class="icon-item">
+                        <div class="icon">🔀</div>
+                        <div class="icon-label">Separation</div>
+                    </div>
+                    <div class="icon-item">
+                        <div class="icon">💧</div>
+                        <div class="icon-label">Filtration</div>
+                    </div>
+                    <div class="icon-item">
+                        <div class="icon">💪</div>
+                        <div class="icon-label">Reinforcement</div>
+                    </div>
+                    <div class="icon-item">
+                        <div class="icon">🛡️</div>
+                        <div class="icon-label">Protection</div>
+                    </div>
+                    <div class="icon-item">
+                        <div class="icon">🌊</div>
+                        <div class="icon-label">Drainage</div>
+                    </div>
+                    <div class="icon-item">
+                        <div class="icon">📦</div>
+                        <div class="icon-label">Containment</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">Key Applications</h2>
+                <div class="applications">
+                    <div class="app-item"><span>🛣️ Road Construction</span></div>
+                    <div class="app-item"><span>🚂 Railway Tracks</span></div>
+                    <div class="app-item"><span>🏔️ Erosion Control</span></div>
+                    <div class="app-item"><span>🗑️ Landfills</span></div>
+                    <div class="app-item"><span>🧱 Retaining Walls</span></div>
+                    <div class="app-item"><span>⚡ Drainage Systems</span></div>
+                    <div class="app-item"><span>🌊 Coastal Protection</span></div>
+                    <div class="app-item"><span>🌾 Agriculture</span></div>
+                    <div class="app-item"><span>🌳 Landscaping</span></div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">Real-World Applications Gallery</h2>
+                <div class="gallery">
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1621904258925-ce3c6e636050?w=600&q=80" alt="Geotextile in road construction" onerror="this.src='https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=80'">
+                        <div class="gallery-caption">Geotextile in Road Construction</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=600&q=80" alt="Geotextile for erosion control" onerror="this.src='https://images.unsplash.com/photo-1464207687429-7505649dae38?w=600&q=80'">
+                        <div class="gallery-caption">Erosion Control with Geotextile</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1620752088417-4e3ae7168775?w=600&q=80" alt="Geotextile fabric roll" onerror="this.src='https://images.unsplash.com/photo-1591696331111-ef9586a5b17a?w=600&q=80'">
+                        <div class="gallery-caption">Geotextile Fabric Roll</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1590486803833-1c5dc8ddd4c8?w=600&q=80" alt="Geotextile installation" onerror="this.src='https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=600&q=80'">
+                        <div class="gallery-caption">Geotextile Installation Process</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">How Geotextile Works</h2>
+                <div class="visual-diagram">
+                    <svg width="100%" height="80" viewBox="0 0 600 80" style="margin-bottom: 10px;">
+                        <defs>
+                            <pattern id="rocks" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse">
+                                <circle cx="10" cy="10" r="8" fill="#8b7355"/>
+                                <circle cx="25" cy="20" r="6" fill="#6b5345"/>
+                            </pattern>
+                        </defs>
+                        <rect width="600" height="80" fill="url(#rocks)"/>
+                        <text x="300" y="45" text-anchor="middle" fill="white" font-size="20" font-weight="bold">Upper Soil Layer / Aggregate</text>
+                    </svg>
+                    <div class="layer geo">
+                        ⬇ GEOTEXTILE FABRIC ⬇<br>Separates • Filters • Reinforces
+                    </div>
+                    <svg width="100%" height="80" viewBox="0 0 600 80" style="margin-top: 10px;">
+                        <defs>
+                            <pattern id="soil" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                                <circle cx="5" cy="5" r="2" fill="#7a8a99"/>
+                                <circle cx="15" cy="12" r="2.5" fill="#8a9aa9"/>
+                                <circle cx="8" cy="15" r="1.5" fill="#6a7a89"/>
+                            </pattern>
+                        </defs>
+                        <rect width="600" height="80" fill="url(#soil)"/>
+                        <text x="300" y="45" text-anchor="middle" fill="white" font-size="20" font-weight="bold">Subgrade Soil / Foundation</text>
+                    </svg>
+                    <p style="margin-top: 20px; color: #555; font-style: italic;">
+                        Prevents mixing of layers while allowing water to pass through
+                    </p>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">Advantages</h2>
+                <div class="advantages">
+                    <ul>
+                        <li>Increases soil bearing capacity and stability</li>
+                        <li>Reduces construction costs by minimizing excavation</li>
+                        <li>Extends pavement life by preventing layer mixing</li>
+                        <li>Excellent drainage capability reduces water accumulation</li>
+                        <li>Environmentally friendly and sustainable solution</li>
+                        <li>Easy to install and handle on construction sites</li>
+                        <li>Resistant to chemicals, UV radiation, and biological degradation</li>
+                        <li>Reduces maintenance requirements and lifecycle costs</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">Material Properties</h2>
+                <div class="grid">
+                    <div class="card">
+                        <img src="https://images.unsplash.com/photo-1620752088417-4e3ae7168775?w=400&q=80" alt="Geotextile physical properties" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1604871000636-074fa5117945?w=400&q=80'">
+                        <h3>Physical Properties</h3>
+                        <p>• Tensile strength: 10-200 kN/m<br>
+                        • Thickness: 0.5-8 mm<br>
+                        • Weight: 100-800 g/m²<br>
+                        • Permeability: 0.01-1 cm/s</p>
+                    </div>
+                    <div class="card">
+                        <img src="https://images.unsplash.com/photo-1591696331111-ef9586a5b17a?w=400&q=80" alt="Geotextile durability" class="card-image" onerror="this.src='https://images.unsplash.com/photo-1620752088417-4e3ae7168775?w=400&q=80'">
+                        <h3>Durability</h3>
+                        <p>• UV resistant formulations<br>
+                        • Chemical resistance<br>
+                        • Temperature range: -40°C to 80°C<br>
+                        • Service life: 25-100+ years</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Geotextiles: Building Stronger Foundations for Infrastructure Development</p>
+            <p style="margin-top: 10px; opacity: 0.8;">An Essential Component of Modern Civil Engineering</p>
+        </div>
+    </div>
+    
+    <!-- General Modal -->
+    <div id="generalModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Comprehensive Geotextile Information</h2>
+                <button class="close-button" onclick="closeGeneralModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="detail-section">
+                    <h3>🔬 Manufacturing Process</h3>
+                    <p>Geotextiles are manufactured using advanced textile engineering techniques that determine their final properties and applications:</p>
+                    <ul>
+                        <li><strong>Woven Geotextiles:</strong> Created on weaving looms where longitudinal (warp) and transverse (weft) yarns are interlaced at right angles. The tight weave provides high tensile strength and load-bearing capacity.</li>
+                        <li><strong>Non-Woven Geotextiles:</strong> Produced by mechanically, thermally, or chemically bonding randomly oriented fibers. Needle-punching is the most common method, creating a fabric with excellent drainage properties.</li>
+                        <li><strong>Knitted Geotextiles:</strong> Manufactured by interlooping yarns in a series of connected loops, combining flexibility with strength.</li>
+                    </ul>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>🧪 Material Composition</h3>
+                    <div class="info-box">
+                        <strong>Primary Polymers Used:</strong>
+                        <p><strong>Polypropylene (PP):</strong> Most common material, excellent chemical resistance, cost-effective, resistant to biological degradation, melting point around 165°C.</p>
+                        <p><strong>Polyester (PET):</strong> Higher tensile strength, better long-term durability, excellent acid resistance, melting point around 260°C, preferred for critical applications.</p>
+                        <p><strong>Polyethylene (PE):</strong> Good chemical resistance, used in specific applications requiring flexibility.</p>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>📊 Technical Specifications</h3>
+                    <table class="specs-table">
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Range</th>
+                                <th>Test Method</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Mass per Unit Area</td>
+                                <td>100-800 g/m²</td>
+                                <td>ASTM D5261</td>
+                            </tr>
+                            <tr>
+                                <td>Grab Tensile Strength</td>
+                                <td>400-3500 N</td>
+                                <td>ASTM D4632</td>
+                            </tr>
+                            <tr>
+                                <td>Tear Strength</td>
+                                <td>180-650 N</td>
+                                <td>ASTM D4533</td>
+                            </tr>
+                            <tr>
+                                <td>Puncture Strength</td>
+                                <td>1300-4900 N</td>
+                                <td>ASTM D6241</td>
+                            </tr>
+                            <tr>
+                                <td>Permittivity</td>
+                                <td>0.05-2.5 sec⁻¹</td>
+                                <td>ASTM D4491</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>⚙️ Detailed Functions & Mechanisms</h3>
+                    <div class="info-box">
+                        <strong>1. Separation</strong>
+                        <p>Prevents intermixing of dissimilar materials (e.g., subgrade soil and aggregate base). Maintains the integrity of both materials, ensuring proper functioning of each layer. Critical in road construction where mixing would compromise structural integrity.</p>
+                    </div>
+                    <div class="info-box">
+                        <strong>2. Filtration</strong>
+                        <p>Allows water to pass through while retaining soil particles. The fabric's pore structure is designed to prevent soil migration while maintaining adequate water flow. Used extensively in drainage systems and erosion control.</p>
+                    </div>
+                    <div class="info-box">
+                        <strong>3. Reinforcement</strong>
+                        <p>Improves soil mechanical properties by distributing loads over a wider area. High-strength geotextiles can significantly increase bearing capacity and reduce settlement. Essential for steep slopes, retaining walls, and embankments.</p>
+                    </div>
+                    <div class="info-box">
+                        <strong>4. Protection</strong>
+                        <p>Shields geomembranes and other geosynthetics from puncture, excessive deformation, or damage during installation and service. Acts as a cushioning layer between aggressive materials.</p>
+                    </div>
+                    <div class="info-box">
+                        <strong>5. Drainage</strong>
+                        <p>Facilitates liquid or gas movement in the plane of the fabric. Creates drainage paths, reducing pore water pressure and improving soil stability. Used in landfills, retaining walls, and sports fields.</p>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>🏗️ Installation Guidelines</h3>
+                    <ul>
+                        <li><strong>Surface Preparation:</strong> Remove debris, sharp objects, and vegetation. Grade surface to design specifications with proper drainage slopes.</li>
+                        <li><strong>Overlap Requirements:</strong> Minimum 300mm (12") overlap for seams. Use 450-600mm (18-24") for high-stress applications.</li>
+                        <li><strong>Securing Methods:</strong> Use earth anchors, sandbags, or pins every 1-3 meters. Ensure fabric remains taut without excessive tension.</li>
+                        <li><strong>Backfilling:</strong> Place material carefully to avoid damage. Use smaller aggregate near the fabric, gradually increasing size.</li>
+                        <li><strong>Quality Control:</strong> Inspect for tears, holes, or damage before covering. Document installation with photos and testing records.</li>
+                    </ul>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>💰 Cost-Benefit Analysis</h3>
+                    <div class="info-box">
+                        <strong>Economic Advantages:</strong>
+                        <p>Initial material cost: $0.50-$5.00 per square meter depending on specification</p>
+                        <p><strong>Savings achieved through:</strong></p>
+                        <ul>
+                            <li>Reduced aggregate requirements (30-50% savings)</li>
+                            <li>Lower excavation depth requirements</li>
+                            <li>Faster construction times (20-40% reduction)</li>
+                            <li>Extended service life (50-100% increase)</li>
+                            <li>Reduced maintenance costs over project lifetime</li>
+                        </ul>
+                        <p><strong>Typical ROI:</strong> Projects see return on investment within 2-5 years through reduced maintenance and extended infrastructure life.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Woven Geotextile Detailed Modal -->
+    <div id="wovenModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Woven Geotextiles: Complete Technical Guide</h2>
+                <button class="close-button" onclick="closeWovenModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="detail-section">
+                    <h3>🏭 Manufacturing Process & Weave Types</h3>
+                    <div class="info-box">
+                        <strong>Basic Manufacturing Process:</strong>
+                        <p>Woven geotextiles are produced on industrial weaving looms where two sets of yarns are interlaced at right angles. The longitudinal yarns (warp/machine direction) and transverse yarns (weft/cross-machine direction) are systematically interlaced to create a stable fabric structure with predictable mechanical properties.</p>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>1. Plain Weave (Most Common)</strong>
+                        <p><strong>Structure:</strong> Each warp yarn passes alternately over and under each weft yarn (1x1 pattern). This creates the tightest interlacing and most stable fabric structure.</p>
+                        <p><strong>Characteristics:</strong></p>
+                        <ul>
+                            <li>Maximum fabric stability and dimensional integrity</li>
+                            <li>Smallest pore openings (best for fine soil separation)</li>
+                            <li>Lower elongation (2-15% at design load)</li>
+                            <li>Good abrasion resistance due to tight weave</li>
+                            <li>Slightly stiffer and less drapeable than other weaves</li>
+                        </ul>
+                        <p><strong>Applications:</strong> Road construction, railway tracks, subgrade separation, reinforcement of soft soils, base reinforcement under parking lots and storage areas</p>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>2. Twill Weave</strong>
+                        <p><strong>Structure:</strong> Warp yarns pass over one or more weft yarns in a progressive pattern (2x1 or 2x2), creating a diagonal rib pattern on the fabric surface.</p>
+                        <p><strong>Characteristics:</strong></p>
+                        <ul>
+                            <li>More flexible and drapeable than plain weave</li>
+                            <li>Slightly larger pore openings</li>
+                            <li>Better conformability to irregular surfaces</li>
+                            <li>Reduced yarn crimp increases strength</li>
+                            <li>Distinctive diagonal pattern appearance</li>
+                        </ul>
+                        <p><strong>Applications:</strong> Sloped applications, erosion control, areas requiring better conformability, reinforcement on uneven surfaces</p>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>3. Satin Weave</strong>
+                        <p><strong>Structure:</strong> Warp yarns pass over multiple weft yarns (4-8) before going under one, creating a smooth surface with minimal interlacing points.</p>
+                        <p><strong>Characteristics:</strong></p>
+                        <ul>
+                            <li>Smoothest surface finish</li>
+                            <li>Most flexible and drapeable</li>
+                            <li>Highest yarn mobility (less stable than plain weave)</li>
+                            <li>Better for forming around curves and corners</li>
+                            <li>Lower resistance to yarn slippage</li>
+                        </ul>
+                        <p><strong>Applications:</strong> Specialized applications requiring high drapeability, wrapping applications, curved reinforcement structures</p>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>4. Leno Weave (Open Mesh)</strong>
+                        <p><strong>Structure:</strong> Pairs of warp yarns twist around weft yarns, creating a stable open mesh structure with large openings between yarns.</p>
+                        <p><strong>Characteristics:</strong></p>
+                        <ul>
+                            <li>Very open structure (60-95% open area)</li>
+                            <li>High water and air permeability</li>
+                            <li>Excellent soil-fabric interaction</li>
+                            <li>Lower tensile strength per unit weight</li>
+                            <li>Prevents yarn slippage despite open structure</li>
+                        </ul>
+                        <p><strong>Applications:</strong> Silt fences, temporary erosion control, reinforcement where soil interlock is critical, agricultural ground covers</p>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>🧵 Yarn Types & Construction</h3>
+                    <div class="info-box">
+                        <strong>Monofilament Yarns:</strong>
+                        <p><strong>Description:</strong> Single continuous fiber strands extruded from polymer</p>
+                        <p><strong>Properties:</strong></p>
+                        <ul>
+                            <li>Smooth surface reduces soil adhesion</li>
+                            <li>Lower permeability due to tight weave</li>
+                            <li>Excellent chemical resistance</li>
+                            <li>Good for applications requiring cleanliness</li>
+                            <li>Typical diameter: 0.2-1.0 mm</li>
+                        </ul>
+                        <p><strong>Best For:</strong> Filtration in clean environments, silt fences, applications requiring smooth surface</p>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>Multifilament Yarns:</strong>
+                        <p><strong>Description:</strong> Multiple continuous filaments twisted together to form a single yarn</p>
+                        <p><strong>Properties:</strong></p>
+                        <ul>
+                            <li>Higher tenacity (strength per unit weight)</li>
+                            <li>Better flexibility and handling characteristics</li>
+                            <li>More surface area for soil interaction</li>
+                            <li>Can be textured for enhanced grip</li>
+                            <li>Contains 50-400 individual filaments</li>
+                        </ul>
+                        <p><strong>Best For:</strong> Reinforcement applications, high-strength requirements, soil stabilization</p>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>Slit Film (Tape) Yarns:</strong>
+                        <p><strong>Description:</strong> Flat polymer tapes created by slitting extruded films, then stretching and sometimes fibrillating</p>
+                        <p><strong>Properties:</strong></p>
+                        <ul>
+                            <li>Most economical production method</li>
+                            <li>Wide flat profile (2-5 mm width)</li>
+                            <li>Good tensile strength-to-cost ratio</li>
+                            <li>Lower resistance to puncture than round yarns</li>
+                            <li>May fibrillate creating hairier surface</li>
+                        </ul>
+                        <p><strong>Best For:</strong> Cost-sensitive projects, temporary roads, large-area separation applications</p>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>High-Tenacity Yarns:</strong>
+                        <p><strong>Description:</strong> Specially engineered yarns with enhanced molecular orientation for maximum strength</p>
+                        <p><strong>Properties:</strong></p>
+                        <ul>
+                            <li>Tensile strength: 8-10 g/denier (vs 5-7 for standard)</li>
+                            <li>Lower elongation at break (10-15%)</li>
+                            <li>Better creep resistance</li>
+                            <li>Premium cost (20-40% higher)</li>
+                            <li>Excellent long-term performance</li>
+                        </ul>
+                        <p><strong>Best For:</strong> Critical reinforcement applications, mechanically stabilized earth walls, steep slopes, permanent structures</p>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>📊 Technical Performance Characteristics</h3>
+                    <table class="specs-table">
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Typical Range</th>
+                                <th>High-Performance</th>
+                                <th>Test Standard</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Tensile Strength (MD)</td>
+                                <td>30-100 kN/m</td>
+                                <td>100-800 kN/m</td>
+                                <td>ASTM D4595</td>
+                            </tr>
+                            <tr>
+                                <td>Tensile Strength (CD)</td>
+                                <td>25-90 kN/m</td>
+                                <td>90-600 kN/m</td>
+                                <td>ASTM D4595</td>
+                            </tr>
+                            <tr>
+                                <td>Elongation at Break</td>
+                                <td>10-25%</td>
+                                <td>8-15%</td>
+                                <td>ASTM D4595</td>
+                            </tr>
+                            <tr>
+                                <td>Grab Tensile Strength</td>
+                                <td>800-3500 N</td>
+                                <td>3500-8000 N</td>
+                                <td>ASTM D4632</td>
+                            </tr>
+                            <tr>
+                                <td>Puncture Resistance</td>
+                                <td>1500-3500 N</td>
+                                <td>3500-7000 N</td>
+                                <td>ASTM D6241</td>
+                            </tr>
+                            <tr>
+                                <td>Permittivity</td>
+                                <td>0.02-0.5 sec⁻¹</td>
+                                <td>0.05-0.2 sec⁻¹</td>
+                                <td>ASTM D4491</td>
+                            </tr>
+                            <tr>
+                                <td>AOS (Opening Size)</td>
+                                <td>0.15-0.60 mm</td>
+                                <td>0.2-0.4 mm</td>
+                                <td>ASTM D4751</td>
+                            </tr>
+                            <tr>
+                                <td>Mass per Unit Area</td>
+                                <td>100-400 g/m²</td>
+                                <td>400-1200 g/m²</td>
+                                <td>ASTM D5261</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p style="margin-top: 15px; font-size: 0.9em; color: #666;"><em>MD = Machine Direction (warp), CD = Cross-Machine Direction (weft)</em></p>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>⚙️ Reinforcement Mechanisms</h3>
+                    <div class="info-box">
+                        <strong>1. Lateral Restraint:</strong>
+                        <p>Woven geotextiles confine soil particles, preventing lateral spreading under vertical loads. The high tensile modulus restricts soil deformation, effectively increasing the soil's bearing capacity by 100-400%.</p>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>2. Membrane Effect:</strong>
+                        <p>Under wheel loads, the fabric deforms into a tensioned membrane that distributes concentrated loads over a wider area of subgrade. This reduces peak stresses by 40-70% and minimizes rutting.</p>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>3. Increased Bearing Capacity:</strong>
+                        <p>By distributing loads and providing tensile resistance, woven geotextiles can increase the effective bearing capacity of soft soils. The bearing capacity improvement factor typically ranges from 2.0 to 4.0 depending on fabric strength and soil conditions.</p>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>4. Stress Transfer:</strong>
+                        <p>Friction between soil particles and geotextile yarns allows stress transfer from soil to fabric. This is enhanced in woven fabrics due to:</p>
+                        <ul>
+                            <li>Positive mechanical interlock with aggregate</li>
+                            <li>High interface friction angle (25-35 degrees)</li>
+                            <li>Minimal fabric elongation maintains stress transfer efficiency</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>🎯 Design Considerations</h3>
+                    <div class="info-box">
+                        <strong>Strength Requirements:</strong>
+                        <ul>
+                            <li><strong>Survivability Strength:</strong> Minimum strength to withstand installation stresses (typically 1.5-3x design strength)</li>
+                            <li><strong>Design Strength:</strong> Long-term allowable strength considering reduction factors:
+                                <ul>
+                                    <li>Installation damage: 1.1-2.5</li>
+                                    <li>Creep (long-term load): 2.0-4.0</li>
+                                    <li>Chemical/biological degradation: 1.1-1.3</li>
+                                    <li>Overall factor of safety: 1.3-1.5</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>Anisotropy Considerations:</strong>
+                        <p>Woven geotextiles have different properties in machine and cross-machine directions:</p>
+                        <ul>
+                            <li>Typical MD/CD strength ratio: 1.2:1 to 3:1</li>
+                            <li>Orient stronger direction perpendicular to expected maximum stress</li>
+                            <li>For roads: align MD perpendicular to traffic flow</li>
+                            <li>For slopes: align MD parallel to slope direction</li>
+                            <li>Consider biaxial geotextiles (equal strength in both directions) for complex loading</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>Interface Friction:</strong>
+                        <p>Critical for reinforcement applications:</p>
+                        <ul>
+                            <li><strong>Soil-Geotextile Interface:</strong> φ = 0.7-0.9 × soil friction angle</li>
+                            <li><strong>Textured surfaces:</strong> Improve interface friction by 10-25%</li>
+                            <li><strong>Direct shear testing:</strong> Required for critical applications</li>
+                            <li><strong>Drainage effect:</strong> Can increase interface strength by reducing pore pressure</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>🔧 Installation Specifications</h3>
+                    <div class="info-box">
+                        <strong>Pre-Installation Requirements:</strong>
+                        <ul>
+                            <li><strong>Subgrade Preparation:</strong>
+                                <ul>
+                                    <li>Remove organic matter, roots, and debris</li>
+                                    <li>Proof-roll to identify weak areas</li>
+                                    <li>Achieve specified compaction (typically 90-95% Standard Proctor)</li>
+                                    <li>Create smooth surface (no depressions > 50mm)</li>
+                                    <li>Remove stones larger than 50mm diameter</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>Placement Procedures:</strong>
+                        <ul>
+                            <li><strong>Orientation:</strong> Unroll perpendicular to direction of aggregate placement</li>
+                            <li><strong>Tension:</strong> Pull fabric taut but not stretched (< 1% strain)</li>
+                            <li><strong>Overlap:</strong> 
+                                <ul>
+                                    <li>Minimum 300mm on flat surfaces</li>
+                                    <li>450-600mm on slopes > 1V:3H</li>
+                                    <li>600-900mm in high-stress areas</li>
+                                    <li>Overlap in direction of aggregate movement</li>
+                                </ul>
+                            </li>
+                            <li><strong>Securing:</strong>
+                                <ul>
+                                    <li>Earth staples (150-200mm long) every 1-2m</li>
+                                    <li>Additional securing at overlaps</li>
+                                    <li>Anchor trenches at top of slopes (300mm deep minimum)</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>Aggregate Placement:</strong>
+                        <ul>
+                            <li><strong>Initial Lift:</strong> Minimum 150mm (6") of clean aggregate before trafficking</li>
+                            <li><strong>Aggregate Size:</strong> 
+                                <ul>
+                                    <li>First lift: 19-50mm (¾"-2") clean stone</li>
+                                    <li>No particles > 100mm to prevent puncture</li>
+                                    <li>Well-graded for good compaction</li>
+                                </ul>
+                            </li>
+                            <li><strong>Equipment Operations:</strong>
+                                <ul>
+                                    <li>Dump and push forward (no reversing on uncovered fabric)</li>
+                                    <li>Use tracked equipment preferred over wheeled</li>
+                                    <li>Maximum equipment speed: 15 km/h</li>
+                                    <li>No sharp turns on uncovered fabric</li>
+                                    <li>Maintain minimum cover thickness at all times</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>Seaming Methods (for reinforcement applications):</strong>
+                        <ul>
+                            <li><strong>Sewn Seams:</strong> Minimum 2 rows of J-stitch or chain stitch, 80% strength efficiency</li>
+                            <li><strong>Bodkin Joint:</strong> Looping fabric ends together, 70-90% efficiency</li>
+                            <li><strong>Simple Overlap:</strong> Adequate for separation (300-600mm overlap)</li>
+                            <li><strong>Chemical Bonding:</strong> Specialty applications only, requires field testing</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>🏗️ Application-Specific Guidelines</h3>
+                    <div class="info-box">
+                        <strong>Unpaved Roads & Haul Roads:</strong>
+                        <ul>
+                            <li><strong>Fabric Selection:</strong> Minimum grab strength 1400N, survivability rated</li>
+                            <li><strong>CBR < 1:</strong> Use high-strength woven (> 50 kN/m) with 300mm+ aggregate</li>
+                            <li><strong>CBR 1-3:</strong> Medium strength woven (30-50 kN/m) with 200-300mm aggregate</li>
+                            <li><strong>Benefits:</strong> 30-60% aggregate savings, 50-300% life extension</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>Paved Roads & Parking Lots:</strong>
+                        <ul>
+                            <li><strong>Subgrade Reinforcement:</strong> Woven fabric under base course</li>
+                            <li><strong>Reduces base thickness:</strong> 20-40% with proper design</li>
+                            <li><strong>Critical for:</strong> Soft soils (CBR < 3), high water tables, heavy traffic</li>
+                            <li><strong>Design Method:</strong> Giroud-Noiray or similar empirical approach</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>Railway Ballast Reinforcement:</strong>
+                        <ul>
+                            <li><strong>Requirements:</strong> High strength (> 100 kN/m), low elongation (< 10%)</li>
+                            <li><strong>Benefits:</strong> Reduces ballast fouling, extends maintenance cycles by 50-100%</li>
+                            <li><strong>Placement:</strong> Between ballast and subballast or subgrade</li>
+                            <li><strong>Special consideration:</strong> Must withstand dynamic loading (50-80 Hz)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>Retaining Walls & Steep Slopes:</strong>
+                        <ul>
+                            <li><strong>Fabric Type:</strong> High-tenacity woven, low creep rate (< 2% @ 50 years)</li>
+                            <li><strong>Strength:</strong> 100-800 kN/m depending on wall height and soil properties</li>
+                            <li><strong>Embedment:</strong> Minimum 1.0m behind potential failure plane</li>
+                            <li><strong>Vertical spacing:</strong> 0.3-0.8m depending on design</li>
+                            <li><strong>Connection:</strong> Critical detail requiring engineering design</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>Embankments Over Soft Ground:</strong>
+                        <ul>
+                            <li><strong>Basal Reinforcement:</strong> High-strength woven at embankment base</li>
+                            <li><strong>Improves stability:</strong> Increases safety factor by 20-50%</li>
+                            <li><strong>Allows steeper slopes:</strong> Can reduce embankment footprint by 30%</li>
+                            <li><strong>Settlement control:</strong> Reduces differential settlement by 40-60%</li>
+                            <li><strong>Multiple layers:</strong> May be needed for high embankments (> 5m)</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>🧪 Quality Assurance & Testing</h3>
+                    <div class="info-box">
+                        <strong>Manufacturing Quality Control:</strong>
+                        <ul>
+                            <li><strong>Continuous Monitoring:</strong> Mass per unit area (every 100m of production)</li>
+                            <li><strong>Tensile Testing:</strong> Every production lot (minimum 5 samples per direction)</li>
+                            <li><strong>Width & Length:</strong> Measured for every roll</li>
+                            <li><strong>Visual Inspection:</strong> 100% inspection for defects, tears, contamination</li>
+                            <li><strong>Certificate of Conformance:</strong> Required for each shipment</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>Field Testing & Inspection:</strong>
+                        <ul>
+                            <li><strong>Receiving Inspection:</strong> Verify labeling, check for shipping damage</li>
+                            <li><strong>Random Sampling:</strong> 1 in 20 rolls for independent testing</li>
+                            <li><strong>Installation Inspection:</strong>
+                                <ul>
+                                    <li>Subgrade condition and preparation</li>
+                                    <li>Fabric placement and orientation</li>
+                                    <li>Overlap and seam locations</li>
+                                    <li>Securing and anchoring adequacy</li>
+                                    <li>Aggregate placement procedures</li>
+                                </ul>
+                            </li>
+                            <li><strong>Damage Assessment:</strong> Repairs required for tears > 100mm, cuts, or holes</li>
+                            <li><strong>Documentation:</strong> Photographs, as-built drawings, test results</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>⚠️ Common Problems & Solutions</h3>
+                    <div class="info-box">
+                        <strong>Problem: Fabric Tearing During Installation</strong>
+                        <p><strong>Causes:</strong> Sharp aggregate, improper equipment operation, inadequate cover</p>
+                        <p><strong>Solutions:</strong></p>
+                        <ul>
+                            <li>Use survivability-rated fabric (1.5-2x stronger than design requirement)</li>
+                            <li>Screen or crush aggregate to remove oversized particles</li>
+                            <li>Increase initial aggregate lift thickness to 200-250mm</li>
+                            <li>Use tracked equipment with proper operating procedures</li>
+                            <li>Repair tears immediately with patch (300mm overlap minimum)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>Problem: Inadequate Reinforcement Performance</strong>
+                        <p><strong>Causes:</strong> Incorrect fabric orientation, insufficient strength, excessive creep</p>
+                        <p><strong>Solutions:</strong></p>
+                        <ul>
+                            <li>Verify fabric orientation matches design (strongest direction under maximum stress)</li>
+                            <li>Ensure adequate reduction factors applied in design</li>
+                            <li>Use high-tenacity yarns for long-term loading</li>
+                            <li>Verify soil-fabric interface friction meets design assumptions</li>
+                            <li>Consider biaxial fabrics for complex loading patterns</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>Problem: Excessive Elongation/Deformation</strong>
+                        <p><strong>Causes:</strong> Under-designed fabric, poor soil conditions, inadequate aggregate</p>
+                        <p><strong>Solutions:</strong></p>
+                        <ul>
+                            <li>Select fabric with lower elongation characteristics (< 10% at design load)</li>
+                            <li>Increase fabric strength or use multiple layers</li>
+                            <li>Improve subgrade through stabilization if possible</li>
+                            <li>Increase aggregate thickness to better distribute loads</li>
+                            <li>Monitor during construction and adjust if needed</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>Problem: Seam Failure in Reinforcement</strong>
+                        <p><strong>Causes:</strong> Inadequate seaming method, poor quality control, high differential movement</p>
+                        <p><strong>Solutions:</strong></p>
+                        <ul>
+                            <li>Use sewn seams (J-stitch) for critical reinforcement (80% efficiency)</li>
+                            <li>Increase overlap to 600-900mm in high-stress areas</li>
+                            <li>Orient seams perpendicular to maximum stress direction</li>
+                            <li>Stagger seams in multi-layer installations</li>
+                            <li>Field test seam strength for critical applications</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>💡 Advantages of Woven Geotextiles</h3>
+                    <ul>
+                        <li><strong>Superior Tensile Strength:</strong> 3-10x stronger than non-woven per unit weight</li>
+                        <li><strong>Low Elongation:</strong> Maintains dimensional stability under load (5-15% vs 50-100% for non-woven)</li>
+                        <li><strong>High Modulus:</strong> Provides immediate resistance to deformation, critical for reinforcement</li>
+                        <li><strong>Predictable Properties:</strong> Well-defined directional properties allow precise engineering design</li>
+                        <li><strong>Excellent Durability:</strong> Tight weave resists abrasion and installation damage</li>
+                        <li><strong>Load Distribution:</strong> Efficiently transfers and distributes concentrated loads</li>
+                        <li><strong>Cost-Effective Reinforcement:</strong> Highest strength-to-cost ratio for structural applications</li>
+                        <li><strong>Long-Term Performance:</strong> Proven track record in demanding applications (30+ years)</li>
+                        <li><strong>Versatility:</strong> Wide range of strengths available (30-800 kN/m) for various applications</li>
+                    </ul>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>📈 Economic Analysis</h3>
+                    <div class="info-box">
+                        <strong>Cost Comparison (per square meter):</strong>
+                        <ul>
+                            <li><strong>Light-duty woven:</strong> $0.50-$1.50 (separation applications)</li>
+                            <li><strong>Medium-strength woven:</strong> $1.50-$3.50 (road stabilization)</li>
+                            <li><strong>High-strength woven:</strong> $3.50-$8.00 (reinforcement, walls)</li>
+                            <li><strong>Ultra-high-strength:</strong> $8.00-$15.00 (critical structures)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>Project Savings:</strong>
+                        <ul>
+                            <li><strong>Aggregate Reduction:</strong> $5-$15/m² (30-60% less aggregate needed)</li>
+                            <li><strong>Excavation Savings:</strong> $10-$30/m² (reduced depth requirements)</li>
+                            <li><strong>Construction Time:</strong> 20-40% faster completion</li>
+                            <li><strong>Equipment Costs:</strong> Reduced mobilization and hauling</li>
+                            <li><strong>Maintenance Savings:</strong> 50-200% extended service life</li>
+                        </ul>
+                        <p><strong>Typical Payback:</strong> 1-3 years for most road applications, immediate for construction access roads</p>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>🌍 Sustainability Benefits</h3>
+                    <ul>
+                        <li><strong>Resource Conservation:</strong> Reduces virgin aggregate extraction by 30-60%</li>
+                        <li><strong>Carbon Footprint:</strong> 40-70% reduction compared to traditional construction (less hauling)</li>
+                        <li><strong>Soil Preservation:</strong> Enables construction on marginal sites without deep excavation</li>
+                        <li><strong>Durability:</strong> 25-100+ year design life reduces reconstruction frequency</li>
+                        <li><strong>Recyclability:</strong> PP and PET are recyclable (when recoverable)</li>
+                        <li><strong>Energy Savings:</strong> Manufacturing uses 30% less energy than producing equivalent stone</li>
+                    </ul>
+                </div>
+                <div class="detail-section">
+                <h3>🚀 Advanced Technologies & Innovations</h3>
+                <div class="info-box">
+                    <strong>Current Developments:</strong>
+                    <ul>
+                        <li><strong>High-Performance Polyester (HPE):</strong> Enhanced molecular structure for 50% higher strength and lower creep</li>
+                        <li><strong>Hybrid Fabrics:</strong> Combining different yarn types in one fabric for optimized performance</li>
+                        <li><strong>Smart Monitoring:</strong> Embedded fiber optic sensors for real-time strain and load monitoring</li>
+                        <li><strong>Bio-Based Polymers:</strong> PLA and other biodegradable options for temporary applications</li>
+                        <li><strong>Nano-Enhanced Coatings:</strong> Improved UV resistance, chemical resistance, and friction properties</li>
+                        <li><strong>3D Woven Structures:</strong> Multi-layer fabrics with through-thickness reinforcement</li>
+                        <li><strong>Self-Healing Materials:</strong> Research into geotextiles with autonomous repair capabilities</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="detail-section">
+                <h3>📚 Design Resources & Standards</h3>
+                <div class="info-box">
+                    <strong>Key Design Guides:</strong>
+                    <ul>
+                        <li><strong>FHWA NHI-07-092:</strong> Mechanically Stabilized Earth Walls and Reinforced Soil Slopes Design and Construction Guidelines</li>
+                        <li><strong>AASHTO M-288:</strong> Standard Specification for Geotextile Specification for Highway Applications</li>
+                        <li><strong>ASTM D4595:</strong> Standard Test Method for Tensile Properties of Geotextiles by the Wide-Width Strip Method</li>
+                        <li><strong>ISO 10319:</strong> Geosynthetics - Wide-width tensile test</li>
+                        <li><strong>BS 8006:</strong> Code of practice for strengthened/reinforced soils and other fills</li>
+                    </ul>
+                </div>
+                
+                <div class="info-box">
+                    <strong>Design Software:</strong>
+                    <ul>
+                        <li><strong>ReSSA:</strong> Reinforced Slope Stability Analysis</li>
+                        <li><strong>MSEW:</strong> Mechanically Stabilized Earth Wall design</li>
+                        <li><strong>GSTABL7:</strong> Slope stability with reinforcement</li>
+                        <li><strong>PLAXIS:</strong> Finite element analysis for complex geometries</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    
+    <!-- Non-Woven Geotextile Detailed Modal -->
+    <div id="nonWovenModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Non-Woven Geotextiles: Complete Technical Guide</h2>
+                <button class="close-button" onclick="closeNonWovenModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="detail-section">
+                    <h3>🏭 Manufacturing Methods</h3>
+                    <div class="info-box">
+                        <strong>1. Needle-Punched Non-Woven (Most Common)</strong>
+                        <p><strong>Process:</strong> Fibers are randomly laid on a conveyor to form a loose web. Thousands of barbed needles repeatedly punch through the web, mechanically entangling the fibers. This creates a three-dimensional structure with excellent drainage properties.</p>
+                        <p><strong>Advantages:</strong></p>
+                        <ul>
+                            <li>High permeability and water flow rates</li>
+                            <li>Excellent filtration capabilities</li>
+                            <li>Good puncture resistance</li>
+                            <li>Isotropic properties (same strength in all directions)</li>
+                            <li>Cost-effective production</li>
+                        </ul>
+                        <p><strong>Typical Applications:</strong> Road underlayment, subsurface drainage, filtration, erosion control, landfill liners</p>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>2. Thermally Bonded (Heat-Bonded)</strong>
+                        <p><strong>Process:</strong> Synthetic fibers with low melting points are blended with high melting point fibers. The web is passed through heated rollers or ovens where low-melt fibers soften and bond at fiber intersections, creating a stable fabric structure.</p>
+                        <p><strong>Advantages:</strong></p>
+                        <ul>
+                            <li>Smooth surface finish</li>
+                            <li>Uniform thickness</li>
+                            <li>Good tensile strength</li>
+                            <li>Excellent dimensional stability</li>
+                            <li>Lighter weight options available</li>
+                        </ul>
+                        <p><strong>Typical Applications:</strong> Separation layers, light-duty road construction, landscaping, agriculture</p>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>3. Chemically Bonded (Resin-Bonded)</strong>
+                        <p><strong>Process:</strong> Fibers are bonded using chemical adhesives or resins applied to the fiber web. The fabric is then cured to set the bonding agent, creating strong fiber-to-fiber bonds.</p>
+                        <p><strong>Advantages:</strong></p>
+                        <ul>
+                            <li>High initial strength</li>
+                            <li>Excellent abrasion resistance</li>
+                            <li>Good chemical resistance</li>
+                            <li>Flexible and drapeable</li>
+                        </ul>
+                        <p><strong>Typical Applications:</strong> Protective covers, specialized filtration, composite reinforcement</p>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>4. Spunbond Technology</strong>
+                        <p><strong>Process:</strong> Polymer granules are melted and extruded through spinnerets to form continuous filaments. These filaments are deposited on a moving belt in a random pattern and bonded (thermally or mechanically) while still hot.</p>
+                        <p><strong>Advantages:</strong></p>
+                        <ul>
+                            <li>Continuous filament structure (no short fibers)</li>
+                            <li>Very high strength-to-weight ratio</li>
+                            <li>Excellent uniformity</li>
+                            <li>Superior long-term durability</li>
+                            <li>Minimal fiber loss over time</li>
+                        </ul>
+                        <p><strong>Typical Applications:</strong> Heavy-duty road construction, reinforcement, high-stress applications</p>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>🔬 Fiber Types & Properties</h3>
+                    <table class="specs-table">
+                        <thead>
+                            <tr>
+                                <th>Fiber Type</th>
+                                <th>Length</th>
+                                <th>Typical Use</th>
+                                <th>Characteristics</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Short Staple Fibers</td>
+                                <td>25-100 mm</td>
+                                <td>Needle-punched fabrics</td>
+                                <td>High permeability, good filtration</td>
+                            </tr>
+                            <tr>
+                                <td>Long Continuous Filaments</td>
+                                <td>Continuous</td>
+                                <td>Spunbond fabrics</td>
+                                <td>Higher strength, better durability</td>
+                            </tr>
+                            <tr>
+                                <td>Bi-component Fibers</td>
+                                <td>Variable</td>
+                                <td>Thermal bonding</td>
+                                <td>Self-bonding capability</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>📊 Technical Performance Characteristics</h3>
+                    <div class="info-box">
+                        <strong>Hydraulic Properties:</strong>
+                        <ul>
+                            <li><strong>Permittivity:</strong> 0.5 to 2.5 sec⁻¹ (higher than woven types)</li>
+                            <li><strong>Water Flow Rate:</strong> 50-200 gallons/min/ft² at standard pressure</li>
+                            <li><strong>Apparent Opening Size (AOS):</strong> 0.075-0.3 mm (filters various soil types)</li>
+                            <li><strong>Percent Open Area:</strong> 4-30% (provides excellent filtration)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>Mechanical Properties:</strong>
+                        <ul>
+                            <li><strong>Tensile Strength:</strong> 500-3000 N (depending on weight and manufacturing)</li>
+                            <li><strong>Elongation at Break:</strong> 50-100% (more than woven types)</li>
+                            <li><strong>Puncture Resistance:</strong> 200-500 N (excellent due to fiber entanglement)</li>
+                            <li><strong>Tear Strength:</strong> 100-400 N (distributes stress well)</li>
+                            <li><strong>Burst Strength:</strong> 1000-4000 kPa</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>Mass per Unit Area Range:</strong>
+                        <ul>
+                            <li><strong>Lightweight:</strong> 100-200 g/m² (separation, light filtration)</li>
+                            <li><strong>Medium weight:</strong> 200-400 g/m² (general purpose, drainage)</li>
+                            <li><strong>Heavy weight:</strong> 400-800+ g/m² (reinforcement, heavy-duty applications)</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>⚙️ Functional Mechanisms</h3>
+                    <div class="info-box">
+                        <strong>Filtration Process:</strong>
+                        <p>Non-woven geotextiles excel at filtration through multiple mechanisms:</p>
+                        <ul>
+                            <li><strong>Mechanical Straining:</strong> Soil particles larger than pore openings are physically blocked</li>
+                            <li><strong>Bridging:</strong> Soil particles form bridges across pores, creating a natural filter cake</li>
+                            <li><strong>Entrapment:</strong> Smaller particles are trapped within the fabric's three-dimensional structure</li>
+                            <li><strong>Self-Healing:</strong> Random fiber structure allows limited soil intrusion that improves filtration over time</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>Drainage Mechanism:</strong>
+                        <p>The thick, three-dimensional structure creates tortuous flow paths that:</p>
+                        <ul>
+                            <li>Allow water to flow rapidly in the plane of the fabric</li>
+                            <li>Maintain hydraulic conductivity under compression</li>
+                            <li>Resist clogging due to high void ratio (60-80% of volume)</li>
+                            <li>Provide redundant flow paths if some become blocked</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>🎯 Application-Specific Selection</h3>
+                    <div class="info-box">
+                        <strong>For Filtration Applications:</strong>
+                        <ul>
+                            <li>Match AOS to soil gradation using retention criteria</li>
+                            <li>Ensure permeability is 10x greater than soil</li>
+                            <li>Consider clogging potential and long-term permeability</li>
+                            <li>Select needle-punched types for best filtration performance</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>For Separation Applications:</strong>
+                        <ul>
+                            <li>Choose based on traffic loading and soil conditions</li>
+                            <li>Higher mass per unit area for heavy construction equipment</li>
+                            <li>Consider survivability during installation</li>
+                            <li>Verify adequate grab strength and puncture resistance</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>For Drainage Applications:</strong>
+                        <ul>
+                            <li>Prioritize high permittivity values</li>
+                            <li>Consider long-term flow capacity under load</li>
+                            <li>Evaluate biological and chemical clogging potential</li>
+                            <li>Thicker fabrics provide better drainage capacity</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>🔧 Installation Best Practices</h3>
+                    <div class="info-box">
+                        <strong>Surface Preparation:</strong>
+                        <ul>
+                            <li>Remove all sharp objects, roots, and debris larger than 25mm</li>
+                            <li>Fill depressions and smooth surface irregularities</li>
+                            <li>Compact subgrade to design specifications</li>
+                            <li>Create proper drainage slopes (minimum 1-2%)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>Fabric Placement:</strong>
+                        <ul>
+                            <li>Unroll perpendicular to the direction of aggregate placement</li>
+                            <li>Avoid dragging fabric over rough surfaces</li>
+                            <li>Maintain fabric tautness without overstretching</li>
+                            <li>Orient fabric with smoother side up for easier aggregate placement</li>
+                            <li>Overlap adjacent rolls by minimum 300mm (increase on slopes)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>Securing Methods:</strong>
+                        <ul>
+                            <li>Use earth staples every 1-2 meters along edges</li>
+                            <li>Place sandbags or aggregate anchors on windy days</li>
+                            <li>Secure at the top of slopes with anchor trenches</li>
+                            <li>Pin down all overlaps to prevent displacement</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>Aggregate Placement:</strong>
+                        <ul>
+                            <li>Start with at least 150mm (6") of cover immediately after placement</li>
+                            <li>Push aggregate forward, don't reverse over exposed fabric</li>
+                            <li>Use tracked vehicles rather than wheeled (better weight distribution)</li>
+                            <li>Limit equipment speed to 15 km/h over fabric</li>
+                            <li>Avoid tight turns on uncovered fabric</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>🧪 Quality Control & Testing</h3>
+                    <table class="specs-table">
+                        <thead>
+                            <tr>
+                                <th>Test Parameter</th>
+                                <th>Standard Method</th>
+                                <th>Frequency</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Mass per Unit Area</td>
+                                <td>ASTM D5261</td>
+                                <td>Every production roll</td>
+                            </tr>
+                            <tr>
+                                <td>Grab Tensile Strength</td>
+                                <td>ASTM D4632</td>
+                                <td>Per specification</td>
+                            </tr>
+                            <tr>
+                                <td>Permittivity</td>
+                                <td>ASTM D4491</td>
+                                <td>Per batch</td>
+                            </tr>
+                            <tr>
+                                <td>AOS (Apparent Opening Size)</td>
+                                <td>ASTM D4751</td>
+                                <td>Per specification</td>
+                            </tr>
+                            <tr>
+                                <td>UV Resistance</td>
+                                <td>ASTM D4355</td>
+                                <td>Quarterly</td>
+                            </tr>
+                            <tr>
+                                <td>Puncture Resistance</td>
+                                <td>ASTM D6241</td>
+                                <td>Per specification</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>⚠️ Common Problems & Solutions</h3>
+                    <div class="info-box">
+                        <strong>Problem: Fabric Clogging</strong>
+                        <p><strong>Causes:</strong> Fine soil migration, biological growth, chemical precipitation</p>
+                        <p><strong>Solutions:</strong></p>
+                        <ul>
+                            <li>Select appropriate AOS for soil type</li>
+                            <li>Use graded filters for very fine soils</li>
+                            <li>Ensure adequate flow capacity for anticipated loads</li>
+                            <li>Consider geocomposite drains for critical applications</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>Problem: Installation Damage</strong>
+                        <p><strong>Causes:</strong> Sharp aggregate, improper equipment, rough subgrade</p>
+                        <p><strong>Solutions:</strong></p>
+                        <ul>
+                            <li>Use heavier weight fabric for survivability</li>
+                            <li>Maintain minimum aggregate cover before traffic</li>
+                            <li>Inspect and repair tears immediately</li>
+                            <li>Consider double-layer installation for aggressive conditions</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>Problem: UV Degradation</strong>
+                        <p><strong>Causes:</strong> Prolonged exposure to sunlight before covering</p>
+                        <p><strong>Solutions:</strong></p>
+                        <ul>
+                            <li>Cover fabric within manufacturer's recommended timeframe (typically 14-30 days)</li>
+                            <li>Use UV-stabilized products for temporary installations</li>
+                            <li>Store rolls in shaded areas before installation</li>
+                            <li>Plan installation to minimize exposure time</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>💡 Advantages Over Woven Geotextiles</h3>
+                    <ul>
+                        <li><strong>Superior Filtration:</strong> Random fiber structure provides excellent particle retention</li>
+                        <li><strong>Higher Permeability:</strong> Greater water flow rates perpendicular to plane</li>
+                        <li><strong>Better Conformability:</strong> Adapts to irregular surfaces more easily</li>
+                        <li><strong>Isotropic Properties:</strong> Same strength in all directions (no weak points)</li>
+                        <li><strong>Cost-Effective:</strong> Generally less expensive for filtration/drainage applications</li>
+                        <li><strong>Self-Healing:</strong> Small punctures don't propagate like tears in woven fabrics</li>
+                        <li><strong>Higher Elongation:</strong> Better stress distribution and flexibility</li>
+                    </ul>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>📈 Market Trends & Innovations</h3>
+                    <div class="info-box">
+                        <strong>Current Developments:</strong>
+                        <ul>
+                            <li><strong>Multi-Layer Composites:</strong> Combining different fiber types for optimized performance</li>
+                            <li><strong>Bio-Based Fibers:</strong> PLA (polylactic acid) from corn starch for biodegradable applications</li>
+                            <li><strong>Antimicrobial Treatments:</strong> Preventing biological clogging in filtration systems</li>
+                            <li><strong>Enhanced UV Stabilization:</strong> Extended exposure resistance (6-12 months)</li>
+                            <li><strong>Recycled Content:</strong> Up to 100% post-consumer recycled polyester</li>
+                            <li><strong>Smart Textiles:</strong> Embedded sensors for monitoring performance</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3>🌍 Environmental Impact</h3>
+                    <p><strong>Sustainability Benefits:</strong></p>
+                    <ul>
+                        <li>Reduces excavation and disposal of poor soils</li>
+                        <li>Decreases aggregate consumption (savings of 30-60%)</li>
+                        <li>Extends pavement life by preventing subgrade pumping</li>
+                        <li>Prevents soil erosion and sediment runoff</li>
+                        <li>Enables construction on marginal sites</li>
+                        <li>Lower carbon footprint than traditional methods</li>
+                    </ul>
+                    <p><strong>End-of-Life Considerations:</strong></p>
+                    <ul>
+                        <li>PP and PET are recyclable (when recoverable)</li>
+                        <li>Natural fiber alternatives available for temporary applications</li>
+                        <li>Long service life (25-100 years) reduces replacement frequency</li>
+                        <li>Research ongoing into biodegradable synthetic options</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function openGeneralModal() {
+            document.getElementById('generalModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeGeneralModal() {
+            document.getElementById('generalModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        function openWovenModal() {
+            document.getElementById('wovenModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeWovenModal() {
+            document.getElementById('wovenModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        function openNonWovenModal() {
+            document.getElementById('nonWovenModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeNonWovenModal() {
+            document.getElementById('nonWovenModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Close modals when clicking on background
+        window.onclick = function(event) {
+            const generalModal = document.getElementById('generalModal');
+            const wovenModal = document.getElementById('wovenModal');
+            const nonWovenModal = document.getElementById('nonWovenModal');
+            
+            if (event.target == generalModal) {
+                closeGeneralModal();
+            }
+            if (event.target == wovenModal) {
+                closeWovenModal();
+            }
+            if (event.target == nonWovenModal) {
+                closeNonWovenModal();
+            }
+        }
+        
+        // Close modals with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeGeneralModal();
+                closeWovenModal();
+                closeNonWovenModal();
+            }
+        });
+    </script>
+</body>
+</html>
