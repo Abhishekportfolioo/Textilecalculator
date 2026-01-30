@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Academic Notes | Coming Soon</title>
+    <title>Textile Engineering Notes | Coming Soon</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto+Slab:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
@@ -15,7 +15,7 @@
         
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #1a237e 0%, #283593 50%, #3949ab 100%);
+            background: linear-gradient(135deg, #0d47a1 0%, #1565c0 50%, #1976d2 100%);
             color: #fff;
             min-height: 100vh;
             overflow-x: hidden;
@@ -31,11 +31,11 @@
             width: 100%;
             text-align: center;
             padding: 30px;
-            background-color: rgba(255, 255, 255, 0.08);
+            background-color: rgba(255, 255, 255, 0.1);
             border-radius: 20px;
             backdrop-filter: blur(10px);
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             position: relative;
             overflow: hidden;
             z-index: 1;
@@ -48,15 +48,17 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
-            background-size: 20px 20px;
+            background: 
+                linear-gradient(45deg, transparent 45%, rgba(255, 255, 255, 0.05) 50%, transparent 55%),
+                radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 30px 30px, 20px 20px;
             z-index: -1;
-            animation: float 20s linear infinite;
+            animation: fabricPattern 60s linear infinite;
         }
         
-        @keyframes float {
+        @keyframes fabricPattern {
             0% { transform: translate(0, 0) rotate(0deg); }
-            100% { transform: translate(-20px, -20px) rotate(360deg); }
+            100% { transform: translate(-30px, -30px) rotate(360deg); }
         }
         
         .header {
@@ -72,9 +74,9 @@
         
         .logo-icon {
             font-size: 3.5rem;
-            color: #ffd54f;
+            color: #ff7043;
             margin-right: 15px;
-            text-shadow: 0 0 15px rgba(255, 213, 79, 0.5);
+            text-shadow: 0 0 15px rgba(255, 112, 67, 0.5);
         }
         
         .logo-text {
@@ -94,7 +96,7 @@
         }
         
         .highlight {
-            color: #ffd54f;
+            color: #ff7043;
             position: relative;
             display: inline-block;
         }
@@ -106,7 +108,7 @@
             left: 0;
             width: 100%;
             height: 8px;
-            background-color: rgba(255, 213, 79, 0.3);
+            background-color: rgba(255, 112, 67, 0.3);
             z-index: -1;
             border-radius: 4px;
         }
@@ -119,6 +121,16 @@
             margin-left: auto;
             margin-right: auto;
             line-height: 1.6;
+        }
+        
+        .department {
+            display: inline-block;
+            background: rgba(255, 112, 67, 0.2);
+            padding: 8px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            margin-top: 10px;
+            border: 1px solid rgba(255, 112, 67, 0.3);
         }
         
         .semester-container {
@@ -143,19 +155,31 @@
         
         .semester-card:hover {
             transform: translateY(-10px);
-            background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 213, 79, 0.5);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
         }
         
+        .semester-card.available {
+            background: rgba(76, 175, 80, 0.15);
+            border-color: rgba(76, 175, 80, 0.5);
+        }
+        
+        .semester-card.available:hover {
+            background: rgba(76, 175, 80, 0.2);
+        }
+        
         .semester-card.coming-soon {
-            filter: grayscale(0.3);
+            background: rgba(255, 112, 67, 0.15);
+            border-color: rgba(255, 112, 67, 0.3);
+        }
+        
+        .semester-card.coming-soon:hover {
+            background: rgba(255, 112, 67, 0.2);
         }
         
         .semester-number {
             font-size: 3.5rem;
             font-weight: 700;
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.9);
             line-height: 1;
             margin-bottom: 10px;
         }
@@ -164,6 +188,13 @@
             font-size: 1.3rem;
             font-weight: 600;
             margin-bottom: 15px;
+        }
+        
+        .semester-subjects {
+            font-size: 0.9rem;
+            margin-top: 10px;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.4;
         }
         
         .status {
@@ -180,8 +211,8 @@
         }
         
         .status.coming-soon {
-            background-color: rgba(255, 213, 79, 0.3);
-            color: #ffd54f;
+            background-color: rgba(255, 112, 67, 0.3);
+            color: #ffab91;
         }
         
         .countdown-container {
@@ -222,7 +253,7 @@
             justify-content: center;
             border-radius: 50%;
             margin-bottom: 10px;
-            border: 2px solid rgba(255, 213, 79, 0.5);
+            border: 2px solid rgba(255, 112, 67, 0.5);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
         
@@ -239,7 +270,7 @@
             padding: 25px;
             max-width: 800px;
             margin: 40px auto;
-            border-left: 5px solid #ffd54f;
+            border-left: 5px solid #ff7043;
         }
         
         .notification h3 {
@@ -254,6 +285,21 @@
         .notification p {
             font-size: 1.1rem;
             line-height: 1.6;
+        }
+        
+        .topics-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .topic-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            text-align: left;
         }
         
         .subscribe-form {
@@ -289,7 +335,7 @@
         }
         
         input:focus {
-            border-color: #ffd54f;
+            border-color: #ff7043;
         }
         
         input::placeholder {
@@ -300,8 +346,8 @@
             padding: 15px 35px;
             border-radius: 50px;
             border: none;
-            background: #ffd54f;
-            color: #1a237e;
+            background: #ff7043;
+            color: white;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
@@ -310,9 +356,9 @@
         }
         
         button:hover {
-            background: #ffca28;
+            background: #ff5722;
             transform: translateY(-3px);
-            box-shadow: 0 7px 15px rgba(255, 213, 79, 0.3);
+            box-shadow: 0 7px 15px rgba(255, 112, 67, 0.3);
         }
         
         .progress-container {
@@ -337,7 +383,7 @@
         
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #ffd54f, #ffca28);
+            background: linear-gradient(90deg, #ff7043, #ff5722);
             border-radius: 10px;
             width: 25%;
             transition: width 1s ease;
@@ -372,9 +418,26 @@
         }
         
         .social-icon:hover {
-            background: #ffd54f;
-            color: #1a237e;
+            background: #ff7043;
+            color: white;
             transform: translateY(-5px);
+        }
+        
+        .textile-icon {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.1;
+            z-index: 0;
+            animation: floatIcon 25s linear infinite;
+        }
+        
+        @keyframes floatIcon {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-1000px) rotate(360deg);
+            }
         }
         
         @media (max-width: 768px) {
@@ -414,6 +477,10 @@
                 min-width: 100%;
                 margin-bottom: 15px;
             }
+            
+            .topics-list {
+                grid-template-columns: 1fr;
+            }
         }
         
         @media (max-width: 480px) {
@@ -445,44 +512,154 @@
             }
         }
         
-        /* Animation for floating books */
-        .floating-book {
-            position: absolute;
-            font-size: 2rem;
-            opacity: 0.1;
-            z-index: 0;
-            animation: floatBook 20s linear infinite;
+        .clickable {
+            cursor: pointer;
+            transition: transform 0.2s;
         }
         
-        @keyframes floatBook {
-            0% {
-                transform: translateY(0) rotate(0deg);
-            }
-            100% {
-                transform: translateY(-1000px) rotate(360deg);
-            }
+        .clickable:hover {
+            transform: scale(1.05);
+        }
+        
+        .note-preview {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .preview-content {
+            background: linear-gradient(135deg, #0d47a1 0%, #1565c0 100%);
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 900px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            border: 2px solid #ff7043;
+        }
+        
+        .close-preview {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #ff7043;
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            z-index: 1001;
+        }
+        
+        .notes-details {
+            text-align: left;
+            padding: 20px;
+        }
+        
+        .notes-details h3 {
+            color: #ff7043;
+            margin: 20px 0 10px;
+            border-bottom: 2px solid rgba(255, 112, 67, 0.3);
+            padding-bottom: 5px;
+        }
+        
+        .notes-list {
+            list-style-type: none;
+            padding-left: 0;
+            margin-bottom: 20px;
+        }
+        
+        .notes-list li {
+            padding: 8px 15px;
+            margin-bottom: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+            border-left: 3px solid #ff7043;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin: 5px;
+            transition: all 0.3s;
+        }
+        
+        .download-btn:hover {
+            background: #388E3C;
+            transform: translateY(-2px);
+        }
+        
+        .view-btn {
+            display: inline-block;
+            background: #2196F3;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin: 5px;
+            transition: all 0.3s;
+        }
+        
+        .view-btn:hover {
+            background: #1976D2;
+            transform: translateY(-2px);
+        }
+        
+        .form-message {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .success {
+            background: rgba(76, 175, 80, 0.2);
+            color: #a5d6a7;
+            border: 1px solid rgba(76, 175, 80, 0.5);
+        }
+        
+        .error {
+            background: rgba(244, 67, 54, 0.2);
+            color: #ef9a9a;
+            border: 1px solid rgba(244, 67, 54, 0.5);
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Floating book decorations -->
-        <div class="floating-book" style="top: 5%; left: 5%; animation-delay: 0s;">📘</div>
-        <div class="floating-book" style="top: 10%; right: 10%; animation-delay: 2s;">📗</div>
-        <div class="floating-book" style="bottom: 15%; left: 8%; animation-delay: 4s;">📙</div>
-        <div class="floating-book" style="bottom: 20%; right: 5%; animation-delay: 6s;">📕</div>
-        <div class="floating-book" style="top: 25%; left: 15%; animation-delay: 8s;">📒</div>
+        <!-- Textile engineering icons floating -->
+        <div class="textile-icon" style="top: 5%; left: 5%; animation-delay: 0s;">🧵</div>
+        <div class="textile-icon" style="top: 10%; right: 10%; animation-delay: 3s;">👕</div>
+        <div class="textile-icon" style="bottom: 15%; left: 8%; animation-delay: 6s;">🧶</div>
+        <div class="textile-icon" style="bottom: 20%; right: 5%; animation-delay: 9s;">👖</div>
+        <div class="textile-icon" style="top: 25%; left: 15%; animation-delay: 12s;">🎽</div>
+        <div class="textile-icon" style="top: 40%; right: 15%; animation-delay: 15s;">🧥</div>
         
         <div class="header">
             <div class="logo">
                 <div class="logo-icon">
-                    <i class="fas fa-graduation-cap"></i>
+                    <i class="fas fa-tshirt"></i>
                 </div>
-                <div class="logo-text">AcademicNotes</div>
+                <div class="logo-text">TextileNotes</div>
             </div>
             
             <h1>Semester Wise Notes <span class="highlight">Coming Soon</span></h1>
-            <p class="subtitle">We're preparing comprehensive, high-quality study materials for all semesters. Our notes will help you understand complex topics with ease and excel in your exams.</p>
+            <p class="subtitle">Comprehensive study materials for Textile Engineering students. Covering all subjects from Fiber Science to Apparel Manufacturing.</p>
+            <div class="department">Department of Textile Engineering</div>
         </div>
         
         <div class="semester-container" id="semesterContainer">
@@ -490,7 +667,7 @@
         </div>
         
         <div class="countdown-container">
-            <h2 class="countdown-title">Expected Launch In</h2>
+            <h2 class="countdown-title">Next Release In</h2>
             <div class="countdown" id="countdown">
                 <div class="countdown-item">
                     <div class="countdown-value" id="days">00</div>
@@ -512,13 +689,23 @@
         </div>
         
         <div class="notification">
-            <h3><i class="fas fa-bullhorn"></i> What to Expect</h3>
-            <p>Our notes will include detailed explanations, diagrams, solved examples, previous year questions, and quick revision summaries. We're working with top educators to ensure the content is accurate, up-to-date, and aligned with your curriculum.</p>
+            <h3><i class="fas fa-book"></i> Textile Engineering Subjects Covered</h3>
+            <p>Our notes will include detailed explanations, diagrams, solved examples, and industry applications for all core textile subjects:</p>
+            <div class="topics-list">
+                <div class="topic-item">• Fiber Science & Technology</div>
+                <div class="topic-item">• Yarn Manufacturing</div>
+                <div class="topic-item">• Fabric Manufacturing</div>
+                <div class="topic-item">• Textile Chemical Processing</div>
+                <div class="topic-item">• Apparel Manufacturing</div>
+                <div class="topic-item">• Textile Testing & Quality Control</div>
+                <div class="topic-item">• Technical Textiles</div>
+                <div class="topic-item">• Textile Machinery</div>
+            </div>
         </div>
         
         <div class="progress-container">
             <div class="progress-text">
-                <span>Preparation Progress</span>
+                <span>Content Preparation Progress</span>
                 <span id="progressPercent">25%</span>
             </div>
             <div class="progress-bar">
@@ -527,16 +714,19 @@
         </div>
         
         <div class="subscribe-form">
-            <h3 class="form-title">Get Notified When Notes Are Available</h3>
+            <h3 class="form-title">Get Notified When New Notes Are Available</h3>
             <div class="form-group">
-                <input type="email" id="emailInput" placeholder="Enter your email address">
-                <button id="subscribeBtn">Notify Me</button>
+                <input type="email" id="emailInput" name="email" placeholder="Enter your email address" required>
+                <input type="hidden" name="_subject" value="New Subscriber for Textile Engineering Notes">
+                <input type="hidden" name="_format" value="plain">
+                <button type="submit" id="subscribeBtn">Notify Me</button>
             </div>
+            <div id="formMessage" class="form-message"></div>
         </div>
         
         <div class="footer">
-            <p>© 2023 AcademicNotes. All rights reserved.</p>
-            <p>Designed to help students succeed in their academic journey</p>
+            <p>© 2023 TextileNotes. All rights reserved.</p>
+            <p>Designed for Textile Engineering students worldwide</p>
             <div class="social-icons">
                 <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
                 <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
@@ -546,45 +736,222 @@
         </div>
     </div>
 
+    <!-- Note Preview Modal -->
+    <div class="note-preview" id="notePreview">
+        <div class="preview-content">
+            <button class="close-preview" id="closePreview">&times;</button>
+            <div id="previewContent">
+                <!-- Preview content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
     <script>
+        // Textile Engineering semester data with detailed notes
+        const textileSemesters = {
+            1: {
+                semester: 1,
+                available: true,
+                subjects: ["Mathematics-I", "Physics", "Chemistry", "Basic Engineering", "Communication Skills"],
+                notesCount: 45,
+                detailedNotes: {
+                    "Mathematics-I": [
+                        "Differential Calculus",
+                        "Integral Calculus",
+                        "Vector Algebra",
+                        "Matrices and Determinants",
+                        "Probability and Statistics"
+                    ],
+                    "Physics": [
+                        "Properties of Matter",
+                        "Thermodynamics",
+                        "Optics",
+                        "Modern Physics",
+                        "Physics of Textile Materials"
+                    ],
+                    // "Chemistry": [
+                    //     "Atomic Structure",
+                    //     "Chemical Bonding",
+                    //     "Organic Chemistry Basics",
+                    //     "Polymer Chemistry Introduction",
+                    //     "Textile Chemistry Fundamentals"
+                    // ],
+                    "Basic Engineering": [
+                        "Engineering Drawing",
+                        "Workshop Practice",
+                        "Computer Basics",
+                        "Engineering Materials",
+                        "Safety Engineering"
+                    ],
+                    "Communication Skills": [
+                        "Technical Writing",
+                        "Presentation Skills",
+                        "Report Writing",
+                        "Professional Communication",
+                        "Language Lab Practice"
+                    ]
+                },
+                downloadLinks: {
+                    "Mathematics-I": "https://drive.google.com/drive/folders/1Ffk8fn7oTBcnmC0dAhtyZ2m_jKzzWS4M",
+                    "Physics": "https://drive.google.com/drive/folders/1FNCmzE1zGekeysF7DgJ0hGP_4dxgAyBZ",
+                    "Chemistry": "#",
+                    "Basic Engineering": "https://drive.google.com/drive/folders/1EtM4lcmtjMqlRKW5M3u4Op223RUb6hGx",
+                    "Communication Skills": "#"
+                }
+            },
+            2: {
+                semester: 2,
+                available: true,
+                subjects: ["Mathematics-II", "Electrical Engineering", "Mechanical Engineering", "Computer Fundamentals", "Environmental Studies"],
+                notesCount: 38,
+                detailedNotes: {
+                    "Mathematics-II": [
+                        "Complex Numbers",
+                        "Differential Equations",
+                        "Laplace Transforms",
+                        "Fourier Series",
+                        "Numerical Methods"
+                    ],
+                    "Electrical Engineering": [
+                        "DC Circuits",
+                        "AC Circuits",
+                        "Transformers",
+                        "Electrical Machines",
+                        "Textile Mill Electrical Systems"
+                    ],
+                    "Mechanical Engineering": [
+                        "Engineering Mechanics",
+                        "Strength of Materials",
+                        "Thermodynamics",
+                        "Fluid Mechanics",
+                        "Textile Machinery Basics"
+                    ],
+                    // "Computer Fundamentals": [
+                    //     "Programming in C",
+                    //     "Data Structures",
+                    //     "Computer Organization",
+                    //     "Operating Systems",
+                    //     "CAD for Textiles"
+                    // ],
+                    // "Environmental Studies": [
+                    //     "Ecosystems",
+                    //     "Pollution Control",
+                    //     "Environmental Laws",
+                    //     "Sustainable Textile Production",
+                    //     "Waste Management"
+                    // ]
+                },
+                downloadLinks: {
+                    "Mathematics-II": "https://drive.google.com/drive/folders/1Ffk8fn7oTBcnmC0dAhtyZ2m_jKzzWS4M",
+                    "Electrical Engineering": "https://drive.google.com/drive/folders/1EtM4lcmtjMqlRKW5M3u4Op223RUb6hGx",
+                    "Mechanical Engineering": "https://drive.google.com/drive/folders/1FNCmzE1zGekeysF7DgJ0hGP_4dxgAyBZ",
+                    "Computer Fundamentals": "#",
+                    "Environmental Studies": "#"
+                }
+            },
+            3: {
+                semester: 3,
+                available: false,
+                subjects: ["Textile Fibers", "Polymer Science", "Engineering Mechanics", "Material Science", "Textile Testing-I"],
+                notesCount: 22
+            },
+            4: {
+                semester: 4,
+                available: false,
+                subjects: ["Yarn Manufacturing-I", "Fabric Structure", "Textile Chemical Processing-I", "Textile Testing-II", "Industrial Management"],
+                notesCount: 18
+            },
+            5: {
+                semester: 5,
+                available: false,
+                subjects: ["Yarn Manufacturing-II", "Fabric Manufacturing-I", "Textile Chemical Processing-II", "Technical Textiles", "Quality Control"],
+                notesCount: 12
+            },
+            6: {
+                semester: 6,
+                available: false,
+                subjects: ["Fabric Manufacturing-II", "Apparel Manufacturing", "Textile Mill Planning", "Textile Economics", "Project Work"],
+                notesCount: 8
+            },
+            7: {
+                semester: 7,
+                available: false,
+                subjects: ["Advanced Textiles", "Textile Design", "Textile Marketing", "Industrial Training", "Elective Subjects"],
+                notesCount: 5
+            },
+            8: {
+                semester: 8,
+                available: false,
+                subjects: ["Research Methodology", "Entrepreneurship", "Comprehensive Viva", "Project Dissertation", "Industry Internship"],
+                notesCount: 3
+            }
+        };
+
         // Generate semester cards
         const semesterContainer = document.getElementById('semesterContainer');
-        const totalSemesters = 8;
         
-        for (let i = 1; i <= totalSemesters; i++) {
+        Object.values(textileSemesters).forEach(semesterData => {
             const card = document.createElement('div');
-            card.className = 'semester-card coming-soon';
-            
-            // First 2 semesters will be marked as "available" for demo
-            const isAvailable = i <= 2;
+            card.className = `semester-card ${semesterData.available ? 'available' : 'coming-soon'}`;
+            card.dataset.semester = semesterData.semester;
             
             card.innerHTML = `
-                <div class="semester-number">${i}</div>
-                <div class="semester-label">Semester ${i}</div>
-                <div class="status ${isAvailable ? 'available' : 'coming-soon'}">
-                    ${isAvailable ? 'Available' : 'Coming Soon'}
+                <div class="semester-number">${semesterData.semester}</div>
+                <div class="semester-label">Semester ${semesterData.semester}</div>
+                <div class="status ${semesterData.available ? 'available' : 'coming-soon'}">
+                    ${semesterData.available ? 'Available' : 'Coming Soon'}
+                </div>
+                <div class="semester-subjects">
+                    ${semesterData.available ? `${semesterData.notesCount} Notes Available` : 'In Progress'}
                 </div>
             `;
             
-            // Add click event for demo
-            card.addEventListener('click', function() {
-                if (isAvailable) {
-                    alert(`Semester ${i} notes are available for preview!`);
-                } else {
-                    alert(`Semester ${i} notes are coming soon! We're working hard to prepare them.`);
-                }
-            });
+            // Add click event
+            if (semesterData.available) {
+                card.classList.add('clickable');
+                card.addEventListener('click', () => showNotesPreview(semesterData));
+            } else {
+                card.addEventListener('click', () => {
+                    alert(`Semester ${semesterData.semester} notes are coming soon! We're currently preparing: ${semesterData.subjects.join(', ')}`);
+                });
+            }
             
             semesterContainer.appendChild(card);
+        });
+
+        // Countdown timer with localStorage persistence
+        function getTargetDate() {
+            // Check if we have a stored target date
+            const storedDate = localStorage.getItem('textileNotesCountdown');
+            
+            if (storedDate) {
+                return new Date(parseInt(storedDate));
+            } else {
+                // Set target date to 30 days from now
+                const targetDate = new Date();
+                targetDate.setDate(targetDate.getDate() + 30);
+                targetDate.setHours(12, 0, 0, 0); // Set to noon
+                
+                // Store in localStorage
+                localStorage.setItem('textileNotesCountdown', targetDate.getTime().toString());
+                return targetDate;
+            }
         }
-        
-        // Countdown timer (set to 30 days from now)
-        const countdownDate = new Date();
-        countdownDate.setDate(countdownDate.getDate() + 30);
-        
+
+        // Update countdown and progress
         function updateCountdown() {
             const now = new Date().getTime();
-            const distance = countdownDate - now;
+            const targetDate = getTargetDate();
+            const distance = targetDate - now;
+            
+            // If countdown has ended, reset it to 30 days from now
+            if (distance < 0) {
+                const newTargetDate = new Date();
+                newTargetDate.setDate(newTargetDate.getDate() + 30);
+                newTargetDate.setHours(12, 0, 0, 0);
+                localStorage.setItem('textileNotesCountdown', newTargetDate.getTime().toString());
+                return updateCountdown();
+            }
             
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -596,44 +963,159 @@
             document.getElementById('minutes').innerHTML = minutes.toString().padStart(2, '0');
             document.getElementById('seconds').innerHTML = seconds.toString().padStart(2, '0');
             
-            // Update progress bar based on countdown
-            const totalDays = 30;
-            const daysLeft = days;
-            const daysPassed = totalDays - daysLeft;
-            const progressPercent = Math.min((daysPassed / totalDays) * 100, 100);
+            // Update progress bar based on countdown (inverse)
+            const totalSeconds = 30 * 24 * 60 * 60; // 30 days in seconds
+            const secondsLeft = days * 24 * 60 * 60 + hours * 60 * 60 + minutes * 60 + seconds;
+            const secondsPassed = totalSeconds - secondsLeft;
+            const progressPercent = Math.min((secondsPassed / totalSeconds) * 100, 100);
             
             document.getElementById('progressPercent').innerHTML = `${Math.round(progressPercent)}%`;
             document.getElementById('progressFill').style.width = `${progressPercent}%`;
-            
-            if (distance < 0) {
-                clearInterval(countdownInterval);
-                document.getElementById('countdown').innerHTML = "<h2>Notes are now available!</h2>";
-            }
         }
         
         // Initialize countdown
         updateCountdown();
         const countdownInterval = setInterval(updateCountdown, 1000);
+
+        // Note preview functionality
+        const notePreview = document.getElementById('notePreview');
+        const closePreview = document.getElementById('closePreview');
+        const previewContent = document.getElementById('previewContent');
         
-        // Email subscription
-        document.getElementById('subscribeBtn').addEventListener('click', function() {
-            const emailInput = document.getElementById('emailInput');
+        function showNotesPreview(semesterData) {
+            previewContent.innerHTML = `
+                <h2 style="color: #ff7043; margin-bottom: 20px; text-align: center;">Semester ${semesterData.semester} - Textile Engineering Notes</h2>
+                <div class="notes-details">
+                    <p><strong>Total Notes:</strong> ${semesterData.notesCount} files available</p>
+                    <p><strong>Subjects Covered:</strong> ${semesterData.subjects.join(', ')}</p>
+                    
+                    ${Object.entries(semesterData.detailedNotes).map(([subject, topics]) => `
+                        <h3>${subject}</h3>
+                        <ul class="notes-list">
+                            ${topics.map(topic => `<li>${topic}</li>`).join('')}
+                        </ul>
+                        <div style="margin-bottom: 20px;">
+                            <a href="${semesterData.downloadLinks[subject]}" class="download-btn" target="_blank">
+                                <i class="fas fa-download"></i> Download ${subject} Notes
+                            </a>
+                            <a href="#" class="view-btn" onclick="viewSubjectNotes('${subject}', ${semesterData.semester})">
+                                <i class="fas fa-eye"></i> View Online
+                            </a>
+                        </div>
+                    `).join('')}
+                    
+                    <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+                        <h3>Download Complete Semester Package</h3>
+                        <a href="#" class="download-btn" style="background: #ff7043;">
+                            <i class="fas fa-file-archive"></i> Download All Semester ${semesterData.semester} Notes (ZIP)
+                        </a>
+                    </div>
+                </div>
+            `;
+            
+            notePreview.style.display = 'flex';
+        }
+        
+        function viewSubjectNotes(subject, semester) {
+            alert(`Viewing ${subject} notes for Semester ${semester} online. In a real application, this would open a PDF viewer or dedicated page.`);
+        }
+        
+        closePreview.addEventListener('click', () => {
+            notePreview.style.display = 'none';
+        });
+        
+        notePreview.addEventListener('click', (e) => {
+            if (e.target === notePreview) {
+                notePreview.style.display = 'none';
+            }
+        });
+
+        // Formspree Email Integration
+        const emailForm = document.querySelector('.subscribe-form');
+        const emailInput = document.getElementById('emailInput');
+        const subscribeBtn = document.getElementById('subscribeBtn');
+        const formMessage = document.getElementById('formMessage');
+        
+        // Formspree endpoint - Replace with your actual Formspree form ID
+        const FORMSPREE_ENDPOINT = "https://formspree.io/f/xzdgkbla";
+        
+        subscribeBtn.addEventListener('click', async function(e) {
+            e.preventDefault();
+            
             const email = emailInput.value.trim();
             
             if (!email) {
-                alert('Please enter your email address');
+                showMessage('Please enter your email address', 'error');
                 return;
             }
             
             if (!validateEmail(email)) {
-                alert('Please enter a valid email address');
+                showMessage('Please enter a valid email address', 'error');
                 return;
             }
             
-            // In a real application, this would send the email to a server
-            emailInput.value = '';
-            alert('Thank you! We\'ll notify you when the notes are available.');
+            // Show loading state
+            subscribeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            subscribeBtn.disabled = true;
+            
+            try {
+                // Send to Formspree
+                const response = await fetch(FORMSPREE_ENDPOINT, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        _subject: 'New Subscriber for Textile Engineering Notes',
+                        message: `New subscription from: ${email}`,
+                        _format: 'plain'
+                    })
+                });
+                
+                if (response.ok) {
+                    showMessage('Thank you! We\'ll notify you when new textile engineering notes are available.', 'success');
+                    emailInput.value = '';
+                    
+                    // Also store in localStorage for backup
+                    let subscribers = JSON.parse(localStorage.getItem('textileNotesSubscribers') || '[]');
+                    if (!subscribers.includes(email)) {
+                        subscribers.push(email);
+                        localStorage.setItem('textileNotesSubscribers', JSON.stringify(subscribers));
+                    }
+                } else {
+                    throw new Error('Form submission failed');
+                }
+            } catch (error) {
+                console.error('Formspree error:', error);
+                showMessage('Sorry, there was an error. Please try again later.', 'error');
+                
+                // Fallback: Store in localStorage only
+                let subscribers = JSON.parse(localStorage.getItem('textileNotesSubscribers') || '[]');
+                if (!subscribers.includes(email)) {
+                    subscribers.push(email);
+                    localStorage.setItem('textileNotesSubscribers', JSON.stringify(subscribers));
+                    showMessage('Thank you! We\'ll notify you when new notes are available (local storage).', 'success');
+                    emailInput.value = '';
+                }
+            } finally {
+                // Reset button
+                subscribeBtn.innerHTML = 'Notify Me';
+                subscribeBtn.disabled = false;
+            }
         });
+        
+        function showMessage(message, type) {
+            formMessage.textContent = message;
+            formMessage.className = `form-message ${type}`;
+            formMessage.style.display = 'block';
+            
+            // Hide message after 5 seconds
+            setTimeout(() => {
+                formMessage.style.display = 'none';
+            }, 5000);
+        }
         
         // Email validation
         function validateEmail(email) {
@@ -641,34 +1123,34 @@
             return re.test(String(email).toLowerCase());
         }
         
-        // Create floating book decorations dynamically
-        function createFloatingBooks() {
+        // Create textile icons dynamically
+        function createTextileIcons() {
             const container = document.querySelector('.container');
-            const bookEmojis = ['📘', '📗', '📙', '📕', '📒', '📚', '📖'];
+            const textileIcons = ['🧵', '👕', '👖', '🧶', '🎽', '🧥', '👚', '🩳', '🧦', '👔', '👜', '🧤'];
             
-            for (let i = 0; i < 12; i++) {
-                const book = document.createElement('div');
-                book.className = 'floating-book';
-                book.innerHTML = bookEmojis[Math.floor(Math.random() * bookEmojis.length)];
+            for (let i = 0; i < 15; i++) {
+                const icon = document.createElement('div');
+                icon.className = 'textile-icon';
+                icon.innerHTML = textileIcons[Math.floor(Math.random() * textileIcons.length)];
                 
                 // Random position
                 const left = Math.random() * 90;
                 const top = Math.random() * 90;
-                const delay = Math.random() * 15;
-                const duration = 15 + Math.random() * 20;
+                const delay = Math.random() * 20;
+                const duration = 20 + Math.random() * 30;
                 
-                book.style.left = `${left}%`;
-                book.style.top = `${top}%`;
-                book.style.animationDelay = `${delay}s`;
-                book.style.animationDuration = `${duration}s`;
-                book.style.fontSize = `${1.5 + Math.random() * 2}rem`;
+                icon.style.left = `${left}%`;
+                icon.style.top = `${top}%`;
+                icon.style.animationDelay = `${delay}s`;
+                icon.style.animationDuration = `${duration}s`;
+                icon.style.fontSize = `${1.5 + Math.random() * 2}rem`;
                 
-                container.appendChild(book);
+                container.appendChild(icon);
             }
         }
         
-        // Initialize floating books
-        createFloatingBooks();
+        // Initialize textile icons
+        createTextileIcons();
     </script>
 </body>
 </html>
