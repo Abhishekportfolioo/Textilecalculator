@@ -612,9 +612,16 @@ $('#subBtn').addEventListener('click',async()=>{
   msg.className='fm ok';msg.textContent="✅ You're subscribed!";msg.style.display='block';
   toast('Subscribed! 🎉');$('#subBtn').textContent='Notify Me';$('#subBtn').disabled=false;});
 
-/* ═══ COUNTDOWN ═══ */
-function getCDTarget(){const s=ls('tn_cd',null);if(s&&s>Date.now())return s;const t=Date.now()+30*24*3600*1000;lss('tn_cd',t);return t;}
-function tickCD(){const d=getCDTarget()-Date.now();if(d<=0)return;
+/* ═══ COUNTDOWN — global fixed target (same for every visitor) ═══ */
+// Target: 1 April 2025 00:00:00 UTC — change this date to set the next release deadline
+const CD_TARGET = new Date('2026-03-05T00:00:00Z').getTime();
+function tickCD(){
+  const d = CD_TARGET - Date.now();
+  if(d<=0){
+    $('#cdD').textContent='00';$('#cdH').textContent='00';
+    $('#cdM').textContent='00';$('#cdS').textContent='00';
+    return;
+  }
   $('#cdD').textContent=String(Math.floor(d/86400000)).padStart(2,'0');
   $('#cdH').textContent=String(Math.floor(d%86400000/3600000)).padStart(2,'0');
   $('#cdM').textContent=String(Math.floor(d%3600000/60000)).padStart(2,'0');
