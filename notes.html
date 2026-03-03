@@ -233,6 +233,68 @@
       transition:.32s cubic-bezier(.34,1.56,.64,1);pointer-events:none;max-width:320px;}
     #toast.show{transform:none;opacity:1;}
 
+
+    /* ═══════════════════ SUGGESTION FORM ═══════════════════ */
+    .suggest-card{background:var(--sf);border:1.5px solid var(--bd);border-radius:var(--r2);padding:40px 32px;margin-bottom:60px;}
+    .suggest-head{display:flex;align-items:center;gap:12px;margin-bottom:6px;}
+    .suggest-icon{width:42px;height:42px;border-radius:12px;background:rgba(74,158,255,.13);
+      border:1px solid rgba(74,158,255,.25);display:flex;align-items:center;justify-content:center;
+      font-size:1.1rem;flex-shrink:0;}
+    .suggest-h{font-family:var(--fd);font-size:1.4rem;font-weight:700;}
+    .suggest-p{color:var(--tx2);font-size:.92rem;margin-bottom:28px;padding-left:54px;}
+    .suggest-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+    @media(max-width:560px){.suggest-grid{grid-template-columns:1fr;}}
+    .sg-field{display:flex;flex-direction:column;gap:6px;}
+    .sg-field.full{grid-column:1/-1;}
+    .sg-label{font-size:.78rem;font-weight:700;color:var(--tx2);text-transform:uppercase;letter-spacing:.5px;}
+    .sg-input,.sg-select,.sg-textarea{width:100%;padding:11px 15px;background:var(--sf2);
+      border:1.5px solid var(--bd);border-radius:10px;color:var(--tx);
+      font-family:var(--fb);font-size:.9rem;outline:none;
+      transition:border-color var(--dur) var(--ease),box-shadow var(--dur) var(--ease);}
+    .sg-input:focus,.sg-select:focus,.sg-textarea:focus{border-color:var(--bl);box-shadow:0 0 0 3px rgba(74,158,255,.13);}
+    .sg-input::placeholder,.sg-textarea::placeholder{color:var(--mu);}
+    .sg-select{cursor:pointer;appearance:none;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237a85a0' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat:no-repeat;background-position:right 14px center;}
+    .sg-select option{background:var(--sf2);color:var(--tx);}
+    .sg-textarea{resize:vertical;min-height:100px;}
+    .sg-char{font-size:.72rem;color:var(--mu);text-align:right;margin-top:2px;}
+    .sg-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:4px;}
+    .sg-note{font-size:.8rem;color:var(--mu);display:flex;align-items:center;gap:6px;}
+    .sg-btn{padding:12px 28px;border-radius:99px;border:none;
+      background:linear-gradient(135deg,var(--bl),#2563eb);color:#fff;
+      font-weight:700;font-family:var(--fb);font-size:.94rem;cursor:pointer;
+      transition:var(--dur) var(--ease);display:flex;align-items:center;gap:8px;}
+    .sg-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(74,158,255,.35);}
+    .sg-btn:disabled{opacity:.5;cursor:default;transform:none;box-shadow:none;}
+    .sg-msg{margin-top:14px;font-size:.88rem;display:none;padding:10px 16px;border-radius:10px;}
+    .sg-msg.ok{background:rgba(40,199,111,.1);color:var(--gn);border:1px solid rgba(40,199,111,.25);}
+    .sg-msg.er{background:rgba(255,77,109,.1);color:var(--rd);border:1px solid rgba(255,77,109,.25);}
+    .type-pills{display:flex;gap:8px;flex-wrap:wrap;}
+    .type-pill{padding:6px 14px;border-radius:99px;font-size:.78rem;font-weight:600;
+      border:1.5px solid var(--bd);background:var(--sf2);color:var(--tx2);
+      cursor:pointer;transition:var(--dur) var(--ease);}
+    .type-pill:hover{border-color:var(--bl);color:var(--bl);}
+    .type-pill.sel{background:rgba(74,158,255,.15);border-color:var(--bl);color:var(--bl);}
+
+
+    /* ═══ NEW SCHEME COUNTDOWN ═══ */
+    .cd-card2{background:linear-gradient(135deg,rgba(255,209,102,.10),rgba(255,107,53,.08));
+      border:1.5px solid rgba(255,209,102,.30);border-radius:var(--r2);
+      padding:40px 24px;text-align:center;margin-bottom:60px;position:relative;overflow:hidden;}
+    .cd-card2::before{content:'';position:absolute;inset:0;
+      background:radial-gradient(ellipse 60% 60% at 50% 0%,rgba(255,209,102,.08),transparent 70%);
+      pointer-events:none;}
+    .cd-card2 .cd-badge{display:inline-flex;align-items:center;gap:7px;
+      background:rgba(255,209,102,.18);border:1px solid rgba(255,209,102,.35);
+      color:var(--ac2);padding:4px 14px;border-radius:99px;
+      font-size:.72rem;font-weight:800;letter-spacing:.5px;text-transform:uppercase;margin-bottom:14px;}
+    .cd-card2 .cd-ttl{font-family:var(--fd);font-size:1.35rem;font-weight:700;margin-bottom:5px;color:var(--tx);}
+    .cd-card2 .cd-sub{color:var(--tx2);font-size:.88rem;margin-bottom:30px;}
+    .cd-card2 .cd-box{background:rgba(255,209,102,.10);border:1px solid rgba(255,209,102,.25);border-radius:12px;padding:14px 20px;min-width:82px;}
+    .cd-card2 .cd-v{font-family:var(--fd);font-size:2.6rem;font-weight:800;color:var(--ac2);line-height:1;}
+    .cd-card2 .cd-l{font-size:.68rem;color:var(--mu);text-transform:uppercase;letter-spacing:1px;margin-top:3px;}
+
     /* ═══════════════════ CHATBOT ═══════════════════ */
     .chat-fab{position:fixed;bottom:28px;left:28px;z-index:500;
       width:56px;height:56px;border-radius:50%;
@@ -340,7 +402,7 @@
     <h1 class="hero-h1">Semester-Wise Notes <span class="ca">Coming Soon</span><br>— <span class="ca2">Stay Ahead</span></h1>
     <p class="hero-p">Comprehensive study materials covering Fiber Science, Yarn &amp; Fabric Manufacturing, Chemical Processing, and more — now with a live AI study assistant.</p>
     <div class="hero-kpis">
-      <div><div class="kpi-v">196+</div><div class="kpi-l">Notes</div></div>
+      <div><div class="kpi-v">300+</div><div class="kpi-l">Notes</div></div>
       <div><div class="kpi-v">8</div><div class="kpi-l">Semesters</div></div>
       <div><div class="kpi-v" id="kpiDl">0</div><div class="kpi-l">Downloads</div></div>
       <div><div class="kpi-v" id="kpiSub">0</div><div class="kpi-l">Subscribers</div></div>
@@ -353,10 +415,11 @@
     <div>
       <div class="an-lbl">Latest Updates</div>
       <ul class="an-body">
-        <li>Semester 1 fully uploaded — 45 files across 4 subjects</li>
-        <li>Semester 2 partial upload — Mathematics-II, Electrical &amp; Mechanical Engineering</li>
-        <li>🆕 Semester 4 now LIVE — Yarn Mfg II, Fabric Structure, MMF, CAD, ASOR &amp; Practicals</li>
-        <li>🆕 Semester 6 now LIVE — ATT, SPF, ETS, MEM, AWT II, USYF &amp; PMGC Lab</li>
+        <li>🆕 Semesters 1, 2, 3, 4, 5, 6, 7 &amp; 8 notes now LIVE!</li>
+        <li>Sem 3: E&amp;IE, FM I, ITIP, TRM, WP, YM I — all uploaded</li>
+        <li>Sem 5: AWT I, GMT, YM III, TT, PEO &amp; Papers — all uploaded</li>
+        <li>Sem 7: Non Woven, PCS, POMT, Papers — uploaded</li>
+        <li>Sem 8: Technical Textiles, HPF, Textile Costing — uploaded</li>
         <li>🤖 AI Study Assistant is LIVE — tap "Ask AI" to try it!</li>
       </ul>
     </div>
@@ -388,12 +451,26 @@
   <!-- COUNTDOWN -->
   <div class="cd-card">
     <div class="cd-ttl">⏳ Next Release In</div>
-    <div class="cd-sub">Semester 3 &amp; 4 notes are being prepared</div>
+    <div class="cd-sub">Semester 6 &amp; 8 Old Question Papers are being prepared</div>
     <div class="cd-row">
       <div class="cd-box"><div class="cd-v" id="cdD">00</div><div class="cd-l">Days</div></div>
       <div class="cd-box"><div class="cd-v" id="cdH">00</div><div class="cd-l">Hours</div></div>
       <div class="cd-box"><div class="cd-v" id="cdM">00</div><div class="cd-l">Mins</div></div>
       <div class="cd-box"><div class="cd-v" id="cdS">00</div><div class="cd-l">Secs</div></div>
+    </div>
+  </div>
+
+
+  <!-- NEW SCHEME COUNTDOWN -->
+  <div class="cd-card2">
+    <div class="cd-badge">🆕 Coming Soon</div>
+    <div class="cd-ttl">New Scheme Notes Available In</div>
+    <div class="cd-sub">Fresh syllabus, updated content — new scheme notes are on their way!</div>
+    <div class="cd-row">
+      <div class="cd-box"><div class="cd-v" id="ns-D">00</div><div class="cd-l">Days</div></div>
+      <div class="cd-box"><div class="cd-v" id="ns-H">00</div><div class="cd-l">Hours</div></div>
+      <div class="cd-box"><div class="cd-v" id="ns-M">00</div><div class="cd-l">Mins</div></div>
+      <div class="cd-box"><div class="cd-v" id="ns-S">00</div><div class="cd-l">Secs</div></div>
     </div>
   </div>
 
@@ -406,6 +483,71 @@
       <button class="sub-btn" id="subBtn">Notify Me</button>
     </div>
     <div class="fm" id="formMsg"></div>
+  </div>
+
+
+  <!-- SUGGESTION FORM -->
+  <div class="suggest-card" id="suggestSection">
+    <div class="suggest-head">
+      <div class="suggest-icon"><i class="fas fa-lightbulb" style="color:var(--bl)"></i></div>
+      <div class="suggest-h">Share Your Suggestions</div>
+    </div>
+    <p class="suggest-p">Help us improve TextileNotes — request missing notes, report errors, or suggest new features.</p>
+
+    <div class="suggest-grid">
+      <!-- Type pills -->
+      <div class="sg-field full">
+        <div class="sg-label">Type of Suggestion</div>
+        <div class="type-pills" id="typePills">
+          <span class="type-pill sel" data-v="Request Missing Notes">📚 Request Notes</span>
+          <span class="type-pill" data-v="Report an Error">🐛 Report Error</span>
+          <span class="type-pill" data-v="Feature Request">✨ Feature Request</span>
+          <span class="type-pill" data-v="General Feedback">💬 General Feedback</span>
+        </div>
+        <input type="hidden" id="sgType" value="Request Missing Notes"/>
+      </div>
+
+      <!-- Name -->
+      <div class="sg-field">
+        <label class="sg-label" for="sgName">Your Name <span style="color:var(--mu)">(optional)</span></label>
+        <input class="sg-input" id="sgName" type="text" placeholder="e.g. Rahul Sharma" maxlength="60"/>
+      </div>
+
+      <!-- Semester -->
+      <div class="sg-field">
+        <label class="sg-label" for="sgSem">Related Semester</label>
+        <select class="sg-select" id="sgSem">
+          <option value="General">General / All Semesters</option>
+          <option value="Semester 1">Semester 1</option>
+          <option value="Semester 2">Semester 2</option>
+          <option value="Semester 3">Semester 3</option>
+          <option value="Semester 4">Semester 4</option>
+          <option value="Semester 5">Semester 5</option>
+          <option value="Semester 6">Semester 6</option>
+          <option value="Semester 7">Semester 7</option>
+          <option value="Semester 8">Semester 8</option>
+        </select>
+      </div>
+
+      <!-- Subject -->
+      <div class="sg-field full">
+        <label class="sg-label" for="sgSubject">Subject / Topic <span style="color:var(--mu)">(optional)</span></label>
+        <input class="sg-input" id="sgSubject" type="text" placeholder="e.g. Yarn Manufacturing, Fabric Structure…" maxlength="80"/>
+      </div>
+
+      <!-- Message -->
+      <div class="sg-field full">
+        <label class="sg-label" for="sgMsg">Your Message <span style="color:var(--rd)">*</span></label>
+        <textarea class="sg-textarea" id="sgMsg" placeholder="Describe what you'd like us to add, fix, or improve…" maxlength="600"></textarea>
+        <div class="sg-char"><span id="sgCharCount">0</span> / 600</div>
+      </div>
+    </div>
+
+    <div class="sg-footer">
+      <div class="sg-note"><i class="fas fa-lock" style="color:var(--mu)"></i> Your feedback is private and goes directly to our team</div>
+      <button class="sg-btn" id="sgBtn"><i class="fas fa-paper-plane"></i> Send Suggestion</button>
+    </div>
+    <div class="sg-msg" id="sgFormMsg"></div>
   </div>
 
   <footer>
@@ -484,7 +626,9 @@ const SEMS=[
            "Computer Fundamentals":["Programming in C","Data Structures","Computer Organisation","Operating Systems","CAD for Textiles"],
            "Environmental Studies":["Ecosystems","Pollution Control","Environmental Laws","Sustainable Production","Waste Management"]},
    links:{"Mathematics-II":"https://drive.google.com/drive/folders/1Ffk8fn7oTBcnmC0dAhtyZ2m_jKzzWS4M","Electrical Engineering":"https://drive.google.com/drive/folders/1EtM4lcmtjMqlRKW5M3u4Op223RUb6hGx","Mechanical Engineering":"https://drive.google.com/drive/folders/1FNCmzE1zGekeysF7DgJ0hGP_4dxgAyBZ","Computer Fundamentals":"#","Environmental Studies":"#"}},
-  {sem:3,av:false,notes:22,subs:["Textile Fibers","Polymer Science","Engineering Mechanics","Material Science","Textile Testing-I"],topics:{},links:{}},
+  {sem:3,av:true,notes:28,subs:["E&IE","FM I","ITIP","TRM","WP","YM I"],
+   topics:{"E&IE":["Electrical Principles","Industrial Electronics","Power Systems","Electrical Safety","Motor Control","Sensors & Transducers","Electrical Drives"],"FM I":["Fabric Manufacturing Basics","Warp Preparation","Weft Insertion","Loom Types","Weave Mechanisms","Shedding Motion","Beat-up & Take-up"],"ITIP":["Introduction to Industrial Processes","Process Flow","Plant Layout","Material Handling","Production Systems","Automation Basics","Industry Standards"],"TRM":["Textile Raw Materials","Natural Fibers","Synthetic Fibers","Fiber Properties","Fiber Grading","Raw Material Testing","Supply Chain"],"WP":["Winding & Pirning","Winding Machines","Yarn Tension","Package Build","Yarn Faults","Yarn Clearing","Speed & Efficiency"],"YM I":["Yarn Manufacturing I","Blow Room","Carding","Drawing","Combing","Speed Frame","Yarn Count & Twist"]},
+   links:{"E&IE":"https://drive.google.com/folderview?id=1Fd2TLPDurI8vTZPpkLmkgA59BBHhd5i6","FM I":"https://drive.google.com/folderview?id=1Ej-CXbHUbbkNaV2KcIWkmtIfNDbFPhN5","ITIP":"https://drive.google.com/folderview?id=1DiAKwdgtvCIVY9U1oE4QvfaornrNGlUN","TRM":"https://drive.google.com/folderview?id=1FJqkWrlah2IX6ZyGgLISml184qtsk4Rm","WP":"https://drive.google.com/folderview?id=1FPmTY7fQotvkvtRvRoW98z18dZKItz7x","YM I":"https://drive.google.com/folderview?id=1EF6oK9BVHpCGtYVJo48AW4rX06Q3nX9e"}},
   {sem:4,av:true,notes:35,subs:["Yarn Manufacturing-II","Fabric Structure","Man Made Fiber Production","Computer Aided Textile Designing","Applied Statistics & Operation Research","Practicals"],
    topics:{"Yarn Manufacturing-II":["Ring Spinning","Rotor Spinning","Air-Jet Spinning","Yarn Numbering","Twist & Winding","Open-End Spinning","Yarn Evenness"],
            "Fabric Structure":["Plain Weave","Twill Weave","Satin Weave","Knit Structures","Non-woven Fabrics","Fabric Geometry","Woven Fabric Analysis"],
@@ -493,7 +637,9 @@ const SEMS=[
            "Applied Statistics & Operation Research":["Descriptive Statistics","Probability Distributions","Linear Programming","Transportation Problems","Queuing Theory","Inventory Models","Simulation Techniques"],
            "Practicals":["Yarn Count Determination","Fabric Sett Analysis","Weave Drafting","CAD Lab Exercises","Statistical Data Analysis","Fiber Identification","Spinning Experiments"]},
    links:{"Yarn Manufacturing-II":"https://drive.google.com/folderview?id=1KnOzHxTt6wKX_V69sJGeBIGLTfKwT1Wu","Fabric Structure":"https://drive.google.com/folderview?id=1p3Sa1J9R7GRKm9ANHoYqqKsZ0AhDGjOw","Man Made Fiber Production":"https://drive.google.com/folderview?id=1O9EaMNfzhKYuGJ3uf2cdANeumdegKJgz","Computer Aided Textile Designing":"https://drive.google.com/folderview?id=1og3TJ1W6EqGc3Y5utvMsDwM8abzJaJiP","Applied Statistics & Operation Research":"https://drive.google.com/folderview?id=1KhyRvyk34ONO5EV83s7zbT58yaVRvRo3","Practicals":"https://drive.google.com/folderview?id=1dgH8cVui6HEf_otvUgPy4ngvZ3JeK5P_"}},
-  {sem:5,av:false,notes:12,subs:["Advanced Yarn Mfg","Fabric Manufacturing-I","Chemical Processing-II","Technical Textiles","Quality Control"],topics:{},links:{}},
+  {sem:5,av:true,notes:32,subs:["5th Sem Papers","AWT I","GMT","YM III","TT (Textile Testing)","PEO"],
+   topics:{"5th Sem Papers":["Previous Year Question Papers","Model Papers","Exam Pattern","Important Questions","Solved Papers","Guess Papers","Unit-wise Questions"],"AWT I":["Advanced Weaving Technology I","Rapier Loom","Projectile Loom","Air-Jet Loom","Water-Jet Loom","Loom Settings","Weaving Defects"],"GMT":["Garment Manufacturing Technology","Pattern Making","Cutting Technology","Sewing Operations","Quality in Garments","Production Planning","Finishing Processes"],"YM III":["Yarn Manufacturing III","Ring Frame","Rotor Spinning","Friction Spinning","Winding","Yarn Quality","Productivity & Efficiency"],"TT (Textile Testing)":["Fiber Testing","Yarn Testing","Fabric Testing","Colour Fastness","Tensile Testing","Statistical Methods","Testing Standards"],"PEO":["Post Extrusion Operations","Drawing","Texturising","Winding","Heat Setting","Crimping","Fibre Cutting & Baling"]},
+   links:{"5th Sem Papers":"https://drive.google.com/folderview?id=1Z898ksrx7gsqCp0dnD_w2kRzAbkwfxDD","AWT I":"https://drive.google.com/folderview?id=1hGHsTIhd1micUDhK5ZGSi4xVfhakVrGQ","GMT":"https://drive.google.com/folderview?id=1z_L6TCQ1VEbBZjFeScYJjEvLtfpnk1q4","YM III":"https://drive.google.com/folderview?id=1UGTPMoS86YapcRRBNNgvQ_wu0QmCHM0C","TT (Textile Testing)":"https://drive.google.com/folderview?id=1aE4BM4_K_ckbI4eNBJ3DKWAJtfSOaEJQ","PEO":"https://drive.google.com/folderview?id=1-ZlXK4KDmf2saSxeQ4KK5WUbN6SNwW9d"}},
   {sem:6,av:true,notes:30, subs:["ATT","SPF","ETS","MEM","AWT II","USYF","PMGC Lab"],
    topics:{"ATT":["Advanced Textile Testing","Testing Instruments","Quality Parameters","Mechanical Testing","Chemical Testing","Standard Test Methods","Report Writing"],
            "SPF":["Specialty & Performance Fibers","High-Performance Fibers","Aramid Fibers","Carbon Fibers","Ceramic Fibers","Smart Fibers","Application Areas"],
@@ -503,8 +649,12 @@ const SEMS=[
            "USYF":["Unconventional Spinning & Yarn Formation","Air-Jet Spinning","Friction Spinning","Vortex Spinning","Core Spinning","Wrap Spinning","Fancy Yarns"],
            "PMGC Lab":["PMGC Practical Work","Lab Exercises","Measurement Techniques","Sample Preparation","Testing Procedures","Data Analysis","Lab Reports"]},
    links:{"ATT":"https://drive.google.com/folderview?id=1RPMuy8CeouZseGLPdhGxVehYi2VQBLIJ","SPF":"https://drive.google.com/folderview?id=1SnjkVDwlHHFDsWzU6dToN3hr_hG_FYJy","ETS":"https://drive.google.com/folderview?id=1SPEDk2aJXEEdEjxWy9qiS5N1M0NTvkfp","MEM":"https://drive.google.com/folderview?id=1SToZXr1LNefjhlGEwRsVAp1rZHPdNW5h","AWT II":"https://drive.google.com/folderview?id=1SHB6nTeAguq7Oyvu-7hSZrE-i85086XJ","USYF":"https://drive.google.com/folderview?id=1TNCKy31YyQgD6ql6es2EyHQGm49G0UnC","PMGC Lab":"https://drive.google.com/file/d/1Qnk7mnV1FuUSmDDI09rupErm9T0fKKH5/view?usp=drivesdk"}},
-  {sem:7,av:false,notes:5, subs:["Advanced Textiles","Textile Design","Textile Marketing","Industrial Training","Elective-I"],topics:{},links:{}},
-  {sem:8,av:false,notes:3, subs:["Research Methodology","Entrepreneurship","Comprehensive Viva","Project Dissertation","Internship"],topics:{},links:{}},
+  {sem:7,av:true,notes:22,subs:["Non Woven","PCS","POMT","Training","Seminars","7th Sem Papers"],
+   topics:{"Non Woven":["Introduction to Nonwovens","Dry-Laid Nonwovens","Wet-Laid Nonwovens","Spunbonded Fabrics","Meltblown Process","Bonding Methods","Applications of Nonwovens"],"PCS":["Process Control Systems","Statistical Process Control","Control Charts","Quality Management","Six Sigma Basics","Process Capability","SPC Tools"],"POMT":["Production Operation & Management in Textiles","Production Planning","Operations Research","Mill Management","Costing & Budgeting","Supply Chain Management","Lean Manufacturing"],"Training":["Industrial Training Notes","Practical Exposure","Factory Visits","Training Reports","Observations","Skill Development","Industry Practices"],"Seminars":["Seminar Presentations","Research Topics","Paper Writing","Presentation Skills","Technical Seminars","Guest Lectures","Industry Talks"],"7th Sem Papers":["Previous Year Question Papers","Model Papers","Important Questions","Solved Papers","Exam Pattern","Unit-wise MCQs","Short & Long Answer Questions"]},
+   links:{"Non Woven":"https://drive.google.com/folderview?id=11pWsccj2zlypRjAIM_ji2f4H4YkCRTB5","PCS":"https://drive.google.com/folderview?id=1FVjbmKXScJjWMr9oyeh4h7t9ILMVU8y7","POMT":"https://drive.google.com/folderview?id=1JC0ESbUSKo1HLIUlRa2vbZOjsAi099SA","Training":"#","Seminars":"#","7th Sem Papers":"https://drive.google.com/file/d/1fUIJnFHkAzDDD71wtPOa9TqbbdoP5baN/view?usp=drivesdk"}},
+  {sem:8,av:true,notes:18,subs:["TT (Technical Textile)","HPF","TC (Textile Costing)","Question Papers"],
+   topics:{"TT (Technical Textile)":["Introduction to Technical Textiles","Geotextiles","Medical Textiles","Protective Textiles","Agrotextiles","Buildtech","Smart & Electronic Textiles"],"HPF":["High Performance Fibers","Aramid Fibers","Carbon Fibers","UHMWPE","PBO Fibers","Ceramic Fibers","Applications of HPF"],"TC (Textile Costing)":["Costing Fundamentals","Yarn Costing","Fabric Costing","Garment Costing","Overhead Allocation","Profitability Analysis","Export Costing"],"Question Papers":["Previous Year Papers","Model Question Papers","Important Questions","Exam Pattern","Short Answer Questions","Long Answer Questions","Unit-wise Questions"]},
+   links:{"TT (Technical Textile)":"https://drive.google.com/folderview?id=15zF7QNXR5BydNqILdeGh7pLUgZrJH_y2","HPF":"https://drive.google.com/folderview?id=10RHJuCVU2osqcpwjoCgtLx40ombz7Xy4","TC (Textile Costing)":"https://drive.google.com/folderview?id=12mLkmpAIOzCSlj1e6ZrJJLhBxn5Y5QYj","Question Papers":"#"}},
 ];
 
 /* ═══ STATE ═══ */
@@ -614,7 +764,7 @@ $('#subBtn').addEventListener('click',async()=>{
 
 /* ═══ COUNTDOWN — global fixed target (same for every visitor) ═══ */
 // Target: 1 April 2025 00:00:00 UTC — change this date to set the next release deadline
-const CD_TARGET = new Date('2026-03-05T00:00:00Z').getTime();
+const CD_TARGET = new Date('2026-07-01T00:00:00Z').getTime();
 function tickCD(){
   const d = CD_TARGET - Date.now();
   if(d<=0){
@@ -627,6 +777,23 @@ function tickCD(){
   $('#cdM').textContent=String(Math.floor(d%3600000/60000)).padStart(2,'0');
   $('#cdS').textContent=String(Math.floor(d%60000/1000)).padStart(2,'0');}
 setInterval(tickCD,1000);tickCD();
+
+
+/* ═══ NEW SCHEME COUNTDOWN — global fixed target ═══ */
+// Target: 1 July 2026 00:00:00 UTC — update this date when new scheme notes are ready
+const NS_TARGET = new Date('2026-12-01T00:00:00Z').getTime();
+function tickNS(){
+  const d = NS_TARGET - Date.now();
+  if(d<=0){
+    $('#ns-D').textContent='00';$('#ns-H').textContent='00';
+    $('#ns-M').textContent='00';$('#ns-S').textContent='00';
+    return;
+  }
+  $('#ns-D').textContent=String(Math.floor(d/86400000)).padStart(2,'0');
+  $('#ns-H').textContent=String(Math.floor(d%86400000/3600000)).padStart(2,'0');
+  $('#ns-M').textContent=String(Math.floor(d%3600000/60000)).padStart(2,'0');
+  $('#ns-S').textContent=String(Math.floor(d%60000/1000)).padStart(2,'0');}
+setInterval(tickNS,1000);tickNS();
 
 /* ═══ AI CHATBOT ═══ */
 const chatWin=$('#chatWin'),chatMsgs=$('#chatMsgs'),chatIn=$('#chatIn'),chatSend=$('#chatSend');
@@ -697,6 +864,73 @@ async function sendMsg(override){
     if(chatHistory.length>20)chatHistory=chatHistory.slice(-20);
   }catch(err){removeTyping();addBotMsg("⚠️ Connection issue. Please try again in a moment.");console.error(err);}
   chatSend.disabled=false;}
+
+
+/* ═══ SUGGESTION FORM ═══ */
+(()=>{
+  // Type pill toggle
+  $$('.type-pill').forEach(p=>{
+    p.addEventListener('click',()=>{
+      $$('.type-pill').forEach(x=>x.classList.remove('sel'));
+      p.classList.add('sel');
+      $('#sgType').value=p.dataset.v;
+    });
+  });
+
+  // Char counter
+  $('#sgMsg').addEventListener('input',()=>{
+    $('#sgCharCount').textContent=$('#sgMsg').value.length;
+  });
+
+  // Submit
+  $('#sgBtn').addEventListener('click', async()=>{
+    const type   = $('#sgType').value;
+    const name   = $('#sgName').value.trim();
+    const sem    = $('#sgSem').value;
+    const subject= $('#sgSubject').value.trim();
+    const msg    = $('#sgMsg').value.trim();
+    const fmsg   = $('#sgFormMsg');
+
+    if(!msg){
+      fmsg.className='sg-msg er';fmsg.textContent='⚠️ Please enter your message before sending.';fmsg.style.display='block';return;
+    }
+
+    $('#sgBtn').disabled=true;
+    $('#sgBtn').innerHTML='<i class="fas fa-spinner fa-spin"></i> Sending…';
+
+    try{
+      const res = await fetch('https://formspree.io/f/xvzbjlgj',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body:JSON.stringify({
+          type, name:name||'Anonymous', semester:sem,
+          subject:subject||'—', message:msg,
+          _subject:`TextileNotes Suggestion: ${type} (${sem})`
+        })
+      });
+      if(res.ok){
+        fmsg.className='sg-msg ok';
+        fmsg.textContent='✅ Thank you! Your suggestion has been sent. We appreciate your feedback!';
+        fmsg.style.display='block';
+        // Reset form
+        $('#sgName').value='';$('#sgSubject').value='';$('#sgMsg').value='';
+        $('#sgCharCount').textContent='0';$('#sgSem').value='General';
+        $$('.type-pill').forEach(x=>x.classList.remove('sel'));
+        $$('.type-pill')[0].classList.add('sel');$('#sgType').value='Request Missing Notes';
+        toast('Suggestion sent! Thanks 🙏','💡');
+      } else {
+        throw new Error('Failed');
+      }
+    }catch{
+      fmsg.className='sg-msg er';
+      fmsg.textContent='❌ Something went wrong. Please try again or contact us directly.';
+      fmsg.style.display='block';
+    }finally{
+      $('#sgBtn').disabled=false;
+      $('#sgBtn').innerHTML='<i class="fas fa-paper-plane"></i> Send Suggestion';
+    }
+  });
+})();
 
 /* ═══ INIT ═══ */
 buildGrid();updKPI();
