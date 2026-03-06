@@ -1,0 +1,1733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Protective Clothing — Detailed Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c10;
+    --surface: #111318;
+    --surface2: #181c24;
+    --border: #1e2430;
+    --accent: #00c8ff;
+    --accent2: #ff6b35;
+    --accent3: #7fff6b;
+    --accent4: #c47aff;
+    --accent5: #ffcc00;
+    --text: #e8ecf4;
+    --muted: #6b7a94;
+    --danger: #ff4757;
+    --font-head: 'Rajdhani', sans-serif;
+    --font-body: 'Source Serif 4', serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    overflow: hidden;
+  }
+
+  /* ─── GRID BACKGROUND ─── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,200,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,200,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── LAYOUT ─── */
+  #app {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    grid-template-rows: 60px 1fr 50px;
+    height: 100vh;
+  }
+
+  /* ─── TOPBAR ─── */
+  #topbar {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 0 24px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  #topbar::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent4), var(--accent2));
+  }
+  .logo {
+    font-family: var(--font-head);
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .logo span { color: var(--accent2); }
+  .topic-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-left: auto;
+  }
+  #slide-counter-top {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent);
+    background: rgba(0,200,255,0.08);
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 1px solid rgba(0,200,255,0.2);
+  }
+
+  /* ─── SIDEBAR ─── */
+  #sidebar {
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    padding: 12px 0;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+  #sidebar::-webkit-scrollbar { width: 4px; }
+  #sidebar::-webkit-scrollbar-track { background: transparent; }
+  #sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+    padding: 10px 16px 4px;
+  }
+
+  .thumb {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background 0.15s, border-left-color 0.15s;
+    border-left: 3px solid transparent;
+    position: relative;
+  }
+  .thumb:hover { background: var(--surface2); }
+  .thumb.active {
+    background: rgba(0,200,255,0.07);
+    border-left-color: var(--accent);
+  }
+  .thumb-num {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: var(--muted);
+    width: 22px;
+    flex-shrink: 0;
+  }
+  .thumb-title {
+    font-family: var(--font-head);
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.3;
+  }
+  .thumb.active .thumb-title { color: var(--accent); }
+  .thumb-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--muted);
+    flex-shrink: 0;
+    margin-left: auto;
+  }
+  .thumb.active .thumb-dot { background: var(--accent); }
+
+  /* ─── MAIN AREA ─── */
+  #main {
+    overflow: hidden;
+    position: relative;
+    background: var(--bg);
+  }
+
+  /* ─── SLIDES ─── */
+  .slide {
+    display: none;
+    height: calc(100vh - 110px);
+    overflow-y: auto;
+    padding: 40px 56px;
+    animation: slideIn 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+  .slide::-webkit-scrollbar { width: 4px; }
+  .slide::-webkit-scrollbar-track { background: transparent; }
+  .slide::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+  .slide.active { display: block; }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(24px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  /* ─── SLIDE TYPOGRAPHY ─── */
+  .slide-tag {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .slide-tag::before {
+    content: '';
+    display: block;
+    width: 20px; height: 1px;
+    background: currentColor;
+  }
+
+  h1.slide-title {
+    font-family: var(--font-head);
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+    font-weight: 700;
+    letter-spacing: 2px;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+
+  h2.slide-title {
+    font-family: var(--font-head);
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    line-height: 1.15;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+
+  .slide-subtitle {
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    color: var(--muted);
+    font-weight: 300;
+    font-style: italic;
+    margin-bottom: 30px;
+    line-height: 1.6;
+  }
+
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, currentColor, transparent);
+    margin: 24px 0;
+    opacity: 0.3;
+  }
+
+  .body-text {
+    font-size: 0.96rem;
+    line-height: 1.85;
+    color: #c8d0de;
+    max-width: 820px;
+    margin-bottom: 20px;
+  }
+
+  /* ─── CARDS ─── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    margin: 24px 0;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 22px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .card:hover { transform: translateY(-3px); border-color: rgba(0,200,255,0.3); }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--card-accent, var(--accent));
+  }
+  .card-icon {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+  }
+  .card h3 {
+    font-family: var(--font-head);
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    color: var(--card-accent, var(--accent));
+  }
+  .card p {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* ─── LIST STYLES ─── */
+  .styled-list {
+    list-style: none;
+    margin: 16px 0;
+  }
+  .styled-list li {
+    display: flex;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #c8d0de;
+    align-items: flex-start;
+  }
+  .styled-list li:last-child { border-bottom: none; }
+  .styled-list li::before {
+    content: var(--li-marker, '▸');
+    color: var(--accent);
+    font-size: 0.75rem;
+    flex-shrink: 0;
+    margin-top: 3px;
+  }
+
+  /* ─── HIGHLIGHT BOX ─── */
+  .highlight-box {
+    border-left: 3px solid var(--box-color, var(--accent));
+    background: rgba(0,200,255,0.05);
+    padding: 16px 20px;
+    border-radius: 0 6px 6px 0;
+    margin: 20px 0;
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: #c8d0de;
+  }
+  .highlight-box.warn { --box-color: var(--accent2); background: rgba(255,107,53,0.06); }
+  .highlight-box.success { --box-color: var(--accent3); background: rgba(127,255,107,0.05); }
+  .highlight-box.purple { --box-color: var(--accent4); background: rgba(196,122,255,0.06); }
+  .highlight-box.yellow { --box-color: var(--accent5); background: rgba(255,204,0,0.06); }
+
+  .highlight-box strong {
+    display: block;
+    font-family: var(--font-head);
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--box-color, var(--accent));
+    margin-bottom: 6px;
+  }
+
+  /* ─── TABLE ─── */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    margin: 20px 0;
+  }
+  .data-table th {
+    font-family: var(--font-head);
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+    padding: 10px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--accent);
+    text-align: left;
+  }
+  .data-table td {
+    padding: 9px 14px;
+    border: 1px solid var(--border);
+    color: #c8d0de;
+    line-height: 1.5;
+    vertical-align: top;
+  }
+  .data-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+  /* ─── COVER SLIDE SPECIAL ─── */
+  .cover-wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 70vh;
+  }
+  .cover-wrap .big-number {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+  .cover-decoration {
+    position: absolute;
+    right: 60px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,200,255,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+  .cover-decoration::before {
+    content: '';
+    position: absolute;
+    width: 240px; height: 240px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,200,255,0.08);
+  }
+  .cover-decoration::after {
+    content: '🛡️';
+    font-size: 6rem;
+  }
+  .tags-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 28px;
+  }
+  .tag-pill {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid;
+  }
+
+  /* ─── SPEC ROW ─── */
+  .spec-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .spec-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px 18px;
+  }
+  .spec-item .label {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .spec-item .value {
+    font-family: var(--font-head);
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--spec-color, var(--accent));
+  }
+  .spec-item .desc {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+
+  /* ─── PROCESS STEPS ─── */
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 20px 0;
+    position: relative;
+  }
+  .steps::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 30px;
+    bottom: 30px;
+    width: 1px;
+    background: var(--border);
+  }
+  .step {
+    display: flex;
+    gap: 20px;
+    padding: 14px 0;
+    align-items: flex-start;
+  }
+  .step-num {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 1px solid var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+  .step-content h4 {
+    font-family: var(--font-head);
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    color: var(--text);
+  }
+  .step-content p {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ─── BOTTOM BAR ─── */
+  #bottombar {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+  }
+  .nav-btn {
+    font-family: var(--font-head);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 8px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .nav-btn:hover:not(:disabled) {
+    background: rgba(0,200,255,0.1);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .nav-btn:disabled { opacity: 0.3; cursor: default; }
+
+  #progress-bar {
+    flex: 1;
+    max-width: 300px;
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+    margin: 0 20px;
+  }
+  #progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent4));
+    transition: width 0.3s ease;
+    border-radius: 2px;
+  }
+  #slide-info {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    text-align: center;
+    min-width: 80px;
+  }
+
+  /* ─── COLOR VARIANTS FOR SECTIONS ─── */
+  .t-thermal { color: var(--accent2); }
+  .t-ballistic { color: var(--danger); }
+  .t-emr { color: var(--accent4); }
+  .t-micro { color: var(--accent3); }
+  .t-chem { color: var(--accent5); }
+  .t-intro { color: var(--accent); }
+
+  /* ─── DUAL COLUMN ─── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin: 20px 0;
+  }
+
+  @media (max-width: 900px) {
+    #app { grid-template-columns: 1fr; grid-template-rows: 60px 1fr 50px; }
+    #sidebar { display: none; }
+    .cover-decoration { display: none; }
+    .two-col, .spec-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- TOPBAR -->
+  <div id="topbar">
+    <div class="logo">PROT<span>ECT</span></div>
+    <div class="topic-label">Textile Science · Protective Clothing · Detailed Notes</div>
+    <div style="font-family:var(--font-mono);font-size:0.65rem;color:var(--muted);letter-spacing:1.5px;">Created by <span style="color:var(--accent4);font-weight:600;">Abhishek Dangi</span></div>
+    <div id="slide-counter-top">—</div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <div id="sidebar" id="sidebar"></div>
+
+  <!-- MAIN -->
+  <div id="main">
+
+    <!-- ══════════════════════════════════════════════════
+         SECTION 1: INTRODUCTION
+    ══════════════════════════════════════════════════ -->
+
+    <!-- SLIDE 1 -->
+    <div class="slide active" data-section="Introduction">
+      <div class="cover-wrap" style="position:relative;">
+        <div class="cover-decoration"></div>
+        <div class="big-number">TEXTILE SCIENCE / MODULE 07</div>
+        <div class="slide-tag t-intro">Introduction</div>
+        <h1 class="slide-title t-intro">Protective<br>Clothing</h1>
+        <p class="slide-subtitle">A comprehensive study of functional apparel engineered<br>to shield the human body from thermal, ballistic, electromagnetic,<br>biological, chemical, and pesticide hazards.</p>
+        <div class="divider" style="color:var(--accent);"></div>
+        <div class="tags-row">
+          <span class="tag-pill" style="color:var(--accent2);border-color:var(--accent2);">🔥 Thermal</span>
+          <span class="tag-pill" style="color:var(--danger);border-color:var(--danger);">🎯 Ballistic</span>
+          <span class="tag-pill" style="color:var(--accent4);border-color:var(--accent4);">⚡ EMR/EMF</span>
+          <span class="tag-pill" style="color:var(--accent3);border-color:var(--accent3);">🦠 Micro-organisms</span>
+          <span class="tag-pill" style="color:var(--accent5);border-color:var(--accent5);">☠ Chemicals</span>
+        </div>
+        <p class="body-text" style="margin-top:28px;font-size:0.85rem;">30+ slides covering definitions, mechanisms, materials, standards, applications, and future directions.</p>
+        <p style="font-family:var(--font-mono);font-size:0.7rem;color:var(--muted);margin-top:16px;">Created by <span style="color:var(--accent4);font-weight:600;letter-spacing:1px;">Abhishek Dangi</span></p>
+      </div>
+    </div>
+
+    <!-- SLIDE 2 -->
+    <div class="slide" data-section="Introduction">
+      <div class="slide-tag t-intro">Introduction</div>
+      <h2 class="slide-title t-intro">What is Protective Clothing?</h2>
+      <p class="body-text">Protective clothing refers to garments and equipment designed specifically to protect the wearer's body from hazards present in their environment. Unlike conventional clothing, protective clothing is engineered with performance-oriented materials and construction techniques to provide defined levels of protection against specific risks.</p>
+      <div class="highlight-box">
+        <strong>Core Definition</strong>
+        Protective clothing is any article of clothing whose primary function is to protect the wearer—rather than comfort, modesty, or fashion—against one or more physical, chemical, biological, thermal, radiative, or mechanical hazards.
+      </div>
+      <div class="card-grid">
+        <div class="card" style="--card-accent: var(--accent);">
+          <div class="card-icon">🧵</div>
+          <h3>Technical Textiles</h3>
+          <p>Made from high-performance fibers with engineered properties: heat resistance, cut resistance, chemical inertness, and antimicrobial action.</p>
+        </div>
+        <div class="card" style="--card-accent: var(--accent4);">
+          <div class="card-icon">📐</div>
+          <h3>Ergonomic Design</h3>
+          <p>Balances protection performance with wearer comfort, mobility, physiological strain, and psychological acceptability.</p>
+        </div>
+        <div class="card" style="--card-accent: var(--accent2);">
+          <div class="card-icon">📋</div>
+          <h3>Standards Compliance</h3>
+          <p>Must meet rigorous international and national standards (ISO, EN, ASTM, NFPA, OSHA) before certification for use.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3 -->
+    <div class="slide" data-section="Introduction">
+      <div class="slide-tag t-intro">Introduction</div>
+      <h2 class="slide-title t-intro">Historical Development</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <div class="step-content">
+            <h4>Ancient Armour (~3000 BCE)</h4>
+            <p>Leather, bronze, and iron armour provided ballistic and cutting protection in warfare. Earliest known engineered protective clothing.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <div class="step-content">
+            <h4>Industrial Revolution (1800s)</h4>
+            <p>Leather aprons, heavy woollen garments, and asbestos insulation introduced for protection in mines, foundries, and factories.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <div class="step-content">
+            <h4>World War Era (1914–1945)</h4>
+            <p>Gas masks, fire-retardant flight suits, and bulletproof vests emerged from military necessity. Nylon and synthetic fibres introduced.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">04</div>
+          <div class="step-content">
+            <h4>High-Performance Fibre Era (1965–1990)</h4>
+            <p>Invention of Kevlar® (1965), Nomex® (1967), and Gore-Tex® (1969) revolutionised protective clothing capabilities dramatically.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">05</div>
+          <div class="step-content">
+            <h4>Smart & Nano Era (2000–present)</h4>
+            <p>Nanotechnology, smart textiles with sensors, phase-change materials, and self-healing coatings define current cutting-edge innovations.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4 -->
+    <div class="slide" data-section="Introduction">
+      <div class="slide-tag t-intro">Introduction</div>
+      <h2 class="slide-title t-intro">Classification of Protective Clothing</h2>
+      <p class="body-text">Protective clothing is classified based on the nature of the hazard it addresses, the environment of use, and the level of protection provided.</p>
+      <div class="card-grid">
+        <div class="card" style="--card-accent: var(--accent2);">
+          <div class="card-icon">🔥</div>
+          <h3>Thermal Protection</h3>
+          <p>Protection from flames, radiant heat, molten metal splatter, extreme cold (cryogenic), and steam.</p>
+        </div>
+        <div class="card" style="--card-accent: var(--danger);">
+          <div class="card-icon">🎯</div>
+          <h3>Ballistic Protection</h3>
+          <p>Protection from bullets, shrapnel, blast, and cut/stab threats in military and law enforcement scenarios.</p>
+        </div>
+        <div class="card" style="--card-accent: var(--accent4);">
+          <div class="card-icon">⚡</div>
+          <h3>EMR / EMF</h3>
+          <p>Shielding from ionising radiation (X-ray, gamma), non-ionising radiation (RF, microwave), UV, and electric arc flash.</p>
+        </div>
+        <div class="card" style="--card-accent: var(--accent3);">
+          <div class="card-icon">🦠</div>
+          <h3>Biological / Microbial</h3>
+          <p>Barriers against bacteria, viruses, fungi, blood-borne pathogens, and infectious aerosols in healthcare and hazmat contexts.</p>
+        </div>
+        <div class="card" style="--card-accent: var(--accent5);">
+          <div class="card-icon">☠</div>
+          <h3>Chemical / Pesticide</h3>
+          <p>Protection from toxic gases, vapours, liquids, solid particles, acids, bases, and pesticide active ingredients.</p>
+        </div>
+        <div class="card" style="--card-accent: var(--accent);">
+          <div class="card-icon">⛏</div>
+          <h3>Mechanical</h3>
+          <p>Resistance to cuts, abrasions, punctures, impact, and chainsaw hazards in construction, mining, and forestry.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5 -->
+    <div class="slide" data-section="Introduction">
+      <div class="slide-tag t-intro">Introduction</div>
+      <h2 class="slide-title t-intro">Key Properties &amp; Standards Overview</h2>
+      <div class="two-col">
+        <div>
+          <p class="body-text">Protective clothing must be evaluated against a battery of properties to ensure reliable performance in the field.</p>
+          <ul class="styled-list">
+            <li>Barrier effectiveness (penetration resistance)</li>
+            <li>Thermal stability at extreme temperatures</li>
+            <li>Tensile, tear, and burst strength</li>
+            <li>Breathability and moisture vapour transmission</li>
+            <li>Flexibility and freedom of movement</li>
+            <li>Durability through repeated use and laundering</li>
+            <li>Comfort: weight, thermal burden, tactile properties</li>
+            <li>Visibility: colour, retroreflectance (Hi-Vis)</li>
+          </ul>
+        </div>
+        <div>
+          <p class="body-text">International Standards Bodies:</p>
+          <table class="data-table">
+            <thead><tr><th>Body</th><th>Region</th><th>Key Standards</th></tr></thead>
+            <tbody>
+              <tr><td>ISO</td><td>International</td><td>ISO 11612, ISO 13688</td></tr>
+              <tr><td>EN (CEN)</td><td>Europe</td><td>EN 469, EN 388, EN 340</td></tr>
+              <tr><td>NFPA</td><td>USA</td><td>NFPA 1971, 2112</td></tr>
+              <tr><td>ASTM</td><td>USA</td><td>F2413, F1506</td></tr>
+              <tr><td>BIS</td><td>India</td><td>IS 9062, IS 15877</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════
+         SECTION 2: THERMAL PROTECTION
+    ══════════════════════════════════════════════════ -->
+
+    <!-- SLIDE 6 -->
+    <div class="slide" data-section="Thermal Protection">
+      <div class="slide-tag t-thermal">Thermal Protection</div>
+      <h2 class="slide-title t-thermal">Thermal Hazards — Overview</h2>
+      <p class="body-text">Thermal hazards are among the most prevalent occupational risks. Workers in firefighting, steel and aluminium processing, welding, oil & gas, chemical plants, and bakeries face significant thermal threats daily.</p>
+      <div class="card-grid">
+        <div class="card" style="--card-accent: var(--accent2);"><div class="card-icon">🔥</div><h3>Open Flame</h3><p>Direct contact with flames; risk of ignition and sustained burning of clothing material itself.</p></div>
+        <div class="card" style="--card-accent: var(--accent2);"><div class="card-icon">☀</div><h3>Radiant Heat</h3><p>Infrared radiation from furnaces, molten metal, and fire perimeters; causes burns without direct contact.</p></div>
+        <div class="card" style="--card-accent: var(--accent2);"><div class="card-icon">💧</div><h3>Molten Splatter</h3><p>Droplets of molten metal or hot liquids impacting garment surface in foundry and welding operations.</p></div>
+        <div class="card" style="--card-accent: var(--accent2);"><div class="card-icon">💨</div><h3>Steam &amp; Hot Gas</h3><p>Pressurised steam burns and convective heat transfer from superheated gases in power plants.</p></div>
+        <div class="card" style="--card-accent: (#4dc8ff);"><div class="card-icon">🧊</div><h3>Extreme Cold</h3><p>Cryogenic environments (LN₂, LO₂) and polar/arctic conditions causing frostbite and hypothermia.</p></div>
+        <div class="card" style="--card-accent: var(--accent2);"><div class="card-icon">⚡</div><h3>Electric Arc Flash</h3><p>Explosive release of electrical energy producing intense heat, pressure wave, and UV/IR radiation.</p></div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7 -->
+    <div class="slide" data-section="Thermal Protection">
+      <div class="slide-tag t-thermal">Thermal Protection</div>
+      <h2 class="slide-title t-thermal">Mechanisms of Thermal Protection</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num" style="border-color:var(--accent2);color:var(--accent2);">A</div>
+          <div class="step-content">
+            <h4>Thermal Insulation</h4>
+            <p>Trapped still air in fibre interstices acts as insulation. Multilayer constructions with air gaps maximise this. Measured as <em>thermal resistance (Rct)</em> in m²K/W.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num" style="border-color:var(--accent2);color:var(--accent2);">B</div>
+          <div class="step-content">
+            <h4>Flame Retardancy (FR)</h4>
+            <p>Either inherently flame-retardant fibres (Nomex, Kevlar, PBI) or chemical FR treatments (e.g., Proban® process). Prevent or limit flame spread and self-extinguish when flame removed.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num" style="border-color:var(--accent2);color:var(--accent2);">C</div>
+          <div class="step-content">
+            <h4>Radiant Heat Reflection</h4>
+            <p>Aluminised or metallic outer layers reflect up to 95% of incident infrared radiation. Used in proximity suits for steelworkers and firefighters near furnaces.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num" style="border-color:var(--accent2);color:var(--accent2);">D</div>
+          <div class="step-content">
+            <h4>Char Formation</h4>
+            <p>Some polymers (e.g., modacrylic, PBI) form a protective carbonaceous char layer on exposure to heat, acting as a physical barrier and reducing heat transfer to skin.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num" style="border-color:var(--accent2);color:var(--accent2);">E</div>
+          <div class="step-content">
+            <h4>Phase Change Materials (PCMs)</h4>
+            <p>Microencapsulated PCMs absorb large quantities of latent heat during phase transition (solid→liquid), delaying the rise of skin temperature during heat exposure.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 8 -->
+    <div class="slide" data-section="Thermal Protection">
+      <div class="slide-tag t-thermal">Thermal Protection</div>
+      <h2 class="slide-title t-thermal">Key Fibres &amp; Materials</h2>
+      <table class="data-table">
+        <thead>
+          <tr><th>Fibre / Material</th><th>Trade Name</th><th>LOI%</th><th>Key Properties</th><th>Applications</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Meta-aramid</td><td>Nomex®</td><td>28–30</td><td>Inherent FR, dimensional stability, self-extinguishing, excellent char formation</td><td>Firefighting, race suits</td></tr>
+          <tr><td>Para-aramid</td><td>Kevlar®</td><td>29</td><td>Very high tensile strength, cut resistant, FR blends with Nomex</td><td>Cut/flame combo gear</td></tr>
+          <tr><td>Polybenzimidazole</td><td>PBI®</td><td>41</td><td>Highest thermal stability, no melt-drip, exceptional char</td><td>Structural fire, proximity</td></tr>
+          <tr><td>FR Viscose / Modal</td><td>Lenzing FR®</td><td>27–30</td><td>Comfort, moisture management, inherent FR</td><td>Underwear layers, blends</td></tr>
+          <tr><td>Modacrylic</td><td>Protex®, SEF®</td><td>26–33</td><td>Soft hand, good FR, economical, blended with cotton</td><td>Industrial workwear</td></tr>
+          <tr><td>Carbon / Oxidised PAN</td><td>Zoltek, SGL</td><td>>60</td><td>Extreme heat stability, electrical conductivity, heavy</td><td>Extreme proximity</td></tr>
+          <tr><td>Glass Fibre</td><td>—</td><td>Non-comb.</td><td>Molten metal, welding, high temp barriers</td><td>Welding blankets, spats</td></tr>
+          <tr><td>FR Cotton (Proban)</td><td>—</td><td>~28</td><td>Comfort, breathability, affordable FR finish</td><td>Oil &amp; gas workwear</td></tr>
+        </tbody>
+      </table>
+      <div class="highlight-box warn">
+        <strong>LOI — Limiting Oxygen Index</strong>
+        LOI is the minimum concentration of oxygen (%) needed to sustain combustion. A material with LOI &gt; 21% will self-extinguish in normal air (21% O₂). Higher LOI = greater flame retardancy.
+      </div>
+    </div>
+
+    <!-- SLIDE 9 -->
+    <div class="slide" data-section="Thermal Protection">
+      <div class="slide-tag t-thermal">Thermal Protection</div>
+      <h2 class="slide-title t-thermal">Firefighter PPE — Structural Fire</h2>
+      <p class="body-text">Structural firefighter clothing (turnout gear / proximity gear) is among the most complex protective systems ever engineered, combining multiple layers with complementary functions.</p>
+      <div class="spec-row">
+        <div class="spec-item" style="--spec-color: var(--accent2);">
+          <div class="label">Outer Shell</div>
+          <div class="value">Nomex/Kevlar Blend</div>
+          <div class="desc">Flame and heat resistance, abrasion resistance, water repellency treatment</div>
+        </div>
+        <div class="spec-item" style="--spec-color: var(--accent2);">
+          <div class="label">Moisture Barrier</div>
+          <div class="value">Gore-Tex® PTFE</div>
+          <div class="desc">Prevents steam burn by blocking penetration of water/steam while maintaining some breathability</div>
+        </div>
+        <div class="spec-item" style="--spec-color: var(--accent2);">
+          <div class="label">Thermal Liner</div>
+          <div class="value">Needled Aramid Felt</div>
+          <div class="desc">Primary insulation layer, trapped air provides thermal resistance, self-extinguishing material</div>
+        </div>
+        <div class="spec-item" style="--spec-color: var(--accent2);">
+          <div class="label">Performance Standard</div>
+          <div class="value">NFPA 1971 / EN 469</div>
+          <div class="desc">Defines TPP (Thermal Protective Performance) and THL (Total Heat Loss) minimum thresholds</div>
+        </div>
+      </div>
+      <div class="highlight-box">
+        <strong>TPP — Thermal Protective Performance</strong>
+        TPP is the time (in seconds × cal/cm²) before a second-degree burn (Stoll criterion) would be predicted. Higher TPP = more protection. NFPA 1971 requires minimum TPP of 35 cal/cm² for turnout coats.
+      </div>
+    </div>
+
+    <!-- SLIDE 10 -->
+    <div class="slide" data-section="Thermal Protection">
+      <div class="slide-tag t-thermal">Thermal Protection</div>
+      <h2 class="slide-title t-thermal">Industrial &amp; Cold Thermal Protection</h2>
+      <div class="two-col">
+        <div>
+          <div class="highlight-box warn" style="margin-top:0;">
+            <strong>Industrial Heat Protection</strong>
+            Workers in foundries, steelworks, glass manufacturing, and petrochemical refineries require specific protection levels. Aluminised suits (outer layer of vacuum-deposited aluminium on woven aramid/glass substrates) reflect radiant heat. Molten metal splash-resistant garments use tightly woven structures that allow splatter to roll off without penetrating or adhering.
+          </div>
+          <ul class="styled-list">
+            <li>Arc Flash Protection: Arc Thermal Performance Value (ATPV) rating in cal/cm²</li>
+            <li>Welding garments: EN ISO 11611 Class 1 and 2, leather reinforcements</li>
+            <li>Aluminised fabrics reflect up to 95% IR radiation</li>
+            <li>FR cotton base layers reduce heat transfer and improve comfort</li>
+          </ul>
+        </div>
+        <div>
+          <div class="highlight-box" style="margin-top:0;">
+            <strong>Cold / Cryogenic Protection</strong>
+            Cryogenic gloves, aprons, and face shields must prevent rapid heat loss from skin. Liquid nitrogen at –196°C and liquid oxygen at –183°C cause instant cryogenic burns. Materials must remain flexible at extremely low temperatures (non-embrittlement). Neoprene and cryogenic specific layered constructions are common. Standard: EN 511 (Cold Protection).
+          </div>
+          <ul class="styled-list">
+            <li>Multi-layer construction with reflective foil inner layers</li>
+            <li>Insulators: aerogel blankets, down alternatives, hollow fibre batting</li>
+            <li>Arctic workwear: rated by CLO (clothing insulation) value</li>
+            <li>Waterproof-breathable outer with wind resistance</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════
+         SECTION 3: BALLISTIC PROTECTION
+    ══════════════════════════════════════════════════ -->
+
+    <!-- SLIDE 11 -->
+    <div class="slide" data-section="Ballistic Protection">
+      <div class="slide-tag t-ballistic">Ballistic Protection</div>
+      <h2 class="slide-title t-ballistic">Introduction to Ballistic Threats</h2>
+      <p class="body-text">Ballistic-protective clothing is engineered to prevent or mitigate penetration by projectiles (bullets, fragments, shrapnel) and edged/pointed weapons. The design challenge is to absorb and dissipate the kinetic energy of an incoming threat while minimising deformation transmitted to the wearer's body.</p>
+      <div class="card-grid">
+        <div class="card" style="--card-accent: var(--danger);"><div class="card-icon">🔫</div><h3>Bullets</h3><p>Handgun and rifle rounds with varying calibre, velocity, and construction (FMJ, hollow point, armour-piercing).</p></div>
+        <div class="card" style="--card-accent: var(--danger);"><div class="card-icon">💥</div><h3>Fragments (FRAG)</h3><p>High-velocity metallic fragments from IEDs, grenades, artillery shells, and mine blasts.</p></div>
+        <div class="card" style="--card-accent: var(--danger);"><div class="card-icon">🔪</div><h3>Edged Blades</h3><p>Knife, sword, and spike threats requiring different material properties than bullet protection.</p></div>
+        <div class="card" style="--card-accent: var(--danger);"><div class="card-icon">🌊</div><h3>Blast Overpressure</h3><p>Pressure wave from explosions — causes blunt trauma, blast lung, and TBI even without penetration.</p></div>
+      </div>
+      <div class="highlight-box warn">
+        <strong>Kinetic Energy Formula</strong>
+        KE = ½mv². A 9mm pistol bullet (~8g at 370 m/s) carries ~547 J. A 7.62mm NATO round (~9.5g at 800 m/s) carries ~3040 J — 5.5× more energy, requiring substantially more robust protection levels.
+      </div>
+    </div>
+
+    <!-- SLIDE 12 -->
+    <div class="slide" data-section="Ballistic Protection">
+      <div class="slide-tag t-ballistic">Ballistic Protection</div>
+      <h2 class="slide-title t-ballistic">Mechanisms of Ballistic Arrest</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num" style="border-color:var(--danger);color:var(--danger);">1</div>
+          <div class="step-content">
+            <h4>Yarn Breakage &amp; Energy Absorption</h4>
+            <p>High-tenacity yarns (Kevlar, Dyneema) elongate and break sequentially, absorbing kinetic energy of the projectile over multiple fibre layers. The specific energy absorption is proportional to tenacity × elongation.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num" style="border-color:var(--danger);color:var(--danger);">2</div>
+          <div class="step-content">
+            <h4>Deformation of Projectile</h4>
+            <p>Hard ceramic strike face (Al₂O₃, SiC, B₄C) first blunts and fragments the projectile, reducing its penetrating cross-section before it encounters the fibre backing layers.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num" style="border-color:var(--danger);color:var(--danger);">3</div>
+          <div class="step-content">
+            <h4>Cone Wave Propagation</h4>
+            <p>Ballistic wave spreads outward from impact point in a cone shape through the textile layers, distributing the load over a wide area and engaging more fibres in energy dissipation.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num" style="border-color:var(--danger);color:var(--danger);">4</div>
+          <div class="step-content">
+            <h4>Blunt Trauma Mitigation</h4>
+            <p>Even when penetration is prevented, back-face deformation (BFD) must be controlled. Trauma plates, foam backings, and shear-thickening fluid (STF) composites limit blunt trauma to organ-safe levels (&lt;44 mm BFD per NIJ).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 13 -->
+    <div class="slide" data-section="Ballistic Protection">
+      <div class="slide-tag t-ballistic">Ballistic Protection</div>
+      <h2 class="slide-title t-ballistic">High-Performance Ballistic Fibres</h2>
+      <table class="data-table">
+        <thead>
+          <tr><th>Fibre</th><th>Brand</th><th>Tensile Strength (GPa)</th><th>Modulus (GPa)</th><th>Density (g/cm³)</th><th>Notable Property</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Para-Aramid</td><td>Kevlar® 29/49/129</td><td>2.8–3.4</td><td>70–125</td><td>1.44</td><td>Most widely used; good thermal stability</td></tr>
+          <tr><td>UHMWPE</td><td>Dyneema®, Spectra®</td><td>2.4–3.5</td><td>87–172</td><td>0.97</td><td>Lightest; floats on water; superior energy absorption</td></tr>
+          <tr><td>PBO</td><td>Zylon®</td><td>5.8</td><td>180</td><td>1.56</td><td>Highest strength; UV-sensitive degradation</td></tr>
+          <tr><td>PIPD (M5)</td><td>Magellan®</td><td>5.8</td><td>330</td><td>1.70</td><td>Next-gen; rigid rod polymer, fire-resistant</td></tr>
+          <tr><td>Carbon Fibre</td><td>Toray, Hexcel</td><td>3.5–7.0</td><td>230–900</td><td>1.75–1.80</td><td>Used in hard armour composites; very stiff</td></tr>
+          <tr><td>Steel (Boron)</td><td>—</td><td>~2.0</td><td>200</td><td>7.8</td><td>Ceramic-steel inserts; heavy but affordable</td></tr>
+        </tbody>
+      </table>
+      <div class="highlight-box" style="--box-color: var(--danger);">
+        <strong>Why UHMWPE is Game-Changing</strong>
+        Ultra-High Molecular Weight Polyethylene (Dyneema®) has 15× the strength of steel by weight and density less than water (0.97 g/cm³). This enables body armour up to 40% lighter than equivalent Kevlar systems — critical for soldier fatigue and mobility.
+      </div>
+    </div>
+
+    <!-- SLIDE 14 -->
+    <div class="slide" data-section="Ballistic Protection">
+      <div class="slide-tag t-ballistic">Ballistic Protection</div>
+      <h2 class="slide-title t-ballistic">NIJ Threat Levels &amp; Armour Classification</h2>
+      <p class="body-text">The US National Institute of Justice (NIJ) Standard 0101.06 defines threat levels and minimum performance requirements for ballistic-resistant body armour.</p>
+      <table class="data-table">
+        <thead>
+          <tr><th>NIJ Level</th><th>Threat</th><th>Velocity (m/s)</th><th>Armour Type</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Level IIA</td><td>9mm FMJ, .40 S&amp;W</td><td>373 / 352</td><td>Soft armour (concealable)</td></tr>
+          <tr><td>Level II</td><td>9mm FMJ, .357 Magnum JSP</td><td>398 / 436</td><td>Soft armour (concealable)</td></tr>
+          <tr><td>Level IIIA</td><td>.357 SIG FMJ, .44 Magnum SJHP</td><td>448 / 436</td><td>Soft armour (tactical)</td></tr>
+          <tr><td>Level III</td><td>7.62mm NATO FMJ M80</td><td>847</td><td>Hard armour plates (ceramic/PE)</td></tr>
+          <tr><td>Level IV</td><td>.30 cal AP M2</td><td>878</td><td>Hard armour plates (ceramic/PE)</td></tr>
+          <tr><td>Special (NIJ06+)</td><td>M855 Green Tip, AK-47 7.62×39</td><td>Varies</td><td>Specific plates</td></tr>
+        </tbody>
+      </table>
+      <div class="highlight-box warn">
+        <strong>Soft vs Hard Armour</strong>
+        Soft armour uses woven/laminated textile layers (Kevlar/Dyneema) — flexible, concealable, suitable for handgun threats. Hard armour inserts (SAPI/ESAPI plates) add ceramic strike face + UHMWPE backing — required for rifle and AP threats. The complete system (carrier + plate) constitutes the Personal Protective Equipment (PPE) system.
+      </div>
+    </div>
+
+    <!-- SLIDE 15 -->
+    <div class="slide" data-section="Ballistic Protection">
+      <div class="slide-tag t-ballistic">Ballistic Protection</div>
+      <h2 class="slide-title t-ballistic">Stab &amp; Spike Protection + Advanced Armour</h2>
+      <div class="two-col">
+        <div>
+          <div class="highlight-box" style="--box-color: var(--danger); margin-top:0;">
+            <strong>Edged Blade &amp; Spike Threat</strong>
+            Unlike bullets, blades concentrate force at a sharp tip/edge. Ballistic fibres like Kevlar are poorly suited to edged threats as the sharp edge cuts through individual fibres. Chainmail (stainless steel links) or tightly woven metal meshes, combined with hard-faced composites (ceramic particles in resin), provide stab resistance. UK HOSDB standards KR1/KR2 (knife) and SP1/SP2 (spike) classify threat levels.
+          </div>
+          <ul class="styled-list">
+            <li>Chainmail: 100% stab-resistant, heavy, expensive</li>
+            <li>Shear-Thickening Fluid (STF) impregnated Kevlar — flexible yet stiffens on impact</li>
+            <li>Hard-faced composites: titanium, boron carbide particles in polymer matrix</li>
+          </ul>
+        </div>
+        <div>
+          <div class="highlight-box purple" style="margin-top:0;">
+            <strong>Next-Generation Concepts</strong>
+            Active research focuses on liquid body armour (colloidal suspensions that solidify on impact), graphene-enhanced composites (100× stronger than steel at 1/6th the weight), 3D-printed lattice plates with optimised topology for energy dissipation, self-healing polymer matrices, and smart armour with embedded impact sensors and alert systems.
+          </div>
+          <ul class="styled-list">
+            <li>D3O® dilatant foam for sports and military helmets</li>
+            <li>MOLLE systems integrate modular protection panels</li>
+            <li>Exoskeletal frames reduce load carriage physiological burden</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════
+         SECTION 4: EMR / EMF PROTECTION
+    ══════════════════════════════════════════════════ -->
+
+    <!-- SLIDE 16 -->
+    <div class="slide" data-section="EMR & Electromagnetic Protection">
+      <div class="slide-tag t-emr">EMR &amp; Electromagnetic Protection</div>
+      <h2 class="slide-title t-emr">Electromagnetic Hazards — Spectrum Overview</h2>
+      <p class="body-text">The electromagnetic spectrum presents a variety of hazards depending on frequency (energy) and intensity. Protective clothing must address ionising and non-ionising radiations, static electricity, and electric arc flash — each requiring different protection mechanisms.</p>
+      <table class="data-table">
+        <thead>
+          <tr><th>Type</th><th>Frequency / Energy</th><th>Source</th><th>Health Effect</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Ionising: X-Ray</td><td>30 keV – 100 MeV</td><td>Medical imaging, industrial NDT</td><td>Cell mutation, cancer, radiation sickness</td></tr>
+          <tr><td>Ionising: Gamma (γ)</td><td>&gt;100 keV</td><td>Nuclear reactors, radiotherapy</td><td>DNA damage, acute radiation syndrome</td></tr>
+          <tr><td>Ionising: Beta (β)</td><td>Electrons</td><td>Nuclear industry, contamination</td><td>Skin burns, internal contamination</td></tr>
+          <tr><td>UV (Non-ionising)</td><td>100–400 nm</td><td>Sun, welding arcs, UV curing</td><td>Sunburn, melanoma, eye damage</td></tr>
+          <tr><td>RF/Microwave</td><td>300 MHz – 300 GHz</td><td>Radar, telecom towers, microwave</td><td>Thermal tissue damage, cataracts</td></tr>
+          <tr><td>ELF / EMP</td><td>&lt;300 Hz</td><td>Power lines, electrical equipment</td><td>Biological effects (contested), cardiac risk</td></tr>
+          <tr><td>Electric Arc Flash</td><td>—</td><td>Electrical switchgear faults</td><td>Burns (heat + UV + IR), blast injury</td></tr>
+          <tr><td>Static Electricity</td><td>—</td><td>Petrochemical, electronics mfg.</td><td>Electrostatic discharge (ESD) fires</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SLIDE 17 -->
+    <div class="slide" data-section="EMR & Electromagnetic Protection">
+      <div class="slide-tag t-emr">EMR &amp; Electromagnetic Protection</div>
+      <h2 class="slide-title t-emr">Protection from Ionising Radiation</h2>
+      <div class="two-col">
+        <div>
+          <p class="body-text">Ionising radiation (X-rays, gamma rays, beta particles) poses the most severe biological risk in the electromagnetic spectrum. Shielding relies on dense materials that attenuate radiation through photoelectric absorption, Compton scattering, and pair production.</p>
+          <ul class="styled-list">
+            <li><strong>Lead (Pb) aprons:</strong> Classic X-ray protection (0.25–0.5 mm Pb equivalent) worn by radiologists — heavy but effective</li>
+            <li><strong>Lead-free composites:</strong> Bismuth, barium sulphate, and tungsten compounds in polymer matrices — lighter alternatives</li>
+            <li><strong>Leaded glass visors:</strong> Eye protection during fluoroscopy procedures</li>
+            <li><strong>Dosimetry integration:</strong> TLD (thermoluminescent dosimeter) badges worn to monitor cumulative exposure</li>
+          </ul>
+        </div>
+        <div>
+          <div class="highlight-box purple" style="margin-top:0;">
+            <strong>Nuclear Industry PPE</strong>
+            Full-body anti-contamination suits (Tyvek® or reusable woven polyester overgarments) prevent alpha/beta particle contamination of skin and clothing. These do NOT shield against high-energy gamma radiation — lead shielding or remote handling tools are used instead. Half-value layer (HVL) for lead against 100 keV X-rays ≈ 0.12 mm.
+          </div>
+          <div class="spec-row" style="margin-top:16px;">
+            <div class="spec-item" style="--spec-color:var(--accent4);">
+              <div class="label">Lead Apron Weight</div>
+              <div class="value">3–7 kg</div>
+              <div class="desc">For 0.5mm Pb-equivalent full-body apron worn 6–8 hours by radiologists</div>
+            </div>
+            <div class="spec-item" style="--spec-color:var(--accent4);">
+              <div class="label">Weight Reduction</div>
+              <div class="value">~30–40%</div>
+              <div class="desc">Achieved with bismuth/barium lead-free composites at equivalent attenuation</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 18 -->
+    <div class="slide" data-section="EMR & Electromagnetic Protection">
+      <div class="slide-tag t-emr">EMR &amp; Electromagnetic Protection</div>
+      <h2 class="slide-title t-emr">UV Protection — UPF Rating System</h2>
+      <p class="body-text">Ultraviolet radiation is classified into UVA (315–400 nm), UVB (280–315 nm), and UVC (100–280 nm). UVB and UVA are primary causes of sunburn, photoageing, and skin cancer. Textiles provide inherent UV protection that depends on weave density, fibre type, colour, and chemical additives.</p>
+      <div class="spec-row">
+        <div class="spec-item" style="--spec-color:var(--accent4);">
+          <div class="label">UPF 15–24</div><div class="value">Good</div><div class="desc">Blocks ~93.3%–95.8% of UV; basic outdoor shirts</div>
+        </div>
+        <div class="spec-item" style="--spec-color:var(--accent4);">
+          <div class="label">UPF 25–39</div><div class="value">Very Good</div><div class="desc">Blocks ~96%–97.4% UV; standard outdoor/sports UV shirts</div>
+        </div>
+        <div class="spec-item" style="--spec-color:var(--accent4);">
+          <div class="label">UPF 40–50+</div><div class="value">Excellent</div><div class="desc">Blocks &gt;97.5% UV; recommended for outdoor workers &amp; high-UV climates</div>
+        </div>
+        <div class="spec-item" style="--spec-color:var(--accent4);">
+          <div class="label">Standard</div><div class="value">AS/NZS 4399</div><div class="desc">Australian/NZ standard for sun protective clothing — gold standard globally</div>
+        </div>
+      </div>
+      <div class="highlight-box purple">
+        <strong>Factors Affecting UPF</strong>
+        Tighter weave/knit constructions, darker colours (higher dye absorption), synthetic fibres (polyester absorbs UV well), optical brighteners (convert UV to visible), and chemical UV absorbers (benzophenones, titanium dioxide nanoparticles) all increase UPF values. Wetness reduces UPF in some constructions as fibres swell to close gaps.
+      </div>
+    </div>
+
+    <!-- SLIDE 19 -->
+    <div class="slide" data-section="EMR & Electromagnetic Protection">
+      <div class="slide-tag t-emr">EMR &amp; Electromagnetic Protection</div>
+      <h2 class="slide-title t-emr">RF/EMF Shielding &amp; Arc Flash Protection</h2>
+      <div class="two-col">
+        <div>
+          <div class="highlight-box purple" style="margin-top:0;">
+            <strong>RF / Microwave Shielding Textiles</strong>
+            Conductive yarns (stainless steel, silver-coated nylon, copper-coated fibres) woven into fabrics create a Faraday cage effect that attenuates RF electromagnetic fields. Shielding effectiveness (SE) measured in decibels (dB). Military RF-shielded suits protect radar operators. Electrohypersensitivity garments (silver-fibre mesh) target 5G and microwave bands. Applications: military, telecom workers, pregnancy shielding garments.
+          </div>
+          <div class="highlight-box purple">
+            <strong>Electrostatic Discharge (ESD) Clothing</strong>
+            In petrochemical plants and electronics manufacturing, ESD can ignite flammable vapours or destroy microchips. Carbon-fibre striped fabrics and conductive fibre blends (with resistivity &lt;10⁹ Ω) dissipate electrostatic charge safely to ground. Standard: EN 1149 (Electrostatic Properties of Protective Clothing).
+          </div>
+        </div>
+        <div>
+          <div class="highlight-box warn" style="margin-top:0;">
+            <strong>Arc Flash Protection</strong>
+            Electric arc flash occurs when a fault causes vaporisation of metal conductors releasing massive energy (up to 170 MJ). Arc Flash PPE is rated in calories per square centimetre (cal/cm²) — the Arc Thermal Performance Value (ATPV) or Energy Breakopen Threshold (EBT). Fabrics: FR cotton, Nomex/Kevlar blends, FR modacrylic/cotton. Standard: NFPA 70E (US), IEC 61482 (International).
+          </div>
+          <table class="data-table" style="margin-top:16px;">
+            <thead><tr><th>PPE Category</th><th>Min. ATPV</th><th>Typical Use</th></tr></thead>
+            <tbody>
+              <tr><td>Cat 1</td><td>4 cal/cm²</td><td>Low voltage panels</td></tr>
+              <tr><td>Cat 2</td><td>8 cal/cm²</td><td>Medium voltage equipment</td></tr>
+              <tr><td>Cat 3</td><td>25 cal/cm²</td><td>Higher energy systems</td></tr>
+              <tr><td>Cat 4</td><td>40 cal/cm²</td><td>High energy arc hazard</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════
+         SECTION 5: PROTECTION AGAINST MICRO-ORGANISMS
+    ══════════════════════════════════════════════════ -->
+
+    <!-- SLIDE 20 -->
+    <div class="slide" data-section="Protection Against Micro-organisms">
+      <div class="slide-tag t-micro">Biological / Microbial Protection</div>
+      <h2 class="slide-title t-micro">Biological Hazards &amp; Healthcare PPE</h2>
+      <p class="body-text">Protection against micro-organisms is critical in healthcare, laboratory, veterinary, food processing, and emergency response settings. Biological threats include bacteria, viruses (including airborne), fungi, prions, and blood-borne pathogens.</p>
+      <div class="card-grid">
+        <div class="card" style="--card-accent: var(--accent3);"><div class="card-icon">🦠</div><h3>Blood-Borne Pathogens</h3><p>HIV, Hepatitis B/C transmitted via blood, serum, and body fluids. Healthcare workers require impermeable gown and glove protection.</p></div>
+        <div class="card" style="--card-accent: var(--accent3);"><div class="card-icon">💨</div><h3>Airborne Pathogens</h3><p>Tuberculosis, SARS-CoV-2, influenza transmitted via respiratory droplets and aerosols. Masks and full-body suits are essential barriers.</p></div>
+        <div class="card" style="--card-accent: var(--accent3);"><div class="card-icon">🧫</div><h3>Contact / Fomite</h3><p>MRSA, C. difficile, Norovirus survive on surfaces. Antimicrobial textile finishes reduce fomite transfer from garment surfaces.</p></div>
+        <div class="card" style="--card-accent: var(--accent3);"><div class="card-icon">🌿</div><h3>Zoonotic / Field</h3><p>Lyme disease (ticks), malaria (mosquitoes), anthrax spores encountered in agricultural, field research, and bioterrorism contexts.</p></div>
+      </div>
+      <div class="highlight-box success">
+        <strong>Barrier vs Antimicrobial Mechanisms</strong>
+        Two complementary strategies: (1) Physical barrier — impermeable membranes, tightly woven fabrics, laminated constructions that prevent pathogen contact with skin. (2) Active antimicrobial — biocidal finishes (silver ions, copper, quaternary ammonium compounds, chitosan) that kill or inhibit pathogens that land on the fabric surface.
+      </div>
+    </div>
+
+    <!-- SLIDE 21 -->
+    <div class="slide" data-section="Protection Against Micro-organisms">
+      <div class="slide-tag t-micro">Biological / Microbial Protection</div>
+      <h2 class="slide-title t-micro">Antimicrobial Textile Finishes</h2>
+      <table class="data-table">
+        <thead>
+          <tr><th>Agent</th><th>Mechanism</th><th>Effective Against</th><th>Durability</th><th>Concerns</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Silver (Ag⁺ ions)</td><td>Disrupts bacterial cell membrane, denatures proteins, inhibits enzyme activity</td><td>Broad spectrum bacteria, some fungi, limited virucidal</td><td>High (ionic exchange in fibre)</td><td>Aquatic toxicity, cost</td></tr>
+          <tr><td>Copper (Cu²⁺)</td><td>Oxidative stress, membrane disruption, viral protein denaturation</td><td>Bacteria, fungi, enveloped viruses (including SARS-CoV-2)</td><td>Medium–High</td><td>Discolouration, eco-toxicity</td></tr>
+          <tr><td>Quaternary Ammonium (QAC)</td><td>Surfactant disruption of cell membrane</td><td>Gram+/- bacteria, fungi, some viruses</td><td>Medium (can wash off)</td><td>Resistance selection, skin irritation</td></tr>
+          <tr><td>Chitosan</td><td>Cationic polymer disrupts negative bacterial cell walls</td><td>Bacteria, fungi; poor virucidal</td><td>Medium</td><td>pH sensitivity, biodegradability (plus)</td></tr>
+          <tr><td>Triclosan</td><td>Inhibits bacterial fatty acid synthesis (FabI)</td><td>Bacteria, limited fungi</td><td>Medium</td><td>Resistance, endocrine disruption, regulatory restrictions</td></tr>
+          <tr><td>ZnO Nanoparticles</td><td>ROS generation, Zn²⁺ ion release, UV activation</td><td>Bacteria, UV-activated antiviral</td><td>High (embedded in fibre)</td><td>Nanoparticle safety concerns</td></tr>
+          <tr><td>TiO₂ Nanoparticles</td><td>Photocatalytic ROS generation (UV light required)</td><td>Bacteria, viruses, fungi, self-cleaning</td><td>Very High</td><td>Requires UV activation</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SLIDE 22 -->
+    <div class="slide" data-section="Protection Against Micro-organisms">
+      <div class="slide-tag t-micro">Biological / Microbial Protection</div>
+      <h2 class="slide-title t-micro">Healthcare PPE — Gowns, Coveralls &amp; Masks</h2>
+      <div class="two-col">
+        <div>
+          <div class="highlight-box success" style="margin-top:0;">
+            <strong>Surgical Gowns &amp; Drapes</strong>
+            AAMI PB70 (USA) classifies surgical gowns into Level 1–4 based on barrier performance (simulated blood penetration, impact penetration, hydrohead). Disposable SMS (spunbond-meltblown-spunbond) nonwovens dominate. Reusable tight-weave polyester gowns with DWR finish used in lower-risk environments. EN 13795 is the European equivalent standard.
+          </div>
+          <ul class="styled-list">
+            <li>Level 1: Minimal fluid exposure (standard medical care)</li>
+            <li>Level 2: Low fluid exposure (blood draw, IV management)</li>
+            <li>Level 3: Moderate exposure (trauma, ICU nursing)</li>
+            <li>Level 4: Highest protection (surgery, high-risk procedures, COVID PPE)</li>
+          </ul>
+        </div>
+        <div>
+          <div class="highlight-box success" style="margin-top:0;">
+            <strong>Respiratory Protection</strong>
+            Masks classified by filtration efficiency: surgical masks filter large droplets but have poor aerosol protection. FFP2 (EN 149) / N95 (NIOSH) filter ≥94%/95% of airborne particles ≥0.3 μm using electrostatic meltblown filtration layers. PAPR (Powered Air-Purifying Respirators) provide highest respiratory protection. P100 filters ≥99.97% of particles including airborne anthrax spores.
+          </div>
+          <div class="highlight-box success">
+            <strong>Full Coverall Classification (EN 14126)</strong>
+            EN 14126 tests coveralls for resistance to penetration and permeation by biological agents. Type 6 (liquid spray) through Type 1 (gas-tight) — combined with B (biological) designation indicates biological protection level.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 23 -->
+    <div class="slide" data-section="Protection Against Micro-organisms">
+      <div class="slide-tag t-micro">Biological / Microbial Protection</div>
+      <h2 class="slide-title t-micro">Hazmat BSL Suits &amp; Insect-Repellent Textiles</h2>
+      <div class="two-col">
+        <div>
+          <div class="highlight-box success" style="margin-top:0;">
+            <strong>Biosafety Level (BSL) Suits</strong>
+            BSL-4 positive pressure suits (space suit–like) used for handling the most dangerous pathogens (Ebola, Marburg, Hendra). These are gas-tight encapsulated suits with self-contained air supply, designed so the internal pressure exceeds external — any leak expels air outward rather than allowing contamination ingress. Constructed from laminated Butyl rubber or specialised MOPP materials. Exit decontamination protocols are as critical as the suit itself.
+          </div>
+          <ul class="styled-list">
+            <li>BSL-4 suits: positive-pressure, fully encapsulating gas-tight</li>
+            <li>BSL-3: N95/PAPR + impermeable gown + face shield</li>
+            <li>Regular decontamination cycles (bleach, hydrogen peroxide vapour)</li>
+          </ul>
+        </div>
+        <div>
+          <div class="highlight-box success" style="margin-top:0;">
+            <strong>Insect-Repellent Textiles</strong>
+            Vector-borne diseases (malaria, dengue, Lyme, West Nile) kill millions annually. Permethrin (pyrethroid insecticide) bound to textile fibres kills or repels insects on contact. Factory-bonded permethrin (Insect Shield®) lasts 70 washes vs topical application of 6 washes. WHO Pre-qualification programme validates insecticide-treated nets (ITNs) and clothing for malaria endemic regions. DEET-releasing microcapsules also used.
+          </div>
+          <div class="highlight-box success">
+            <strong>Standard: EN 13758</strong>
+            Part 1 — test methods for UV resistance. Tick and insect barrier performance assessed per ASTM E951. Permethrin-treated fabrics must meet residual insecticide content standards after stated wash cycles.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════
+         SECTION 6: CHEMICAL & PESTICIDE PROTECTION
+    ══════════════════════════════════════════════════ -->
+
+    <!-- SLIDE 24 -->
+    <div class="slide" data-section="Chemical & Pesticide Protection">
+      <div class="slide-tag t-chem">Chemical &amp; Pesticide Protection</div>
+      <h2 class="slide-title t-chem">Chemical Hazard Categories</h2>
+      <p class="body-text">Chemical protective clothing (CPC) must defend against a wide range of hazardous substances encountered in industrial, agricultural, military, and emergency response environments.</p>
+      <div class="card-grid">
+        <div class="card" style="--card-accent: var(--accent5);"><div class="card-icon">🧪</div><h3>Toxic Gases &amp; Vapours</h3><p>Chlorine, ammonia, HCN, H₂S, CO — absorbed through respiratory tract and skin. Require gas-tight suits with SCBA.</p></div>
+        <div class="card" style="--card-accent: var(--accent5);"><div class="card-icon">💧</div><h3>Corrosive Liquids</h3><p>Concentrated H₂SO₄, HNO₃, HF, NaOH — cause immediate chemical burns. Require acid/alkali-resistant material.</p></div>
+        <div class="card" style="--card-accent: var(--accent5);"><div class="card-icon">☁</div><h3>Chemical Warfare Agents</h3><p>Nerve agents (VX, Sarin), blister agents (Mustard gas), blood agents (HCN) — require CBRN-rated fully encapsulating suits.</p></div>
+        <div class="card" style="--card-accent: var(--accent5);"><div class="card-icon">🌾</div><h3>Pesticides</h3><p>Organophosphates, pyrethroids, herbicides — dermal absorption is primary exposure route for agricultural workers.</p></div>
+        <div class="card" style="--card-accent: var(--accent5);"><div class="card-icon">🏭</div><h3>Industrial Solvents</h3><p>Toluene, benzene, MEK, acetone — dissolve many polymer membranes; require chemical-specific resistance selection.</p></div>
+        <div class="card" style="--card-accent: var(--accent5);"><div class="card-icon">🔬</div><h3>Nanomaterials</h3><p>Emerging hazard — engineered nanoparticles penetrate conventional fabrics through ultra-fine pores, requiring nano-barrier textiles.</p></div>
+      </div>
+    </div>
+
+    <!-- SLIDE 25 -->
+    <div class="slide" data-section="Chemical & Pesticide Protection">
+      <div class="slide-tag t-chem">Chemical &amp; Pesticide Protection</div>
+      <h2 class="slide-title t-chem">Barrier Mechanisms in Chemical Protective Clothing</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num" style="border-color:var(--accent5);color:var(--accent5);">1</div>
+          <div class="step-content">
+            <h4>Permeation Resistance</h4>
+            <p>Permeation is the molecule-by-molecule diffusion of a chemical through a solid material (solution–diffusion mechanism). Highly resistant polymer membranes (butyl rubber, Viton®, PTFE, PE) are selected based on chemical-specific breakthrough time (BT). ASTM F739 / EN 369 test methods measure BT and steady-state permeation rate.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num" style="border-color:var(--accent5);color:var(--accent5);">2</div>
+          <div class="step-content">
+            <h4>Penetration Resistance</h4>
+            <p>Penetration is the bulk movement of a chemical through seams, closures, or fabric pores without dissolving into the material. Taped or welded seams, gas-tight zips, and integrated glove/boot attachments prevent penetration paths in fully encapsulating suits.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num" style="border-color:var(--accent5);color:var(--accent5);">3</div>
+          <div class="step-content">
+            <h4>Degradation Resistance</h4>
+            <p>Some chemicals physically degrade the suit material (swell, dissolve, crack). Chemical compatibility charts (e.g., Cole-Parmer, DuPont) guide material selection. E.g., acetone rapidly degrades natural rubber; butyl rubber resists ketones well.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num" style="border-color:var(--accent5);color:var(--accent5);">4</div>
+          <div class="step-content">
+            <h4>Adsorption / Active Neutralisation</h4>
+            <p>Activated carbon spheres (SARATOGA® suits used by military) adsorb chemical warfare agent vapours. Reactive decontaminant finishes (e.g., MnO₂, bleach-releasing polymers) can chemically neutralise certain agents on contact.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 26 -->
+    <div class="slide" data-section="Chemical & Pesticide Protection">
+      <div class="slide-tag t-chem">Chemical &amp; Pesticide Protection</div>
+      <h2 class="slide-title t-chem">Chemical Suit Types — EN 943 Classification</h2>
+      <p class="body-text">EN 943 (and its analogue NFPA 1994) defines Types of chemical protective suits based on performance level, with Type 1 being the most protective:</p>
+      <table class="data-table">
+        <thead>
+          <tr><th>Type</th><th>EN 943</th><th>Description</th><th>Hazard Level</th><th>Application</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Type 1a</td><td>Gas-tight, internal SCBA</td><td>Fully encapsulating, SCBA inside suit</td><td>Highest</td><td>CWA, IDLH environments</td></tr>
+          <tr><td>Type 1b</td><td>Gas-tight, external SCBA</td><td>Fully encapsulating, SCBA outside suit</td><td>Highest</td><td>Hazmat Level A</td></tr>
+          <tr><td>Type 2</td><td>Non-gas-tight, SCBA</td><td>One-piece encapsulating, not gas-tight</td><td>Very High</td><td>Level B equivalent</td></tr>
+          <tr><td>Type 3</td><td>Liquid-tight</td><td>Resists directed liquid jets (class 3)</td><td>High</td><td>Chemical splash, Level C</td></tr>
+          <tr><td>Type 4</td><td>Spray-tight</td><td>Resists spray and liquid aerosols</td><td>Medium</td><td>Pesticide application</td></tr>
+          <tr><td>Type 5</td><td>Particle-tight</td><td>Resists dry particles (asbestos, dust)</td><td>Medium</td><td>Asbestos remediation</td></tr>
+          <tr><td>Type 6</td><td>Limited spray</td><td>Reduced protection: limited liquid splash</td><td>Low</td><td>Low-risk chemical handling</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SLIDE 27 -->
+    <div class="slide" data-section="Chemical & Pesticide Protection">
+      <div class="slide-tag t-chem">Chemical &amp; Pesticide Protection</div>
+      <h2 class="slide-title t-chem">Key Materials for Chemical CPC</h2>
+      <table class="data-table">
+        <thead>
+          <tr><th>Material</th><th>Best Against</th><th>Weaknesses</th><th>Application</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Butyl Rubber</td><td>Ketones, esters, alcohols, CWAs</td><td>Hydrocarbons, oils; heavy, stiff</td><td>Type 1 hazmat suits, CWA gloves</td></tr>
+          <tr><td>Viton® (Fluoroelastomer)</td><td>Hydrocarbons, solvents, oils, acids</td><td>Ketones, esters; expensive</td><td>Petrochemical, solvent-heavy environments</td></tr>
+          <tr><td>PTFE (Teflon)</td><td>Almost all chemicals; universal resistance</td><td>Very expensive; poor mechanical properties</td><td>Laminated membranes in premium CPC</td></tr>
+          <tr><td>Polyethylene (PE / HDPE)</td><td>Acids, bases, salts; broad inorganic resistance</td><td>Organic solvents</td><td>Disposable Tyvek® suits, splash protection</td></tr>
+          <tr><td>Neoprene</td><td>Oils, acids, caustics; moderate spectrum</td><td>Aromatic hydrocarbons; moderate permeation</td><td>General chemical, acid splash suits</td></tr>
+          <tr><td>PVC (Polyvinyl Chloride)</td><td>Acids, caustics, aqueous solutions</td><td>Ketones, aromatics, cold stiffening</td><td>Acid suits, low-cost chemical splash</td></tr>
+          <tr><td>Activated Carbon (SARATOGA)</td><td>CWA vapours — adsorption-based</td><td>Saturation limit; single use; hot</td><td>Military CBRN suits; NBC clothing</td></tr>
+          <tr><td>Saranex® (PVDC laminate)</td><td>Broad chemical spectrum barrier</td><td>Higher cost than basic PE</td><td>Chemical industry disposables</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SLIDE 28 -->
+    <div class="slide" data-section="Chemical & Pesticide Protection">
+      <div class="slide-tag t-chem">Chemical &amp; Pesticide Protection</div>
+      <h2 class="slide-title t-chem">Pesticide Protective Clothing</h2>
+      <p class="body-text">Agricultural workers face daily dermal exposure to pesticides — the most significant route of pesticide poisoning globally. Protective clothing for pesticide application must balance chemical penetration resistance with the physiological heat stress of outdoor work.</p>
+      <div class="two-col">
+        <div>
+          <div class="highlight-box yellow" style="margin-top:0;">
+            <strong>Pesticide Penetration Routes</strong>
+            Pesticide formulations (emulsifiable concentrates, wettable powders, granules) contact the worker through spray drift, direct handling, and equipment splashing. Dermal absorption varies by body site: scrotal area (~100%), face (~36%), palm (~12%), forearm (~9%). PPE must protect high-absorption zones particularly.
+          </div>
+          <ul class="styled-list">
+            <li>Woven cotton/polyester provides good comfort but poor chemical barrier</li>
+            <li>Chemical-resistant laminated garments (Type 4/3) for high-concentrate mixing tasks</li>
+            <li>Chemical-resistant gloves are the MOST important single garment item</li>
+            <li>Face shield and respirator required for spray application</li>
+            <li>Boot covers and chemical-resistant footwear prevent ground-level splash exposure</li>
+          </ul>
+        </div>
+        <div>
+          <div class="highlight-box yellow" style="margin-top:0;">
+            <strong>Heat Stress Challenge</strong>
+            Impermeable chemical suits dramatically reduce evaporative cooling. In tropical agricultural settings (35°C+), workers in Type 4/3 suits can develop heat exhaustion within 30–45 minutes. Solutions include: task duration limits (work-rest ratios), cooling vests with ice packs, evaporative cooling undergarments, breathable but chemical-resistant laminates (e.g., Gore® Chemical Protective Fabric), and scheduling spray work in cooler morning hours.
+          </div>
+          <div class="highlight-box yellow">
+            <strong>Standard for Pesticide PPE</strong>
+            ISO 27065 (2017): Performance requirements for protective clothing worn by operators applying pesticides. EN 13034 (Type 6) commonly used. US EPA requires specific PPE tiers based on pesticide label risk classification (precautionary–protective).
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 29 -->
+    <div class="slide" data-section="Chemical & Pesticide Protection">
+      <div class="slide-tag t-chem">Chemical &amp; Pesticide Protection</div>
+      <h2 class="slide-title t-chem">CBRN Protection — Military &amp; First Responders</h2>
+      <p class="body-text">CBRN (Chemical, Biological, Radiological, Nuclear) protective ensembles represent the highest-performance end of protective clothing — designed for environments with complex, simultaneous multi-hazard threats.</p>
+      <div class="spec-row">
+        <div class="spec-item" style="--spec-color:var(--accent5);">
+          <div class="label">Mission Oriented Protective Posture</div>
+          <div class="value">MOPP 0–4</div>
+          <div class="desc">Graduated protective posture in military NBC environments from MOPP 0 (gear available) to MOPP 4 (full suit, mask, gloves, boots)</div>
+        </div>
+        <div class="spec-item" style="--spec-color:var(--accent5);">
+          <div class="label">Activated Carbon Suit</div>
+          <div class="value">SARATOGA® / JSGPM</div>
+          <div class="desc">Spherical activated carbon beads adsorb CWA vapours; worn over BDU; provides 24-hour protection against G/V nerve agents</div>
+        </div>
+        <div class="spec-item" style="--spec-color:var(--accent5);">
+          <div class="label">Decontamination</div>
+          <div class="value">RSDL / DS2</div>
+          <div class="desc">Reactive Skin Decontamination Lotion (RSDL) and DS2 solution neutralise CWA on skin and suit surfaces after exposure</div>
+        </div>
+        <div class="spec-item" style="--spec-color:var(--accent5);">
+          <div class="label">Respiratory Protection</div>
+          <div class="value">CBRN Respirator</div>
+          <div class="desc">NATO STANAG 4155-compliant respiratory protection against CBRN agents; HEPA + combined NBC filter canisters</div>
+        </div>
+      </div>
+      <div class="highlight-box yellow">
+        <strong>Dual-Use Threat: Chemical + Thermal</strong>
+        Firefighters attending chemical plant fires require combined CPC+FR protection — a significant materials science challenge since most chemical-barrier polymers (rubber, PVC) are not FR, and most FR textiles (Nomex) lack chemical permeation resistance. Aluminised outer shell + chemical-barrier membrane + FR thermal liner combinations address this.
+      </div>
+    </div>
+
+    <!-- SLIDE 30 -->
+    <div class="slide" data-section="Chemical & Pesticide Protection">
+      <div class="slide-tag t-chem">Chemical &amp; Pesticide Protection</div>
+      <h2 class="slide-title t-chem">Selection &amp; Testing of Chemical Protective Clothing</h2>
+      <div class="two-col">
+        <div>
+          <p class="body-text">Correct CPC selection requires a structured risk assessment process:</p>
+          <div class="steps">
+            <div class="step">
+              <div class="step-num" style="border-color:var(--accent5);color:var(--accent5);">1</div>
+              <div class="step-content"><h4>Identify Chemicals</h4><p>SDS (Safety Data Sheet) data: concentration, physical state (gas/liquid/solid), toxicity, dermal absorption coefficient.</p></div>
+            </div>
+            <div class="step">
+              <div class="step-num" style="border-color:var(--accent5);color:var(--accent5);">2</div>
+              <div class="step-content"><h4>Determine Exposure Route</h4><p>Splash, immersion, spray, vapour, or particle? Duration? Level of contamination expected?</p></div>
+            </div>
+            <div class="step">
+              <div class="step-num" style="border-color:var(--accent5);color:var(--accent5);">3</div>
+              <div class="step-content"><h4>Consult Permeation Data</h4><p>Use manufacturer chemical resistance charts and ASTM F739 breakthrough time data for specific chemical-material pairs.</p></div>
+            </div>
+            <div class="step">
+              <div class="step-num" style="border-color:var(--accent5);color:var(--accent5);">4</div>
+              <div class="step-content"><h4>Select Suit Type &amp; Material</h4><p>Match EN 943 Type to task; select material with &gt;480 min BT for primary chemicals; verify seam and closure integrity.</p></div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <p class="body-text">Key Testing Standards:</p>
+          <ul class="styled-list">
+            <li><strong>ASTM F739:</strong> Permeation resistance — measures breakthrough time and steady-state permeation rate of liquid/gas challenges</li>
+            <li><strong>ASTM F903:</strong> Penetration resistance — measures resistance to liquid chemical penetration under pressure</li>
+            <li><strong>EN 374:</strong> European chemical protective glove standard — breakthrough time classification (Class 1–6, 10 min to &gt;480 min)</li>
+            <li><strong>ISO 6529:</strong> Resistance of materials to permeation by liquids and gases</li>
+            <li><strong>EN 943-1/-2:</strong> Performance for gas-tight (Type 1) and non-gas-tight suits; emergency team performance (Part 2)</li>
+            <li><strong>NFPA 1994:</strong> US standard for CBRN terrorism incidents; Classes 1–4</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════
+         SECTION 7: ADVANCED TOPICS & FUTURE DIRECTIONS
+    ══════════════════════════════════════════════════ -->
+
+    <!-- SLIDE 31 -->
+    <div class="slide" data-section="Advanced Topics">
+      <div class="slide-tag t-intro">Advanced Topics</div>
+      <h2 class="slide-title t-intro">Comfort vs Protection Trade-off</h2>
+      <p class="body-text">One of the fundamental challenges in protective clothing design is the inverse relationship between protection level and wearer comfort. Higher barriers inherently restrict heat and moisture transfer, leading to physiological strain that can itself become a safety hazard.</p>
+      <div class="highlight-box">
+        <strong>Physiological Strain Metrics</strong>
+        Core body temperature, heart rate, skin temperature, sweat rate, and metabolic rate are used to quantify physiological load. ISO 9886 provides methods for evaluating thermal strain in workers. A core temp above 38.5°C indicates heat strain; above 39.5°C is a medical emergency.
+      </div>
+      <div class="card-grid">
+        <div class="card" style="--card-accent: var(--accent);"><div class="card-icon">💨</div><h3>Breathability (MVTR)</h3><p>Moisture Vapour Transmission Rate (g/m²/24hr) — higher MVTR allows sweat evaporation. PTFE membranes achieve 10,000+ g/m²/24hr while maintaining chemical resistance.</p></div>
+        <div class="card" style="--card-accent: var(--accent);"><div class="card-icon">⚖</div><h3>Weight Optimisation</h3><p>UHMWPE and carbon fibre reduce armour weight by 30–50%. Aerogel insulation reduces thermal garment weight. Each 500g reduction matters significantly in full-day wear.</p></div>
+        <div class="card" style="--card-accent: var(--accent);"><div class="card-icon">🧊</div><h3>Cooling Technologies</h3><p>PCM vests, ice-vest cooling, forced-air circulating suits, and thermoelectric cooling modules actively reduce heat burden in impermeable chemical/biological PPE.</p></div>
+        <div class="card" style="--card-accent: var(--accent);"><div class="card-icon">🤸</div><h3>Ergonomics</h3><p>Stretch panels, articulated knee/elbow design, pre-shaped armour plates, and reduced seam stress points improve mobility and reduce musculoskeletal strain in PPE wearers.</p></div>
+      </div>
+    </div>
+
+    <!-- SLIDE 32 -->
+    <div class="slide" data-section="Advanced Topics">
+      <div class="slide-tag t-intro">Advanced Topics</div>
+      <h2 class="slide-title t-intro">Smart &amp; Wearable Protective Clothing</h2>
+      <p class="body-text">The integration of electronics, sensors, and responsive materials into protective clothing is creating a new generation of intelligent PPE systems.</p>
+      <div class="card-grid">
+        <div class="card" style="--card-accent: var(--accent4);"><div class="card-icon">📡</div><h3>Environmental Sensors</h3><p>Wearable gas sensors (CO, H₂S, O₂ depletion), radiation dosimeters, and temperature/humidity sensors embedded in garment fabric with wireless data transmission.</p></div>
+        <div class="card" style="--card-accent: var(--accent4);"><div class="card-icon">❤</div><h3>Physiological Monitoring</h3><p>Heart rate, core temperature, sweat rate, and hydration status monitored in real-time, with alerts when physiological thresholds are exceeded — preventing heat exhaustion in field workers.</p></div>
+        <div class="card" style="--card-accent: var(--accent4);"><div class="card-icon">💡</div><h3>Exothermic / Adaptive Insulation</h3><p>Active heating elements (e-textiles) in cold-weather PPE. Shape-memory polymer joints that stiffen on impact and flex during normal movement.</p></div>
+        <div class="card" style="--card-accent: var(--accent4);"><div class="card-icon">🌐</div><h3>IoT PPE Networks</h3><p>Connected PPE systems allow safety managers to monitor entire workforces in real-time — tracking location, exposure, physiological status, and gear integrity simultaneously.</p></div>
+        <div class="card" style="--card-accent: var(--accent4);"><div class="card-icon">🤖</div><h3>Exoskeletons</h3><p>Powered exoskeletal frames reduce physiological load of heavy PPE in bomb disposal, firefighting, and military applications — counteracting the weight of protective layers.</p></div>
+        <div class="card" style="--card-accent: var(--accent4);"><div class="card-icon">🔬</div><h3>Self-Healing Materials</h3><p>Microencapsulated healing agents in protective coatings that rupture on damage to repair chemical-barrier membranes and restore protection after minor punctures.</p></div>
+      </div>
+    </div>
+
+    <!-- SLIDE 33 -->
+    <div class="slide" data-section="Advanced Topics">
+      <div class="slide-tag t-intro">Advanced Topics</div>
+      <h2 class="slide-title t-intro">Nanotechnology in Protective Clothing</h2>
+      <p class="body-text">Nanotechnology offers transformative potential in protective clothing — enabling properties at nanoscale that are impossible with conventional materials: super-hydrophobicity, ultralight high-strength structures, catalytic decontamination, and highly efficient filtration.</p>
+      <div class="two-col">
+        <div>
+          <ul class="styled-list">
+            <li><strong>Carbon Nanotubes (CNTs):</strong> 100× stronger than steel, highly conductive. CNT-reinforced fibres for ballistic applications and cut-resistant gloves.</li>
+            <li><strong>Graphene:</strong> Single-atom-thick carbon lattice. Impermeable to most gases, mechanically strong, thermally conductive — barrier coating potential for CPC.</li>
+            <li><strong>Superhydrophobic Nanocoatings:</strong> Lotus-effect surfaces repel water, oils, and particulate contaminants. Self-cleaning surfaces reduce cross-contamination.</li>
+            <li><strong>ZnO / TiO₂ Nanoparticles:</strong> Photocatalytic antimicrobial action, UV blocking, decontamination of chemical agents under UV activation.</li>
+          </ul>
+        </div>
+        <div>
+          <ul class="styled-list">
+            <li><strong>Nanofiber Membranes (Electrospun):</strong> Fibre diameters of 100–500 nm create highly tortuous pore paths that filter ultrafine aerosols, nanoparticles, and airborne pathogens while maintaining breathability.</li>
+            <li><strong>Aerogel:</strong> Nanoporous silica aerogel (99.8% air by volume) provides extraordinary thermal insulation at very low density — used in firefighter gloves, cold-weather PPE.</li>
+            <li><strong>MXene Materials:</strong> 2D transition metal carbides with excellent EMF shielding effectiveness (&gt;90 dB) at very thin coating thicknesses.</li>
+            <li><strong>Metal-Organic Frameworks (MOFs):</strong> Porous crystalline materials catalytically decompose nerve agents (e.g., VX, DMMP) on contact — UiO-66-NH₂ MOF achieves sub-minute hydrolysis of Soman.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="highlight-box purple">
+        <strong>Safety Concern: Nanoparticle Release</strong>
+        While nanoparticles enhance protective properties, engineered nanoparticles released from garment surfaces (during use, washing, or disposal) may themselves pose environmental and health hazards. Research on silver nanoparticle aquatic toxicity and CNT carcinogenicity is ongoing. Life-cycle assessment (LCA) of nano-enhanced PPE is essential.
+      </div>
+    </div>
+
+    <!-- SLIDE 34 -->
+    <div class="slide" data-section="Advanced Topics">
+      <div class="slide-tag t-intro">Advanced Topics</div>
+      <h2 class="slide-title t-intro">Sustainability in Protective Clothing</h2>
+      <div class="card-grid">
+        <div class="card" style="--card-accent: var(--accent3);"><div class="card-icon">♻</div><h3>End-of-Life Challenges</h3><p>Most high-performance fibres (aramids, UHMWPE) are not readily recyclable. Chemical/biological-contaminated disposables create hazardous waste. Industry is developing take-back and pyrolysis programmes.</p></div>
+        <div class="card" style="--card-accent: var(--accent3);"><div class="card-icon">🌱</div><h3>Bio-based Fibres</h3><p>PLA (polylactic acid) FR fabrics, bio-based polyamides, and cellulosic FR viscose (Lenzing) offer reduced lifecycle carbon footprint vs fully synthetic performance fibres.</p></div>
+        <div class="card" style="--card-accent: var(--accent3);"><div class="card-icon">🔄</div><h3>Reusable vs Disposable</h3><p>Reusable garments have lower long-term environmental impact if decontamination is feasible; disposables reduce cross-contamination risk in healthcare and hazmat but generate waste.</p></div>
+        <div class="card" style="--card-accent: var(--accent3);"><div class="card-icon">🧹</div><h3>DWR PFAS Alternatives</h3><p>Durable Water Repellent (DWR) treatments historically used PFAS (forever chemicals). EU PFAS restrictions (REACH) are driving transition to C6 fluorocarbon and non-fluorinated alternatives (dendrimer, wax-based).</p></div>
+      </div>
+    </div>
+
+    <!-- SLIDE 35 -->
+    <div class="slide" data-section="Advanced Topics">
+      <div class="slide-tag t-intro">Advanced Topics</div>
+      <h2 class="slide-title t-intro">Comprehensive Standards Reference</h2>
+      <table class="data-table">
+        <thead>
+          <tr><th>Standard</th><th>Scope</th><th>Region</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>EN ISO 11612</td><td>Clothing to protect against heat and flame — performance requirements</td><td>International/EU</td></tr>
+          <tr><td>NFPA 1971</td><td>Structural fire-fighting protective ensemble</td><td>USA</td></tr>
+          <tr><td>NFPA 2112</td><td>FR garments for protection of industrial personnel</td><td>USA</td></tr>
+          <tr><td>EN 469</td><td>Protective clothing for firefighters — minimum requirements</td><td>EU</td></tr>
+          <tr><td>NIJ 0101.06</td><td>Ballistic resistance of body armour</td><td>USA</td></tr>
+          <tr><td>HOSDB KR1/KR2, SP1/SP2</td><td>Knife and spike resistance for body armour</td><td>UK</td></tr>
+          <tr><td>EN 943-1/-2</td><td>Chemical protective suits — gas-tight and emergency teams</td><td>EU</td></tr>
+          <tr><td>ISO 27065</td><td>Protective clothing for pesticide operators</td><td>International</td></tr>
+          <tr><td>EN 14126</td><td>Protective clothing against biological agents</td><td>EU</td></tr>
+          <tr><td>AAMI PB70</td><td>Liquid barrier performance of healthcare PPE</td><td>USA</td></tr>
+          <tr><td>EN 149</td><td>FFP respiratory protective devices (FFP1/2/3)</td><td>EU</td></tr>
+          <tr><td>AS/NZS 4399</td><td>Sun protective clothing — UPF evaluation</td><td>ANZ</td></tr>
+          <tr><td>EN 1149-5</td><td>Electrostatic properties — material performance</td><td>EU</td></tr>
+          <tr><td>IEC 61482-2</td><td>Arc flash protective clothing performance</td><td>International</td></tr>
+          <tr><td>EN 374-3</td><td>Chemical protective gloves — permeation test method</td><td>EU</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SLIDE 36 — SUMMARY -->
+    <div class="slide" data-section="Advanced Topics">
+      <div class="slide-tag t-intro">Summary</div>
+      <h2 class="slide-title t-intro">Key Takeaways</h2>
+      <div class="two-col">
+        <div>
+          <ul class="styled-list">
+            <li><strong>Thermal:</strong> LOI, TPP, ATPV values define protection level. Nomex, PBI, aluminised fabrics are core materials. Multilayer systems balance protection and comfort.</li>
+            <li><strong>Ballistic:</strong> Para-aramid and UHMWPE fibres absorb kinetic energy through yarn breakage and wave propagation. NIJ levels IIA–IV classify threat vs protection capability.</li>
+            <li><strong>EMR:</strong> Dense materials (lead, bismuth) shield ionising radiation. Conductive fabrics provide RF EMF shielding. UPF rates UV fabric protection. ATPV rates arc flash.</li>
+            <li><strong>Biological:</strong> Physical barriers prevent pathogen contact; antimicrobial finishes (Ag, Cu, QAC, chitosan) kill pathogens on fabric surface. AAMI PB70 classifies healthcare garment levels.</li>
+            <li><strong>Chemical/Pesticide:</strong> Permeation resistance (breakthrough time) is the key metric. EN 943 Types 1–6 classify CPC performance level. Material selection must match specific chemical challenges.</li>
+          </ul>
+        </div>
+        <div>
+          <div class="highlight-box">
+            <strong>The Protection-Comfort Balance</strong>
+            Every protective clothing system must be designed with the understanding that a garment that is uncomfortable, impractical, or physiologically burdensome will not be worn correctly — negating all protection benefit. Regulatory compliance is necessary but not sufficient; behavioural compliance requires user-centred design.
+          </div>
+          <div class="highlight-box success" style="margin-top:16px;">
+            <strong>Future Outlook</strong>
+            The future of protective clothing lies in smart, adaptive systems: lightweight nanocomposites, wearable sensors, IoT connectivity, responsive materials (STF, PCM, self-healing), and bio-based sustainable fibres — converging to create PPE that is simultaneously safer, lighter, smarter, and more sustainable than any previous generation.
+          </div>
+        </div>
+      </div>
+      <div class="highlight-box purple" style="margin-top:20px;">
+        <strong>Exam Focus Points</strong>
+        LOI definition and significance • TPP test method • NIJ ballistic protection levels • EMR spectrum hazard types • UPF rating system • EN 943 chemical suit type classification • Permeation vs penetration • Key antimicrobial agents and mechanisms • CBRN protection requirements • Phase Change Materials principle
+      </div>
+    </div>
+
+  </div><!-- end #main -->
+
+  <!-- BOTTOM BAR -->
+  <div id="bottombar">
+    <button class="nav-btn" id="btn-prev">← Prev</button>
+    <div id="progress-bar"><div id="progress-fill"></div></div>
+    <div id="slide-info">1 / 36</div>
+    <button class="nav-btn" id="btn-next">Next →</button>
+  </div>
+
+</div><!-- end #app -->
+
+<script>
+(function(){
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const sidebar = document.getElementById('sidebar');
+  const btnPrev = document.getElementById('btn-prev');
+  const btnNext = document.getElementById('btn-next');
+  const progressFill = document.getElementById('progress-fill');
+  const slideInfo = document.getElementById('slide-info');
+  const counterTop = document.getElementById('slide-counter-top');
+  let current = 0;
+
+  // Build sidebar
+  const sections = {};
+  slides.forEach((s, i) => {
+    const sec = s.dataset.section || 'General';
+    if(!sections[sec]) sections[sec] = [];
+    sections[sec].push({el: s, index: i});
+  });
+
+  const sectionColors = {
+    'Introduction': 'var(--accent)',
+    'Thermal Protection': 'var(--accent2)',
+    'Ballistic Protection': 'var(--danger)',
+    'EMR & Electromagnetic Protection': 'var(--accent4)',
+    'Protection Against Micro-organisms': 'var(--accent3)',
+    'Chemical & Pesticide Protection': 'var(--accent5)',
+    'Advanced Topics': 'var(--accent)',
+  };
+
+  Object.keys(sections).forEach(sec => {
+    const label = document.createElement('div');
+    label.className = 'section-label';
+    label.textContent = sec;
+    label.style.color = sectionColors[sec] || 'var(--muted)';
+    sidebar.appendChild(label);
+
+    sections[sec].forEach(({el, index}) => {
+      const thumb = document.createElement('div');
+      thumb.className = 'thumb' + (index === 0 ? ' active' : '');
+      thumb.dataset.index = index;
+      thumb.innerHTML = `
+        <span class="thumb-num">${String(index+1).padStart(2,'0')}</span>
+        <span class="thumb-title">${getTitle(el)}</span>
+        <span class="thumb-dot"></span>
+      `;
+      thumb.addEventListener('click', () => goTo(index));
+      sidebar.appendChild(thumb);
+    });
+  });
+
+  function getTitle(slideEl) {
+    const h = slideEl.querySelector('h1,h2');
+    if(!h) return 'Slide';
+    return h.textContent.replace(/\n/g,' ').trim().substring(0,40);
+  }
+
+  function goTo(n) {
+    slides[current].classList.remove('active');
+    document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+    current = Math.max(0, Math.min(n, slides.length-1));
+    slides[current].classList.add('active');
+    slides[current].scrollTop = 0;
+    const activeThumbs = document.querySelectorAll(`.thumb[data-index="${current}"]`);
+    activeThumbs.forEach(t => {
+      t.classList.add('active');
+      t.scrollIntoView({block:'nearest', behavior:'smooth'});
+    });
+    updateUI();
+  }
+
+  function updateUI() {
+    const n = current + 1;
+    const total = slides.length;
+    progressFill.style.width = `${(n/total)*100}%`;
+    slideInfo.textContent = `${n} / ${total}`;
+    counterTop.textContent = `${String(n).padStart(2,'0')} / ${total}`;
+    btnPrev.disabled = current === 0;
+    btnNext.disabled = current === slides.length - 1;
+  }
+
+  btnPrev.addEventListener('click', () => goTo(current - 1));
+  btnNext.addEventListener('click', () => goTo(current + 1));
+
+  document.addEventListener('keydown', e => {
+    if(e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo(current + 1);
+    if(e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goTo(current - 1);
+  });
+
+  updateUI();
+})();
+</script>
+</body>
+</html>
