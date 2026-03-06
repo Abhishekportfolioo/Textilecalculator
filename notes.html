@@ -216,6 +216,54 @@
     .m-dl{background:rgba(40,199,111,.12);color:var(--gn);border-color:rgba(40,199,111,.25);}
     .m-dl:hover{background:var(--gn);color:#fff;}
 
+
+    /* ═══ CHAPTER NOTE CARDS — generic, colour via --nc CSS variable ═══ */
+    .note-cards-label{
+      display:flex;align-items:center;gap:8px;
+      font-size:.72rem;font-weight:800;color:var(--tx2);
+      text-transform:uppercase;letter-spacing:.6px;
+      margin:16px 0 10px;padding-top:14px;
+      border-top:1px dashed var(--bd2);}
+    .note-cards-label i{color:var(--ac2);}
+    .note-cards-grid{
+      display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));
+      gap:10px;margin-bottom:4px;}
+
+    /* Single reusable card — colour driven entirely by --nc:R,G,B set inline */
+    .note-card-btn{
+      --nc:74,158,255;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      gap:8px;padding:16px 10px;border-radius:14px;text-decoration:none;
+      background:linear-gradient(135deg,rgba(var(--nc),.13),rgba(var(--nc),.05));
+      border:1.5px solid rgba(var(--nc),.28);
+      cursor:pointer;position:relative;overflow:hidden;
+      transition:transform .22s cubic-bezier(.34,1.56,.64,1),
+                 box-shadow .22s ease,border-color .2s ease;}
+    .note-card-btn::before{
+      content:'';position:absolute;inset:0;opacity:0;
+      background:linear-gradient(135deg,rgba(var(--nc),.20),rgba(var(--nc),.07));
+      transition:opacity .2s ease;}
+    .note-card-btn:hover{
+      transform:translateY(-5px) scale(1.03);
+      border-color:rgba(var(--nc),1);
+      box-shadow:0 10px 30px rgba(var(--nc),.28);}
+    .note-card-btn:hover::before{opacity:1;}
+    .note-card-btn:active{transform:translateY(-1px) scale(.98);}
+
+    .ncb-icon{
+      width:42px;height:42px;border-radius:12px;
+      display:flex;align-items:center;justify-content:center;
+      font-size:1.15rem;flex-shrink:0;
+      background:rgba(var(--nc),.18);color:rgb(var(--nc));
+      transition:transform .2s ease;}
+    .note-card-btn:hover .ncb-icon{transform:scale(1.14) rotate(-5deg);}
+    .ncb-label{
+      font-size:.8rem;font-weight:700;text-align:center;
+      line-height:1.3;color:rgb(var(--nc));}
+    .ncb-arrow{
+      font-size:.62rem;opacity:.6;margin-top:-2px;
+      color:rgb(var(--nc));}
+
     /* FOOTER */
     footer{text-align:center;color:var(--mu);font-size:.83rem;padding:36px 0 0;border-top:1px solid var(--bd);}
     .f-soc{display:flex;justify-content:center;gap:10px;margin-top:14px;}
@@ -294,6 +342,24 @@
     .cd-card2 .cd-box{background:rgba(255,209,102,.10);border:1px solid rgba(255,209,102,.25);border-radius:12px;padding:14px 20px;min-width:82px;}
     .cd-card2 .cd-v{font-family:var(--fd);font-size:2.6rem;font-weight:800;color:var(--ac2);line-height:1;}
     .cd-card2 .cd-l{font-size:.68rem;color:var(--mu);text-transform:uppercase;letter-spacing:1px;margin-top:3px;}
+
+
+    /* ═══ 8TH SEM COUNTDOWN ═══ */
+    .cd-card3{background:linear-gradient(135deg,rgba(40,199,111,.09),rgba(74,158,255,.07));
+      border:1.5px solid rgba(40,199,111,.28);border-radius:var(--r2);
+      padding:40px 24px;text-align:center;margin-bottom:60px;position:relative;overflow:hidden;}
+    .cd-card3::before{content:'';position:absolute;inset:0;
+      background:radial-gradient(ellipse 60% 60% at 50% 0%,rgba(40,199,111,.07),transparent 70%);
+      pointer-events:none;}
+    .cd-card3 .cd-badge{display:inline-flex;align-items:center;gap:7px;
+      background:rgba(40,199,111,.15);border:1px solid rgba(40,199,111,.32);
+      color:var(--gn);padding:4px 14px;border-radius:99px;
+      font-size:.72rem;font-weight:800;letter-spacing:.5px;text-transform:uppercase;margin-bottom:14px;}
+    .cd-card3 .cd-ttl{font-family:var(--fd);font-size:1.35rem;font-weight:700;margin-bottom:5px;color:var(--tx);}
+    .cd-card3 .cd-sub{color:var(--tx2);font-size:.88rem;margin-bottom:30px;}
+    .cd-card3 .cd-box{background:rgba(40,199,111,.09);border:1px solid rgba(40,199,111,.22);border-radius:12px;padding:14px 20px;min-width:82px;}
+    .cd-card3 .cd-v{font-family:var(--fd);font-size:2.6rem;font-weight:800;color:var(--gn);line-height:1;}
+    .cd-card3 .cd-l{font-size:.68rem;color:var(--mu);text-transform:uppercase;letter-spacing:1px;margin-top:3px;}
 
     /* ═══════════════════ CHATBOT ═══════════════════ */
     .chat-fab{position:fixed;bottom:28px;left:28px;z-index:500;
@@ -471,6 +537,20 @@
       <div class="cd-box"><div class="cd-v" id="ns-H">00</div><div class="cd-l">Hours</div></div>
       <div class="cd-box"><div class="cd-v" id="ns-M">00</div><div class="cd-l">Mins</div></div>
       <div class="cd-box"><div class="cd-v" id="ns-S">00</div><div class="cd-l">Secs</div></div>
+    </div>
+  </div>
+
+
+  <!-- 8TH SEM COMPLETE COUNTDOWN -->
+  <div class="cd-card3">
+    <div class="cd-badge">🎓 Final Semester</div>
+    <div class="cd-ttl">Complete 8th Semester Notes Available In</div>
+    <div class="cd-sub">Full coverage of TT, HPF, Textile Costing, Question Papers &amp; more — coming soon!</div>
+    <div class="cd-row">
+      <div class="cd-box"><div class="cd-v" id="s8-D">00</div><div class="cd-l">Days</div></div>
+      <div class="cd-box"><div class="cd-v" id="s8-H">00</div><div class="cd-l">Hours</div></div>
+      <div class="cd-box"><div class="cd-v" id="s8-M">00</div><div class="cd-l">Mins</div></div>
+      <div class="cd-box"><div class="cd-v" id="s8-S">00</div><div class="cd-l">Secs</div></div>
     </div>
   </div>
 
@@ -652,9 +732,33 @@ const SEMS=[
   {sem:7,av:true,notes:22,subs:["Non Woven","PCS","POMT","Training","Seminars","7th Sem Papers"],
    topics:{"Non Woven":["Introduction to Nonwovens","Dry-Laid Nonwovens","Wet-Laid Nonwovens","Spunbonded Fabrics","Meltblown Process","Bonding Methods","Applications of Nonwovens"],"PCS":["Process Control Systems","Statistical Process Control","Control Charts","Quality Management","Six Sigma Basics","Process Capability","SPC Tools"],"POMT":["Production Operation & Management in Textiles","Production Planning","Operations Research","Mill Management","Costing & Budgeting","Supply Chain Management","Lean Manufacturing"],"Training":["Industrial Training Notes","Practical Exposure","Factory Visits","Training Reports","Observations","Skill Development","Industry Practices"],"Seminars":["Seminar Presentations","Research Topics","Paper Writing","Presentation Skills","Technical Seminars","Guest Lectures","Industry Talks"],"7th Sem Papers":["Previous Year Question Papers","Model Papers","Important Questions","Solved Papers","Exam Pattern","Unit-wise MCQs","Short & Long Answer Questions"]},
    links:{"Non Woven":"https://drive.google.com/folderview?id=11pWsccj2zlypRjAIM_ji2f4H4YkCRTB5","PCS":"https://drive.google.com/folderview?id=1FVjbmKXScJjWMr9oyeh4h7t9ILMVU8y7","POMT":"https://drive.google.com/folderview?id=1JC0ESbUSKo1HLIUlRa2vbZOjsAi099SA","Training":"#","Seminars":"#","7th Sem Papers":"https://drive.google.com/file/d/1fUIJnFHkAzDDD71wtPOa9TqbbdoP5baN/view?usp=drivesdk"}},
-  {sem:8,av:true,notes:18,subs:["TT (Technical Textile)","HPF","TC (Textile Costing)","Question Papers"],
-   topics:{"TT (Technical Textile)":["Introduction to Technical Textiles","Geotextiles","Medical Textiles","Protective Textiles","Agrotextiles","Buildtech","Smart & Electronic Textiles"],"HPF":["High Performance Fibers","Aramid Fibers","Carbon Fibers","UHMWPE","PBO Fibers","Ceramic Fibers","Applications of HPF"],"TC (Textile Costing)":["Costing Fundamentals","Yarn Costing","Fabric Costing","Garment Costing","Overhead Allocation","Profitability Analysis","Export Costing"],"Question Papers":["Previous Year Papers","Model Question Papers","Important Questions","Exam Pattern","Short Answer Questions","Long Answer Questions","Unit-wise Questions"]},
-   links:{"TT (Technical Textile)":"https://drive.google.com/folderview?id=15zF7QNXR5BydNqILdeGh7pLUgZrJH_y2","HPF":"https://drive.google.com/folderview?id=10RHJuCVU2osqcpwjoCgtLx40ombz7Xy4","TC (Textile Costing)":"https://drive.google.com/folderview?id=12mLkmpAIOzCSlj1e6ZrJJLhBxn5Y5QYj","Question Papers":"#"}},
+  {sem:8,av:true,notes:22,subs:["TT (Technical Textile)","HPF","TC (Textile Costing)","Question Papers"],
+   topics:{
+     "TT (Technical Textile)":["Introduction to Technical Textiles","Geotextiles","Medical Textiles","Protective Textiles","Agrotextiles","Buildtech","Smart & Electronic Textiles"],
+     "HPF":["High Performance Fibers","Aramid Fibers","Carbon Fibers","UHMWPE","PBO Fibers","Ceramic Fibers","Applications of HPF"],
+     "TC (Textile Costing)":["Costing Fundamentals","Yarn Costing","Fabric Costing","Garment Costing","Overhead Allocation","Profitability Analysis","Export Costing"],
+     "Question Papers":["Previous Year Papers","Model Question Papers","Important Questions","Exam Pattern","Short Answer Questions","Long Answer Questions","Unit-wise Questions"]
+   },
+   links:{
+     "TT (Technical Textile)":"https://drive.google.com/folderview?id=15zF7QNXR5BydNqILdeGh7pLUgZrJH_y2",
+     "HPF":"https://drive.google.com/folderview?id=10RHJuCVU2osqcpwjoCgtLx40ombz7Xy4",
+     "TC (Textile Costing)":"https://drive.google.com/folderview?id=12mLkmpAIOzCSlj1e6ZrJJLhBxn5Y5QYj",
+     "Question Papers":"#"
+   },
+   subLinks:{
+     "TT (Technical Textile)":[
+       {label:"Technical",              file:"Technical.html",                       icon:"fas fa-cogs",          color:"74,158,255"},
+       {label:"Meditech",               file:"Meditech.html",                        icon:"fas fa-heartbeat",     color:"255,77,109"},
+       {label:"Agrotech",               file:"agrotech.html",                        icon:"fas fa-seedling",      color:"40,199,111"},
+       {label:"Geotextile",             file:"Geotextile.html",                      icon:"fas fa-layer-group",   color:"255,209,102"},
+       {label:"Protective Cloth",       file:"protective cloth.html",                icon:"fas fa-shield-alt",    color:"168,99,255",  coming:true},
+       {label:"Automotive Textile",     file:"Automotive Textile.html",              icon:"fas fa-car",           color:"255,107,53",  coming:true},
+       {label:"Composites Textiles",    file:"Composites textiles.html",             icon:"fas fa-cubes",         color:"0,210,210",   coming:true},
+       {label:"Filtration",             file:"Filtration.html",                      icon:"fas fa-filter",        color:"255,165,0",   coming:true},
+       {label:"Ropes & Cordage",        file:"Ropes and Cordage.html",               icon:"fas fa-link",          color:"40,199,111",  coming:true},
+       {label:"Fibers in Tech Textiles",file:"Fibers in technical textiles.html",    icon:"fas fa-microscope",    color:"255,77,109",  coming:true}
+     ]
+   }},
 ];
 
 /* ═══ STATE ═══ */
@@ -738,12 +842,68 @@ function openModal(s){
   const b=$('#mBody');b.innerHTML='';
   Object.entries(s.topics).forEach(([sub,tops])=>{
     const lnk=s.links[sub]||'#';
+    const subs=(s.subLinks||{})[sub]||[];
+    // main button
+    let mainBtn;
+    if(lnk!=='#'){
+      mainBtn=`<a class="m-dl" href="${lnk}" target="_blank" rel="noopener"><i class="fas fa-download"></i> Download Folder</a>`;
+    } else {
+      mainBtn=`<span class="m-dl" style="opacity:.45;cursor:default"><i class="fas fa-download"></i> Coming Soon</span>`;
+    }
+    // sub-note cards — generic colour palette cycles automatically
+    // To customise a card: add  color:"R,G,B"  and/or  icon:"fas fa-xxx"  to its subLinks entry
+    const NC_PALETTE=[
+      '74,158,255',   // blue
+      '255,107,53',   // orange
+      '40,199,111',   // green
+      '255,209,102',  // gold
+      '255,77,109',   // red/pink
+      '168,99,255',   // purple
+      '0,210,210',    // cyan
+      '255,165,0',    // amber
+    ];
+    const NC_ICONS=[
+      'fas fa-file-alt','fas fa-book-open','fas fa-cogs','fas fa-seedling',
+      'fas fa-heartbeat','fas fa-layer-group','fas fa-flask','fas fa-microscope',
+    ];
+    const subBtns=subs.map((n,i)=>{
+      const rgb  = n.color || NC_PALETTE[i % NC_PALETTE.length];
+      const icon = n.icon  || NC_ICONS[i % NC_ICONS.length];
+      if(n.coming){
+        // Coming soon card — muted, not clickable
+        return `<div class="note-card-btn ncb-soon" style="--nc:${rgb};opacity:.45;cursor:default;pointer-events:none;">
+          <div class="ncb-icon" style="position:relative;">
+            <i class="${icon}"></i>
+            <span style="position:absolute;top:-5px;right:-5px;background:rgba(var(--nc),.9);
+              color:#fff;font-size:.52rem;font-weight:900;padding:1px 5px;border-radius:99px;
+              letter-spacing:.3px;text-transform:uppercase;">Soon</span>
+          </div>
+          <div class="ncb-label">${n.label}</div>
+          <div class="ncb-arrow">Coming Soon</div>
+        </div>`;
+      }
+      return `<a class="note-card-btn m-open-notes" href="${n.file}" target="_blank" rel="noopener"
+                 style="--nc:${rgb}">
+        <div class="ncb-icon"><i class="${icon}"></i></div>
+        <div class="ncb-label">${n.label}</div>
+        <div class="ncb-arrow">Open Notes ↗</div>
+      </a>`;
+    }).join('');
+    // sub-notes section
+    const subRow=subs.length
+      ? `<div>
+           <div class="note-cards-label"><i class="fas fa-star"></i> Chapter Notes</div>
+           <div class="note-cards-grid">${subBtns}</div>
+         </div>`
+      : '';
     const d=document.createElement('div');d.className='m-sub';
     d.innerHTML=`<div class="m-sub-ttl"><i class="fas fa-book"></i>${sub}</div>
       <ul class="m-topics">${tops.map(t=>`<li>${escH(t)}</li>`).join('')}</ul>
-      <div class="m-btns">${lnk!=='#'?`<a class="m-dl" href="${lnk}" target="_blank" rel="noopener"><i class="fas fa-download"></i> Download</a>`:`<span class="m-dl" style="opacity:.45;cursor:default"><i class="fas fa-download"></i> Coming Soon</span>`}</div>`;
-    d.querySelectorAll('.m-dl[href]').forEach(a=>{a.addEventListener('click',()=>{
-      if(a.getAttribute('href')!=='#'){downloads++;save();updKPI();toast('Download started! 📥');}});});
+      <div class="m-btns">${mainBtn}</div>
+      ${subRow}`;
+    d.querySelectorAll('.m-dl[href],.m-open-notes[href]').forEach(a=>{a.addEventListener('click',()=>{
+      if(a.getAttribute('href')!=='#'){downloads++;save();updKPI();
+        toast(a.classList.contains('m-open-notes')?'Opening notes 📄':'Download started! 📥');}});});
     b.appendChild(d);});
   $('#overlay').classList.add('open');}
 $('#mX').addEventListener('click',()=>$('#overlay').classList.remove('open'));
@@ -764,7 +924,7 @@ $('#subBtn').addEventListener('click',async()=>{
 
 /* ═══ COUNTDOWN — global fixed target (same for every visitor) ═══ */
 // Target: 1 April 2025 00:00:00 UTC — change this date to set the next release deadline
-const CD_TARGET = new Date('2026-07-01T00:00:00Z').getTime();
+const CD_TARGET = new Date('2026-06-01T00:00:00Z').getTime();
 function tickCD(){
   const d = CD_TARGET - Date.now();
   if(d<=0){
@@ -780,8 +940,8 @@ setInterval(tickCD,1000);tickCD();
 
 
 /* ═══ NEW SCHEME COUNTDOWN — global fixed target ═══ */
-// Target: 1 July 2026 00:00:00 UTC — update this date when new scheme notes are ready
-const NS_TARGET = new Date('2026-12-01T00:00:00Z').getTime();
+// Target: 1 July 2025 00:00:00 UTC — update this date when new scheme notes are ready
+const NS_TARGET = new Date('2026-11-01T00:00:00Z').getTime();
 function tickNS(){
   const d = NS_TARGET - Date.now();
   if(d<=0){
@@ -794,6 +954,23 @@ function tickNS(){
   $('#ns-M').textContent=String(Math.floor(d%3600000/60000)).padStart(2,'0');
   $('#ns-S').textContent=String(Math.floor(d%60000/1000)).padStart(2,'0');}
 setInterval(tickNS,1000);tickNS();
+
+
+/* ═══ 8TH SEM COMPLETE COUNTDOWN — global fixed target ═══ */
+// Target: 1 June 2025 00:00:00 UTC — update when complete 8th sem notes are ready
+const S8_TARGET = new Date('2026-04-12T00:00:00Z').getTime();
+function tickS8(){
+  const d = S8_TARGET - Date.now();
+  if(d<=0){
+    $('#s8-D').textContent='00';$('#s8-H').textContent='00';
+    $('#s8-M').textContent='00';$('#s8-S').textContent='00';
+    return;
+  }
+  $('#s8-D').textContent=String(Math.floor(d/86400000)).padStart(2,'0');
+  $('#s8-H').textContent=String(Math.floor(d%86400000/3600000)).padStart(2,'0');
+  $('#s8-M').textContent=String(Math.floor(d%3600000/60000)).padStart(2,'0');
+  $('#s8-S').textContent=String(Math.floor(d%60000/1000)).padStart(2,'0');}
+setInterval(tickS8,1000);tickS8();
 
 /* ═══ AI CHATBOT ═══ */
 const chatWin=$('#chatWin'),chatMsgs=$('#chatMsgs'),chatIn=$('#chatIn'),chatSend=$('#chatSend');
@@ -852,15 +1029,30 @@ async function sendMsg(override){
   const txt=(override||chatIn.value).trim();if(!txt)return;
   chatIn.value='';chatIn.style.height='auto';chatSend.disabled=true;
   const chips=$('#chatChips');if(chips)chips.style.display='none';
-  addUserMsg(txt);chatHistory.push({role:'user',content:txt});
+  addUserMsg(txt);
   showTyping();
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:buildSysPrompt(),messages:chatHistory})});
+    const GEMINI_KEY='AIzaSyCbq4GfT09fpeCeERwCkWJpF2x8KKJxeO0';
+    const sysPrompt=buildSysPrompt();
+    // Build contents array: system instruction + history + new user message
+    const contents=[];
+    chatHistory.forEach(m=>{
+      contents.push({role:m.role==='assistant'?'model':'user',parts:[{text:m.content}]});
+    });
+    contents.push({role:'user',parts:[{text:txt}]});
+    const res=await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`,
+      {method:'POST',headers:{'Content-Type':'application/json'},
+       body:JSON.stringify({
+         system_instruction:{parts:[{text:sysPrompt}]},
+         contents,
+         generationConfig:{maxOutputTokens:1000,temperature:0.7}
+       })});
     const data=await res.json();
-    const reply=data?.content?.map(b=>b.text||'').join('')||"Sorry, I couldn't get a response. Please try again.";
-    removeTyping();addBotMsg(reply);chatHistory.push({role:'assistant',content:reply});
+    const reply=data?.candidates?.[0]?.content?.parts?.[0]?.text||"Sorry, I couldn't get a response. Please try again.";
+    removeTyping();addBotMsg(reply);
+    chatHistory.push({role:'user',content:txt});
+    chatHistory.push({role:'assistant',content:reply});
     if(chatHistory.length>20)chatHistory=chatHistory.slice(-20);
   }catch(err){removeTyping();addBotMsg("⚠️ Connection issue. Please try again in a moment.");console.error(err);}
   chatSend.disabled=false;}
