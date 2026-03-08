@@ -4,7 +4,12 @@
   <meta charset="UTF-8">
   <title>Textile Engineering Suite</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;600;700&family=Bebas+Neue&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <style>
+    /* ============================================================
+       ORIGINAL SITE STYLES
+    ============================================================ */
     body {
       font-family: 'Segoe UI', Arial, sans-serif;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -12,6 +17,7 @@
       padding: 0;
       color: #222;
       min-height: 100vh;
+      overflow: hidden;
     }
     .container {
       max-width: 600px;
@@ -29,9 +35,7 @@
       font-size: 2.2rem;
       text-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
-    .form-group {
-      margin-bottom: 20px;
-    }
+    .form-group { margin-bottom: 20px; }
     label {
       display: block;
       font-weight: 600;
@@ -56,13 +60,8 @@
       box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
       transform: translateY(-2px);
     }
-    textarea {
-      resize: vertical;
-      min-height: 100px;
-    }
-    select {
-      cursor: pointer;
-    }
+    textarea { resize: vertical; min-height: 100px; }
+    select { cursor: pointer; }
     button {
       background: linear-gradient(135deg, #667eea, #764ba2);
       color: #fff;
@@ -79,13 +78,8 @@
       width: 100%;
       box-sizing: border-box;
     }
-    button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 25px rgba(102, 126, 234, 0.4);
-    }
-    button:active {
-      transform: translateY(-1px);
-    }
+    button:hover { transform: translateY(-3px); box-shadow: 0 12px 25px rgba(102, 126, 234, 0.4); }
+    button:active { transform: translateY(-1px); }
     .contact-info {
       margin-top: 35px;
       background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
@@ -94,10 +88,7 @@
       border-left: 5px solid #667eea;
       color: #222;
     }
-    .contact-info i {
-      color: #667eea;
-      margin-right: 10px;
-    }
+    .contact-info i { color: #667eea; margin-right: 10px; }
     .success-message, .error-message {
       padding: 15px;
       border-radius: 10px;
@@ -105,16 +96,8 @@
       display: none;
       font-weight: 500;
     }
-    .success-message {
-      background: linear-gradient(135deg, #d4edda, #c3e6cb);
-      color: #155724;
-      border-left: 5px solid #28a745;
-    }
-    .error-message {
-      background: linear-gradient(135deg, #f8d7da, #f5c6cb);
-      color: #721c24;
-      border-left: 5px solid #dc3545;
-    }
+    .success-message { background: linear-gradient(135deg, #d4edda, #c3e6cb); color: #155724; border-left: 5px solid #28a745; }
+    .error-message   { background: linear-gradient(135deg, #f8d7da, #f5c6cb); color: #721c24; border-left: 5px solid #dc3545; }
     .home-section {
       background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
       padding: 30px;
@@ -140,12 +123,1195 @@
       box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
       width: auto;
     }
-    .home-button:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 30px rgba(102, 126, 234, 0.5);
+    .home-button:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(102, 126, 234, 0.5); }
+    .home-button i { font-size: 1.5rem; }
+
+    /* ══════════════════════════════════════════
+       ATTRACTIVE COUNTDOWN TIMERS
+    ══════════════════════════════════════════ */
+    .timers-section {
+      margin-top: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
     }
-    .home-button i {
-      font-size: 1.5rem;
+    .timers-heading {
+      text-align: center;
+      margin-bottom: 4px;
+    }
+    .timers-heading span {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: rgba(102,126,234,0.6);
+      background: rgba(102,126,234,0.06);
+      border: 1px solid rgba(102,126,234,0.15);
+      padding: 5px 16px;
+      border-radius: 20px;
+    }
+
+    .timer-card {
+      position: relative;
+      border-radius: 20px;
+      padding: 0;
+      overflow: hidden;
+      border: 1px solid transparent;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .timer-card:hover {
+      transform: translateY(-3px);
+    }
+
+    /* Animated shimmer border */
+    .timer-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      padding: 1px;
+      background: linear-gradient(135deg, var(--tc-color1), var(--tc-color2), var(--tc-color1));
+      background-size: 300% 300%;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      animation: borderShimmer 3s linear infinite;
+      z-index: 0;
+    }
+    @keyframes borderShimmer {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .timer-card-inner {
+      position: relative;
+      z-index: 1;
+      border-radius: 19px;
+      padding: 22px 22px 18px;
+      overflow: hidden;
+    }
+
+    /* Floating orbs */
+    .tc-orb1, .tc-orb2 {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(40px);
+    }
+    .tc-orb1 { width: 180px; height: 180px; top: -60px; right: -40px; opacity: 0.18; }
+    .tc-orb2 { width: 120px; height: 120px; bottom: -50px; left: -30px; opacity: 0.1; }
+
+    /* Grid overlay */
+    .tc-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none; z-index: 0;
+    }
+
+    .timer-card-inner > *:not(.tc-orb1):not(.tc-orb2):not(.tc-grid) {
+      position: relative; z-index: 2;
+    }
+
+    /* Top row: icon + badge + title */
+    .tc-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .tc-icon {
+      width: 52px; height: 52px; min-width: 52px;
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      position: relative;
+    }
+    .tc-icon::after {
+      content: '';
+      position: absolute; inset: 0;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.08), transparent);
+    }
+    .tc-meta { flex: 1; }
+    .tc-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px; letter-spacing: 2.5px;
+      text-transform: uppercase;
+      padding: 4px 11px; border-radius: 20px;
+      margin-bottom: 7px;
+      font-weight: 400;
+    }
+    .tc-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.1rem; font-weight: 700;
+      letter-spacing: 0.5px; line-height: 1.3;
+    }
+
+    /* Countdown blocks */
+    .tc-countdown {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .tc-unit {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 4px; flex: 1;
+    }
+    .tc-digit-wrap {
+      position: relative;
+      width: 100%;
+    }
+    .tc-digit {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem; line-height: 1;
+      padding: 10px 6px 8px;
+      border-radius: 10px;
+      text-align: center;
+      letter-spacing: 2px;
+      width: 100%;
+      display: block;
+      position: relative;
+      transition: all 0.15s ease;
+    }
+    /* flip line */
+    .tc-digit::after {
+      content: '';
+      position: absolute;
+      left: 8%; right: 8%;
+      top: 50%; height: 1px;
+      background: rgba(0,0,0,0.25);
+    }
+    .tc-unit-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 8px; letter-spacing: 2px;
+      text-transform: uppercase;
+      text-align: center;
+    }
+    .tc-sep {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      padding-bottom: 20px;
+      animation: sepBlink 1s ease-in-out infinite;
+      flex: 0;
+    }
+    @keyframes sepBlink {
+      0%,100% { opacity: 1; }
+      50%      { opacity: 0.3; }
+    }
+
+    /* Progress bar */
+    .tc-progress-wrap {
+      height: 3px;
+      border-radius: 3px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.06);
+    }
+    .tc-progress-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 1s linear;
+      position: relative;
+      overflow: hidden;
+    }
+    .tc-progress-fill::after {
+      content: '';
+      position: absolute; top: 0; left: -100%;
+      width: 60%; height: 100%;
+      background: rgba(255,255,255,0.4);
+      animation: progressShine 2s ease-in-out infinite;
+    }
+    @keyframes progressShine {
+      0%   { left: -60%; }
+      100% { left: 160%; }
+    }
+
+    /* Arrived state */
+    .tc-arrived {
+      display: none;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.05rem; font-weight: 700;
+      letter-spacing: 1px;
+      padding: 10px 18px;
+      border-radius: 10px;
+      text-align: center;
+      margin-bottom: 4px;
+      animation: arrivedPulse 1.8s ease-in-out infinite;
+    }
+    @keyframes arrivedPulse {
+      0%,100% { transform: scale(1);    opacity: 1; }
+      50%      { transform: scale(1.02); opacity: 0.85; }
+    }
+
+    /* ── GOLD THEME ── */
+    .timer-card.gold { --tc-color1: #c8a96e; --tc-color2: #6ec8c8; }
+    .timer-card.gold:hover { box-shadow: 0 12px 40px rgba(200,169,110,0.25); }
+    .gold .timer-card-inner { background: linear-gradient(145deg, #100d00, #1c1600, #100d00); }
+    .gold .tc-orb1 { background: #c8a96e; }
+    .gold .tc-orb2 { background: #a07840; }
+    .gold .tc-icon { background: linear-gradient(135deg, rgba(200,169,110,0.2), rgba(200,169,110,0.05)); border: 1px solid rgba(200,169,110,0.3); color: #c8a96e; }
+    .gold .tc-badge { background: rgba(200,169,110,0.12); border: 1px solid rgba(200,169,110,0.3); color: #c8a96e; }
+    .gold .tc-title { color: #f5f0e8; text-shadow: 0 0 20px rgba(200,169,110,0.2); }
+    .gold .tc-digit { background: linear-gradient(180deg, rgba(200,169,110,0.15), rgba(200,169,110,0.08)); color: #e8c87a; border: 1px solid rgba(200,169,110,0.25); text-shadow: 0 0 12px rgba(200,169,110,0.5); }
+    .gold .tc-unit-label { color: rgba(200,169,110,0.5); }
+    .gold .tc-sep { color: rgba(200,169,110,0.5); }
+    .gold .tc-progress-fill { background: linear-gradient(90deg, #c8a96e, #e8c87a, #c8a96e); }
+    .gold .tc-arrived { background: rgba(200,169,110,0.12); color: #c8a96e; border: 1px solid rgba(200,169,110,0.3); }
+
+    /* ── TEAL THEME ── */
+    .timer-card.teal { --tc-color1: #6ec8c8; --tc-color2: #20c997; }
+    .timer-card.teal:hover { box-shadow: 0 12px 40px rgba(110,200,200,0.2); }
+    .teal .timer-card-inner { background: linear-gradient(145deg, #001414, #001c1c, #001414); }
+    .teal .tc-orb1 { background: #6ec8c8; }
+    .teal .tc-orb2 { background: #20c997; }
+    .teal .tc-icon { background: linear-gradient(135deg, rgba(110,200,200,0.18), rgba(110,200,200,0.05)); border: 1px solid rgba(110,200,200,0.28); color: #6ec8c8; }
+    .teal .tc-badge { background: rgba(110,200,200,0.1); border: 1px solid rgba(110,200,200,0.28); color: #6ec8c8; }
+    .teal .tc-title { color: #eafaff; text-shadow: 0 0 20px rgba(110,200,200,0.2); }
+    .teal .tc-digit { background: linear-gradient(180deg, rgba(110,200,200,0.14), rgba(110,200,200,0.07)); color: #7de8e8; border: 1px solid rgba(110,200,200,0.22); text-shadow: 0 0 12px rgba(110,200,200,0.5); }
+    .teal .tc-unit-label { color: rgba(110,200,200,0.5); }
+    .teal .tc-sep { color: rgba(110,200,200,0.5); }
+    .teal .tc-progress-fill { background: linear-gradient(90deg, #6ec8c8, #20c997, #6ec8c8); }
+    .teal .tc-arrived { background: rgba(110,200,200,0.1); color: #6ec8c8; border: 1px solid rgba(110,200,200,0.3); }
+
+    /* ── PURPLE THEME ── */
+    .timer-card.purple { --tc-color1: #a76ec8; --tc-color2: #667eea; }
+    .timer-card.purple:hover { box-shadow: 0 12px 40px rgba(167,110,200,0.2); }
+    .purple .timer-card-inner { background: linear-gradient(145deg, #0a0014, #130020, #0a0014); }
+    .purple .tc-orb1 { background: #a76ec8; }
+    .purple .tc-orb2 { background: #667eea; }
+    .purple .tc-icon { background: linear-gradient(135deg, rgba(167,110,200,0.18), rgba(167,110,200,0.05)); border: 1px solid rgba(167,110,200,0.28); color: #c084e0; }
+    .purple .tc-badge { background: rgba(167,110,200,0.1); border: 1px solid rgba(167,110,200,0.28); color: #c084e0; }
+    .purple .tc-title { color: #f5eeff; text-shadow: 0 0 20px rgba(167,110,200,0.2); }
+    .purple .tc-digit { background: linear-gradient(180deg, rgba(167,110,200,0.15), rgba(167,110,200,0.07)); color: #cc90f0; border: 1px solid rgba(167,110,200,0.22); text-shadow: 0 0 12px rgba(167,110,200,0.5); }
+    .purple .tc-unit-label { color: rgba(167,110,200,0.5); }
+    .purple .tc-sep { color: rgba(167,110,200,0.5); }
+    .purple .tc-progress-fill { background: linear-gradient(90deg, #a76ec8, #667eea, #a76ec8); }
+    .purple .tc-arrived { background: rgba(167,110,200,0.1); color: #c084e0; border: 1px solid rgba(167,110,200,0.3); }
+
+    /* digit flip animation */
+    @keyframes digitFlip {
+      0%   { transform: translateY(0);    opacity: 1; }
+      45%  { transform: translateY(-8px); opacity: 0; }
+      55%  { transform: translateY(8px);  opacity: 0; }
+      100% { transform: translateY(0);    opacity: 1; }
+    }
+    .tc-digit.flip { animation: digitFlip 0.25s ease; }
+
+    @media (max-width: 500px) {
+      .tc-digit { font-size: 1.7rem; padding: 8px 4px 6px; }
+      .tc-sep { font-size: 1.5rem; padding-bottom: 16px; }
+      .tc-top { gap: 10px; }
+      .tc-icon { width: 44px; height: 44px; min-width: 44px; font-size: 18px; }
+    }
+
+    /* ── PRO SITE FRAME MODAL ── */
+    #proSiteModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 8000;
+      background: rgba(5,5,15,0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+      animation: none;
+    }
+    #proSiteModal.open { display: flex; }
+    .pro-frame-box {
+      width: 100%; max-width: 1100px;
+      height: 90vh;
+      display: flex; flex-direction: column;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(200,169,110,0.35);
+      box-shadow: 0 0 0 1px rgba(200,169,110,0.1), 0 30px 80px rgba(0,0,0,0.7), 0 0 60px rgba(200,169,110,0.08);
+      animation: proFrameIn 0.5s cubic-bezier(0.16,1,0.3,1) forwards;
+    }
+    @keyframes proFrameIn {
+      from { opacity: 0; transform: scale(0.94) translateY(30px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* Animated top bar */
+    .pro-frame-topbar {
+      height: 52px;
+      background: linear-gradient(90deg, #0f0f1a, #1a1a2e, #0f0f1a);
+      display: flex; align-items: center;
+      padding: 0 18px;
+      gap: 14px;
+      flex-shrink: 0;
+      border-bottom: 1px solid rgba(200,169,110,0.2);
+      position: relative;
+      overflow: hidden;
+    }
+    .pro-frame-topbar::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, #c8a96e, #6ec8c8, #c8a96e, transparent);
+      background-size: 200% 100%;
+      animation: borderShimmer 2.5s linear infinite;
+    }
+
+    /* Traffic lights */
+    .pro-frame-dots { display: flex; gap: 6px; align-items: center; }
+    .pro-dot {
+      width: 12px; height: 12px; border-radius: 50%;
+      cursor: pointer; transition: opacity 0.2s;
+    }
+    .pro-dot:hover { opacity: 0.7; }
+    .pro-dot.red    { background: #ff5f57; }
+    .pro-dot.yellow { background: #ffbd2e; }
+    .pro-dot.green  { background: #28ca41; }
+
+    /* URL bar */
+    .pro-frame-urlbar {
+      flex: 1;
+      background: rgba(0,0,0,0.4);
+      border: 1px solid rgba(200,169,110,0.15);
+      border-radius: 8px;
+      padding: 6px 14px;
+      display: flex; align-items: center; gap: 8px;
+      max-width: 500px; margin: 0 auto;
+    }
+    .pro-frame-urlbar i { color: rgba(200,169,110,0.5); font-size: 11px; }
+    .pro-frame-url {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px; letter-spacing: 0.5px;
+      color: rgba(245,240,232,0.5);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+
+    /* Crown badge */
+    .pro-frame-badge {
+      display: flex; align-items: center; gap: 6px;
+      background: linear-gradient(135deg, rgba(200,169,110,0.15), rgba(200,169,110,0.05));
+      border: 1px solid rgba(200,169,110,0.3);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px; letter-spacing: 2px;
+      color: #c8a96e; text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
+    /* Close btn */
+    .pro-frame-close {
+      background: rgba(220,53,69,0.15) !important;
+      border: 1px solid rgba(220,53,69,0.3) !important;
+      color: #ff6b6b !important;
+      width: 30px !important; height: 30px !important;
+      padding: 0 !important; margin: 0 !important;
+      border-radius: 8px !important;
+      font-size: 14px !important;
+      display: flex !important; align-items: center !important; justify-content: center !important;
+      cursor: pointer !important;
+      box-shadow: none !important;
+      flex-shrink: 0;
+      transition: all 0.2s !important;
+    }
+    .pro-frame-close:hover {
+      background: rgba(220,53,69,0.3) !important;
+      transform: none !important;
+    }
+
+    /* iframe */
+    .pro-site-iframe {
+      flex: 1;
+      border: none;
+      width: 100%;
+      background: #fff;
+    }
+
+    /* ── CREATOR FOOTER ── */
+    .creator-footer {
+      text-align: center;
+      margin-top: 32px;
+      padding: 24px 20px;
+      border-top: 1px solid rgba(102,126,234,0.1);
+      position: relative;
+    }
+    .creator-footer::before {
+      content: '';
+      display: block;
+      width: 60px; height: 1px;
+      background: linear-gradient(90deg, transparent, #667eea, transparent);
+      margin: 0 auto 18px;
+    }
+    .creator-name {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.82rem; font-weight: 600;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: rgba(102,126,234,0.6);
+    }
+    .creator-name i { font-size: 12px; color: rgba(102,126,234,0.4); }
+    .creator-name strong {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 700; letter-spacing: 1px;
+    }
+
+    @media (max-width: 600px) {
+      .pro-frame-urlbar { display: none; }
+      .pro-frame-badge  { display: none; }
+      .pro-frame-box { height: 92vh; border-radius: 14px; }
+    }
+
+    /* ── PUBLIC RESET KEY BUTTON ── */
+    .public-reset-wrap {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 5000;
+    }
+    .public-reset-btn {
+      display: flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+      background: linear-gradient(135deg, #1a0a2e, #2a0a3e) !important;
+      border: 1px solid rgba(118,75,162,0.5) !important;
+      color: #c084e0 !important;
+      padding: 11px 18px !important;
+      border-radius: 50px !important;
+      font-family: 'Rajdhani', sans-serif !important;
+      font-size: 0.85rem !important;
+      font-weight: 600 !important;
+      letter-spacing: 0.5px !important;
+      cursor: pointer !important;
+      box-shadow: 0 4px 20px rgba(118,75,162,0.3), 0 0 0 1px rgba(118,75,162,0.1) !important;
+      transition: all 0.3s ease !important;
+      width: auto !important;
+      margin: 0 !important;
+      position: relative !important;
+      overflow: hidden !important;
+    }
+    .public-reset-btn::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(192,132,224,0.15), rgba(102,126,234,0.1));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .public-reset-btn:hover {
+      transform: translateY(-3px) !important;
+      box-shadow: 0 8px 28px rgba(118,75,162,0.5), 0 0 0 1px rgba(192,132,224,0.3) !important;
+      border-color: rgba(192,132,224,0.7) !important;
+      color: #d4a8f0 !important;
+    }
+    .public-reset-btn:hover::before { opacity: 1; }
+    .public-reset-btn:active { transform: translateY(-1px) !important; }
+    .public-reset-btn i { font-size: 13px !important; }
+    /* Pulse ring animation */
+    .public-reset-btn::after {
+      content: '';
+      position: absolute; inset: -3px;
+      border-radius: 50px;
+      border: 1px solid rgba(192,132,224,0.4);
+      animation: resetRingPulse 2.5s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes resetRingPulse {
+      0%,100% { opacity: 0; transform: scale(1); }
+      50%      { opacity: 1; transform: scale(1.04); }
+    }
+    /* Reset confirm modal */
+    #resetConfirmModal {
+      display: none;
+      position: fixed; inset: 0; z-index: 9000;
+      background: rgba(5,5,15,0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      align-items: center; justify-content: center; padding: 20px;
+    }
+    #resetConfirmModal.open { display: flex; }
+    .rcm-box {
+      background: linear-gradient(145deg, #0f0018, #1a0028, #0f0018);
+      border: 1px solid rgba(118,75,162,0.4);
+      border-radius: 20px;
+      padding: 32px 28px;
+      max-width: 380px; width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(118,75,162,0.25);
+      animation: rcmIn 0.4s cubic-bezier(0.16,1,0.3,1) forwards;
+      position: relative; overflow: hidden;
+    }
+    @keyframes rcmIn {
+      from { opacity: 0; transform: scale(0.9) translateY(20px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .rcm-box::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, #764ba2, #c084e0, #764ba2, transparent);
+      background-size: 200% 100%;
+      animation: borderShimmer 2s linear infinite;
+    }
+    .rcm-icon {
+      width: 64px; height: 64px; border-radius: 18px; margin: 0 auto 18px;
+      background: linear-gradient(135deg, rgba(118,75,162,0.2), rgba(192,132,224,0.1));
+      border: 1px solid rgba(118,75,162,0.35);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px; color: #c084e0;
+    }
+    .rcm-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem; letter-spacing: 2px;
+      color: #f5f0ff; margin-bottom: 10px;
+    }
+    .rcm-desc {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.88rem; color: rgba(245,240,255,0.45);
+      line-height: 1.5; margin-bottom: 26px;
+    }
+    .rcm-desc strong { color: rgba(192,132,224,0.8); }
+    .rcm-btns { display: flex; gap: 10px; }
+    .rcm-cancel {
+      flex: 1; padding: 12px !important;
+      background: rgba(255,255,255,0.05) !important;
+      border: 1px solid rgba(255,255,255,0.1) !important;
+      color: rgba(245,240,255,0.5) !important;
+      border-radius: 10px !important; cursor: pointer !important;
+      font-family: 'Rajdhani', sans-serif !important; font-weight: 600 !important;
+      font-size: 0.9rem !important; letter-spacing: 0.5px !important;
+      width: auto !important; margin: 0 !important; box-shadow: none !important;
+      transition: all 0.2s !important;
+    }
+    .rcm-cancel:hover { background: rgba(255,255,255,0.1) !important; color: #f5f0ff !important; transform: none !important; }
+    .rcm-confirm {
+      flex: 1; padding: 12px !important;
+      background: linear-gradient(135deg, #764ba2, #c084e0) !important;
+      border: none !important; color: #fff !important;
+      border-radius: 10px !important; cursor: pointer !important;
+      font-family: 'Rajdhani', sans-serif !important; font-weight: 700 !important;
+      font-size: 0.9rem !important; letter-spacing: 0.5px !important;
+      width: auto !important; margin: 0 !important;
+      box-shadow: 0 4px 15px rgba(118,75,162,0.4) !important;
+      transition: all 0.2s !important;
+    }
+    .rcm-confirm:hover { transform: translateY(-2px) !important; box-shadow: 0 6px 20px rgba(118,75,162,0.6) !important; }
+    @media (max-width: 480px) {
+      .public-reset-wrap { bottom: 16px; right: 16px; }
+      .public-reset-btn { padding: 10px 14px !important; font-size: 0.8rem !important; }
+    }
+    .creator-banner {
+      position: relative;
+      margin-bottom: 22px;
+      border-radius: 16px;
+      padding: 1px;
+      background: linear-gradient(90deg, #667eea, #764ba2, #c8a96e, #6ec8c8, #667eea);
+      background-size: 300% 100%;
+      animation: creatorBorderFlow 4s linear infinite;
+    }
+    @keyframes creatorBorderFlow {
+      0%   { background-position: 0% 50%; }
+      100% { background-position: 300% 50%; }
+    }
+    .creator-banner-inner {
+      background: linear-gradient(135deg, #0d0d1a 0%, #12122a 50%, #0d0d1a 100%);
+      border-radius: 15px;
+      padding: 14px 20px;
+      display: flex; align-items: center; justify-content: center;
+      gap: 14px; position: relative; overflow: hidden;
+    }
+    .creator-banner-inner::before {
+      content: '';
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      width: 260px; height: 80px;
+      background: radial-gradient(ellipse, rgba(102,126,234,0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cb-particle {
+      position: absolute; width: 2px; height: 2px;
+      border-radius: 50%; background: #667eea;
+      animation: cbFloat linear infinite; opacity: 0;
+    }
+    @keyframes cbFloat {
+      0%   { opacity: 0; transform: translateY(0) scale(1); }
+      15%  { opacity: 0.7; }
+      85%  { opacity: 0.3; }
+      100% { opacity: 0; transform: translateY(-40px) scale(0.3); }
+    }
+    .creator-banner-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+      color: rgba(102,126,234,0.5); flex-shrink: 0; position: relative; z-index: 1;
+    }
+    .creator-banner-name { position: relative; z-index: 1; display: flex; align-items: center; gap: 10px; }
+    .cb-icon {
+      width: 34px; height: 34px; border-radius: 10px;
+      background: linear-gradient(135deg, rgba(102,126,234,0.2), rgba(118,75,162,0.1));
+      border: 1px solid rgba(102,126,234,0.3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; color: #667eea; flex-shrink: 0;
+      animation: cbIconPulse 3s ease-in-out infinite;
+    }
+    @keyframes cbIconPulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(102,126,234,0); }
+      50%      { box-shadow: 0 0 0 6px rgba(102,126,234,0.12); }
+    }
+    .cb-text { display: flex; flex-direction: column; gap: 1px; }
+    .cb-by {
+      font-family: 'DM Mono', monospace; font-size: 8px;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      color: rgba(245,240,232,0.3); line-height: 1;
+    }
+    .cb-name {
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.45rem;
+      letter-spacing: 3px; line-height: 1;
+      background: linear-gradient(90deg, #667eea, #9b59b6, #c8a96e, #6ec8c8, #667eea);
+      background-size: 250% 100%;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      animation: nameGradientFlow 3.5s ease-in-out infinite;
+    }
+    @keyframes nameGradientFlow {
+      0%,100% { background-position: 0% 50%; }
+      50%      { background-position: 100% 50%; }
+    }
+    .cb-divider {
+      width: 1px; height: 30px;
+      background: linear-gradient(to bottom, transparent, rgba(102,126,234,0.3), transparent);
+      flex-shrink: 0;
+    }
+    .cb-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: linear-gradient(135deg, rgba(102,126,234,0.12), rgba(118,75,162,0.08));
+      border: 1px solid rgba(102,126,234,0.25); border-radius: 20px;
+      padding: 5px 12px; font-family: 'DM Mono', monospace;
+      font-size: 8.5px; letter-spacing: 1.5px; color: rgba(102,126,234,0.7);
+      text-transform: uppercase; flex-shrink: 0; position: relative; z-index: 1;
+      animation: cbBadgePulse 4s ease-in-out infinite;
+    }
+    @keyframes cbBadgePulse {
+      0%,100% { border-color: rgba(102,126,234,0.25); }
+      50%      { border-color: rgba(102,126,234,0.55); }
+    }
+    .cb-badge i { font-size: 8px; }
+    @media (max-width: 480px) {
+      .creator-banner-label { display: none; }
+      .cb-badge { display: none; }
+      .cb-name { font-size: 1.2rem; }
+    }
+
+    .premium-section {
+      position: relative;
+      background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%);
+      padding: 36px 28px 32px;
+      border-radius: 18px;
+      margin-top: 25px;
+      border: 1px solid rgba(200,169,110,0.35);
+      overflow: hidden;
+      text-align: center;
+    }
+    .premium-section::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: 
+        linear-gradient(rgba(200,169,110,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200,169,110,0.04) 1px, transparent 1px);
+      background-size: 30px 30px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .premium-section::after {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 220px; height: 220px;
+      background: radial-gradient(circle, rgba(200,169,110,0.1) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    /* All direct children above pseudo-elements */
+    .premium-section > * { position: relative; z-index: 1; }
+    .premium-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, rgba(200,169,110,0.25), rgba(200,169,110,0.08));
+      border: 1px solid rgba(200,169,110,0.45);
+      color: #c8a96e;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+    .premium-badge i { font-size: 9px; }
+    .premium-section h3 {
+      color: #f5f0e8;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.1rem;
+      letter-spacing: 4px;
+      margin: 0 0 10px 0;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+    }
+    .premium-section h3 span { color: #c8a96e; }
+    .premium-section p {
+      color: rgba(245,240,232,0.55);
+      font-size: 0.88rem;
+      letter-spacing: 0.5px;
+      margin: 0 0 24px 0;
+      line-height: 1.7;
+      max-width: 420px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .premium-features {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+    .pf-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(110,200,200,0.15);
+      border-radius: 20px;
+      padding: 5px 12px;
+      color: rgba(245,240,232,0.65);
+      font-size: 0.78rem;
+      letter-spacing: 0.3px;
+    }
+    .pf-item i { color: #6ec8c8; font-size: 10px; }
+    .premium-btn {
+      position: relative;
+      display: inline-flex !important;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #c8a96e 0%, #a07840 100%) !important;
+      color: #0a0a0f !important;
+      border: none !important;
+      padding: 16px 38px !important;
+      border-radius: 12px !important;
+      font-weight: 700 !important;
+      font-size: 1rem !important;
+      cursor: pointer !important;
+      width: auto !important;
+      margin: 0 auto !important;
+      letter-spacing: 1px;
+      box-shadow: 0 8px 28px rgba(200,169,110,0.45) !important;
+      animation: premiumPulse 2.5s ease-in-out infinite;
+      transition: all 0.3s ease !important;
+      overflow: hidden;
+    }
+    .premium-btn::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -60%;
+      width: 40%; height: 200%;
+      background: rgba(255,255,255,0.3);
+      transform: skewX(-20deg);
+      animation: premiumShine 3s ease-in-out infinite;
+    }
+    @keyframes premiumShine {
+      0%   { left: -60%; }
+      50%  { left: 130%; }
+      100% { left: 130%; }
+    }
+    @keyframes premiumPulse {
+      0%, 100% { box-shadow: 0 8px 28px rgba(200,169,110,0.4), 0 0 0 0 rgba(200,169,110,0.25); }
+      50%       { box-shadow: 0 10px 32px rgba(200,169,110,0.55), 0 0 0 10px rgba(200,169,110,0); }
+    }
+    .premium-btn:hover {
+      transform: translateY(-4px) !important;
+      box-shadow: 0 16px 36px rgba(200,169,110,0.6) !important;
+    }
+    .premium-btn i { font-size: 1rem; }
+    .premium-lock-note {
+      margin-top: 16px;
+      color: rgba(245,240,232,0.3);
+      font-size: 0.75rem;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .premium-lock-note i { font-size: 10px; color: rgba(200,169,110,0.45); }
+
+    /* ── PREMIUM MODAL ── */
+    #premiumModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 5000;
+      background: rgba(5,5,15,0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      align-items: flex-start;
+      justify-content: center;
+      padding: 20px 16px 40px;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    #premiumModal.open { display: flex; }
+    .pm-box {
+      position: relative;
+      background: linear-gradient(160deg, #0f0f1a 0%, #1a1a2e 100%);
+      border: 1px solid rgba(200,169,110,0.3);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 500px;
+      margin: auto;
+      overflow: hidden;
+      animation: pmSlideIn 0.45s cubic-bezier(0.16,1,0.3,1) forwards;
+      flex-shrink: 0;
+    }
+    @keyframes pmSlideIn {
+      from { opacity: 0; transform: translateY(40px) scale(0.95); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes pmSlideOut {
+      from { opacity: 1; transform: translateY(0) scale(1); }
+      to   { opacity: 0; transform: translateY(20px) scale(0.96); }
+    }
+    /* top shimmer bar */
+    .pm-shimmer {
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #c8a96e, #6ec8c8, #c8a96e, transparent);
+      background-size: 200% 100%;
+      animation: shimmerMove 2.5s linear infinite;
+    }
+    @keyframes shimmerMove { to { background-position: -200% 0; } }
+
+    .pm-header {
+      padding: 30px 30px 0;
+      text-align: center;
+      position: relative;
+    }
+    .pm-close {
+      position: absolute !important;
+      top: 14px; right: 14px;
+      background: rgba(255,255,255,0.07) !important;
+      border: 1px solid rgba(255,255,255,0.12) !important;
+      color: rgba(245,240,232,0.6) !important;
+      width: 32px !important; height: 32px !important;
+      padding: 0 !important; margin: 0 !important;
+      border-radius: 50% !important;
+      font-size: 14px !important;
+      display: flex !important; align-items: center !important; justify-content: center !important;
+      cursor: pointer !important;
+      transition: all 0.2s !important;
+      box-shadow: none !important;
+      line-height: 1 !important;
+    }
+    .pm-close:hover {
+      background: rgba(220,53,69,0.25) !important;
+      color: #ff6b6b !important;
+      transform: none !important;
+      border-color: rgba(220,53,69,0.3) !important;
+    }
+    .pm-crown {
+      width: 68px; height: 68px;
+      background: linear-gradient(135deg, rgba(200,169,110,0.18), rgba(200,169,110,0.06));
+      border: 1px solid rgba(200,169,110,0.35);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px;
+      font-size: 28px;
+    }
+    .pm-header h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.1rem; letter-spacing: 5px;
+      color: #f5f0e8; margin: 0 0 8px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.4);
+    }
+    .pm-header h2 span { color: #c8a96e; }
+    .pm-header p {
+      color: rgba(245,240,232,0.4);
+      font-size: 0.82rem; letter-spacing: 1.5px;
+      margin: 0 0 4px;
+    }
+    .pm-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(200,169,110,0.25), transparent);
+      margin: 22px 24px;
+    }
+    .pm-body { padding: 0 24px 28px; }
+
+    .pm-info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .pm-info-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(200,169,110,0.15);
+      border-radius: 10px;
+      padding: 12px 14px;
+    }
+    .pm-info-card .ic-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px; letter-spacing: 2px;
+      color: rgba(245,240,232,0.3);
+      text-transform: uppercase; display: block; margin-bottom: 6px;
+    }
+    .pm-info-card .ic-val {
+      color: #c8a96e;
+      font-size: 0.9rem; font-weight: 600;
+    }
+    .pm-info-card .ic-val i { margin-right: 5px; font-size: 0.82rem; }
+    .pm-info-card.teal .ic-val { color: #6ec8c8; }
+    /* CTA */
+    .pm-cta {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 10px !important;
+      background: linear-gradient(135deg, #c8a96e 0%, #a07840 100%) !important;
+      color: #0a0a0f !important;
+      border: none !important;
+      padding: 15px 28px !important;
+      border-radius: 10px !important;
+      font-weight: 700 !important;
+      font-size: 0.95rem !important;
+      letter-spacing: 0.8px !important;
+      width: 100% !important;
+      cursor: pointer !important;
+      box-shadow: 0 6px 22px rgba(200,169,110,0.4) !important;
+      transition: all 0.3s !important;
+      margin: 0 0 4px !important;
+    }
+    .pm-cta:hover {
+      transform: translateY(-3px) !important;
+      box-shadow: 0 12px 30px rgba(200,169,110,0.55) !important;
+    }
+    .pm-cta i { font-size: 0.9rem !important; }
+
+    /* Key display box */
+    .pm-key-section {
+      background: rgba(200,169,110,0.05);
+      border: 1px solid rgba(200,169,110,0.2);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 20px;
+    }
+    .pm-key-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px; letter-spacing: 3px;
+      color: rgba(200,169,110,0.6);
+      text-transform: uppercase;
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 14px;
+    }
+    .pm-key-label::after {
+      content: ''; flex: 1; height: 1px;
+      background: rgba(200,169,110,0.15);
+    }
+    .pm-key-row {
+      display: flex; align-items: center;
+      gap: 10px; margin-bottom: 10px;
+    }
+    .pm-key-row:last-child { margin-bottom: 0; }
+    .pm-key-tag {
+      font-size: 9px; letter-spacing: 1px;
+      color: rgba(245,240,232,0.35);
+      min-width: 55px; text-transform: uppercase;
+    }
+    .pm-key-val {
+      flex: 1;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(200,169,110,0.15);
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      color: #e8d5b0;
+      font-weight: 600;
+    }
+    .pm-copy-btn {
+      background: rgba(200,169,110,0.1) !important;
+      border: 1px solid rgba(200,169,110,0.2) !important;
+      color: #c8a96e !important;
+      padding: 8px 12px !important;
+      border-radius: 6px !important;
+      font-size: 11px !important;
+      cursor: pointer !important;
+      width: auto !important;
+      margin: 0 !important;
+      box-shadow: none !important;
+      transition: all 0.2s !important;
+      white-space: nowrap;
+    }
+    .pm-copy-btn:hover {
+      background: rgba(200,169,110,0.2) !important;
+      transform: none !important;
+    }
+    .pm-copy-btn.copied { color: #6ec8c8 !important; border-color: rgba(110,200,200,0.3) !important; }
+
+    /* How-to steps */
+    .pm-steps {
+      margin-bottom: 22px;
+    }
+    .pm-steps-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px; letter-spacing: 3px;
+      color: rgba(110,200,200,0.6);
+      text-transform: uppercase;
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 12px;
+    }
+    .pm-steps-label::after {
+      content: ''; flex: 1; height: 1px;
+      background: rgba(110,200,200,0.15);
+    }
+    .pm-step {
+      display: flex; align-items: flex-start; gap: 12px;
+      margin-bottom: 10px;
+    }
+    .pm-step-num {
+      min-width: 22px; height: 22px;
+      background: linear-gradient(135deg, rgba(110,200,200,0.15), rgba(110,200,200,0.05));
+      border: 1px solid rgba(110,200,200,0.25);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px; color: #6ec8c8;
+      margin-top: 1px;
+    }
+    .pm-step-text { color: rgba(245,240,232,0.5); font-size: 0.82rem; line-height: 1.5; }
+    .pm-step-text strong { color: rgba(245,240,232,0.75); }
+
+    /* CTA */
+    .pm-cta {
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #c8a96e, #a07840) !important;
+      color: #0a0a0f !important;
+      border: none !important;
+      padding: 15px 30px !important;
+      border-radius: 10px !important;
+      font-weight: 700 !important;
+      font-size: 0.95rem !important;
+      letter-spacing: 1px;
+      width: 100% !important;
+      cursor: pointer !important;
+      box-shadow: 0 6px 20px rgba(200,169,110,0.35) !important;
+      transition: all 0.3s !important;
+      margin: 0 !important;
+    }
+    .pm-cta:hover {
+      transform: translateY(-3px) !important;
+      box-shadow: 0 10px 28px rgba(200,169,110,0.5) !important;
+    }
+    .pm-warning {
+      margin-top: 12px;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      color: rgba(245,240,232,0.25); font-size: 0.72rem; letter-spacing: 0.5px;
+    }
+    .pm-warning i { color: rgba(200,169,110,0.35); font-size: 10px; }
+
+    /* ── PM INLINE FORM ── */
+    .pm-form-section {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(200,169,110,0.15);
+      border-radius: 14px;
+      padding: 20px 20px 16px;
+      margin-bottom: 4px;
+    }
+    .pm-form-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px; letter-spacing: 3px;
+      color: rgba(200,169,110,0.6);
+      text-transform: uppercase;
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 18px;
+    }
+    .pm-form-label::after {
+      content: ''; flex: 1; height: 1px;
+      background: rgba(200,169,110,0.15);
+    }
+    .pm-field-wrap { margin-bottom: 14px; }
+    .pm-field-label {
+      display: block;
+      font-size: 11px; letter-spacing: 1px;
+      color: rgba(245,240,232,0.45);
+      margin-bottom: 7px;
+    }
+    .pm-field-label i { margin-right: 5px; color: rgba(200,169,110,0.5); }
+    .pm-field-input {
+      width: 100% !important;
+      background: rgba(0,0,0,0.35) !important;
+      border: 1px solid rgba(200,169,110,0.2) !important;
+      border-radius: 8px !important;
+      padding: 11px 14px !important;
+      color: #e8d5b0 !important;
+      font-family: 'DM Mono', monospace !important;
+      font-size: 0.85rem !important;
+      letter-spacing: 1px !important;
+      box-sizing: border-box !important;
+      transition: border-color 0.25s, box-shadow 0.25s !important;
+      margin-bottom: 0 !important;
+    }
+    .pm-field-input::placeholder { color: rgba(245,240,232,0.2) !important; letter-spacing: 1px; }
+    .pm-field-input:focus {
+      outline: none !important;
+      border-color: rgba(200,169,110,0.5) !important;
+      box-shadow: 0 0 0 3px rgba(200,169,110,0.08) !important;
+      transform: none !important;
+    }
+    .pm-field-input.error {
+      border-color: rgba(220,53,69,0.5) !important;
+      box-shadow: 0 0 0 3px rgba(220,53,69,0.08) !important;
+    }
+    .pm-field-input.success-input {
+      border-color: rgba(40,167,69,0.5) !important;
+      box-shadow: 0 0 0 3px rgba(40,167,69,0.08) !important;
+    }
+    .pm-eye-btn {
+      position: absolute !important;
+      right: 10px; top: 50%; transform: translateY(-50%) !important;
+      background: none !important;
+      border: none !important;
+      color: rgba(200,169,110,0.4) !important;
+      padding: 4px 6px !important;
+      width: auto !important; margin: 0 !important;
+      box-shadow: none !important;
+      cursor: pointer !important;
+      font-size: 12px !important;
+    }
+    .pm-eye-btn:hover { color: #c8a96e !important; transform: translateY(-50%) !important; }
+    .pm-status {
+      padding: 10px 14px;
+      border-radius: 8px;
+      margin-bottom: 14px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .pm-status.error   { background: rgba(220,53,69,0.12);  border: 1px solid rgba(220,53,69,0.25);  color: #ff8a8a; }
+    .pm-status.success { background: rgba(40,167,69,0.12);  border: 1px solid rgba(40,167,69,0.25);  color: #7ddb8e; }
+    .pm-status.loading { background: rgba(200,169,110,0.08); border: 1px solid rgba(200,169,110,0.2); color: #c8a96e; }
+
+    @media (max-width: 520px) {
+      .pm-info-grid { grid-template-columns: 1fr; }
+      .pm-info-card.wide { grid-column: 1; }
+      .pm-box { border-radius: 16px; }
+      .pm-header, .pm-body { padding-left: 20px; padding-right: 20px; }
+      .pm-divider { margin-left: 20px; margin-right: 20px; }
     }
     .key-section {
       background: linear-gradient(135deg, #e8f5e8, #d4edda);
@@ -154,213 +1320,492 @@
       margin-top: 25px;
       border-left: 5px solid #28a745;
     }
-    .key-input {
-      display: flex;
-      gap: 10px;
-      margin-top: 15px;
-      align-items: center;
-      flex-wrap: wrap;
+    @keyframes keyReveal {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
-    .key-input input {
-      flex: 1;
-      min-width: 200px;
-      font-family: monospace;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
+    .key-input { display: flex; gap: 10px; margin-top: 15px; align-items: center; flex-wrap: wrap; }
+    .key-input input { flex: 1; min-width: 200px; font-family: monospace; letter-spacing: 2px; text-transform: uppercase; }
     .key-btn {
       background: linear-gradient(135deg, #28a745, #20c997);
-      color: white;
-      border: none;
-      padding: 14px 20px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      white-space: nowrap;
+      color: white; border: none; padding: 14px 20px;
+      border-radius: 8px; cursor: pointer; font-weight: 600;
+      transition: all 0.3s ease; white-space: nowrap;
     }
-    .key-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
-    }
-    .key-status {
-      margin-top: 15px;
-      padding: 15px;
-      border-radius: 10px;
-      display: none;
-      font-weight: 500;
-    }
-    .key-success {
-      background: linear-gradient(135deg, #d4edda, #c3e6cb);
-      color: #155724;
-      border-left: 5px solid #28a745;
-    }
-    .key-error {
-      background: linear-gradient(135deg, #f8d7da, #f5c6cb);
-      color: #721c24;
-      border-left: 5px solid #dc3545;
-    }
-    .loading {
-      opacity: 0.7;
-      pointer-events: none;
-    }
-    
+    .key-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(40,167,69,0.3); }
+    .key-status { margin-top: 15px; padding: 15px; border-radius: 10px; display: none; font-weight: 500; }
+    .key-success { background: linear-gradient(135deg, #d4edda, #c3e6cb); color: #155724; border-left: 5px solid #28a745; }
+    .key-error   { background: linear-gradient(135deg, #f8d7da, #f5c6cb); color: #721c24; border-left: 5px solid #dc3545; }
+    .loading { opacity: 0.7; pointer-events: none; }
     .admin-panel {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      background: rgba(0, 0, 0, 0.9);
-      color: white;
-      padding: 20px;
-      border-radius: 10px;
-      display: none;
-      z-index: 1000;
-      min-width: 300px;
-      max-height: 80vh;
-      overflow-y: auto;
+      position: fixed; top: 10px; right: 10px;
+      background: rgba(0,0,0,0.9); color: white;
+      padding: 20px; border-radius: 10px;
+      display: none; z-index: 1000;
+      min-width: 300px; max-height: 80vh; overflow-y: auto;
     }
     .admin-toggle {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      background: #dc3545;
-      color: white;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 5px;
-      cursor: pointer;
-      z-index: 1001;
-      font-size: 12px;
+      position: fixed; top: 10px; right: 10px;
+      background: #dc3545; color: white;
+      border: none; padding: 10px 15px;
+      border-radius: 5px; cursor: pointer;
+      z-index: 1001; font-size: 12px;
     }
     .admin-btn {
-      background: #28a745;
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      margin: 5px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 12px;
-      width: calc(50% - 10px);
-      display: inline-block;
+      background: #28a745; color: white; border: none;
+      padding: 8px 12px; margin: 5px; border-radius: 5px;
+      cursor: pointer; font-size: 12px;
+      width: calc(50% - 10px); display: inline-block;
     }
-    .admin-btn:hover {
-      background: #218838;
-    }
-    .admin-btn.danger {
-      background: #dc3545;
-    }
-    .admin-btn.danger:hover {
-      background: #c82333;
-    }
+    .admin-btn:hover { background: #218838; }
+    .admin-btn.danger { background: #dc3545; }
+    .admin-btn.danger:hover { background: #c82333; }
     .storage-info {
-      background: #343a40;
-      padding: 10px;
-      border-radius: 5px;
-      margin: 10px 0;
-      font-family: monospace;
-      font-size: 11px;
-      max-height: 200px;
-      overflow-y: auto;
+      background: #343a40; padding: 10px; border-radius: 5px;
+      margin: 10px 0; font-family: monospace; font-size: 11px;
+      max-height: 200px; overflow-y: auto;
     }
-    
     .website-modal {
-      display: none;
-      position: fixed;
-      z-index: 2000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
+      display: none; position: fixed; z-index: 2000;
+      left: 0; top: 0; width: 100%; height: 100%;
       background-color: rgba(0,0,0,0.8);
     }
     .website-modal-content {
-      position: relative;
-      margin: 2% auto;
-      width: 95%;
-      height: 90%;
-      background: white;
-      border-radius: 10px;
+      position: relative; margin: 2% auto;
+      width: 95%; height: 90%; background: white;
+      border-radius: 10px; overflow: hidden;
+    }
+    .website-iframe { width: 100%; height: calc(100% - 60px); border: none; }
+    .modal-header {
+      background: #667eea; color: white;
+      padding: 15px 20px; display: flex;
+      justify-content: space-between; align-items: center;
+    }
+    .close-modal { background: none; border: none; color: white; font-size: 24px; cursor: pointer; padding: 0; width: auto; }
+    .circle-img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; cursor: pointer; display: block; }
+    .overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      backdrop-filter: blur(5px); background: rgba(0,0,0,0.5);
+      display: none; justify-content: center; align-items: center; z-index: 999;
+    }
+    .full-img { max-width: 90%; max-height: 90%; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.8); background: white; }
+
+    @media (max-width: 768px) {
+      .container { margin: 20px; padding: 25px 20px; }
+      .admin-panel { right: 5px; top: 5px; min-width: 250px; }
+      .key-input { flex-direction: column; }
+      .key-input input { min-width: auto; }
+      .website-modal-content { width: 98%; height: 95%; margin: 1% auto; }
+    }
+
+    /* ============================================================
+       INTRO OVERLAY STYLES
+    ============================================================ */
+    #introOverlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #0a0a0f;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       overflow: hidden;
     }
-    .website-iframe {
-      width: 100%;
-      height: calc(100% - 60px);
-      border: none;
+
+    /* Weave canvas */
+    #weaveCanvas {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      opacity: 0;
+      animation: weaveFadeIn 0.6s ease 0.1s forwards;
     }
-    .modal-header {
-      background: #667eea;
-      color: white;
-      padding: 15px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    @keyframes weaveFadeIn { to { opacity: 1; } }
+
+    /* Noise */
+    .intro-noise {
+      position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      opacity: 0.4;
     }
-    .close-modal {
-      background: none;
-      border: none;
-      color: white;
-      font-size: 24px;
-      cursor: pointer;
-      padding: 0;
-      width: auto;
+
+    /* Grid */
+    .intro-grid {
+      position: absolute; inset: 0; z-index: 2; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(200,169,110,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200,169,110,0.05) 1px, transparent 1px);
+      background-size: 60px 60px;
+      opacity: 0;
+      animation: gridIn 0.7s ease 0.2s forwards;
     }
-    
-    .circle-img {
-      width: 50px;
-      height: 50px;
+    @keyframes gridIn { to { opacity: 1; } }
+
+    /* Scanline */
+    .intro-scan {
+      position: absolute; left: 0; top: -2px;
+      width: 100%; height: 2px;
+      background: linear-gradient(90deg, transparent 0%, #6ec8c8 50%, transparent 100%);
+      z-index: 3;
+      animation: scanLine 3s ease 0.4s infinite;
+    }
+    @keyframes scanLine {
+      0%   { opacity: 0; top: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.6; }
+      100% { opacity: 0; top: 100%; }
+    }
+
+    /* Corner brackets */
+    .intro-corner {
+      position: absolute; width: 50px; height: 50px; z-index: 4;
+      opacity: 0; animation: cornerIn 0.4s ease 0.5s forwards;
+    }
+    .intro-corner svg { width: 100%; height: 100%; }
+    .intro-corner.tl { top: 24px; left: 24px; }
+    .intro-corner.tr { top: 24px; right: 24px; transform: scaleX(-1); }
+    .intro-corner.bl { bottom: 24px; left: 24px; transform: scaleY(-1); }
+    .intro-corner.br { bottom: 24px; right: 24px; transform: scale(-1,-1); }
+    @keyframes cornerIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    /* Particles */
+    .intro-particles { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+    .intro-particle {
+      position: absolute; width: 1px;
+      background: linear-gradient(to bottom, transparent, #c8a96e, transparent);
+      opacity: 0;
+      animation: particleFall linear infinite;
+    }
+    @keyframes particleFall {
+      0%   { opacity: 0; transform: translateY(-20px); }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { opacity: 0; transform: translateY(100vh); }
+    }
+
+    /* Content wrapper */
+    .intro-content {
+      position: relative; z-index: 10;
+      display: flex; flex-direction: column;
+      align-items: center; text-align: center;
+    }
+
+    /* Logo mark */
+    .intro-logo {
+      position: relative; width: 120px; height: 120px; margin-bottom: 36px;
+      opacity: 0;
+      animation: logoIn 0.6s cubic-bezier(0.16,1,0.3,1) 0.3s forwards;
+    }
+    @keyframes logoIn {
+      from { opacity: 0; transform: scale(0.5) rotate(-15deg); }
+      to   { opacity: 1; transform: scale(1) rotate(0deg); }
+    }
+    .ring-outer {
+      position: absolute; inset: -10px;
+      border: 1px solid rgba(200,169,110,0.3);
       border-radius: 50%;
-      object-fit: cover;
-      cursor: pointer;
-      display: block;
+      animation: ringSpinSlow 12s linear infinite;
     }
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      backdrop-filter: blur(5px);
-      background: rgba(0, 0, 0, 0.5);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 999;
+    .ring-inner {
+      position: absolute; inset: 10px;
+      border: 1px dashed rgba(110,200,200,0.2);
+      border-radius: 50%;
+      animation: ringSpinSlow 8s linear infinite reverse;
     }
-    .full-img {
-      max-width: 90%;
-      max-height: 90%;
-      border-radius: 10px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.8);
-      background: white;
+    @keyframes ringSpinSlow { to { transform: rotate(360deg); } }
+
+    /* Eyebrow */
+    .intro-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px; font-weight: 300;
+      letter-spacing: 6px; color: #6ec8c8;
+      text-transform: uppercase;
+      opacity: 0; transform: translateY(20px);
+      animation: slideUp 0.5s cubic-bezier(0.16,1,0.3,1) 0.7s forwards;
+      margin-bottom: 12px;
     }
-    
-    @media (max-width: 768px) {
-      .container {
-        margin: 20px;
-        padding: 25px 20px;
-      }
-      .admin-panel {
-        right: 5px;
-        top: 5px;
-        min-width: 250px;
-      }
-      .key-input {
-        flex-direction: column;
-      }
-      .key-input input {
-        min-width: auto;
-      }
-      .website-modal-content {
-        width: 98%;
-        height: 95%;
-        margin: 1% auto;
-      }
+
+    /* Big title */
+    .intro-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(52px, 11vw, 120px);
+      line-height: 0.88; letter-spacing: 4px;
+      color: #f5f0e8;
+    }
+    .intro-title .tl { display: block; opacity: 0; transform: translateY(100%); }
+    .intro-title .tl:nth-child(1) { animation: titleUp 0.6s cubic-bezier(0.16,1,0.3,1) 0.85s forwards; }
+    .intro-title .tl:nth-child(2) { color: #c8a96e; animation: titleUp 0.6s cubic-bezier(0.16,1,0.3,1) 1.0s forwards; }
+    .intro-title .tl:nth-child(3) { animation: titleUp 0.6s cubic-bezier(0.16,1,0.3,1) 1.15s forwards; }
+    @keyframes titleUp {
+      from { opacity: 0; transform: translateY(100%); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Subtitle */
+    .intro-subtitle {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(12px, 2vw, 16px); font-weight: 300;
+      letter-spacing: 3px; color: rgba(245,240,232,0.4);
+      text-transform: uppercase; margin-top: 16px;
+      opacity: 0;
+      animation: slideUp 0.5s ease 1.3s forwards;
+    }
+
+    /* Divider */
+    .intro-divider {
+      width: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, #c8a96e, transparent);
+      margin: 26px auto;
+      animation: expandLine 0.7s ease 1.45s forwards;
+    }
+    @keyframes expandLine { to { width: 300px; } }
+
+    /* Stats */
+    .intro-stats {
+      display: flex; gap: 50px;
+      opacity: 0;
+      animation: slideUp 0.5s ease 1.6s forwards;
+    }
+    .intro-stat { text-align: center; }
+    .intro-stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 34px; color: #c8a96e;
+      letter-spacing: 2px; display: block;
+    }
+    .intro-stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px; letter-spacing: 3px;
+      color: rgba(245,240,232,0.3);
+      text-transform: uppercase; display: block; margin-top: 2px;
+    }
+
+    /* Loader */
+    .intro-loader {
+      margin-top: 50px; width: 280px;
+      opacity: 0;
+      animation: slideUp 0.4s ease 1.8s forwards;
+    }
+    .intro-loader-label {
+      display: flex; justify-content: space-between;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px; letter-spacing: 2px;
+      color: rgba(245,240,232,0.3); margin-bottom: 8px;
+    }
+    .intro-loader-track {
+      width: 100%; height: 2px;
+      background: rgba(200,169,110,0.1);
+      border-radius: 2px; overflow: hidden;
+    }
+    .intro-loader-fill {
+      height: 100%; width: 0%;
+      background: linear-gradient(90deg, #c8a96e, #6ec8c8);
+      border-radius: 2px;
+      animation: loadFill 1.2s cubic-bezier(0.4,0,0.2,1) 1.9s forwards;
+      position: relative;
+    }
+    .intro-loader-fill::after {
+      content: '';
+      position: absolute; right: 0; top: -3px;
+      width: 6px; height: 8px;
+      background: #6ec8c8; border-radius: 1px;
+      box-shadow: 0 0 8px #6ec8c8;
+    }
+    @keyframes loadFill { to { width: 100%; } }
+
+    /* Enter button */
+    .intro-enter {
+      margin-top: 38px;
+      opacity: 0;
+      animation: slideUp 0.5s ease 3.2s forwards;
+    }
+    .intro-enter-btn {
+      background: transparent !important;
+      border: 1px solid rgba(200,169,110,0.5) !important;
+      color: #c8a96e !important;
+      font-family: 'DM Mono', monospace !important;
+      font-size: 11px !important;
+      letter-spacing: 4px !important;
+      text-transform: uppercase !important;
+      padding: 14px 40px !important;
+      cursor: pointer !important;
+      position: relative !important;
+      overflow: hidden !important;
+      width: auto !important;
+      display: inline-block !important;
+      margin-top: 0 !important;
+      border-radius: 2px !important;
+      box-shadow: none !important;
+      transition: color 0.3s, border-color 0.3s !important;
+    }
+    .intro-enter-btn::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: #c8a96e;
+      transform: translateX(-101%);
+      transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+      z-index: -1;
+    }
+    .intro-enter-btn:hover {
+      color: #0a0a0f !important;
+      border-color: #c8a96e !important;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+    .intro-enter-btn:hover::before { transform: translateX(0); }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Flash + exit */
+    .intro-flash {
+      position: absolute; inset: 0; z-index: 20;
+      background: linear-gradient(135deg, #0a0a0f, #1a1a2e);
+      opacity: 0; pointer-events: none;
+    }
+    .intro-flash.active { animation: flashBurst 0.35s ease forwards; }
+    @keyframes flashBurst {
+      0%  { opacity: 0; }
+      50% { opacity: 1; }
+      100%{ opacity: 1; }
+    }
+
+    /* Curtain panels that sweep in from sides */
+    .intro-curtain {
+      position: absolute; inset: 0; z-index: 19;
+      pointer-events: none;
+      display: flex;
+    }
+    .intro-curtain-l, .intro-curtain-r {
+      flex: 1; height: 100%;
+      background: #0a0a0f;
+      transform: scaleX(0);
+      transform-origin: left;
+    }
+    .intro-curtain-r { transform-origin: right; }
+
+    #introOverlay.exit .intro-curtain-l {
+      animation: curtainClose 0.4s cubic-bezier(0.7,0,0.8,1) 0s forwards;
+    }
+    #introOverlay.exit .intro-curtain-r {
+      animation: curtainClose 0.4s cubic-bezier(0.7,0,0.8,1) 0.04s forwards;
+    }
+    @keyframes curtainClose {
+      from { transform: scaleX(0); }
+      to   { transform: scaleX(1); }
+    }
+
+    #introOverlay.exit {
+      animation: overlayExit 0.75s ease 0.35s forwards;
+    }
+    @keyframes overlayExit {
+      0%   { opacity: 1; }
+      100% { opacity: 0; pointer-events: none; }
     }
   </style>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
+
+  <!-- ============================================================
+       ANIMATED INTRO OVERLAY
+  ============================================================ -->
+  <div id="introOverlay">
+    <canvas id="weaveCanvas"></canvas>
+    <div class="intro-noise"></div>
+    <div class="intro-grid"></div>
+    <div class="intro-scan"></div>
+    <div class="intro-particles" id="introParticles"></div>
+    <div class="intro-curtain"><div class="intro-curtain-l"></div><div class="intro-curtain-r"></div></div>
+    <div class="intro-flash" id="introFlash"></div>
+
+    <!-- Corner brackets -->
+    <div class="intro-corner tl">
+      <svg viewBox="0 0 50 50" fill="none"><path d="M2 48 L2 2 L48 2" stroke="#c8a96e" stroke-width="1" stroke-opacity="0.5"/><path d="M2 2 L8 2 M2 2 L2 8" stroke="#6ec8c8" stroke-width="1.5"/></svg>
+    </div>
+    <div class="intro-corner tr">
+      <svg viewBox="0 0 50 50" fill="none"><path d="M2 48 L2 2 L48 2" stroke="#c8a96e" stroke-width="1" stroke-opacity="0.5"/><path d="M2 2 L8 2 M2 2 L2 8" stroke="#6ec8c8" stroke-width="1.5"/></svg>
+    </div>
+    <div class="intro-corner bl">
+      <svg viewBox="0 0 50 50" fill="none"><path d="M2 48 L2 2 L48 2" stroke="#c8a96e" stroke-width="1" stroke-opacity="0.5"/><path d="M2 2 L8 2 M2 2 L2 8" stroke="#6ec8c8" stroke-width="1.5"/></svg>
+    </div>
+    <div class="intro-corner br">
+      <svg viewBox="0 0 50 50" fill="none"><path d="M2 48 L2 2 L48 2" stroke="#c8a96e" stroke-width="1" stroke-opacity="0.5"/><path d="M2 2 L8 2 M2 2 L2 8" stroke="#6ec8c8" stroke-width="1.5"/></svg>
+    </div>
+
+    <div class="intro-content">
+      <!-- Logo -->
+      <div class="intro-logo">
+        <div class="ring-outer"></div>
+        <div class="ring-inner"></div>
+        <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="60" cy="60" r="50" stroke="#c8a96e" stroke-width="1" stroke-opacity="0.4"/>
+          <line x1="40" y1="25" x2="40" y2="95" stroke="#c8a96e" stroke-width="1" stroke-opacity="0.6"/>
+          <line x1="52" y1="22" x2="52" y2="98" stroke="#c8a96e" stroke-width="1.5" stroke-opacity="0.8"/>
+          <line x1="60" y1="20" x2="60" y2="100" stroke="#e8d5b0" stroke-width="2"/>
+          <line x1="68" y1="22" x2="68" y2="98" stroke="#c8a96e" stroke-width="1.5" stroke-opacity="0.8"/>
+          <line x1="80" y1="25" x2="80" y2="95" stroke="#c8a96e" stroke-width="1" stroke-opacity="0.6"/>
+          <path d="M25 45 Q40 42 52 45 Q60 47 68 45 Q80 42 95 45" stroke="#6ec8c8" stroke-width="1.5" fill="none" stroke-opacity="0.7"/>
+          <path d="M22 55 Q40 52 52 56 Q60 58 68 56 Q80 52 98 55" stroke="#6ec8c8" stroke-width="2" fill="none"/>
+          <path d="M22 65 Q40 62 52 66 Q60 68 68 66 Q80 62 98 65" stroke="#6ec8c8" stroke-width="2" fill="none"/>
+          <path d="M25 75 Q40 72 52 75 Q60 77 68 75 Q80 72 95 75" stroke="#6ec8c8" stroke-width="1.5" fill="none" stroke-opacity="0.7"/>
+          <circle cx="60" cy="60" r="3" fill="#c8a96e"/>
+          <circle cx="60" cy="60" r="6" stroke="#c8a96e" stroke-width="0.5" stroke-opacity="0.4"/>
+        </svg>
+      </div>
+
+      <div class="intro-eyebrow">Est. 2024 · India · Engineering Division</div>
+
+      <div class="intro-title">
+        <span class="tl">Textile</span>
+        <span class="tl">Engineering</span>
+        <span class="tl">Suite</span>
+      </div>
+
+      <div class="intro-subtitle">Advanced Textile Computation Platform</div>
+      <div class="intro-divider"></div>
+
+      <div class="intro-stats">
+        <div class="intro-stat">
+          <span class="intro-stat-num" data-target="40">0</span>
+          <span class="intro-stat-label">Calculators</span>
+        </div>
+        <div class="intro-stat">
+          <span class="intro-stat-num" data-target="99">0</span>
+          <span class="intro-stat-label">Accuracy %</span>
+        </div>
+        <div class="intro-stat">
+          <span class="intro-stat-num" data-target="24">0</span>
+          <span class="intro-stat-label">Modules</span>
+        </div>
+      </div>
+
+      <div class="intro-loader">
+        <div class="intro-loader-label">
+          <span>Initializing systems</span>
+          <span id="introPct">0%</span>
+        </div>
+        <div class="intro-loader-track">
+          <div class="intro-loader-fill"></div>
+        </div>
+      </div>
+
+      <div class="intro-enter">
+        <button class="intro-enter-btn" onclick="dismissIntro()">
+          ▶ &nbsp; Enter Suite
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       ORIGINAL SITE HTML (all features preserved)
+  ============================================================ -->
+
   <div id="websiteModal" class="website-modal">
     <div class="website-modal-content">
       <div class="modal-header">
@@ -379,41 +1824,49 @@
   <button class="admin-toggle" onclick="toggleAdmin()">
     <i class="fas fa-cog"></i> Admin
   </button>
-  
+
   <div id="adminPanel" class="admin-panel">
     <h4><i class="fas fa-tools"></i> Admin Panel</h4>
-    <div class="storage-info" id="storageInfo">
-      Loading storage info...
-    </div>
-    
-    <button class="admin-btn danger" onclick="clearAllStorage()">
-      <i class="fas fa-trash"></i> Clear All Data
-    </button>
-    
-    <button class="admin-btn" onclick="refreshPage()">
-      <i class="fas fa-refresh"></i> Refresh Page
-    </button>
-    
-    <button class="admin-btn" onclick="exportStorage()">
-      <i class="fas fa-download"></i> Export Data
-    </button>
-    
-    <button class="admin-btn" onclick="addNewKey()">
-      <i class="fas fa-plus"></i> Add Key
-    </button>
-    
-    <button class="admin-btn" onclick="viewActiveKeys()">
-      <i class="fas fa-eye"></i> View Keys
-    </button>
-    
-    <button class="admin-btn danger" onclick="resetAllKeys()">
-      <i class="fas fa-key"></i> Reset All Keys
-    </button>
+    <div class="storage-info" id="storageInfo">Loading storage info...</div>
+    <button class="admin-btn danger" onclick="clearAllStorage()"><i class="fas fa-trash"></i> Clear All Data</button>
+    <button class="admin-btn" onclick="refreshPage()"><i class="fas fa-refresh"></i> Refresh Page</button>
+    <button class="admin-btn" onclick="exportStorage()"><i class="fas fa-download"></i> Export Data</button>
+    <button class="admin-btn" onclick="addNewKey()"><i class="fas fa-plus"></i> Add Key</button>
+    <button class="admin-btn" onclick="viewActiveKeys()"><i class="fas fa-eye"></i> View Keys</button>
+    <button class="admin-btn danger" onclick="resetAllKeys()"><i class="fas fa-key"></i> Reset All Keys</button>
   </div>
 
   <div class="container">
+
+    <!-- ── TOP CREATOR BANNER ── -->
+    <div class="creator-banner">
+      <div class="creator-banner-inner">
+        <!-- floating particles -->
+        <div class="cb-particle" style="left:15%;bottom:4px;animation-duration:3.2s;animation-delay:0s;"></div>
+        <div class="cb-particle" style="left:30%;bottom:6px;animation-duration:4.1s;animation-delay:0.8s;background:#c8a96e;"></div>
+        <div class="cb-particle" style="left:55%;bottom:3px;animation-duration:3.7s;animation-delay:1.4s;background:#6ec8c8;"></div>
+        <div class="cb-particle" style="left:72%;bottom:7px;animation-duration:4.5s;animation-delay:0.3s;"></div>
+        <div class="cb-particle" style="left:88%;bottom:5px;animation-duration:3.5s;animation-delay:1.9s;background:#9b59b6;"></div>
+
+        <span class="creator-banner-label"><i class="fas fa-code"></i> &nbsp; Developer</span>
+
+        <div class="cb-divider"></div>
+
+        <div class="creator-banner-name">
+          <div class="cb-icon"><i class="fas fa-user-astronaut"></i></div>
+          <div class="cb-text">
+            <span class="cb-by">Created by</span>
+            <span class="cb-name">Abhishek Dangi</span>
+          </div>
+        </div>
+
+        <div class="cb-divider"></div>
+
+        <div class="cb-badge"><i class="fas fa-graduation-cap"></i> &nbsp; Textile Engg.</div>
+      </div>
+    </div>
+
     <h1><i class="fas fa-industry"></i> Textile Engineering Suite</h1>
-    
     <div id="successMsg" class="success-message"></div>
     <div id="errorMsg" class="error-message"></div>
 
@@ -421,23 +1874,197 @@
       <h3><i class="fas fa-home"></i> Welcome to Textile Engineering Suite</h3>
       <p>Access our comprehensive textile engineering tools and calculators</p>
       <button class="home-button" onclick="openWebsiteModal()">
-        <i class="fas fa-rocket"></i>
-        Go to Home
+        <i class="fas fa-rocket"></i> Go to Home
       </button>
     </div>
 
-    <div class="key-section">
+    <!-- PREMIUM ADVANCED VERSION SECTION -->
+    <div class="premium-section">
+      <div class="premium-badge"><i class="fas fa-gem"></i> Premium Only</div>
+      <h3>Advanced <span>Version</span></h3>
+      <p>Unlock the full power of Textile Engineering Suite with advanced modules, AI-powered calculations, real-time analytics, and exclusive tools built for professionals.</p>
+      <div class="premium-features">
+        <div class="pf-item"><i class="fas fa-check-circle"></i> AI Calculations</div>
+        <div class="pf-item"><i class="fas fa-check-circle"></i> Advanced Analytics</div>
+        <div class="pf-item"><i class="fas fa-check-circle"></i> Export Reports</div>
+        <div class="pf-item"><i class="fas fa-check-circle"></i> Priority Support</div>
+      </div>
+      <button class="premium-btn" onclick="openPremiumModal()">
+        <i class="fas fa-crown"></i>
+        Access Advanced Version
+        <i class="fas fa-arrow-right"></i>
+      </button>
+      <div class="premium-lock-note">
+        <i class="fas fa-lock"></i> Premium users only · Special key required
+      </div>
+    </div>
+
+    <!-- ── 3 COUNTDOWN TIMERS ── -->
+    <div class="timers-section">
+
+      <div class="timers-heading">
+        <span><i class="fas fa-satellite-dish"></i> &nbsp; Live Updates</span>
+      </div>
+
+      <!-- Timer 1: 8th Sem Papers — Premium Only -->
+      <div class="timer-card gold">
+        <div class="timer-card-inner">
+          <div class="tc-orb1"></div>
+          <div class="tc-orb2"></div>
+          <div class="tc-grid"></div>
+          <div class="tc-top">
+            <div class="tc-icon"><i class="fas fa-crown"></i></div>
+            <div class="tc-meta">
+              <div class="tc-badge"><i class="fas fa-lock"></i> &nbsp; Premium Only</div>
+              <div class="tc-title">8th Sem Papers Coming Soon</div>
+            </div>
+          </div>
+          <div class="tc-countdown" id="timer1-cd">
+            <div class="tc-unit"><div class="tc-digit" id="t1-d">00</div><div class="tc-unit-label">Days</div></div>
+            <div class="tc-sep">:</div>
+            <div class="tc-unit"><div class="tc-digit" id="t1-h">00</div><div class="tc-unit-label">Hours</div></div>
+            <div class="tc-sep">:</div>
+            <div class="tc-unit"><div class="tc-digit" id="t1-m">00</div><div class="tc-unit-label">Mins</div></div>
+            <div class="tc-sep">:</div>
+            <div class="tc-unit"><div class="tc-digit" id="t1-s">00</div><div class="tc-unit-label">Secs</div></div>
+          </div>
+          <div class="tc-progress-wrap">
+            <div class="tc-progress-fill" id="t1-prog" style="width:0%"></div>
+          </div>
+          <div class="tc-arrived" id="timer1-arrived">🎉 &nbsp; 8th Sem Papers Now Available!</div>
+        </div>
+      </div>
+
+      <!-- Timer 2: New Scheme Notes -->
+      <div class="timer-card teal">
+        <div class="timer-card-inner">
+          <div class="tc-orb1"></div>
+          <div class="tc-orb2"></div>
+          <div class="tc-grid"></div>
+          <div class="tc-top">
+            <div class="tc-icon"><i class="fas fa-book-open"></i></div>
+            <div class="tc-meta">
+              <div class="tc-badge"><i class="fas fa-clock"></i> &nbsp; Available In</div>
+              <div class="tc-title">New Scheme Notes Available In</div>
+            </div>
+          </div>
+          <div class="tc-countdown" id="timer2-cd">
+            <div class="tc-unit"><div class="tc-digit" id="t2-d">00</div><div class="tc-unit-label">Days</div></div>
+            <div class="tc-sep">:</div>
+            <div class="tc-unit"><div class="tc-digit" id="t2-h">00</div><div class="tc-unit-label">Hours</div></div>
+            <div class="tc-sep">:</div>
+            <div class="tc-unit"><div class="tc-digit" id="t2-m">00</div><div class="tc-unit-label">Mins</div></div>
+            <div class="tc-sep">:</div>
+            <div class="tc-unit"><div class="tc-digit" id="t2-s">00</div><div class="tc-unit-label">Secs</div></div>
+          </div>
+          <div class="tc-progress-wrap">
+            <div class="tc-progress-fill" id="t2-prog" style="width:0%"></div>
+          </div>
+          <div class="tc-arrived" id="timer2-arrived">📚 &nbsp; New Scheme Notes Now Available!</div>
+        </div>
+      </div>
+
+      <!-- Timer 3: Final Year Notes -->
+      <div class="timer-card purple">
+        <div class="timer-card-inner">
+          <div class="tc-orb1"></div>
+          <div class="tc-orb2"></div>
+          <div class="tc-grid"></div>
+          <div class="tc-top">
+            <div class="tc-icon"><i class="fas fa-graduation-cap"></i></div>
+            <div class="tc-meta">
+              <div class="tc-badge"><i class="fas fa-hourglass-half"></i> &nbsp; Coming Soon</div>
+              <div class="tc-title">Final Year Notes Coming Soon</div>
+            </div>
+          </div>
+          <div class="tc-countdown" id="timer3-cd">
+            <div class="tc-unit"><div class="tc-digit" id="t3-d">00</div><div class="tc-unit-label">Days</div></div>
+            <div class="tc-sep">:</div>
+            <div class="tc-unit"><div class="tc-digit" id="t3-h">00</div><div class="tc-unit-label">Hours</div></div>
+            <div class="tc-sep">:</div>
+            <div class="tc-unit"><div class="tc-digit" id="t3-m">00</div><div class="tc-unit-label">Mins</div></div>
+            <div class="tc-sep">:</div>
+            <div class="tc-unit"><div class="tc-digit" id="t3-s">00</div><div class="tc-unit-label">Secs</div></div>
+          </div>
+          <div class="tc-progress-wrap">
+            <div class="tc-progress-fill" id="t3-prog" style="width:0%"></div>
+          </div>
+          <div class="tc-arrived" id="timer3-arrived">🎓 &nbsp; Final Year Notes Now Live!</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- PREMIUM MODAL -->
+    <div id="premiumModal">
+      <div class="pm-box">
+        <div class="pm-shimmer"></div>
+        <div class="pm-header">
+          <button class="pm-close" onclick="closePremiumModal()">&#10005;</button>
+          <div class="pm-crown">&#128081;</div>
+          <h2>Advanced <span>Version</span></h2>
+          <p>Textile Engineering Suite &middot; Premium Access</p>
+        </div>
+        <div class="pm-divider"></div>
+        <div class="pm-body">
+
+          <!-- Info row -->
+          <div class="pm-info-grid">
+            <div class="pm-info-card">
+              <span class="ic-label">Version</span>
+              <span class="ic-val"><i class="fas fa-rocket"></i> Advanced 2.0</span>
+            </div>
+            <div class="pm-info-card teal">
+              <span class="ic-label">Access Level</span>
+              <span class="ic-val"><i class="fas fa-gem"></i> Premium</span>
+            </div>
+          </div>
+
+          <!-- Inline access form -->
+          <div class="pm-form-section">
+            <div class="pm-form-label"><i class="fas fa-shield-alt"></i> Premium Authentication</div>
+
+            <div class="pm-field-wrap">
+              <label class="pm-field-label"><i class="fas fa-phone"></i> Phone Number</label>
+              <input type="tel" id="pmPhone" class="pm-field-input" placeholder="Enter your registered phone number" maxlength="15" autocomplete="off">
+            </div>
+
+            <div class="pm-field-wrap">
+              <label class="pm-field-label"><i class="fas fa-key"></i> Special Access Key</label>
+              <div style="position:relative;">
+                <input type="text" id="pmKey" class="pm-field-input" placeholder="ENTER-YOUR-SPECIAL-KEY" maxlength="50" autocomplete="off" style="text-transform:uppercase;padding-right:50px;">
+                <button class="pm-eye-btn" onclick="toggleKeyVisibility()" id="pmEyeBtn" title="Show/hide key">
+                  <i class="fas fa-eye" id="pmEyeIcon"></i>
+                </button>
+              </div>
+            </div>
+
+            <div id="pmStatus" class="pm-status" style="display:none;"></div>
+
+            <button class="pm-cta" id="pmSubmitBtn" onclick="validatePremiumKey()">
+              <i class="fas fa-crown"></i> Unlock Advanced Version
+              <i class="fas fa-arrow-right"></i>
+            </button>
+
+            <div class="pm-warning">
+              <i class="fas fa-lock"></i> Each key is unique and tied to your phone. Do not share your credentials.
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="key-section" id="keySectionAnchor" style="display:none;">
       <h3><i class="fas fa-key"></i> Access with Special Key</h3>
       <p>Have a special access key? Enter your phone number and key below to access the Textile Engineering Suite directly:</p>
       <div class="key-input">
-        <input type="tel" id="keyPhoneNumber" placeholder="Enter Phone Number" maxlength="15" style="flex: 0.8; min-width: 150px;">
-        <input type="text" id="accessKey" placeholder="ENTER-YOUR-SPECIAL-KEY" maxlength="50" style="text-transform: uppercase; flex: 1.2; min-width: 200px;">
-        <button class="key-btn" onclick="validateKey()">
-          <i class="fas fa-unlock"></i> Access Website
-        </button>
+        <input type="tel" id="keyPhoneNumber" placeholder="Enter Phone Number" maxlength="15" style="flex:0.8;min-width:150px;">
+        <input type="text" id="accessKey" placeholder="ENTER-YOUR-SPECIAL-KEY" maxlength="50" style="text-transform:uppercase;flex:1.2;min-width:200px;">
+        <button class="key-btn" onclick="validateKey()"><i class="fas fa-unlock"></i> Access Website</button>
       </div>
       <div id="keyStatus" class="key-status"></div>
-      <small style="color: #666; margin-top: 10px; display: block;">
+      <small style="color:#666;margin-top:10px;display:block;">
         <i class="fas fa-info-circle"></i> Both phone number and key must match. Each key can only be used on one system at a time.
       </small>
     </div>
@@ -465,18 +2092,214 @@
 
     <div class="contact-info">
       <h3><i class="fas fa-info-circle"></i> Textile Engineering Suite</h3>
-      <p><i class="fas fa-envelope"></i> Email: <a href="mailto:22tt010@titsbhiwani.ac.in">22tt010@titsbhiwani.ac.in</a></p>
-      <!-- <p><i class="fas fa-globe"></i> Portfolio: <a href="https://abhishekportfolioo.github.io/Abhi/" target="_blank">Portfolio</a></p> -->
-      <!-- <p><i class="fas fa-phone"></i> Contact : <a href="tel:9460448983">9460448983</a></p> -->
+      <p><i class="fas fa-envelope"></i> Email: <a href="/cdn-cgi/l/email-protection#89bbbbfdfdb9b8b9c9fde0fdfaebe1e0fee8e7e0a7e8eaa7e0e7"><span class="__cf_email__" data-cfemail="cbf9f9bfbffbfafb8bbfa2bfb8a9a3a2bcaaa5a2e5aaa8e5a2a5">[email&#160;protected]</span></a></p>
       <p><i class="fas fa-map-marker-alt"></i> Location: India</p>
+    </div>
+
+    <!-- Creator Footer -->
+    <div class="creator-footer">
+      <div class="creator-name">
+        <i class="fas fa-code"></i>
+        Created by &nbsp;<strong>Abhishek Dangi</strong>
+        <i class="fas fa-heart" style="color:rgba(200,100,100,0.5);font-size:10px;"></i>
+      </div>
+    </div>
+
+  </div><!-- /.container -->
+
+  <!-- ── PRO SITE FRAME MODAL ── -->
+  <div id="proSiteModal">
+    <div class="pro-frame-box">
+      <div class="pro-frame-topbar">
+        <div class="pro-frame-dots">
+          <div class="pro-dot red"    onclick="closeProSiteFrame()"></div>
+          <div class="pro-dot yellow"></div>
+          <div class="pro-dot green"></div>
+        </div>
+        <div class="pro-frame-urlbar">
+          <i class="fas fa-lock"></i>
+          <span class="pro-frame-url">Textile Pro Suite — Premium Access</span>
+        </div>
+        <div class="pro-frame-badge">
+          <i class="fas fa-crown"></i> Premium
+        </div>
+        <button class="pro-frame-close" onclick="closeProSiteFrame()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <iframe id="proSiteFrame" class="pro-site-iframe" src="" allowfullscreen></iframe>
     </div>
   </div>
 
-  <script>
+  <!-- ============================================================
+       SCRIPTS
+  ============================================================ -->
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    /* ── WEAVE CANVAS ── */
+    const canvas = document.getElementById('weaveCanvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, time = 0, animRunning = true;
+    function resizeCanvas() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+    function drawWeave() {
+      if (!animRunning) return;
+      ctx.clearRect(0, 0, W, H);
+      const cols = Math.ceil(W / 30) + 2;
+      const rows = Math.ceil(H / 30) + 2;
+      for (let i = 0; i <= cols; i++) {
+        const x = i * 30;
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        for (let y = 0; y <= H; y += 5) {
+          const wx = x + Math.sin(time * 0.3 + i * 0.4 + y * 0.02) * 3;
+          ctx.lineTo(wx, y);
+        }
+        const a = 0.03 + Math.abs(Math.sin(i * 0.3 + time * 0.1)) * 0.04;
+        ctx.strokeStyle = `rgba(200,169,110,${a})`; ctx.lineWidth = 0.5; ctx.stroke();
+      }
+      for (let j = 0; j <= rows; j++) {
+        const y = j * 30;
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        for (let x = 0; x <= W; x += 5) {
+          const wy = y + Math.sin(time * 0.2 + x * 0.015 + j * 0.5) * 2.5;
+          ctx.lineTo(x, wy);
+        }
+        const a = 0.015 + Math.abs(Math.sin(j * 0.35 + time * 0.12)) * 0.02;
+        ctx.strokeStyle = `rgba(110,200,200,${a})`; ctx.lineWidth = 0.4; ctx.stroke();
+      }
+      time += 0.016;
+      requestAnimationFrame(drawWeave);
+    }
+    drawWeave();
+
+    /* ── PARTICLES ── */
+    const pContainer = document.getElementById('introParticles');
+    for (let i = 0; i < 25; i++) {
+      const p = document.createElement('div');
+      p.classList.add('intro-particle');
+      const left = Math.random() * 100;
+      const height = 40 + Math.random() * 120;
+      const dur = 4 + Math.random() * 8;
+      const delay = Math.random() * 6;
+      p.style.cssText = `left:${left}%;height:${height}px;animation-duration:${dur}s;animation-delay:${delay}s;`;
+      pContainer.appendChild(p);
+    }
+
+    /* ── STAT COUNTERS ── */
+    setTimeout(() => {
+      document.querySelectorAll('.intro-stat-num').forEach(el => {
+        const target = parseInt(el.dataset.target);
+        let current = 0;
+        const step = target / 30;
+        const iv = setInterval(() => {
+          current = Math.min(current + step, target);
+          el.textContent = Math.floor(current);
+          if (current >= target) clearInterval(iv);
+        }, 30);
+      });
+    }, 1650);
+
+    /* ── LOAD % ── */
+    setTimeout(() => {
+      const pct = document.getElementById('introPct');
+      let n = 0;
+      const iv = setInterval(() => {
+        n = Math.min(n + 2, 100);
+        pct.textContent = n + '%';
+        if (n >= 100) { clearInterval(iv); pct.style.color = '#6ec8c8'; }
+      }, 12);
+    }, 1900);
+
+    /* ── PREMIUM MODAL ── */
+    function openPremiumModal() {
+      document.getElementById('premiumModal').classList.add('open');
+    }
+    function closePremiumModal() {
+      const modal = document.getElementById('premiumModal');
+      const box = modal.querySelector('.pm-box');
+      box.style.animation = 'pmSlideOut 0.3s cubic-bezier(0.7,0,1,0.5) forwards';
+      setTimeout(() => {
+        modal.classList.remove('open');
+        box.style.animation = '';
+      }, 280);
+    }
+    function scrollToKeySection() {
+      document.body.style.overflow = 'auto';
+      const el = document.getElementById('keySectionAnchor');
+      if (el) {
+        el.style.display = 'block';
+        el.style.animation = 'keyReveal 0.5s cubic-bezier(0.16,1,0.3,1) forwards';
+        setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+      }
+    }
+    function copyVal(elId, btn) {
+      const text = document.getElementById(elId).textContent.trim();
+      navigator.clipboard.writeText(text).then(() => {
+        const orig = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('copied'); }, 2000);
+      }).catch(() => {
+        const range = document.createRange();
+        range.selectNode(document.getElementById(elId));
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+        document.execCommand('copy');
+        window.getSelection().removeAllRanges();
+      });
+    }
+    // Close modal on backdrop click
+    document.getElementById('premiumModal').addEventListener('click', function(e) {
+      if (e.target === this) closePremiumModal();
+    });
+
+    /* ── PRO SITE FRAME MODAL ── */
+    function openProSiteFrame(url) {
+      const modal = document.getElementById('proSiteModal');
+      const iframe = document.getElementById('proSiteFrame');
+      iframe.src = url;
+      modal.classList.add('open');
+    }
+    function closeProSiteFrame() {
+      const modal = document.getElementById('proSiteModal');
+      modal.classList.remove('open');
+      setTimeout(() => {
+        document.getElementById('proSiteFrame').src = '';
+      }, 300);
+    }
+    document.getElementById('proSiteModal').addEventListener('click', function(e) {
+      if (e.target === this) closeProSiteFrame();
+    });
+
+    /* ── DISMISS INTRO ── */
+    function dismissIntro() {
+      if (document.getElementById('introOverlay').style.display === 'none') return;
+      animRunning = false;
+      // Step 1: flash the curtain panels closed (0–400ms)
+      document.getElementById('introOverlay').classList.add('exit');
+      // Step 2: also fade the flash overlay in sync
+      document.getElementById('introFlash').classList.add('active');
+      // Step 3: hide after full sequence completes (curtain 440ms + fade 750ms = ~1100ms)
+      setTimeout(() => {
+        document.getElementById('introOverlay').style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }, 1100);
+    }
+
+    /* ── AUTO DISMISS after 4s ── */
+    setTimeout(() => {
+      const overlay = document.getElementById('introOverlay');
+      if (overlay && overlay.style.display !== 'none') dismissIntro();
+    }, 4000);
+
+    /* ============================================================
+       ORIGINAL SITE JAVASCRIPT
+    ============================================================ */
     let adminPanelVisible = false;
     let keySessionActive = false;
     let activeKeys = {};
-    
     const WEBSITE_CONFIG = {
       websiteUrl: 'Textile Engineering Suite.html',
       formspreeUrl: 'https://formspree.io/f/mnnzgvdz'
@@ -490,25 +2313,19 @@
 
     const thumbnail = document.getElementById('thumbnail');
     const overlay = document.getElementById('overlay');
-
-    thumbnail.onclick = function() {
-        overlay.style.display = 'flex';
-    };
-
-    overlay.onclick = function() {
-        overlay.style.display = 'none';
-    };
+    thumbnail.onclick = function() { overlay.style.display = 'flex'; };
+    overlay.onclick  = function() { overlay.style.display = 'none'; };
 
     function loadValidKeys() {
       const storedKeys = localStorage.getItem('validKeyPhonePairs');
       if (!storedKeys) {
         const defaultKeys = {
-          'TEXTILE-2024-PREMIUM': ['1234567890', '9876543210'],
-          'ABHI': ['1111111111', '9460448983'],
-          'ENGINEERING-SUITE-PRO': ['5555555555', '7777777777'],
-          'DEMO-KEY-12345': ['9999999999', '8888888888'],
-          'VIP-ACCESS-2024': ['1357924680', '0987654321'],
-          'ABHISHEK': ['9460448983', '9413665044']
+          'TEXTILE-2024-PREMIUM': ['1234567890','9876543210'],
+          'ABHI': ['1111111111','9460448983'],
+          'ENGINEERING-SUITE-PRO': ['5555555555','7777777777'],
+          'DEMO-KEY-12345': ['9999999999','8888888888'],
+          'VIP-ACCESS-2024': ['1357924680','0987654321'],
+          'ABHISHEK': ['9460448983','9413665044']
         };
         localStorage.setItem('validKeyPhonePairs', JSON.stringify(defaultKeys));
         return defaultKeys;
@@ -522,19 +2339,15 @@
     }
 
     function initializeKeySession() {
-      const sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+      const sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2,9);
       sessionStorage.setItem('keySessionId', sessionId);
-      
       const storedKeys = localStorage.getItem('activeKeys');
-      if (storedKeys) {
-        activeKeys = JSON.parse(storedKeys);
-      }
-      
-      const currentKey = sessionStorage.getItem('currentAccessKey');
+      if (storedKeys) activeKeys = JSON.parse(storedKeys);
+      const currentKey   = sessionStorage.getItem('currentAccessKey');
       const currentPhone = sessionStorage.getItem('currentAccessPhone');
       if (currentKey && currentPhone) {
-        const uniqueIdentifier = currentKey + '_' + currentPhone;
-        if (activeKeys[uniqueIdentifier] && activeKeys[uniqueIdentifier].sessionId === sessionId) {
+        const uid = currentKey + '_' + currentPhone;
+        if (activeKeys[uid] && activeKeys[uid].sessionId === sessionId) {
           keySessionActive = true;
           document.getElementById('accessKey').value = currentKey;
           document.getElementById('keyPhoneNumber').value = currentPhone;
@@ -544,80 +2357,145 @@
     }
 
     window.addEventListener('beforeunload', function() {
-      const currentKey = sessionStorage.getItem('currentAccessKey');
+      const currentKey   = sessionStorage.getItem('currentAccessKey');
       const currentPhone = sessionStorage.getItem('currentAccessPhone');
-      const sessionId = sessionStorage.getItem('keySessionId');
-      
+      const sessionId    = sessionStorage.getItem('keySessionId');
       if (currentKey && currentPhone) {
-        const uniqueIdentifier = currentKey + '_' + currentPhone;
-        if (activeKeys[uniqueIdentifier] && activeKeys[uniqueIdentifier].sessionId === sessionId) {
-          delete activeKeys[uniqueIdentifier];
+        const uid = currentKey + '_' + currentPhone;
+        if (activeKeys[uid] && activeKeys[uid].sessionId === sessionId) {
+          delete activeKeys[uid];
           localStorage.setItem('activeKeys', JSON.stringify(activeKeys));
         }
       }
     });
 
     function validateKey() {
-      const keyInput = document.getElementById('accessKey');
+      const keyInput   = document.getElementById('accessKey');
       const phoneInput = document.getElementById('keyPhoneNumber');
-      const enteredKey = keyInput.value.trim().toUpperCase();
-      let enteredPhone = phoneInput.value.trim();
-      
-      enteredPhone = enteredPhone.replace(/\D/g, '');
-      
-      if (!enteredKey || !enteredPhone) {
-        showKeyStatus('error', '❌ Please enter both phone number and access key.');
-        return;
-      }
-      
+      const enteredKey   = keyInput.value.trim().toUpperCase();
+      let   enteredPhone = phoneInput.value.trim().replace(/\D/g,'');
+      if (!enteredKey || !enteredPhone) { showKeyStatus('error','❌ Please enter both phone number and access key.'); return; }
       const validKeyPhonePairs = loadValidKeys();
-      
-      if (!validKeyPhonePairs[enteredKey]) {
-        showKeyStatus('error', '❌ Invalid access key. Please check your key and try again.');
-        return;
-      }
-      
-      if (!validKeyPhonePairs[enteredKey].includes(enteredPhone)) {
-        showKeyStatus('error', '❌ Phone number does not match the provided access key. Please verify both fields.');
-        return;
-      }
-      
-      const uniqueIdentifier = enteredKey + '_' + enteredPhone;
-      
-      if (activeKeys[uniqueIdentifier]) {
-        const existingSession = activeKeys[uniqueIdentifier];
+      if (!validKeyPhonePairs[enteredKey]) { showKeyStatus('error','❌ Invalid access key. Please check your key and try again.'); return; }
+      if (!validKeyPhonePairs[enteredKey].includes(enteredPhone)) { showKeyStatus('error','❌ Phone number does not match the provided access key. Please verify both fields.'); return; }
+      const uid = enteredKey + '_' + enteredPhone;
+      if (activeKeys[uid]) {
+        const existingSession  = activeKeys[uid];
         const currentSessionId = sessionStorage.getItem('keySessionId');
-        
-        if (existingSession.sessionId !== currentSessionId) {
-          showKeyStatus('error', `❌ This key-phone combination is currently active in another tab/window. Please close that tab first.`);
+        if (existingSession.sessionId !== currentSessionId) { showKeyStatus('error',`❌ This key-phone combination is currently active in another tab/window. Please close that tab first.`); return; }
+      }
+      const currentSessionId = sessionStorage.getItem('keySessionId');
+      activeKeys[uid] = { sessionId: currentSessionId, key: enteredKey, phone: enteredPhone, activatedAt: Date.now(), tabInfo: { userAgent: navigator.userAgent.substring(0,50), timestamp: new Date().toLocaleString() } };
+      localStorage.setItem('activeKeys', JSON.stringify(activeKeys));
+      sessionStorage.setItem('currentAccessKey',   enteredKey);
+      sessionStorage.setItem('currentAccessPhone', enteredPhone);
+      keySessionActive = true;
+      showKeyStatus('success', `✅ Access validated! Opening Textile Pro Suite...`);
+      setTimeout(() => { openProSiteFrame('Textile Pro Suite.html'); }, 1200);
+    }
+
+    /* ── PREMIUM MODAL KEY VALIDATION ── */
+    function toggleKeyVisibility() {
+      const input = document.getElementById('pmKey');
+      const icon  = document.getElementById('pmEyeIcon');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'fas fa-eye-slash';
+      } else {
+        input.type = 'password';
+        icon.className = 'fas fa-eye';
+      }
+    }
+
+    function validatePremiumKey() {
+      const phoneInput = document.getElementById('pmPhone');
+      const keyInput   = document.getElementById('pmKey');
+      const statusDiv  = document.getElementById('pmStatus');
+      const submitBtn  = document.getElementById('pmSubmitBtn');
+
+      const enteredKey   = keyInput.value.trim().toUpperCase();
+      let   enteredPhone = phoneInput.value.trim().replace(/\D/g,'');
+
+      // Reset states
+      phoneInput.classList.remove('error','success-input');
+      keyInput.classList.remove('error','success-input');
+
+      if (!enteredPhone) {
+        phoneInput.classList.add('error');
+        showPmStatus('error', '❌ Please enter your phone number.');
+        return;
+      }
+      if (!enteredKey) {
+        keyInput.classList.add('error');
+        showPmStatus('error', '❌ Please enter your special access key.');
+        return;
+      }
+
+      // Loading state
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
+      submitBtn.style.opacity = '0.8';
+      submitBtn.style.pointerEvents = 'none';
+      showPmStatus('loading', '⏳ Verifying your credentials...');
+
+      setTimeout(() => {
+        const validKeyPhonePairs = loadValidKeys();
+
+        if (!validKeyPhonePairs[enteredKey]) {
+          keyInput.classList.add('error');
+          showPmStatus('error', '❌ Invalid access key. Please check and try again.');
+          resetPmBtn();
           return;
         }
-      }
-      
-      const currentSessionId = sessionStorage.getItem('keySessionId');
-      activeKeys[uniqueIdentifier] = {
-        sessionId: currentSessionId,
-        key: enteredKey,
-        phone: enteredPhone,
-        activatedAt: Date.now(),
-        tabInfo: {
-          userAgent: navigator.userAgent.substring(0, 50),
-          timestamp: new Date().toLocaleString()
+        if (!validKeyPhonePairs[enteredKey].includes(enteredPhone)) {
+          phoneInput.classList.add('error');
+          showPmStatus('error', '❌ Phone number does not match this key. Please verify.');
+          resetPmBtn();
+          return;
         }
-      };
-      
-      localStorage.setItem('activeKeys', JSON.stringify(activeKeys));
-      sessionStorage.setItem('currentAccessKey', enteredKey);
-      sessionStorage.setItem('currentAccessPhone', enteredPhone);
-      
-      keySessionActive = true;
-      
-      showKeyStatus('success', `✅ Access validated! Key "${enteredKey}" with phone ending in "${enteredPhone.slice(-4)}" - Opening website...`);
-      
-      setTimeout(() => {
-        openWebsiteModal();
-        showKeyStatus('success', `🚀 Website opened! Your access remains active in this tab.`);
-      }, 1500);
+
+        const uid = enteredKey + '_' + enteredPhone;
+        if (activeKeys[uid]) {
+          const existingSession  = activeKeys[uid];
+          const currentSessionId = sessionStorage.getItem('keySessionId');
+          if (existingSession.sessionId !== currentSessionId) {
+            showPmStatus('error', '❌ This key is active in another tab. Please close it first.');
+            resetPmBtn();
+            return;
+          }
+        }
+
+        // All good — store session
+        const currentSessionId = sessionStorage.getItem('keySessionId');
+        activeKeys[uid] = { sessionId: currentSessionId, key: enteredKey, phone: enteredPhone, activatedAt: Date.now() };
+        localStorage.setItem('activeKeys', JSON.stringify(activeKeys));
+        sessionStorage.setItem('currentAccessKey',   enteredKey);
+        sessionStorage.setItem('currentAccessPhone', enteredPhone);
+        keySessionActive = true;
+
+        phoneInput.classList.add('success-input');
+        keyInput.classList.add('success-input');
+        submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> Access Granted! Opening...';
+        showPmStatus('success', '✅ Premium access verified! Launching Textile Pro Suite...');
+
+        setTimeout(() => {
+          closePremiumModal();
+          setTimeout(() => openProSiteFrame('Textile Pro Suite.html'), 350);
+        }, 1200);
+      }, 900);
+    }
+
+    function showPmStatus(type, msg) {
+      const s = document.getElementById('pmStatus');
+      s.className = 'pm-status ' + type;
+      s.innerHTML = msg;
+      s.style.display = 'flex';
+    }
+
+    function resetPmBtn() {
+      const btn = document.getElementById('pmSubmitBtn');
+      btn.innerHTML = '<i class="fas fa-crown"></i> Unlock Advanced Version <i class="fas fa-arrow-right"></i>';
+      btn.style.opacity = '1';
+      btn.style.pointerEvents = 'auto';
     }
 
     function showKeyStatus(type, message) {
@@ -625,16 +2503,11 @@
       statusDiv.className = 'key-status key-' + type;
       statusDiv.innerHTML = message;
       statusDiv.style.display = 'block';
-      
-      if (type === 'error') {
-        setTimeout(() => {
-          statusDiv.style.display = 'none';
-        }, 8000);
-      }
+      if (type === 'error') setTimeout(() => { statusDiv.style.display = 'none'; }, 8000);
     }
 
     function openWebsiteModal() {
-      const modal = document.getElementById('websiteModal');
+      const modal  = document.getElementById('websiteModal');
       const iframe = document.getElementById('websiteFrame');
       iframe.src = WEBSITE_CONFIG.websiteUrl;
       modal.style.display = 'block';
@@ -642,20 +2515,15 @@
     }
 
     function closeWebsiteModal() {
-      const modal = document.getElementById('websiteModal');
-      modal.style.display = 'none';
+      document.getElementById('websiteModal').style.display = 'none';
       document.body.style.overflow = 'auto';
     }
 
     function toggleAdmin() {
       const panel = document.getElementById('adminPanel');
-      
       if (!adminPanelVisible) {
         const password = prompt('Enter admin password:');
-        if (password !== '1234') {
-          alert('❌ Incorrect password! Access denied.');
-          return;
-        }
+        if (password !== '1234') { alert('❌ Incorrect password! Access denied.'); return; }
         adminPanelVisible = true;
         panel.style.display = 'block';
         updateStorageInfo();
@@ -666,42 +2534,30 @@
     }
 
     function addNewKey() {
-      const key = prompt('Enter new access key (uppercase, no spaces):');
+      const key   = prompt('Enter new access key (uppercase, no spaces):');
       if (!key) return;
-      
       const phone = prompt('Enter phone number for this key:');
       if (!phone) return;
-      
-      const cleanPhone = phone.replace(/\D/g, '');
-      const cleanKey = key.trim().toUpperCase();
-      
-      const validKeys = getValidKeys();
-      if (!validKeys[cleanKey]) {
-        validKeys[cleanKey] = [];
-      }
-      
+      const cleanPhone = phone.replace(/\D/g,'');
+      const cleanKey   = key.trim().toUpperCase();
+      const validKeys  = getValidKeys();
+      if (!validKeys[cleanKey]) validKeys[cleanKey] = [];
       if (!validKeys[cleanKey].includes(cleanPhone)) {
         validKeys[cleanKey].push(cleanPhone);
         localStorage.setItem('validKeyPhonePairs', JSON.stringify(validKeys));
         alert(`✅ New key-phone pair added:\nKey: ${cleanKey}\nPhone: ${cleanPhone}`);
         updateStorageInfo();
-      } else {
-        alert('❌ This key-phone combination already exists.');
-      }
+      } else { alert('❌ This key-phone combination already exists.'); }
     }
 
     function viewActiveKeys() {
       const validKeys = getValidKeys();
       let keyList = 'Current Valid Key-Phone Pairs:\n\n';
-      
       for (const [key, phones] of Object.entries(validKeys)) {
         keyList += `Key: ${key}\n`;
-        phones.forEach(phone => {
-          keyList += `  - Phone: ${phone}\n`;
-        });
+        phones.forEach(phone => { keyList += `  - Phone: ${phone}\n`; });
         keyList += '\n';
       }
-      
       alert(keyList);
     }
 
@@ -709,73 +2565,48 @@
       if (confirm('Are you sure you want to reset ALL access keys to default?')) {
         localStorage.removeItem('validKeyPhonePairs');
         loadValidKeys();
-        showMessage('success', '✅ All access keys have been reset to default values.');
+        showMessage('success','✅ All access keys have been reset to default values.');
         updateStorageInfo();
       }
     }
 
     function updateStorageInfo() {
-      const info = document.getElementById('storageInfo');
-      const currentKey = sessionStorage.getItem('currentAccessKey') || 'null';
+      const info         = document.getElementById('storageInfo');
+      const currentKey   = sessionStorage.getItem('currentAccessKey')   || 'null';
       const currentPhone = sessionStorage.getItem('currentAccessPhone') || 'null';
       const activeKeysCount = Object.keys(activeKeys).length;
-      const validKeysCount = Object.keys(getValidKeys()).length;
-      
-      let phoneDisplay = currentPhone !== 'null' ? `****${currentPhone.slice(-4)}` : 'null';
-      
-      info.innerHTML = `
-        <strong>Key System:</strong><br>
-        Current Key: ${currentKey}<br>
-        Current Phone: ${phoneDisplay}<br>
-        Active Keys: ${activeKeysCount}<br>
-        Valid Keys: ${validKeysCount}<br>
-        Key Session: ${keySessionActive ? 'Active' : 'Inactive'}
-      `;
+      const validKeysCount  = Object.keys(getValidKeys()).length;
+      const phoneDisplay = currentPhone !== 'null' ? `****${currentPhone.slice(-4)}` : 'null';
+      info.innerHTML = `<strong>Key System:</strong><br>Current Key: ${currentKey}<br>Current Phone: ${phoneDisplay}<br>Active Keys: ${activeKeysCount}<br>Valid Keys: ${validKeysCount}<br>Key Session: ${keySessionActive ? 'Active' : 'Inactive'}`;
     }
 
     function clearAllStorage() {
       if (confirm('Are you sure you want to clear all stored data? This cannot be undone.')) {
-        localStorage.clear();
-        sessionStorage.clear();
-        activeKeys = {};
-        keySessionActive = false;
-        
+        localStorage.clear(); sessionStorage.clear();
+        activeKeys = {}; keySessionActive = false;
         updateStorageInfo();
-        showMessage('success', '✅ All localStorage and sessionStorage data has been cleared.');
+        showMessage('success','✅ All localStorage and sessionStorage data has been cleared.');
         setTimeout(() => location.reload(), 1000);
       }
     }
 
-    function refreshPage() {
-      location.reload();
-    }
+    function refreshPage() { location.reload(); }
 
     function exportStorage() {
-      const data = {
-        validKeys: getValidKeys(),
-        activeKeys: activeKeys,
-        exportDate: new Date().toLocaleString()
-      };
-      
-      const dataStr = JSON.stringify(data, null, 2);
-      const blob = new Blob([dataStr], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'textile_suite_data_export.json';
-      a.click();
+      const data = { validKeys: getValidKeys(), activeKeys: activeKeys, exportDate: new Date().toLocaleString() };
+      const blob = new Blob([JSON.stringify(data,null,2)], { type: 'application/json' });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      a.href = url; a.download = 'textile_suite_data_export.json'; a.click();
       URL.revokeObjectURL(url);
     }
 
     document.getElementById('contactForm').addEventListener('submit', async function(e) {
       e.preventDefault();
-      
-      const submitBtn = document.getElementById('submitBtn');
+      const submitBtn  = document.getElementById('submitBtn');
       const originalText = submitBtn.innerHTML;
-      
       submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
       submitBtn.classList.add('loading');
-      
       const formData = {
         name: document.getElementById('name').value,
         email: document.getElementById('email').value,
@@ -783,24 +2614,14 @@
         message: document.getElementById('message').value,
         timestamp: new Date().toLocaleString()
       };
-      
       try {
-        const response = await fetch(WEBSITE_CONFIG.formspreeUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(formData)
-        });
-        
+        const response = await fetch(WEBSITE_CONFIG.formspreeUrl, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(formData) });
         if (response.ok) {
-          showMessage('success', '✅ Thank you! Your message has been sent successfully. We\'ll get back to you within 24 hours.');
+          showMessage('success',"✅ Thank you! Your message has been sent successfully. We'll get back to you within 24 hours.");
           document.getElementById('contactForm').reset();
-        } else {
-          throw new Error('Failed to send message');
-        }
-      } catch (error) {
-        showMessage('error', '❌ Sorry, there was an error sending your message. Please try again or contact us directly at 22tt010@titsbhiwani.ac.in');
+        } else { throw new Error('Failed'); }
+      } catch(error) {
+        showMessage('error','❌ Sorry, there was an error sending your message. Please try again or contact us directly at 22tt010@titsbhiwani.ac.in');
       } finally {
         submitBtn.innerHTML = originalText;
         submitBtn.classList.remove('loading');
@@ -809,61 +2630,170 @@
 
     function showMessage(type, message) {
       const successMsg = document.getElementById('successMsg');
-      const errorMsg = document.getElementById('errorMsg');
-      
+      const errorMsg   = document.getElementById('errorMsg');
       successMsg.style.display = 'none';
-      errorMsg.style.display = 'none';
-      
+      errorMsg.style.display   = 'none';
       if (type === 'success') {
-        successMsg.innerHTML = message;
-        successMsg.style.display = 'block';
-        setTimeout(() => {
-          successMsg.style.display = 'none';
-        }, 8000);
+        successMsg.innerHTML = message; successMsg.style.display = 'block';
+        setTimeout(() => { successMsg.style.display = 'none'; }, 8000);
       } else {
-        errorMsg.innerHTML = message;
-        errorMsg.style.display = 'block';
-        setTimeout(() => {
-          errorMsg.style.display = 'none';
-        }, 8000);
+        errorMsg.innerHTML = message; errorMsg.style.display = 'block';
+        setTimeout(() => { errorMsg.style.display = 'none'; }, 8000);
       }
-      
       document.querySelector('.container').scrollIntoView({ behavior: 'smooth' });
     }
 
     document.querySelectorAll('input, textarea, select').forEach(element => {
-      element.addEventListener('focus', function() {
-        this.parentElement.style.transform = 'scale(1.02)';
-      });
-      
-      element.addEventListener('blur', function() {
-        this.parentElement.style.transform = 'scale(1)';
-      });
+      element.addEventListener('focus', function() { this.parentElement.style.transform = 'scale(1.02)'; });
+      element.addEventListener('blur',  function() { this.parentElement.style.transform = 'scale(1)'; });
     });
 
     document.addEventListener('click', function(e) {
-      const panel = document.getElementById('adminPanel');
+      const panel  = document.getElementById('adminPanel');
       const toggle = document.querySelector('.admin-toggle');
-      
-      if (adminPanelVisible && !panel.contains(e.target) && !toggle.contains(e.target)) {
-        toggleAdmin();
-      }
+      if (adminPanelVisible && !panel.contains(e.target) && !toggle.contains(e.target)) toggleAdmin();
     });
 
     window.addEventListener('click', function(e) {
       const modal = document.getElementById('websiteModal');
-      if (e.target === modal) {
-        closeWebsiteModal();
-      }
+      if (e.target === modal) closeWebsiteModal();
     });
+
+    /* ── COUNTDOWN TIMERS ── */
+    const TIMERS = [
+      {//8th Sem Papers Coming Soon
+        target: new Date('2026-06-15T00:00:00'),
+        start:  new Date('2025-02-01T00:00:00'),
+        d: 't1-d', h: 't1-h', m: 't1-m', s: 't1-s',
+        cd: 'timer1-cd', arrived: 'timer1-arrived', prog: 't1-prog'
+      },
+      {//New Scheme Notes Available In
+        target: new Date('2026-11-15T00:00:00'),
+        start:  new Date('2025-02-01T00:00:00'),
+        d: 't2-d', h: 't2-h', m: 't2-m', s: 't2-s',
+        cd: 'timer2-cd', arrived: 'timer2-arrived', prog: 't2-prog'
+      },
+      {//Final Year Notes Coming Soon
+        target: new Date('2026-04-20T00:00:00'),
+        start:  new Date('2025-03-01T00:00:00'),
+        d: 't3-d', h: 't3-h', m: 't3-m', s: 't3-s',
+        cd: 'timer3-cd', arrived: 'timer3-arrived', prog: 't3-prog'
+      }
+    ];
+
+    const prevVals = [{}, {}, {}];
+
+    function pad(n) { return String(n).padStart(2, '0'); }
+
+    function flipDigit(el, newVal) {
+      if (el.textContent === newVal) return;
+      el.classList.remove('flip');
+      void el.offsetWidth; // reflow
+      el.classList.add('flip');
+      el.textContent = newVal;
+      setTimeout(() => el.classList.remove('flip'), 250);
+    }
+
+    function tickTimers() {
+      const now = Date.now();
+      TIMERS.forEach((t, i) => {
+        const diff = t.target.getTime() - now;
+
+        // Progress bar
+        const total = t.target.getTime() - t.start.getTime();
+        const elapsed = now - t.start.getTime();
+        const pct = Math.min(100, Math.max(0, (elapsed / total) * 100));
+        const progEl = document.getElementById(t.prog);
+        if (progEl) progEl.style.width = pct + '%';
+
+        if (diff <= 0) {
+          document.getElementById(t.cd).style.display = 'none';
+          if (progEl) progEl.style.width = '100%';
+          const arr = document.getElementById(t.arrived);
+          arr.style.display = 'block';
+          return;
+        }
+
+        const days  = Math.floor(diff / 86400000);
+        const hours = Math.floor((diff % 86400000) / 3600000);
+        const mins  = Math.floor((diff % 3600000)  / 60000);
+        const secs  = Math.floor((diff % 60000)    / 1000);
+
+        flipDigit(document.getElementById(t.d), pad(days));
+        flipDigit(document.getElementById(t.h), pad(hours));
+        flipDigit(document.getElementById(t.m), pad(mins));
+        flipDigit(document.getElementById(t.s), pad(secs));
+      });
+    }
+    tickTimers();
+    setInterval(tickTimers, 1000);
 
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') {
         const modal = document.getElementById('websiteModal');
-        if (modal.style.display === 'block') {
-          closeWebsiteModal();
-        }
+        if (modal.style.display === 'block') closeWebsiteModal();
+        const pm = document.getElementById('premiumModal');
+        if (pm.classList.contains('open')) closePremiumModal();
       }
+    });
+  </script>
+
+  <!-- ── PUBLIC RESET KEY BUTTON ── -->
+  <div class="public-reset-wrap">
+    <button class="public-reset-btn" onclick="openResetConfirm()">
+      <i class="fas fa-key"></i> Reset Keys
+    </button>
+  </div>
+
+  <!-- ── RESET CONFIRM MODAL ── -->
+  <div id="resetConfirmModal">
+    <div class="rcm-box">
+      <div class="rcm-icon"><i class="fas fa-rotate-left"></i></div>
+      <div class="rcm-title">Reset Access Keys</div>
+      <div class="rcm-desc">
+        This will restore all access keys to their <strong>default values</strong>.<br>
+        Any custom keys added by admin will be removed.
+      </div>
+      <div class="rcm-btns">
+        <button class="rcm-cancel" onclick="closeResetConfirm()"><i class="fas fa-times"></i> &nbsp;Cancel</button>
+        <button class="rcm-confirm" onclick="confirmPublicReset()"><i class="fas fa-key"></i> &nbsp;Reset Now</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openResetConfirm() {
+      document.getElementById('resetConfirmModal').classList.add('open');
+    }
+    function closeResetConfirm() {
+      document.getElementById('resetConfirmModal').classList.remove('open');
+    }
+    function confirmPublicReset() {
+      localStorage.removeItem('validKeyPhonePairs');
+      sessionStorage.removeItem('currentAccessKey');
+      sessionStorage.removeItem('currentAccessPhone');
+      if (typeof loadValidKeys === 'function') loadValidKeys();
+      if (typeof updateStorageInfo === 'function') updateStorageInfo();
+      closeResetConfirm();
+      // Show a brief success toast
+      const toast = document.createElement('div');
+      toast.style.cssText = `
+        position:fixed; bottom:80px; right:24px; z-index:9500;
+        background:linear-gradient(135deg,#1a0a2e,#2a1040);
+        border:1px solid rgba(192,132,224,0.5);
+        color:#c084e0; font-family:'Rajdhani',sans-serif; font-weight:600;
+        font-size:0.88rem; letter-spacing:0.5px;
+        padding:12px 18px; border-radius:12px;
+        box-shadow:0 8px 24px rgba(118,75,162,0.35);
+        display:flex; align-items:center; gap:8px;
+        animation:rcmIn 0.4s cubic-bezier(0.16,1,0.3,1) forwards;
+      `;
+      toast.innerHTML = '<i class="fas fa-check-circle" style="color:#9b59b6"></i> Keys reset to default!';
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+    document.getElementById('resetConfirmModal').addEventListener('click', function(e) {
+      if (e.target === this) closeResetConfirm();
     });
   </script>
 </body>
