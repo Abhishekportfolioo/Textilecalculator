@@ -1,0 +1,2304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Textile Pro Suite — Premium</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --ink: #0d0d0d;
+      --paper: #f5f2ec;
+      --cream: #faf8f4;
+      --gold: #c9a84c;
+      --gold-light: #e8c97e;
+      --gold-dim: rgba(201,168,76,0.15);
+      --thread: #8b7355;
+      --mist: #ded8cc;
+      --smoke: #b5afa5;
+      --accent: #2c4a3e;
+      --accent2: #7c3d2d;
+      --card-bg: rgba(255,252,247,0.85);
+      --glass: rgba(245,242,236,0.6);
+      --shadow: 0 4px 32px rgba(13,13,13,0.10);
+      --shadow-lg: 0 12px 60px rgba(13,13,13,0.15);
+      --border: 1px solid rgba(201,168,76,0.25);
+      --radius: 16px;
+      --radius-sm: 8px;
+    }
+
+    /* ── Dark Mode ── */
+    body.dark {
+      --ink: #ede8df;
+      --paper: #111009;
+      --cream: #181610;
+      --card-bg: rgba(28,25,18,0.92);
+      --glass: rgba(28,25,18,0.7);
+      --mist: #2e2b22;
+      --smoke: #6b6458;
+      --shadow: 0 4px 32px rgba(0,0,0,0.4);
+      --shadow-lg: 0 12px 60px rgba(0,0,0,0.55);
+      --border: 1px solid rgba(201,168,76,0.18);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      min-height: 100vh;
+      transition: background 0.4s, color 0.4s;
+      overflow-x: hidden;
+    }
+
+    /* ── Background texture ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(ellipse 80% 60% at 10% 0%, rgba(201,168,76,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 90% 100%, rgba(44,74,62,0.05) 0%, transparent 60%),
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a84c' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1340px;
+      margin: 0 auto;
+      padding: 0 28px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Header ── */
+    header {
+      padding: 32px 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: var(--border);
+      margin-bottom: 36px;
+    }
+
+    .logo-block h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.4rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo-block h1 .accent-text {
+      color: var(--gold);
+    }
+
+    .logo-block p {
+      font-size: 0.78rem;
+      color: var(--smoke);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-top: 4px;
+      padding-left: 2px;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      border: none;
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border: var(--border);
+      color: var(--ink);
+    }
+
+    .btn-ghost:hover {
+      background: var(--gold-dim);
+      border-color: var(--gold);
+      transform: translateY(-1px);
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: #1a1200;
+      box-shadow: 0 4px 16px rgba(201,168,76,0.3);
+    }
+
+    .btn-gold:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(201,168,76,0.4);
+    }
+
+    .btn-accent {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-accent:hover {
+      background: #3a6254;
+      transform: translateY(-2px);
+    }
+
+    .btn-danger {
+      background: rgba(124,61,45,0.1);
+      border: 1px solid rgba(124,61,45,0.3);
+      color: var(--accent2);
+    }
+
+    .btn-danger:hover {
+      background: rgba(124,61,45,0.18);
+    }
+
+    /* ── Tabs navigation ── */
+    .tabs-nav {
+      display: flex;
+      gap: 4px;
+      background: var(--card-bg);
+      border: var(--border);
+      border-radius: 12px;
+      padding: 5px;
+      margin-bottom: 32px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .tabs-nav::-webkit-scrollbar { display: none; }
+
+    .tab-btn {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 8px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--smoke);
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+      transition: all 0.25s;
+    }
+
+    .tab-btn:hover {
+      color: var(--ink);
+      background: var(--gold-dim);
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: #1a1200;
+      box-shadow: 0 4px 14px rgba(201,168,76,0.3);
+    }
+
+    .tab-btn i { font-size: 0.88rem; }
+
+    /* ── Tab content ── */
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; animation: fadeSlideIn 0.35s ease; }
+
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Section heading ── */
+    .section-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .section-heading i { color: var(--gold); font-size: 1.3rem; }
+
+    .gold-line {
+      display: block;
+      width: 48px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      margin: 6px 0 24px;
+    }
+
+    /* ── Cards / Panels ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      transition: box-shadow 0.25s, transform 0.25s;
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-3px);
+    }
+
+    .card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: var(--border);
+    }
+
+    .card-title i { color: var(--gold); }
+
+    /* ── Form elements ── */
+    .form-group { margin-bottom: 18px; }
+
+    label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--smoke);
+      margin-bottom: 7px;
+    }
+
+    input[type="number"], select, textarea {
+      width: 100%;
+      padding: 11px 15px;
+      background: var(--cream);
+      border: var(--border);
+      border-radius: var(--radius-sm);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.92rem;
+      color: var(--ink);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
+    }
+
+    .input-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .input-row input { flex: 1; }
+    .input-row select { width: 130px; flex: 0 0 130px; }
+
+    /* ── Button group ── */
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 20px 0 28px;
+    }
+
+    .btn-row .btn { flex: 1; min-width: 140px; justify-content: center; }
+
+    /* ── Result output ── */
+    .result-box {
+      background: var(--card-bg);
+      border: var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .result-box .section-heading { margin-bottom: 20px; font-size: 1.3rem; }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 14px;
+    }
+
+    .result-item {
+      background: var(--cream);
+      border: var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      border-left: 3px solid var(--gold);
+      transition: transform 0.2s;
+    }
+
+    .result-item:hover { transform: translateY(-2px); }
+
+    .result-item .label {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--smoke);
+      margin-bottom: 5px;
+    }
+
+    .result-item .value {
+      font-family: 'DM Mono', monospace;
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: var(--gold);
+    }
+
+    .result-note {
+      margin-top: 16px;
+      padding: 14px 18px;
+      background: rgba(201,168,76,0.07);
+      border: var(--border);
+      border-radius: 10px;
+      font-size: 0.86rem;
+      color: var(--smoke);
+    }
+
+    /* ── Grade badge ── */
+    .grade-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 30px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      margin-top: 14px;
+    }
+
+    .grade-excellent { background: rgba(44,74,62,0.12); color: var(--accent); border: 1px solid rgba(44,74,62,0.3); }
+    .grade-good { background: rgba(201,168,76,0.12); color: #8a6f20; border: 1px solid rgba(201,168,76,0.3); }
+    .grade-fair { background: rgba(201,120,76,0.12); color: #8a5020; border: 1px solid rgba(201,120,76,0.3); }
+    .grade-poor { background: rgba(124,61,45,0.12); color: var(--accent2); border: 1px solid rgba(124,61,45,0.3); }
+
+    /* ── Chart container ── */
+    .chart-box {
+      background: var(--card-bg);
+      border: var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: 28px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .chart-box canvas { max-height: 300px; }
+
+    /* ── Conversion tools ── */
+    .conv-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+
+    .conv-result {
+      margin-top: 14px;
+      padding: 16px;
+      background: rgba(201,168,76,0.06);
+      border: var(--border);
+      border-radius: 10px;
+    }
+
+    .conv-result .main-val {
+      font-family: 'DM Mono', monospace;
+      font-size: 1.4rem;
+      color: var(--gold);
+      margin: 4px 0;
+    }
+
+    .conv-result p { font-size: 0.85rem; color: var(--smoke); margin: 0; }
+
+    .count-mini-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .count-chip {
+      background: var(--cream);
+      border: var(--border);
+      border-radius: 8px;
+      padding: 8px;
+      text-align: center;
+    }
+
+    .count-chip h4 { font-size: 0.68rem; letter-spacing: 0.08em; color: var(--smoke); text-transform: uppercase; }
+    .count-chip p  { font-family: 'DM Mono', monospace; font-size: 0.9rem; color: var(--gold); margin-top: 3px; }
+
+    /* ── Info cards ── */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .info-card {
+      background: var(--cream);
+      border: var(--border);
+      border-radius: 12px;
+      padding: 18px;
+    }
+
+    .info-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      color: var(--gold);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .info-card p { font-size: 0.84rem; color: var(--smoke); line-height: 1.65; }
+
+    /* ── Gallery ── */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 1024px) { .gallery-grid { grid-template-columns: repeat(3,1fr); } }
+    @media (max-width: 700px)  { .gallery-grid { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 480px)  { .gallery-grid { grid-template-columns: 1fr; } }
+
+    .gal-card {
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--card-bg);
+      border: var(--border);
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.5s, transform 0.5s, box-shadow 0.25s;
+    }
+
+    .gal-card.visible { opacity: 1; transform: translateY(0); }
+    .gal-card:hover { box-shadow: var(--shadow-lg); }
+    .gal-card:hover .gal-img img { transform: scale(1.07); }
+
+    .gal-img { width: 100%; height: 155px; overflow: hidden; background: var(--mist); }
+    .gal-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+
+    .gal-body { padding: 12px 14px 14px; }
+    .gal-body h3 { font-size: 0.83rem; font-weight: 500; color: var(--ink); margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .gal-body p  { font-size: 0.75rem; color: var(--smoke); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+    .gal-tag {
+      display: inline-block;
+      font-size: 0.68rem;
+      padding: 2px 9px;
+      border-radius: 10px;
+      background: var(--gold-dim);
+      color: var(--gold);
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      margin-top: 7px;
+    }
+
+    /* ── Search bar ── */
+    .search-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .search-wrap {
+      position: relative;
+      flex: 1;
+      min-width: 220px;
+    }
+
+    .search-wrap input {
+      padding: 10px 40px 10px 16px;
+      border-radius: 30px;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .search-wrap i {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--smoke);
+      pointer-events: none;
+      font-size: 0.85rem;
+    }
+
+    .filter-pills { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 20px; }
+
+    .pill {
+      padding: 5px 13px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      border: var(--border);
+      background: transparent;
+      color: var(--smoke);
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+
+    .pill:hover { border-color: var(--gold); color: var(--gold); }
+    .pill.active { background: linear-gradient(135deg, var(--gold), var(--gold-light)); border-color: transparent; color: #1a1200; }
+
+    /* ── Gallery Modal ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9000;
+      background: rgba(0,0,0,0.82);
+      backdrop-filter: blur(6px);
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal-box {
+      background: var(--cream);
+      border-radius: 18px;
+      overflow: hidden;
+      width: 92%;
+      max-width: 860px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+      animation: modalPop 0.3s cubic-bezier(0.34,1.56,0.64,1) both;
+      border: var(--border);
+      position: relative;
+    }
+
+    @keyframes modalPop {
+      from { opacity:0; transform:scale(0.85) translateY(20px); }
+      to   { opacity:1; transform:scale(1) translateY(0); }
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 10;
+      width: 34px;
+      height: 34px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.9);
+      color: #333;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    }
+    .modal-close:hover { transform: rotate(90deg); }
+
+    .modal-img { width: 100%; max-height: 380px; object-fit: cover; display: block; }
+
+    .modal-body {
+      padding: 24px 28px 28px;
+      overflow-y: auto;
+    }
+
+    .modal-body h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .modal-body p { font-size: 0.88rem; color: var(--smoke); line-height: 1.75; }
+
+    .zoom-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 14px;
+      align-items: center;
+    }
+
+    .zoom-btn {
+      width: 32px;
+      height: 32px;
+      border: var(--border);
+      border-radius: 6px;
+      background: var(--cream);
+      color: var(--ink);
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .zoom-btn:hover { border-color: var(--gold); background: var(--gold-dim); }
+    .zoom-label { font-family: 'DM Mono', monospace; font-size: 0.82rem; color: var(--smoke); min-width: 42px; text-align: center; }
+
+    /* ── Warping tab special ── */
+    .warping-hero {
+      background: linear-gradient(135deg, var(--accent) 0%, #1a3d2f 100%);
+      border-radius: var(--radius);
+      padding: 36px;
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      color: #fff;
+    }
+
+    .warping-hero i { font-size: 3rem; color: var(--gold-light); flex-shrink: 0; }
+    .warping-hero h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 600; }
+    .warping-hero p { opacity: 0.75; font-size: 0.88rem; margin-top: 4px; }
+
+    /* ── Divider ── */
+    .divider {
+      border: none;
+      border-top: var(--border);
+      margin: 28px 0;
+    }
+
+    /* ── Info section ── */
+    .info-section {
+      background: var(--card-bg);
+      border: var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: 28px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    /* ── Count systems ── */
+    .sys-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+      margin: 18px 0;
+    }
+
+    .sys-card {
+      background: var(--cream);
+      border: var(--border);
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .sys-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      color: var(--gold);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sys-card p { font-size: 0.83rem; color: var(--smoke); line-height: 1.6; }
+    .sys-card ul { margin-top: 8px; padding-left: 16px; font-size: 0.83rem; color: var(--smoke); }
+
+    .formula-card {
+      background: linear-gradient(135deg, var(--accent), #1a3d2f);
+      border-radius: 12px;
+      padding: 20px;
+      color: #fff;
+      margin: 16px 0;
+    }
+
+    .formula-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      color: var(--gold-light);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .formula-card .code {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.85rem;
+      background: rgba(0,0,0,0.25);
+      border-radius: 8px;
+      padding: 12px 16px;
+      line-height: 1.75;
+    }
+
+    /* ── Package time special card ── */
+    .pkg-card {
+      grid-column: span 1;
+    }
+
+    /* ── Spinning hero ── */
+    .spinning-cta {
+      background: linear-gradient(135deg, #2c1654, #4a1a6e);
+      border-radius: var(--radius);
+      padding: 36px;
+      margin-bottom: 28px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .spinning-cta h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      color: #fff;
+    }
+
+    .spinning-cta p { color: rgba(255,255,255,0.6); font-size: 0.88rem; margin-top: 6px; }
+
+    .spinning-cta .cta-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    .btn-violet {
+      background: linear-gradient(135deg, #9c27b0, #7b1fa2);
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(156,39,176,0.35);
+    }
+
+    .btn-violet:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(156,39,176,0.5); }
+
+    /* ── Quality indicators ── */
+    .q-bar-wrap { display: flex; align-items: center; gap: 10px; margin-top: 6px; }
+    .q-bar { flex: 1; height: 6px; background: var(--mist); border-radius: 3px; overflow: hidden; }
+    .q-fill { height: 100%; border-radius: 3px; transition: width 0.5s ease; }
+    .q-lbl { font-size: 0.72rem; font-weight: 600; color: var(--smoke); min-width: 60px; text-align: right; }
+
+    /* ── Footer ── */
+    footer {
+      border-top: var(--border);
+      padding: 28px 0;
+      margin-top: 40px;
+      text-align: center;
+      color: var(--smoke);
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+    }
+
+    footer span { color: var(--gold); }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .card-grid, .conv-grid { grid-template-columns: 1fr; }
+      header { flex-direction: column; align-items: flex-start; gap: 14px; }
+      .header-actions { width: 100%; }
+      .spinning-cta { grid-template-columns: 1fr; }
+      .count-mini-grid { grid-template-columns: repeat(2,1fr); }
+      .btn-row .btn { flex: 1 1 100%; }
+      .logo-block h1 { font-size: 1.7rem; }
+    }
+
+    @media (max-width: 480px) {
+      .container { padding: 0 14px; }
+      .card { padding: 18px; }
+      input, select { font-size: 16px !important; }
+    }
+
+    /* ── Empty state ── */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--smoke);
+      display: none;
+    }
+    .empty-state i { font-size: 2.5rem; margin-bottom: 12px; opacity: 0.3; display: block; }
+
+    /* dark-mode select fix */
+    body.dark select option { background: #1c1812; color: #ede8df; }
+
+    /* ── Home icon cards ── */
+    .home-icon-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 22px 12px;
+      background: var(--card-bg);
+      border: var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+      text-align: center;
+      backdrop-filter: blur(10px);
+      color: var(--ink);
+    }
+
+    .home-icon-card:hover {
+      transform: translateY(-6px) scale(1.03);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--gold);
+    }
+
+    .home-icon-card i { font-size: 2.2rem; }
+    .home-icon-card span { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.04em; color: var(--smoke); line-height: 1.4; }
+
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- ── Header ── -->
+  <header>
+    <div class="logo-block">
+      <h1><i class="fas fa-industry" style="color:var(--gold);font-size:1.8rem"></i> Textile <span class="accent-text">Pro</span> Suite</h1>
+      <p>Advanced Engineering Calculator — Premium Edition</p>
+    </div>
+    <div class="header-actions">
+      <a href="Textile Pro Suite.html" class="btn btn-ghost"><i class="fas fa-home"></i> Home</a>
+      <button class="btn btn-ghost" onclick="toggleDark()"><i class="fas fa-moon" id="dark-icon"></i> <span id="dark-lbl">Dark</span></button>
+    </div>
+  </header>
+
+  <!-- ── Tabs ── -->
+  <div class="tabs-nav" id="tabsNav">
+    <button class="tab-btn active" data-tab="home"><i class="fas fa-home"></i> Home</button>
+    <button class="tab-btn" data-tab="weaving"><i class="fas fa-th-large"></i> Weaving</button>
+    <button class="tab-btn" data-tab="spinning"><i class="fas fa-spinner"></i> Spinning</button>
+    <button class="tab-btn" data-tab="conversion"><i class="fas fa-exchange-alt"></i> Conversion</button>
+    <button class="tab-btn" data-tab="quality"><i class="fas fa-chart-line"></i> Quality</button>
+    <button class="tab-btn" data-tab="warping"><i class="fas fa-ruler-horizontal"></i> Warping</button>
+    <button class="tab-btn" data-tab="weavedesigns"><i class="fas fa-border-style"></i> Weave Designs</button>
+    <button class="tab-btn" data-tab="trainingreport"><i class="fas fa-file-alt"></i> Training Report</button>
+    <button class="tab-btn" data-tab="trainingppt"><i class="fas fa-file-powerpoint"></i> Training PPT</button>
+    <button class="tab-btn" data-tab="seminarreport"><i class="fas fa-chalkboard-teacher"></i> Seminar</button>
+    <button class="tab-btn" data-tab="jobs"><i class="fas fa-briefcase"></i> Jobs</button>
+    <button class="tab-btn" data-tab="studymaterial"><i class="fas fa-book-open"></i> Study Material</button>
+    <button class="tab-btn" data-tab="gallery"><i class="fas fa-images"></i> Gallery</button>
+  </div>
+
+  <!-- ════════════════════════════════════════════════
+       TAB: HOME
+  ════════════════════════════════════════════════ -->
+  <div id="tab-home" class="tab-pane active">
+
+    <div style="text-align:center; padding: 40px 0 28px;">
+      <h1 style="font-family:'Cormorant Garamond',serif; font-size:3rem; font-weight:600; color:var(--gold); margin-bottom:10px;">
+        Welcome to Textile Pro Suite
+      </h1>
+      <p style="color:var(--smoke); font-size:1rem; letter-spacing:0.05em; max-width:560px; margin:0 auto 32px;">
+        Your premium one-stop solution for weaving, spinning, conversion, quality analysis and more.
+      </p>
+    </div>
+
+    <!-- Quick-access icon grid -->
+    <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap:16px; margin-bottom:40px;">
+
+      <div class="home-icon-card" onclick="switchTab('weaving')">
+        <i class="fas fa-th-large" style="color:#c9a84c;"></i>
+        <span>Weaving<br>Calculator</span>
+      </div>
+      <div class="home-icon-card" onclick="switchTab('spinning')">
+        <i class="fas fa-spinner" style="color:#9c27b0; animation: spin 2s linear infinite;"></i>
+        <span>Spinning<br>Calculator</span>
+      </div>
+      <div class="home-icon-card" onclick="switchTab('conversion')">
+        <i class="fas fa-exchange-alt" style="color:#17a2b8;"></i>
+        <span>Conversion<br>Tools</span>
+      </div>
+      <div class="home-icon-card" onclick="switchTab('quality')">
+        <i class="fas fa-chart-line" style="color:#4caf50;"></i>
+        <span>Quality<br>Analysis</span>
+      </div>
+      <div class="home-icon-card" onclick="switchTab('warping')">
+        <i class="fas fa-ruler-horizontal" style="color:#007bff;"></i>
+        <span>Warping<br>Calculator</span>
+      </div>
+      <div class="home-icon-card" onclick="switchTab('weavedesigns')">
+        <i class="fas fa-border-style" style="color:#795548;"></i>
+        <span>Weave<br>Designs</span>
+      </div>
+      <div class="home-icon-card" onclick="switchTab('trainingreport')">
+        <i class="fas fa-file-alt" style="color:#7952b3;"></i>
+        <span>Training<br>Report</span>
+      </div>
+      <div class="home-icon-card" onclick="switchTab('trainingppt')">
+        <i class="fas fa-file-powerpoint" style="color:#e74c3c;"></i>
+        <span>Training<br>Presentation</span>
+      </div>
+      <div class="home-icon-card" onclick="switchTab('seminarreport')">
+        <i class="fas fa-chalkboard-teacher" style="color:#2c4a3e;"></i>
+        <span>Seminar<br>Report</span>
+      </div>
+      <div class="home-icon-card" onclick="switchTab('jobs')">
+        <i class="fas fa-briefcase" style="color:#ff9800;"></i>
+        <span>Latest<br>Jobs</span>
+      </div>
+      <div class="home-icon-card" onclick="switchTab('studymaterial')">
+        <i class="fas fa-book-open" style="color:#3498db;"></i>
+        <span>Study<br>Material</span>
+      </div>
+      <div class="home-icon-card" onclick="switchTab('gallery')">
+        <i class="fas fa-images" style="color:#e91e63;"></i>
+        <span>Image<br>Gallery</span>
+      </div>
+      <a href="calculator.html" class="home-icon-card" style="text-decoration:none;">
+        <i class="fas fa-calculator" style="color:#c9a84c;"></i>
+        <span>Standard<br>Calculator</span>
+      </a>
+      <a href="https://abhishekportfolioo.github.io/Abhi/" target="_blank" class="home-icon-card" style="text-decoration:none;">
+        <i class="fas fa-user-circle" style="color:#c9a84c;"></i>
+        <span>Created By<br>Abhishek</span>
+      </a>
+      <a href="https://www.wikipedia.org/" target="_blank" class="home-icon-card" style="text-decoration:none;">
+        <i class="fab fa-wikipedia-w" style="color:#555;"></i>
+        <span>Wikipedia<br>Search</span>
+      </a>
+      <a href="geotextile.html" class="home-icon-card" style="text-decoration:none;">
+        <i class="fas fa-layer-group" style="color:#27ae60;"></i>
+        <span>Geotextile<br>in Detail</span>
+      </a>
+      <a href="notes.html" class="home-icon-card" style="text-decoration:none;">
+        <i class="fas fa-sticky-note" style="color:#f39c12;"></i>
+        <span>Semester<br>Notes</span>
+      </a>
+      <a href="Weave Designer.html" class="home-icon-card" style="text-decoration:none;">
+        <i class="fas fa-pencil-ruler" style="color:#795548;"></i>
+        <span>Weave<br>Designer</span>
+      </a>
+    </div>
+
+    <div class="info-section">
+      <h2 class="section-heading"><i class="fas fa-info-circle"></i> About This Suite</h2>
+      <div class="info-grid">
+        <div class="info-card"><h3><i class="fas fa-th-large"></i> Weaving</h3><p>Calculate cover factor, GSM, fabric weight, production rate, denting order, reed width, and yarn costs.</p></div>
+        <div class="info-card"><h3><i class="fas fa-spinner"></i> Spinning</h3><p>Compute ring frame production, yarn diameter, twist per metre, and full cost breakdown.</p></div>
+        <div class="info-card"><h3><i class="fas fa-exchange-alt"></i> Conversion</h3><p>Convert between Ne, Tex, Denier, Nm, Nw, dtex, ktex, and Grex systems instantly.</p></div>
+        <div class="info-card"><h3><i class="fas fa-chart-line"></i> Quality</h3><p>Analyze CV%, unevenness, thin/thick places, neps, and hairiness with USTER grading.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════
+       TAB: WEAVING
+  ════════════════════════════════════════════════ -->
+  <div id="tab-weaving" class="tab-pane">
+
+    <h2 class="section-heading"><i class="fas fa-th-large"></i> Weaving Calculator</h2>
+    <span class="gold-line"></span>
+
+    <div class="card-grid">
+
+      <!-- Warp Settings -->
+      <div class="card">
+        <div class="card-title"><i class="fas fa-ruler"></i> Warp Settings</div>
+        <div class="form-group">
+          <label>Ends Per Inch (EPI)</label>
+          <input type="number" id="epi" value="80" min="1">
+        </div>
+        <div class="form-group">
+          <label>Yarn Count</label>
+          <div class="input-row">
+            <input type="number" id="warpCount" value="40" min="0.1" step="0.1">
+            <select id="warpSystem">
+              <option value="ne">Ne</option>
+              <option value="tex">Tex</option>
+              <option value="denier">Denier</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Warp Crimp %</label>
+          <input type="number" id="warpCrimp" value="8" min="0">
+        </div>
+        <div class="form-group">
+          <label>Reed Count (dents/inch)</label>
+          <input type="number" id="reedCount" value="60" min="1">
+        </div>
+        <div class="form-group">
+          <label>Ends Per Dent</label>
+          <input type="number" id="endsPerDent" value="2" min="1">
+        </div>
+      </div>
+
+      <!-- Weft Settings -->
+      <div class="card">
+        <div class="card-title"><i class="fas fa-ruler-combined"></i> Weft Settings</div>
+        <div class="form-group">
+          <label>Picks Per Inch (PPI)</label>
+          <input type="number" id="ppi" value="70" min="1">
+        </div>
+        <div class="form-group">
+          <label>Yarn Count</label>
+          <div class="input-row">
+            <input type="number" id="weftCount" value="30" min="0.1" step="0.1">
+            <select id="weftSystem">
+              <option value="ne">Ne</option>
+              <option value="tex">Tex</option>
+              <option value="denier">Denier</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Weft Crimp %</label>
+          <input type="number" id="weftCrimp" value="5" min="0">
+        </div>
+        <div class="form-group">
+          <label>PPI for Production</label>
+          <input type="number" id="ppiForProduction" value="65" min="1">
+        </div>
+      </div>
+
+      <!-- Fabric & Production -->
+      <div class="card">
+        <div class="card-title"><i class="fas fa-cube"></i> Fabric & Production</div>
+        <div class="form-group">
+          <label>Fabric Width (inches)</label>
+          <input type="number" id="width" value="60" min="1">
+        </div>
+        <div class="form-group">
+          <label>Fabric Length (meters)</label>
+          <input type="number" id="length" value="100" min="1">
+        </div>
+        <div class="form-group">
+          <label>Machine RPM</label>
+          <input type="number" id="rpm" value="600" min="1">
+        </div>
+        <div class="form-group">
+          <label>Yarn Price (₹/kg)</label>
+          <input type="number" id="yarnPrice" value="5.5" min="0" step="0.01">
+        </div>
+      </div>
+
+      <!-- Package Time -->
+      <div class="card pkg-card">
+        <div class="card-title"><i class="fas fa-clock"></i> Time to Empty Package</div>
+        <div class="form-group">
+          <label>Package Weight (gm)</label>
+          <input type="number" id="packageWeight" value="1000" min="0.1" step="0.1">
+        </div>
+        <div class="form-group">
+          <label>Yarn Count (Ne)</label>
+          <input type="number" id="packageNe" value="40" min="0.1" step="0.1">
+        </div>
+        <div class="form-group">
+          <label>Reed Width (inches)</label>
+          <input type="number" id="packageReedWidth" value="60" min="0.1" step="0.1">
+        </div>
+        <div class="form-group">
+          <label>Machine RPM</label>
+          <input type="number" id="packageRpm" value="600" min="1">
+        </div>
+        <div class="btn-row" style="margin-top:8px;">
+          <button class="btn btn-gold" onclick="calculatePackageTime()"><i class="fas fa-clock"></i> Calculate Time</button>
+        </div>
+        <div id="packageTimeResult" class="conv-result" style="display:none;"></div>
+      </div>
+
+    </div><!-- /.card-grid -->
+
+    <div class="btn-row">
+      <button class="btn btn-gold" onclick="calculateWeaving()"><i class="fas fa-calculator"></i> Calculate Weaving</button>
+      <button class="btn btn-accent" onclick="exportPDF()"><i class="fas fa-file-pdf"></i> Export PDF</button>
+      <button class="btn btn-danger" onclick="resetWeaving()"><i class="fas fa-redo"></i> Reset</button>
+    </div>
+
+    <div class="result-box" id="weaving-result" style="display:none;"></div>
+
+    <div class="chart-box" id="weaving-chart-box" style="display:none;">
+      <h2 class="section-heading" style="font-size:1.1rem;"><i class="fas fa-chart-bar"></i> Fabric Metrics</h2>
+      <canvas id="weaving-chart"></canvas>
+    </div>
+
+    <div class="info-section">
+      <h2 class="section-heading"><i class="fas fa-info-circle"></i> About Key Metrics</h2>
+      <div class="info-grid">
+        <div class="info-card"><h3><i class="fas fa-ruler"></i> Cover Factor</h3><p>Indicates fabric density. Calculated as threads per inch divided by the square root of yarn count. Higher values mean tighter weaves.</p></div>
+        <div class="info-card"><h3><i class="fas fa-weight"></i> GSM</h3><p>Grams per Square Meter — a key fabric quality indicator. Affects drape, durability, and end-use suitability.</p></div>
+        <div class="info-card"><h3><i class="fas fa-cogs"></i> Production Rate</h3><p>Based on loom speed (RPM) and picks per inch. Higher loom RPM with fewer picks per inch gives greater linear output.</p></div>
+        <div class="info-card"><h3><i class="fas fa-ruler-horizontal"></i> Reed Width</h3><p>Calculated from total ends divided by reed count. Must be accommodated within the loom's working width specification.</p></div>
+      </div>
+    </div>
+
+  </div><!-- /tab-weaving -->
+
+  <!-- ════════════════════════════════════════════════
+       TAB: SPINNING
+  ════════════════════════════════════════════════ -->
+  <div id="tab-spinning" class="tab-pane">
+
+    <div class="spinning-cta">
+      <div>
+        <h2>Spinning Production Hub</h2>
+        <p>Calculate ring frame production, yarn evenness, and cost metrics in one place.</p>
+      </div>
+      <div class="cta-btns">
+        <a href="Spinning.html" class="btn btn-violet"><i class="fas fa-external-link-alt"></i> Machine-wise Calc</a>
+        <a href="Yarn Evenness Calculator.html" class="btn btn-ghost" style="color:#fff;border-color:rgba(255,255,255,0.3);"><i class="fas fa-wave-square"></i> Evenness Calc</a>
+      </div>
+    </div>
+
+    <div class="card-grid">
+
+      <div class="card">
+        <div class="card-title"><i class="fas fa-cogs"></i> Machine Settings</div>
+        <div class="form-group"><label>Spindle Speed (RPM)</label><input type="number" id="spindleSpeed" value="15000" min="1"></div>
+        <div class="form-group"><label>Number of Spindles</label><input type="number" id="numSpindles" value="100" min="1"></div>
+        <div class="form-group"><label>Machine Efficiency (%)</label><input type="number" id="efficiency" value="92" min="1" max="100"></div>
+        <div class="form-group"><label>Hours of Operation</label><input type="number" id="hours" value="8" min="1"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><i class="fas fa-weight-hanging"></i> Yarn Parameters</div>
+        <div class="form-group">
+          <label>Yarn Count</label>
+          <div class="input-row">
+            <input type="number" id="yarnCount" value="30" min="0.1" step="0.1">
+            <select id="yarnCountSystem">
+              <option value="ne">Ne</option>
+              <option value="tex">Tex</option>
+              <option value="denier">Denier</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group"><label>Twist Per Inch (TPI)</label><input type="number" id="tpi" value="18" min="0.1" step="0.1"></div>
+        <div class="form-group"><label>Twist Multiplier (TM)</label><input type="number" id="tm" value="3.2" min="0.1" step="0.1"></div>
+        <div class="form-group"><label>Yarn Waste (%)</label><input type="number" id="waste" value="3" min="0" max="20"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><i class="fas fa-coins"></i> Cost Parameters</div>
+        <div class="form-group"><label>Power Cost (per kWh)</label><input type="number" id="powerCost" value="0.15" min="0" step="0.01"></div>
+        <div class="form-group"><label>Machine Power (kW)</label><input type="number" id="machinePower" value="25" min="0" step="0.1"></div>
+        <div class="form-group"><label>Labor Cost (per hour)</label><input type="number" id="laborCost" value="12" min="0" step="0.01"></div>
+        <div class="form-group"><label>Raw Material Cost (per kg)</label><input type="number" id="rawMaterialCost" value="4.5" min="0" step="0.01"></div>
+      </div>
+
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-gold" onclick="calculateSpinning()"><i class="fas fa-calculator"></i> Calculate Spinning</button>
+      <button class="btn btn-danger" onclick="resetSpinning()"><i class="fas fa-redo"></i> Reset</button>
+    </div>
+
+    <div class="result-box" id="spinning-result" style="display:none;"></div>
+
+    <div class="chart-box" id="spinning-chart-box" style="display:none;">
+      <h2 class="section-heading" style="font-size:1.1rem;"><i class="fas fa-chart-bar"></i> Production Metrics</h2>
+      <canvas id="spinning-chart"></canvas>
+    </div>
+
+  </div><!-- /tab-spinning -->
+
+  <!-- ════════════════════════════════════════════════
+       TAB: CONVERSION
+  ════════════════════════════════════════════════ -->
+  <div id="tab-conversion" class="tab-pane">
+
+    <h2 class="section-heading"><i class="fas fa-exchange-alt"></i> Conversion Tools</h2>
+    <span class="gold-line"></span>
+
+    <div class="conv-grid">
+
+      <!-- Yarn Count Conversion -->
+      <div class="card">
+        <div class="card-title"><i class="fas fa-exchange-alt"></i> Yarn Count Conversion</div>
+        <div class="form-group">
+          <label>From System</label>
+          <select id="fromSystem" onchange="convertYarnCount()">
+            <option value="ne">Cotton Count (Ne)</option>
+            <option value="tex">Tex</option>
+            <option value="denier">Denier</option>
+            <option value="dtex">Decitex (dtex)</option>
+            <option value="ktex">Kilotex (ktex)</option>
+            <option value="grex">Grex</option>
+            <option value="metric">Metric Count (Nm)</option>
+            <option value="worsted">Worsted Count (Nw)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Value</label>
+          <input type="number" id="convertValue" value="30" min="0.1" step="0.1" oninput="convertYarnCount()">
+        </div>
+        <div class="form-group">
+          <label>To System</label>
+          <select id="toSystem" onchange="convertYarnCount()">
+            <option value="tex">Tex</option>
+            <option value="ne">Cotton Count (Ne)</option>
+            <option value="denier">Denier</option>
+            <option value="dtex">Decitex (dtex)</option>
+            <option value="ktex">Kilotex (ktex)</option>
+            <option value="grex">Grex</option>
+            <option value="metric">Metric Count (Nm)</option>
+            <option value="worsted">Worsted Count (Nw)</option>
+          </select>
+        </div>
+        <div class="conv-result" id="yarnConversionResult">
+          <p>Enter values to see result</p>
+        </div>
+      </div>
+
+      <!-- Weight to Count -->
+      <div class="card">
+        <div class="card-title"><i class="fas fa-weight"></i> Weight to Count</div>
+        <div class="form-group"><label>Weight (grams)</label><input type="number" id="weightInput" value="1" min="0.1" step="0.1" oninput="calculateWeightToCount()"></div>
+        <div class="form-group"><label>Length (meters)</label><input type="number" id="lengthInput" value="1000" min="0.1" step="0.1" oninput="calculateWeightToCount()"></div>
+        <div class="conv-result" id="weightToCountResult"><p>Enter values to see result</p></div>
+      </div>
+
+      <!-- Yarn Diameter -->
+      <div class="card">
+        <div class="card-title"><i class="fas fa-ruler-vertical"></i> Yarn Diameter</div>
+        <div class="form-group"><label>Yarn Count (Tex)</label><input type="number" id="diameterTex" value="20" min="0.1" step="0.1" oninput="calculateYarnDiameter()"></div>
+        <div class="form-group"><label>Yarn Density (g/cm³)</label><input type="number" id="yarnDensity" value="0.8" min="0.1" step="0.01" oninput="calculateYarnDiameter()"></div>
+        <div class="conv-result" id="yarnDiameterResult"><p>Enter values to see result</p></div>
+      </div>
+
+      <!-- Length to Weight -->
+      <div class="card">
+        <div class="card-title"><i class="fas fa-ruler-horizontal"></i> Length → Weight</div>
+        <div class="form-group"><label>Length (meters)</label><input type="number" id="ltwLength" value="1000" min="0.1" step="0.1" oninput="calculateLengthToWeight()"></div>
+        <div class="form-group">
+          <label>Count System</label>
+          <select id="ltwSystem" onchange="calculateLengthToWeight()">
+            <option value="tex">Tex</option><option value="ne">Ne</option><option value="denier">Denier</option>
+            <option value="dtex">dtex</option><option value="ktex">ktex</option>
+            <option value="grex">Grex</option><option value="metric">Nm</option><option value="worsted">Nw</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Count Value</label><input type="number" id="ltwCount" value="30" min="0.01" step="0.01" oninput="calculateLengthToWeight()"></div>
+        <div class="conv-result" id="lengthToWeightResult"><p>Enter values to see result</p></div>
+      </div>
+
+      <!-- Weight to Length -->
+      <div class="card">
+        <div class="card-title"><i class="fas fa-balance-scale"></i> Weight → Length</div>
+        <div class="form-group"><label>Weight (grams)</label><input type="number" id="wtlWeight" value="10" min="0.01" step="0.01" oninput="calculateWeightToLength()"></div>
+        <div class="form-group">
+          <label>Count System</label>
+          <select id="wtlSystem" onchange="calculateWeightToLength()">
+            <option value="tex">Tex</option><option value="ne">Ne</option><option value="denier">Denier</option>
+            <option value="dtex">dtex</option><option value="ktex">ktex</option>
+            <option value="grex">Grex</option><option value="metric">Nm</option><option value="worsted">Nw</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Count Value</label><input type="number" id="wtlCount" value="30" min="0.01" step="0.01" oninput="calculateWeightToLength()"></div>
+        <div class="conv-result" id="weightToLengthResult"><p>Enter values to see result</p></div>
+      </div>
+
+      <!-- Length Unit Conversion -->
+      <div class="card">
+        <div class="card-title"><i class="fas fa-ruler-horizontal"></i> Length Units</div>
+        <div class="form-group">
+          <label>From</label>
+          <select id="lengthFromUnit" onchange="convertLengthUnits()">
+            <option value="m">Meters</option><option value="yd">Yards</option>
+            <option value="ft">Feet</option><option value="in">Inches</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Value</label><input type="number" id="lengthFromValue" value="1" min="0.0001" step="0.0001" oninput="convertLengthUnits()"></div>
+        <div class="form-group">
+          <label>To</label>
+          <select id="lengthToUnit" onchange="convertLengthUnits()">
+            <option value="yd">Yards</option><option value="m">Meters</option>
+            <option value="ft">Feet</option><option value="in">Inches</option>
+          </select>
+        </div>
+        <div class="conv-result" id="lengthConversionResult"><p>Enter values to see result</p></div>
+      </div>
+
+      <!-- Weight Unit Conversion -->
+      <div class="card">
+        <div class="card-title"><i class="fas fa-weight-hanging"></i> Weight Units</div>
+        <div class="form-group">
+          <label>From</label>
+          <select id="weightFromUnit" onchange="convertWeightUnits()">
+            <option value="g">Grams</option><option value="kg">Kilograms</option>
+            <option value="lb">Pounds</option><option value="oz">Ounces</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Value</label><input type="number" id="weightFromValue" value="1" min="0.0001" step="0.0001" oninput="convertWeightUnits()"></div>
+        <div class="form-group">
+          <label>To</label>
+          <select id="weightToUnit" onchange="convertWeightUnits()">
+            <option value="kg">Kilograms</option><option value="g">Grams</option>
+            <option value="lb">Pounds</option><option value="oz">Ounces</option>
+          </select>
+        </div>
+        <div class="conv-result" id="weightConversionResult"><p>Enter values to see result</p></div>
+      </div>
+
+    </div><!-- /.conv-grid -->
+
+    <div class="info-section">
+      <h2 class="section-heading"><i class="fas fa-info-circle"></i> Yarn Count Systems</h2>
+      <div class="sys-grid">
+        <div class="sys-card"><h3><i class="fas fa-cotton-bureau"></i> Cotton Count (Ne)</h3><p>Number of hanks (840 yards) per pound. Higher = finer yarn. Standard for cotton.</p><ul><li>1 Hank = 840 yards = 768 m</li><li>1 Lea = 120 yards</li></ul></div>
+        <div class="sys-card"><h3><i class="fas fa-weight"></i> Tex</h3><p>Weight in grams of 1,000 meters. Lower = finer. International standard system.</p></div>
+        <div class="sys-card"><h3><i class="fas fa-thin"></i> Denier</h3><p>Weight in grams of 9,000 meters. Used for silk, nylon, polyester filaments.</p></div>
+        <div class="sys-card"><h3><i class="fas fa-globe-europe"></i> Metric (Nm)</h3><p>Kilometres per kilogram of yarn. Higher = finer. Common across Europe.</p></div>
+        <div class="sys-card"><h3><i class="fas fa-leaf"></i> Worsted (Nw)</h3><p>Number of 560-yard hanks per pound. Used for worsted wool yarns.</p></div>
+        <div class="sys-card"><h3><i class="fas fa-ruler"></i> Decitex (dtex)</h3><p>Grams per 10,000 meters. 1 dtex = 0.1 tex. Used for microfibers.</p></div>
+      </div>
+
+      <div class="formula-card">
+        <h3><i class="fas fa-exchange-alt"></i> Conversion Formulas</h3>
+        <div class="code">
+          Denier = 5315 / Ne &nbsp;&nbsp;|&nbsp;&nbsp; Tex = 590.5 / Ne<br>
+          Nm = 1000 / Tex &nbsp;&nbsp;|&nbsp;&nbsp; dtex = Tex × 10<br>
+          Ne = 590.5 / Tex &nbsp;&nbsp;|&nbsp;&nbsp; Grex = Tex × 10
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /tab-conversion -->
+
+  <!-- ════════════════════════════════════════════════
+       TAB: QUALITY
+  ════════════════════════════════════════════════ -->
+  <div id="tab-quality" class="tab-pane">
+
+    <h2 class="section-heading"><i class="fas fa-chart-line"></i> Quality Analysis</h2>
+    <span class="gold-line"></span>
+
+    <div class="card-grid">
+
+      <div class="card">
+        <div class="card-title"><i class="fas fa-chart-line"></i> Quality Parameters</div>
+        <div class="form-group"><label>CV% (Coeff. of Variation)</label><input type="number" id="cvPercent" value="12.5" min="0" step="0.1"></div>
+        <div class="form-group"><label>U% (Unevenness)</label><input type="number" id="uPercent" value="10.2" min="0" step="0.1"></div>
+        <div class="form-group"><label>Thin Places (−50%) per km</label><input type="number" id="thinPlaces" value="15" min="0"></div>
+        <div class="form-group"><label>Thick Places (+50%) per km</label><input type="number" id="thickPlaces" value="25" min="0"></div>
+        <div class="form-group"><label>Neps (+200%) per km</label><input type="number" id="neps" value="35" min="0"></div>
+        <div class="form-group"><label>Hairiness Index</label><input type="number" id="hairiness" value="4.2" min="0" step="0.1"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><i class="fas fa-cogs"></i> Machine Settings</div>
+        <div class="form-group"><label>Yarn Count (Ne)</label><input type="number" id="qualityYarnCount" value="30" min="0.1" step="0.1"></div>
+        <div class="form-group"><label>Twist Per Inch (TPI)</label><input type="number" id="qualityTpi" value="18" min="0.1" step="0.1"></div>
+        <div class="form-group"><label>Spindle Speed (RPM)</label><input type="number" id="qualitySpindleSpeed" value="15000" min="1"></div>
+      </div>
+
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-gold" onclick="calculateQuality()"><i class="fas fa-calculator"></i> Analyze Quality</button>
+      <button class="btn btn-danger" onclick="resetQuality()"><i class="fas fa-redo"></i> Reset</button>
+    </div>
+
+    <div class="result-box" id="quality-result" style="display:none;"></div>
+
+    <div class="chart-box" id="quality-chart-box" style="display:none;">
+      <h2 class="section-heading" style="font-size:1.1rem;"><i class="fas fa-chart-pie"></i> Quality Radar</h2>
+      <canvas id="quality-chart"></canvas>
+    </div>
+
+  </div><!-- /tab-quality -->
+
+  <!-- ════════════════════════════════════════════════
+       TAB: WARPING
+  ════════════════════════════════════════════════ -->
+  <div id="tab-warping" class="tab-pane">
+
+    <div class="warping-hero">
+      <i class="fas fa-ruler-horizontal"></i>
+      <div>
+        <h2>Warping Calculator</h2>
+        <p>Calculate total yarn length, weight, packages required, and per-beam requirements.</p>
+      </div>
+    </div>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-title"><i class="fas fa-sliders-h"></i> Parameters</div>
+        <div class="form-group"><label>Total Ends</label><input type="number" id="warpingEnds" value="4800" min="1"></div>
+        <div class="form-group"><label>Warp Length (meters)</label><input type="number" id="warpingLength" value="1000" min="1"></div>
+        <div class="form-group">
+          <label>Yarn Count</label>
+          <div class="input-row">
+            <input type="number" id="warpingCount" value="40" min="0.1" step="0.1">
+            <select id="warpingSystem">
+              <option value="ne">Ne</option><option value="tex">Tex</option><option value="denier">Denier</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group"><label>Crimp %</label><input type="number" id="warpingCrimp" value="8" min="0"></div>
+        <div class="form-group"><label>Number of Beams</label><input type="number" id="warpingBeams" value="1" min="1"></div>
+        <div class="form-group"><label>Package Weight (gm)</label><input type="number" id="warpingPackageWeight" value="1000" min="0.1" step="0.1"></div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-gold" onclick="calculateWarping()"><i class="fas fa-calculator"></i> Calculate Warping</button>
+      <button class="btn btn-danger" onclick="resetWarpingForm()"><i class="fas fa-redo"></i> Reset</button>
+    </div>
+
+    <div class="result-box" id="warping-result" style="display:none;"></div>
+
+  </div><!-- /tab-warping -->
+
+  <!-- ════════════════════════════════════════════════
+       TAB: GALLERY
+  ════════════════════════════════════════════════ -->
+  <div id="tab-gallery" class="tab-pane">
+
+    <h2 class="section-heading"><i class="fas fa-images"></i> Image Gallery</h2>
+    <span class="gold-line"></span>
+    <p style="color:var(--smoke);font-size:0.86rem;margin-bottom:20px;">18 curated textile images — click to explore in detail</p>
+
+    <div class="search-row">
+      <div class="search-wrap">
+        <input type="text" id="tgSearch" placeholder="Search images…" oninput="tgFilter()" autocomplete="off">
+        <i class="fas fa-search"></i>
+      </div>
+    </div>
+
+    <div class="filter-pills" id="tgPills"></div>
+
+    <div class="gallery-grid" id="tgGrid"></div>
+    <div class="empty-state" id="tgEmpty"><i class="fas fa-search"></i><p>No images match your search.</p></div>
+
+  </div><!-- /tab-gallery -->
+
+  <!-- ════════════════════════════════════════════════
+       TAB: WEAVE DESIGNS
+  ════════════════════════════════════════════════ -->
+  <div id="tab-weavedesigns" class="tab-pane">
+    <div class="warping-hero" style="background: linear-gradient(135deg, #795548, #4e342e);">
+      <i class="fas fa-border-style"></i>
+      <div>
+        <h2>Weave Designs Library</h2>
+        <p>Explore basic weave patterns and open the interactive Weave Designer.</p>
+      </div>
+    </div>
+
+    <div style="background:linear-gradient(135deg,#795548,#4e342e);border-radius:14px;padding:28px;margin-bottom:24px;color:#fff;text-align:center;">
+      <i class="fas fa-tools fa-2x" style="color:#ffcc80;margin-bottom:12px;animation:spin 3s linear infinite;"></i>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;margin-bottom:8px;">Under Active Development</h3>
+      <p style="opacity:0.75;margin-bottom:16px;">Advanced weave pattern generator coming soon — September 2025</p>
+      <a href="Weave Designer.html" class="btn btn-gold" style="display:inline-flex;"><i class="fas fa-pencil-ruler"></i> Open Weave Designer Now</a>
+    </div>
+
+    <div class="card-grid">
+      <div class="card"><div class="card-title"><i class="fas fa-th"></i> Plain Weave</div><p style="color:var(--smoke);font-size:0.88rem;line-height:1.7;">Each warp alternates over and under each weft. Most basic and strongest weave. Used in shirting, muslin, canvas.</p></div>
+      <div class="card"><div class="card-title"><i class="fas fa-grip-lines"></i> Twill Weave</div><p style="color:var(--smoke);font-size:0.88rem;line-height:1.7;">Diagonal lines formed by passing weft over two or more warps. Used for denim, gabardine, chinos.</p></div>
+      <div class="card"><div class="card-title"><i class="fas fa-grip-horizontal"></i> Satin Weave</div><p style="color:var(--smoke);font-size:0.88rem;line-height:1.7;">Long floats of warp/weft yarns give a smooth, lustrous surface. Used for satins and luxury fabrics.</p></div>
+      <div class="card"><div class="card-title"><i class="fas fa-border-none"></i> Basket Weave</div><p style="color:var(--smoke);font-size:0.88rem;line-height:1.7;">Groups of warp and weft threads interlaced together. Used for towels and canvas.</p></div>
+      <div class="card"><div class="card-title"><i class="fas fa-grip-vertical"></i> Herringbone</div><p style="color:var(--smoke);font-size:0.88rem;line-height:1.7;">Twill weave with a zigzag pattern. Widely used for suiting and jackets.</p></div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════
+       TAB: TRAINING REPORT
+  ════════════════════════════════════════════════ -->
+  <div id="tab-trainingreport" class="tab-pane">
+    <div class="warping-hero" style="background:linear-gradient(135deg,#7952b3,#4a2d8a);">
+      <i class="fas fa-file-alt"></i>
+      <div>
+        <h2>Project Report on Beam Gaiting</h2>
+        <p>Access is limited to 2 hours per session. Click preview to begin your timer.</p>
+      </div>
+    </div>
+
+    <div class="card" style="text-align:center; margin-bottom:24px;">
+      <button id="previewBtn" onclick="startReportAccess()" class="btn btn-gold" style="font-size:1rem;padding:14px 32px;">
+        <i class="fas fa-eye"></i> Preview Report
+      </button>
+      <div id="countdown" style="display:none; margin-top:16px;">
+        <span style="background:var(--gold-dim);border:var(--border);padding:10px 24px;border-radius:30px;font-family:'DM Mono',monospace;color:var(--gold);">
+          ⏳ Time left: <span id="timeLeft">2h 0m 0s</span>
+        </span>
+      </div>
+    </div>
+
+    <div id="reportContainer" style="display:none; margin-bottom:24px;">
+      <iframe src="https://drive.google.com/file/d/1ZEuUoXY4nw0jZiOfxeVIUy5ppqMlVsA8/preview"
+        width="100%" height="600" style="border:none;border-radius:14px;box-shadow:var(--shadow-lg);"></iframe>
+    </div>
+
+    <div id="expiredMessage" style="display:none;">
+      <div style="background:linear-gradient(135deg,#7c3d2d,#5a2010);border-radius:14px;padding:36px;text-align:center;color:#fff;">
+        <i class="fas fa-clock fa-2x" style="margin-bottom:16px;"></i>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;margin-bottom:10px;">Access Expired</h3>
+        <p style="opacity:0.8;margin-bottom:20px;">The 2-hour viewing window has ended. Please request a new link.</p>
+        <button onclick="requestNewLink()" class="btn btn-gold">🔄 Request New Access</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════
+       TAB: TRAINING PPT
+  ════════════════════════════════════════════════ -->
+  <div id="tab-trainingppt" class="tab-pane">
+    <div class="warping-hero" style="background:linear-gradient(135deg,#c0392b,#922b21);">
+      <i class="fas fa-file-powerpoint"></i>
+      <div>
+        <h2>Training Presentation</h2>
+        <p>View-only access — download and print are disabled.</p>
+      </div>
+    </div>
+    <div class="card">
+      <iframe src="https://1drv.ms/p/c/accb9cb308d195ff/IQTDha3-XEdpQIahwVCPzV7wAap-_oEjTwR9NLaA0pfDuiQ"
+        width="100%" height="600" frameborder="0" scrolling="no"
+        style="border:none;border-radius:12px;box-shadow:var(--shadow-lg);"></iframe>
+      <p style="margin-top:14px;font-size:0.82rem;color:var(--smoke);text-align:center;">
+        ⚠️ View-only. Download and print are disabled.
+      </p>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════
+       TAB: SEMINAR REPORT
+  ════════════════════════════════════════════════ -->
+  <div id="tab-seminarreport" class="tab-pane">
+    <div class="warping-hero" style="background:linear-gradient(135deg,#2c4a3e,#1a3d2f);">
+      <i class="fas fa-chalkboard-teacher"></i>
+      <div>
+        <h2>Seminar Presentation</h2>
+        <p>View-only access — download and print are disabled.</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:20px;">
+      <div class="card-title"><i class="fas fa-file-powerpoint"></i> Seminar PPT — OneDrive</div>
+      <iframe src="https://1drv.ms/p/c/accb9cb308d195ff/IQQPm7mBoIGsSJoGV6ZwLJ_EAfSxRr36Wks110X_uYS32MY?em=2&wdAr=1.7777777777777777&wdEaaCheck=1"
+        width="100%" height="550" frameborder="0" scrolling="no"
+        style="border:none;border-radius:12px;box-shadow:var(--shadow);"></iframe>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><i class="fas fa-globe"></i> Seminar Web Presentation</div>
+      <iframe src="https://abhishekportfolioo.github.io/seminar/"
+        width="100%" height="550" frameborder="0" scrolling="no"
+        style="border:none;border-radius:12px;box-shadow:var(--shadow);"></iframe>
+      <p style="margin-top:14px;font-size:0.82rem;color:var(--smoke);text-align:center;">
+        ⚠️ View-only. Download and print are disabled.
+      </p>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════
+       TAB: JOBS
+  ════════════════════════════════════════════════ -->
+  <div id="tab-jobs" class="tab-pane">
+    <div class="warping-hero" style="background:linear-gradient(135deg,#ff8f00,#e65100);">
+      <i class="fas fa-briefcase"></i>
+      <div>
+        <h2>Latest Textile Jobs</h2>
+        <p>Discover your next career opportunity in the textile industry.</p>
+      </div>
+    </div>
+
+    <div class="card-grid">
+      <div class="card" style="text-align:center;">
+        <div class="card-title" style="justify-content:center;"><i class="fas fa-user-tie"></i> Your Future Awaits</div>
+        <a href="https://www.linkedin.com/posts/talentsjobs_interested-comment-interested-activity-7365250512302051328-iPaK?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAEI5wHYBEY3_ZLFMZMxo6EOQqswyCwp9Uos"
+          target="_blank" style="display:block;text-decoration:none;">
+          <img src="https://media.licdn.com/dms/image/v2/D4E22AQELlF5SOqqIdw/feedshare-shrink_800/B4EZjagTLuGwAg-/0/1756012560373?e=1758758400&v=beta&t=U4Fy31Wiv_Wlno4gWF8M3zCe3o7O-5STckNbp8oncI4"
+            alt="Job Opportunity" style="width:100%;border-radius:10px;margin-bottom:12px;border:var(--border);"
+            onerror="this.style.display='none'">
+          <span class="btn btn-gold" style="display:inline-flex;"><i class="fas fa-external-link-alt"></i> View on LinkedIn</span>
+        </a>
+      </div>
+      <div class="card">
+        <div class="card-title"><i class="fas fa-search"></i> Find More Jobs</div>
+        <p style="color:var(--smoke);font-size:0.88rem;line-height:1.7;margin-bottom:16px;">
+          Explore textile job boards and career portals for the latest opportunities in spinning, weaving, technical textiles, and more.
+        </p>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <a href="https://www.naukri.com/textile-jobs" target="_blank" class="btn btn-ghost" style="justify-content:flex-start;"><i class="fas fa-external-link-alt"></i> Naukri — Textile Jobs</a>
+          <a href="https://www.linkedin.com/jobs/textile-jobs/" target="_blank" class="btn btn-ghost" style="justify-content:flex-start;"><i class="fab fa-linkedin"></i> LinkedIn — Textile Jobs</a>
+          <a href="https://www.indeed.com/q-textile-jobs.html" target="_blank" class="btn btn-ghost" style="justify-content:flex-start;"><i class="fas fa-briefcase"></i> Indeed — Textile Jobs</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════
+       TAB: STUDY MATERIAL
+  ════════════════════════════════════════════════ -->
+  <div id="tab-studymaterial" class="tab-pane">
+    <div class="warping-hero" style="background:linear-gradient(135deg,#1565c0,#0d47a1);">
+      <i class="fas fa-book-open"></i>
+      <div>
+        <h2>Study Material</h2>
+        <p>Curated resources for beginners through advanced B.Tech level.</p>
+      </div>
+    </div>
+
+    <div class="card-grid">
+      <a href="textile material.html" class="card" style="text-decoration:none;text-align:center;cursor:pointer;">
+        <div class="card-title" style="justify-content:center;"><i class="fas fa-seedling"></i> For Beginners</div>
+        <div style="font-size:3rem;margin:16px 0;">🧵</div>
+        <p style="color:var(--smoke);font-size:0.88rem;">Start your textile journey. Covers fundamentals of fibers, yarns, and fabric construction.</p>
+        <span class="btn btn-gold" style="display:inline-flex;margin-top:16px;"><i class="fas fa-arrow-right"></i> Open Material</span>
+      </a>
+      <a href="textile material.html" class="card" style="text-decoration:none;text-align:center;cursor:pointer;">
+        <div class="card-title" style="justify-content:center;"><i class="fas fa-graduation-cap"></i> B.Tech Level</div>
+        <div style="font-size:3rem;margin:16px 0;">📐</div>
+        <p style="color:var(--smoke);font-size:0.88rem;">Advanced topics for engineering students — process calculations, machine parameters, quality systems.</p>
+        <span class="btn btn-gold" style="display:inline-flex;margin-top:16px;"><i class="fas fa-arrow-right"></i> Open Material</span>
+      </a>
+      <a href="notes.html" class="card" style="text-decoration:none;text-align:center;cursor:pointer;">
+        <div class="card-title" style="justify-content:center;"><i class="fas fa-sticky-note"></i> Semester Notes</div>
+        <div style="font-size:3rem;margin:16px 0;">📚</div>
+        <p style="color:var(--smoke);font-size:0.88rem;">Semester-wise detailed notes covering all major textile engineering subjects.</p>
+        <span class="btn btn-gold" style="display:inline-flex;margin-top:16px;"><i class="fas fa-arrow-right"></i> View Notes</span>
+      </a>
+      <a href="geotextile.html" class="card" style="text-decoration:none;text-align:center;cursor:pointer;">
+        <div class="card-title" style="justify-content:center;"><i class="fas fa-layer-group"></i> Geotextile</div>
+        <div style="font-size:3rem;margin:16px 0;">🌍</div>
+        <p style="color:var(--smoke);font-size:0.88rem;">In-depth guide to geotextiles: types, applications, specifications, and case studies.</p>
+        <span class="btn btn-gold" style="display:inline-flex;margin-top:16px;"><i class="fas fa-arrow-right"></i> Open Guide</span>
+      </a>
+    </div>
+  </div>
+
+</div><!-- /.container -->
+
+<!-- ── Gallery Modal ── -->
+<div class="modal-overlay" id="tgModal" onclick="tgCloseMod(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="tgCloseModal()">&#215;</button>
+    <img id="tgModImg" class="modal-img" src="" alt="">
+    <div class="modal-body">
+      <span class="gal-tag" id="tgModBadge"></span>
+      <h2 id="tgModTitle" style="margin-top:8px;"></h2>
+      <p id="tgModDesc" style="margin-top:8px;"></p>
+      <div class="zoom-row">
+        <button class="zoom-btn" onclick="tgZoomIn()">＋</button>
+        <button class="zoom-btn" onclick="tgZoomOut()">－</button>
+        <button class="zoom-btn" onclick="tgZoomReset()" style="font-size:11px;">Reset</button>
+        <span class="zoom-label" id="tgZoomLabel">100%</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p><span>Textile Pro Suite</span> — Premium Edition &copy; 2025 &nbsp;|&nbsp; Designed for Textile Professionals</p>
+</footer>
+
+<!-- ═══════════════════════════
+     SCRIPTS
+═══════════════════════════ -->
+<script>
+
+// ── Chart instances ──
+let weavingChart, spinningChart, qualityChart;
+
+// ── Dark mode ──
+function toggleDark() {
+  document.body.classList.toggle('dark');
+  const dark = document.body.classList.contains('dark');
+  document.getElementById('dark-icon').className = dark ? 'fas fa-sun' : 'fas fa-moon';
+  document.getElementById('dark-lbl').textContent = dark ? 'Light' : 'Dark';
+  localStorage.setItem('darkMode', dark);
+}
+
+// ── Tab switching ──
+function switchTab(tabName) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  const btn = document.querySelector(`.tab-btn[data-tab="${tabName}"]`);
+  if (btn) btn.classList.add('active');
+  const pane = document.getElementById('tab-' + tabName);
+  if (pane) pane.classList.add('active');
+}
+
+document.getElementById('tabsNav').addEventListener('click', e => {
+  const btn = e.target.closest('.tab-btn');
+  if (!btn) return;
+  switchTab(btn.dataset.tab);
+});
+
+// ── Helpers ──
+function toTex(val, sys) {
+  if (sys === 'ne')     return 590.5 / val;
+  if (sys === 'denier') return val / 9;
+  return val; // tex
+}
+
+function fromTex(tex, sys) {
+  if (sys === 'ne')      return 590.5 / tex;
+  if (sys === 'tex')     return tex;
+  if (sys === 'denier')  return tex * 9;
+  if (sys === 'dtex')    return tex * 10;
+  if (sys === 'ktex')    return tex / 1000;
+  if (sys === 'grex')    return tex * 10;
+  if (sys === 'metric')  return 1000 / tex;
+  if (sys === 'worsted') return 885.8 / tex;
+  return tex;
+}
+
+const sysNames = {
+  ne:'Cotton Count (Ne)', tex:'Tex', denier:'Denier', dtex:'Decitex (dtex)',
+  ktex:'Kilotex (ktex)', grex:'Grex', metric:'Metric Count (Nm)', worsted:'Worsted Count (Nw)'
+};
+
+// ── WEAVING ──
+function calculateWeaving() {
+  const g = id => parseFloat(document.getElementById(id).value) || 0;
+  const epi=g('epi'), ppi=g('ppi'), warpCount=g('warpCount'), weftCount=g('weftCount');
+  const width=g('width'), length=g('length'), rpm=g('rpm'), ppiProd=g('ppiForProduction');
+  const reedCount=g('reedCount'), endsPerDent=g('endsPerDent');
+  const warpCrimp=g('warpCrimp'), weftCrimp=g('weftCrimp'), yarnPrice=g('yarnPrice');
+  const warpSys=document.getElementById('warpSystem').value;
+  const weftSys=document.getElementById('weftSystem').value;
+
+  if (!epi||!ppi||!warpCount||!weftCount||!width||!length||!rpm||!ppiProd||!reedCount||!endsPerDent) {
+    return alert('Please fill all Weaving fields with positive values.');
+  }
+
+  const warpTex = toTex(warpCount, warpSys);
+  const weftTex = toTex(weftCount, weftSys);
+
+  const warpCF = epi / Math.sqrt(warpCount * (warpSys==='ne'?1: warpSys==='tex'?590.5/warpTex:590.5/warpTex));
+  const warpCFne = epi / Math.sqrt(590.5/warpTex);
+  const weftCFne = ppi / Math.sqrt(590.5/weftTex);
+  const totalCF  = warpCFne + weftCFne;
+
+  const widthM = width * 0.0254;
+  const area   = widthM * length;
+
+  const warpWeight = (epi * (1+warpCrimp/100) * warpTex * length * 0.0254) / 1000000;
+  const weftWeight = (ppi * (1+weftCrimp/100) * weftTex * widthM * length) / 1000000;
+  const totalWeight = warpWeight + weftWeight;
+  const gsm = (totalWeight * 1000) / area;
+  const production = (rpm / ppiProd) * 0.0254;
+  const totalEnds = Math.round(epi * width);
+  const totalDents = Math.ceil(totalEnds / endsPerDent);
+  const reedWidth = totalEnds / reedCount;
+  const cost = totalWeight * yarnPrice;
+
+  const box = document.getElementById('weaving-result');
+  box.style.display = 'block';
+  box.innerHTML = `
+    <h2 class="section-heading"><i class="fas fa-chart-line"></i> Weaving Results</h2>
+    <div class="result-grid">
+      ${rv('Warp Cover Factor', warpCFne.toFixed(2))}
+      ${rv('Weft Cover Factor', weftCFne.toFixed(2))}
+      ${rv('Total Cover Factor', totalCF.toFixed(2))}
+      ${rv('Fabric GSM', gsm.toFixed(2) + ' g/m²')}
+      ${rv('Warp Weight', warpWeight.toFixed(3) + ' kg')}
+      ${rv('Weft Weight', weftWeight.toFixed(3) + ' kg')}
+      ${rv('Total Fabric Weight', totalWeight.toFixed(3) + ' kg')}
+      ${rv('Fabric Cost', '₹' + cost.toFixed(2))}
+      ${rv('Production Rate', production.toFixed(2) + ' m/min')}
+      ${rv('Reed Width Required', reedWidth.toFixed(2) + ' in')}
+      ${rv('Total Ends', totalEnds)}
+      ${rv('Total Dents', totalDents)}
+    </div>
+    <div class="result-note">
+      Denting: ${totalDents} dents for ${totalEnds} ends at ${endsPerDent} ends/dent
+    </div>`;
+
+  // Chart
+  document.getElementById('weaving-chart-box').style.display = 'block';
+  if (weavingChart) weavingChart.destroy();
+  const ctx = document.getElementById('weaving-chart');
+  weavingChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Warp CF', 'Weft CF', 'GSM', 'Wt (kg)', 'Cost (₹)'],
+      datasets: [{ label: 'Fabric Metrics', data: [warpCFne, weftCFne, gsm, totalWeight, cost],
+        backgroundColor: ['rgba(201,168,76,0.7)','rgba(44,74,62,0.7)','rgba(139,115,85,0.7)','rgba(124,61,45,0.7)','rgba(201,168,76,0.45)'],
+        borderColor: ['#c9a84c','#2c4a3e','#8b7355','#7c3d2d','#c9a84c'],
+        borderWidth: 1, borderRadius: 6 }]
+    },
+    options: { responsive:true, plugins:{ legend:{display:false} }, scales:{ y:{beginAtZero:true}, x:{grid:{display:false}} } }
+  });
+}
+
+function resetWeaving() {
+  ['epi','warpCount','warpCrimp','reedCount','endsPerDent','ppi','weftCount','weftCrimp',
+   'ppiForProduction','width','length','rpm','yarnPrice'].forEach(id => {
+    const defaults = {epi:80,warpCount:40,warpCrimp:8,reedCount:60,endsPerDent:2,
+      ppi:70,weftCount:30,weftCrimp:5,ppiForProduction:65,width:60,length:100,rpm:600,yarnPrice:5.5};
+    document.getElementById(id).value = defaults[id];
+  });
+  document.getElementById('weaving-result').style.display = 'none';
+  document.getElementById('weaving-chart-box').style.display = 'none';
+}
+
+// Package time
+function calculatePackageTime() {
+  const pkgWeight = parseFloat(document.getElementById('packageWeight').value)||0;
+  const pkgNe     = parseFloat(document.getElementById('packageNe').value)||0;
+  const reedW     = parseFloat(document.getElementById('packageReedWidth').value)||0;
+  const pkgRpm    = parseFloat(document.getElementById('packageRpm').value)||0;
+  if (!pkgWeight||!pkgNe||!reedW||!pkgRpm) return;
+  const yarnLen    = (pkgWeight * 840 * 0.9144 * pkgNe) / 453.6;
+  const lenPerMin  = (reedW * 0.0254) * pkgRpm;
+  const timeMin    = yarnLen / lenPerMin;
+  const h = Math.floor(timeMin/60), m = Math.floor(timeMin%60), s = Math.round((timeMin*60)%60);
+  const el = document.getElementById('packageTimeResult');
+  el.style.display = 'block';
+  el.innerHTML = `
+    <p>Yarn in package: <strong style="color:var(--gold)">${yarnLen.toFixed(1)} m</strong></p>
+    <p>Consumption: <strong style="color:var(--gold)">${lenPerMin.toFixed(2)} m/min</strong></p>
+    <div class="main-val">${timeMin.toFixed(1)} min</div>
+    <p>(${h}h ${m}m ${s}s)</p>`;
+}
+
+// ── SPINNING ──
+function calculateSpinning() {
+  const g = id => parseFloat(document.getElementById(id).value)||0;
+  const spindleSpeed=g('spindleSpeed'), numSpindles=g('numSpindles'), efficiency=g('efficiency');
+  const hours=g('hours'), yarnCount=g('yarnCount'), tpi=g('tpi'), waste=g('waste');
+  const powerCost=g('powerCost'), machinePower=g('machinePower'), laborCost=g('laborCost'), rawMat=g('rawMaterialCost');
+  const sys = document.getElementById('yarnCountSystem').value;
+  if (!spindleSpeed||!numSpindles||!efficiency||!hours||!yarnCount||!tpi) return alert('Fill all spinning fields.');
+  const tex = toTex(yarnCount, sys);
+  const eff = efficiency/100;
+  const prodPerSpindle = (spindleSpeed*60*eff*tex)/(tpi*1e6);
+  const totalProd = prodPerSpindle * numSpindles * hours * (1-waste/100);
+  const powerTotal = machinePower * hours * powerCost;
+  const laborTotal = laborCost * hours;
+  const matCost = totalProd * rawMat;
+  const totalCost = powerTotal + laborTotal + matCost;
+  const costPerKg = totalCost / totalProd;
+  const tpm = tpi * 39.37;
+  const diameter = 0.0357 * Math.sqrt(tex/0.8);
+
+  const box = document.getElementById('spinning-result');
+  box.style.display='block';
+  box.innerHTML = `
+    <h2 class="section-heading"><i class="fas fa-chart-line"></i> Spinning Results</h2>
+    <div class="result-grid">
+      ${rv('Production / Spindle', prodPerSpindle.toFixed(4)+' kg/h')}
+      ${rv('Total Production', totalProd.toFixed(2)+' kg')}
+      ${rv('Power Cost', '₹'+powerTotal.toFixed(2))}
+      ${rv('Labor Cost', '₹'+laborTotal.toFixed(2))}
+      ${rv('Material Cost', '₹'+matCost.toFixed(2))}
+      ${rv('Total Cost', '₹'+totalCost.toFixed(2))}
+      ${rv('Cost per kg', '₹'+costPerKg.toFixed(2))}
+      ${rv('Yarn Tex', tex.toFixed(2))}
+      ${rv('Yarn Diameter', (diameter*1000).toFixed(1)+' µm')}
+      ${rv('Twist Per Meter', tpm.toFixed(1))}
+    </div>`;
+
+  document.getElementById('spinning-chart-box').style.display='block';
+  if (spinningChart) spinningChart.destroy();
+  spinningChart = new Chart(document.getElementById('spinning-chart'),{
+    type:'bar',
+    data:{
+      labels:['Production (kg)','Total Cost (₹)','Yarn Tex','TPM','Dia (µm)'],
+      datasets:[{label:'Metrics',data:[totalProd,totalCost,tex,tpm,diameter*1000],
+        backgroundColor:'rgba(156,39,176,0.65)',borderColor:'#9c27b0',borderWidth:1,borderRadius:6}]
+    },
+    options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true},x:{grid:{display:false}}}}
+  });
+}
+
+function resetSpinning() {
+  const defs={spindleSpeed:15000,numSpindles:100,efficiency:92,hours:8,yarnCount:30,tpi:18,tm:3.2,waste:3,powerCost:0.15,machinePower:25,laborCost:12,rawMaterialCost:4.5};
+  Object.keys(defs).forEach(k=>{ if(document.getElementById(k)) document.getElementById(k).value=defs[k]; });
+  document.getElementById('spinning-result').style.display='none';
+  document.getElementById('spinning-chart-box').style.display='none';
+}
+
+// ── QUALITY ──
+function calculateQuality() {
+  const g = id => parseFloat(document.getElementById(id).value)||0;
+  const cv=g('cvPercent'), u=g('uPercent'), thin=g('thinPlaces'), thick=g('thickPlaces'), neps=g('neps'), hair=g('hairiness');
+  const yc=g('qualityYarnCount'), tpi=g('qualityTpi');
+  if (!cv||!u||!yc) return alert('Fill required quality fields.');
+  const tex = 590.5/yc;
+  const limitCV = 1.25*cv;
+  const irr = (u*Math.sqrt(tex))/1.414;
+  let grade, gClass;
+  if      (cv<10) { grade='Premium (USTER 5)'; gClass='grade-excellent'; }
+  else if (cv<12) { grade='Excellent (USTER 4)'; gClass='grade-excellent'; }
+  else if (cv<14) { grade='Good (USTER 3)'; gClass='grade-good'; }
+  else if (cv<16) { grade='Fair (USTER 2)'; gClass='grade-fair'; }
+  else            { grade='Poor (USTER 1)'; gClass='grade-poor'; }
+  const totalDefects = thin+thick+neps;
+  let defClass;
+  if      (totalDefects<30)  defClass='Class 1 — Excellent';
+  else if (totalDefects<60)  defClass='Class 2 — Good';
+  else if (totalDefects<100) defClass='Class 3 — Acceptable';
+  else                       defClass='Class 4 — Poor';
+
+  const box = document.getElementById('quality-result');
+  box.style.display='block';
+  box.innerHTML=`
+    <h2 class="section-heading"><i class="fas fa-chart-line"></i> Quality Results</h2>
+    <div class="result-grid">
+      ${rv('CV%', cv.toFixed(2)+'%')}
+      ${rv('U%', u.toFixed(2)+'%')}
+      ${rv('Limit CV%', limitCV.toFixed(2)+'%')}
+      ${rv('Index of Irregularity', irr.toFixed(2))}
+      ${rv('Thin Places/km', thin)}
+      ${rv('Thick Places/km', thick)}
+      ${rv('Neps/km', neps)}
+      ${rv('Hairiness', hair.toFixed(1))}
+    </div>
+    <span class="grade-badge ${gClass}"><i class="fas fa-award"></i> ${grade}</span>
+    <div class="result-note" style="margin-top:12px;">
+      <strong>Defect Class:</strong> ${defClass} &nbsp;|&nbsp; Total defects: ${totalDefects}/km
+    </div>`;
+
+  document.getElementById('quality-chart-box').style.display='block';
+  if (qualityChart) qualityChart.destroy();
+  qualityChart = new Chart(document.getElementById('quality-chart'),{
+    type:'radar',
+    data:{
+      labels:['CV%','U%','Thin Places','Thick Places','Neps','Hairiness'],
+      datasets:[{label:'Quality',data:[cv,u,thin,thick,neps,hair],
+        backgroundColor:'rgba(201,168,76,0.15)',borderColor:'#c9a84c',borderWidth:2,
+        pointBackgroundColor:'#c9a84c',pointBorderColor:'#fff',pointHoverBorderColor:'#c9a84c'}]
+    },
+    options:{responsive:true,scales:{r:{angleLines:{display:true},suggestedMin:0,suggestedMax:Math.max(20,...[cv,u,thin,thick,neps,hair])*1.2}},
+      plugins:{legend:{display:false}}}
+  });
+}
+
+function resetQuality() {
+  const defs={cvPercent:12.5,uPercent:10.2,thinPlaces:15,thickPlaces:25,neps:35,hairiness:4.2,qualityYarnCount:30,qualityTpi:18,qualitySpindleSpeed:15000};
+  Object.keys(defs).forEach(k=>{ if(document.getElementById(k)) document.getElementById(k).value=defs[k]; });
+  document.getElementById('quality-result').style.display='none';
+  document.getElementById('quality-chart-box').style.display='none';
+}
+
+// ── WARPING ──
+function calculateWarping() {
+  const ends=parseFloat(document.getElementById('warpingEnds').value)||0;
+  const length=parseFloat(document.getElementById('warpingLength').value)||0;
+  const count=parseFloat(document.getElementById('warpingCount').value)||0;
+  const sys=document.getElementById('warpingSystem').value;
+  const crimp=parseFloat(document.getElementById('warpingCrimp').value)||0;
+  const beams=parseFloat(document.getElementById('warpingBeams').value)||1;
+  const pkgWt=parseFloat(document.getElementById('warpingPackageWeight').value)||0;
+  if (!ends||!length||!count||!beams||!pkgWt) return alert('Fill all warping fields.');
+  const tex = toTex(count,sys);
+  const totalLen = length*(1+crimp/100)*ends;
+  const totalWt  = (tex*totalLen)/1e6;
+  const wtPerBeam = totalWt/beams;
+  const packages = Math.ceil((totalWt*1000)/pkgWt);
+  const box=document.getElementById('warping-result');
+  box.style.display='block';
+  box.innerHTML=`
+    <h2 class="section-heading"><i class="fas fa-chart-line"></i> Warping Results</h2>
+    <div class="result-grid">
+      ${rv('Total Yarn Length', totalLen.toFixed(2)+' m')}
+      ${rv('Total Yarn Weight', totalWt.toFixed(3)+' kg')}
+      ${rv('Weight per Beam', wtPerBeam.toFixed(3)+' kg')}
+      ${rv('Packages Required', packages)}
+      ${rv('Crimp Allowance', crimp+'%')}
+      ${rv('Total Ends', ends)}
+    </div>`;
+}
+
+function resetWarpingForm() {
+  const defs={warpingEnds:4800,warpingLength:1000,warpingCount:40,warpingCrimp:8,warpingBeams:1,warpingPackageWeight:1000};
+  Object.keys(defs).forEach(k=>{ if(document.getElementById(k)) document.getElementById(k).value=defs[k]; });
+  document.getElementById('warping-result').style.display='none';
+}
+
+// ── CONVERSION FUNCTIONS ──
+function convertYarnCount() {
+  const from=document.getElementById('fromSystem').value;
+  const to  =document.getElementById('toSystem').value;
+  const val =parseFloat(document.getElementById('convertValue').value)||0;
+  if (!val) return;
+  const tex    = fromTex(val,from); // actually: to tex from 'from'
+  // fix: val in 'from' → tex
+  let texVal;
+  if(from==='ne') texVal=590.5/val;
+  else if(from==='tex') texVal=val;
+  else if(from==='denier') texVal=val/9;
+  else if(from==='dtex') texVal=val/10;
+  else if(from==='ktex') texVal=val*1000;
+  else if(from==='grex') texVal=val/10;
+  else if(from==='metric') texVal=1000/val;
+  else if(from==='worsted') texVal=885.8/val;
+  const res = fromTex(texVal,to);
+  const el=document.getElementById('yarnConversionResult');
+  el.innerHTML=`<p>${val} ${sysNames[from]}</p><div class="main-val">${res.toFixed(3)}</div><p>${sysNames[to]}</p>`;
+}
+
+function calculateWeightToCount() {
+  const wt=parseFloat(document.getElementById('weightInput').value)||0;
+  const len=parseFloat(document.getElementById('lengthInput').value)||0;
+  if(!wt||!len) return;
+  const tex=(wt/len)*1000;
+  const systems=[['Tex',tex],['Ne',590.5/tex],['Denier',tex*9],['dtex',tex*10],
+    ['ktex',tex/1000],['Grex',tex*10],['Nm',1000/tex],['Nw',885.8/tex]];
+  document.getElementById('weightToCountResult').innerHTML=
+    `<p style="margin-bottom:8px;">${wt}g / ${len}m:</p>
+    <div class="count-mini-grid">${systems.map(([n,v])=>`<div class="count-chip"><h4>${n}</h4><p>${v.toFixed(3)}</p></div>`).join('')}</div>`;
+}
+
+function calculateYarnDiameter() {
+  const tex=parseFloat(document.getElementById('diameterTex').value)||0;
+  const den=parseFloat(document.getElementById('yarnDensity').value)||0.8;
+  if(!tex||!den) return;
+  const d=0.0357*Math.sqrt(tex/den);
+  document.getElementById('yarnDiameterResult').innerHTML=
+    `<p>Yarn Diameter:</p><div class="main-val">${d.toFixed(4)} mm</div><p>${(d*1000).toFixed(1)} microns</p>`;
+}
+
+function calculateLengthToWeight() {
+  const len=parseFloat(document.getElementById('ltwLength').value)||0;
+  const count=parseFloat(document.getElementById('ltwCount').value)||0;
+  const sys=document.getElementById('ltwSystem').value;
+  if(!len||!count) return;
+  let tex; if(sys==='ne') tex=590.5/count; else if(sys==='tex') tex=count; else if(sys==='denier') tex=count/9; else if(sys==='dtex') tex=count/10; else if(sys==='ktex') tex=count*1000; else if(sys==='grex') tex=count/10; else if(sys==='metric') tex=1000/count; else tex=885.8/count;
+  const wt=(tex*len)/1000;
+  document.getElementById('lengthToWeightResult').innerHTML=
+    `<p>For ${len}m at ${count} ${sys}:</p><div class="main-val">${wt.toFixed(4)} g</div>`;
+}
+
+function calculateWeightToLength() {
+  const wt=parseFloat(document.getElementById('wtlWeight').value)||0;
+  const count=parseFloat(document.getElementById('wtlCount').value)||0;
+  const sys=document.getElementById('wtlSystem').value;
+  if(!wt||!count) return;
+  let tex; if(sys==='ne') tex=590.5/count; else if(sys==='tex') tex=count; else if(sys==='denier') tex=count/9; else if(sys==='dtex') tex=count/10; else if(sys==='ktex') tex=count*1000; else if(sys==='grex') tex=count/10; else if(sys==='metric') tex=1000/count; else tex=885.8/count;
+  const len=(wt*1000)/tex;
+  document.getElementById('weightToLengthResult').innerHTML=
+    `<p>For ${wt}g at ${count} ${sys}:</p><div class="main-val">${len.toFixed(2)} m</div>`;
+}
+
+function convertLengthUnits() {
+  const from=document.getElementById('lengthFromUnit').value;
+  const to  =document.getElementById('lengthToUnit').value;
+  const val =parseFloat(document.getElementById('lengthFromValue').value)||0;
+  const toM={m:1,yd:0.9144,ft:0.3048,in:0.0254};
+  const names={m:'Meters',yd:'Yards',ft:'Feet',in:'Inches'};
+  const m=val*toM[from];
+  const res=m/toM[to];
+  document.getElementById('lengthConversionResult').innerHTML=
+    `<p>${val} ${names[from]}</p><div class="main-val">${res.toFixed(4)} ${names[to]}</div>`;
+}
+
+function convertWeightUnits() {
+  const from=document.getElementById('weightFromUnit').value;
+  const to  =document.getElementById('weightToUnit').value;
+  const val =parseFloat(document.getElementById('weightFromValue').value)||0;
+  const toG={g:1,kg:1000,lb:453.592,oz:28.3495};
+  const names={g:'Grams',kg:'Kilograms',lb:'Pounds',oz:'Ounces'};
+  const g=val*toG[from];
+  const res=g/toG[to];
+  document.getElementById('weightConversionResult').innerHTML=
+    `<p>${val} ${names[from]}</p><div class="main-val">${res.toFixed(4)} ${names[to]}</div>`;
+}
+
+// ── GALLERY ──
+const GALLERY_ITEMS = [
+  {title:"Plain weave structure", tag:"Weave", desc:"The simplest and most common weave pattern where each warp thread alternately crosses over and under each weft thread, creating a balanced, strong fabric used in shirting, muslin, and canvas.", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Plain_weave.jpg/320px-Plain_weave.jpg"},
+  {title:"Twill weave pattern", tag:"Weave", desc:"Recognizable by its diagonal rib pattern, twill weave passes weft threads over two or more warp threads, producing durable fabrics like denim, gabardine, and chino.", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Twill_weave.jpg/320px-Twill_weave.jpg"},
+  {title:"Cotton fiber plant", tag:"Fiber", desc:"Cotton is the world's most widely used natural fiber, harvested from the seed pod of Gossypium plants and processed through ginning, carding, and spinning.", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/CottonPlant.JPG/320px-CottonPlant.JPG"},
+  {title:"Silk worm cocoons", tag:"Fiber", desc:"Silk is a continuous filament fiber produced by the Bombyx mori silkworm. Each cocoon yields up to 1,500 meters of raw silk filament.", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Silk_worm_cocoons_in_a_sieve_basket_for_reeling.JPG/320px-Silk_worm_cocoons_in_a_sieve_basket_in_a_pot_of_boiling_water.JPG"},
+  {title:"Ring spinning frame", tag:"Spinning", desc:"The ring spinning machine is the most widely used system for converting rovings into yarn via ring and traveller that impart twist.", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Ring_spinning_frame.jpg/320px-Ring_spinning_frame.jpg"},
+  {title:"Jacquard loom", tag:"Weaving", desc:"The Jacquard loom uses punched cards to control individual warp threads, enabling complex figured patterns — invented by Joseph Marie Jacquard in 1804.", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Jacquard_loom_p1040320.jpg/320px-Jacquard_loom_p1040320.jpg"},
+  {title:"Fabric dyeing vats", tag:"Dyeing", desc:"Industrial dyeing uses large pressurized vats for even color penetration. Reactive dyes form covalent bonds with cellulose fibers for excellent wash fastness.", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Dyeing_vats.jpg/320px-Dyeing_vats.jpg"},
+  {title:"Wool sheep in field", tag:"Fiber", desc:"Wool fibers have a scaly cuticle and natural crimp that traps air for insulation. Merino wool is prized for fineness and softness.", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Sheep_in_a_field.jpg/320px-Sheep_in_a_field.jpg"},
+  {title:"Jacquard punch cards", tag:"History", desc:"Jacquard's punched card system allowed weavers to automate complex pattern selection, directly influencing early computing.", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Jacquard_loom_cards.jpg/320px-Jacquard_loom_cards.jpg"},
+  {title:"Tensile strength test", tag:"Quality", desc:"Tensile testing measures the force to break a yarn or fabric sample and elongation at break — critical for specification setting.", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Tensile_strength.svg/320px-Tensile_strength.svg.png"},
+  {title:"Satin brocade fabric", tag:"Weave", desc:"Satin weave has long warp floats on the face creating a smooth, lustrous surface. Brocade combines satin ground with supplementary weft figuring.", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Satin_brocade.jpg/320px-Satin_brocade.jpg"},
+  {title:"Screen printing", tag:"Printing", desc:"Screen printing applies pigment through a mesh screen. Each color requires a separate screen; digital inkjet is now a faster, lower-waste alternative.", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Screen_printing_workshop.jpg/320px-Screen_printing_workshop.jpg"},
+  {title:"Nonwoven fabric", tag:"Nonwoven", desc:"Nonwoven fabrics are manufactured by bonding fiber webs mechanically, thermally, or chemically. Used in filtration, medical textiles, geotextiles.", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Nonwoven_Polypropylene.jpg/320px-Nonwoven_Polypropylene.jpg"},
+  {title:"Denim jeans detail", tag:"Dyeing", desc:"Denim warp yarns are rope-dyed with indigo in multiple passes. Abrasion reveals the white core, creating the characteristic fade pattern.", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Jeans_detail.jpg/320px-Jeans_detail.jpg"},
+  {title:"Warp beam warping", tag:"Warping", desc:"During warping, yarn is wound in parallel from many packages onto a large warp beam. Correct tension uniformity is critical for shed formation.", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Warping.jpg/320px-Warping.jpg"},
+  {title:"Circular knitting machine", tag:"Knitting", desc:"Circular knitting machines use latch needles in a cylinder to produce seamless tubular fabrics. Gauge (needles/inch) determines stitch fineness.", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Knitting_machine.jpg/320px-Knitting_machine.jpg"},
+  {title:"Hemp fiber crop", tag:"Fiber", desc:"Hemp is one of the most sustainable natural fibers. It requires no pesticides, improves soil health, and sequesters carbon. Used in textiles and composites.", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Hemp_crop.jpg/320px-Hemp_crop.jpg"},
+  {title:"Polyester blend fabric", tag:"Fiber", desc:"Polyester staple fiber is produced by melt spinning PET polymer. Blended with cotton or wool for durability, wrinkle resistance, and easy care.", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Polyester-blend-shirt.jpg/320px-Polyester-blend-shirt.jpg"}
+];
+
+const TAGS = ['All', ...[...new Set(GALLERY_ITEMS.map(i=>i.tag))]];
+let activeTag = 'All';
+let galZoom = 1;
+
+function buildGallery() {
+  const pillsEl = document.getElementById('tgPills');
+  TAGS.forEach(tag => {
+    const btn = document.createElement('button');
+    btn.className = 'pill' + (tag==='All'?' active':'');
+    btn.textContent = tag;
+    btn.onclick = () => {
+      activeTag = tag;
+      document.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      tgFilter();
+    };
+    pillsEl.appendChild(btn);
+  });
+
+  const grid = document.getElementById('tgGrid');
+  GALLERY_ITEMS.forEach((item,i) => {
+    const card = document.createElement('div');
+    card.className = 'gal-card';
+    card.dataset.tag = item.tag;
+    card.dataset.title = item.title.toLowerCase();
+    card.style.transitionDelay = (i%4)*0.06+'s';
+    card.innerHTML = `
+      <div class="gal-img"><img src="${item.img}" alt="${item.title}" loading="lazy"
+        onerror="this.src='https://placehold.co/320x155/ddd8cc/8b7355?text=${encodeURIComponent(item.tag)}'"></div>
+      <div class="gal-body"><h3>${item.title}</h3><p>${item.desc}</p><span class="gal-tag">${item.tag}</span></div>`;
+    card.addEventListener('click', () => tgOpenModal(item));
+    grid.appendChild(card);
+  });
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, {threshold:0.06});
+  document.querySelectorAll('.gal-card').forEach((c,i) => setTimeout(()=>obs.observe(c), i*30));
+}
+
+window.tgFilter = function() {
+  const q = document.getElementById('tgSearch').value.toLowerCase().trim();
+  let vis = 0;
+  document.querySelectorAll('.gal-card').forEach(card => {
+    const tagMatch = activeTag==='All' || card.dataset.tag===activeTag;
+    const txtMatch = !q || card.dataset.title.includes(q) || card.dataset.tag.toLowerCase().includes(q);
+    const show = tagMatch && txtMatch;
+    card.style.display = show ? '' : 'none';
+    if (show) vis++;
+  });
+  document.getElementById('tgEmpty').style.display = vis===0 ? 'block' : 'none';
+};
+
+window.tgOpenModal = function(item) {
+  galZoom=1;
+  document.getElementById('tgModImg').src = item.img;
+  document.getElementById('tgModImg').style.transform='scale(1)';
+  document.getElementById('tgModTitle').textContent = item.title;
+  document.getElementById('tgModDesc').textContent = item.desc;
+  document.getElementById('tgModBadge').textContent = item.tag;
+  document.getElementById('tgZoomLabel').textContent = '100%';
+  document.getElementById('tgModal').classList.add('open');
+  document.body.style.overflow='hidden';
+};
+
+window.tgCloseModal = function() {
+  document.getElementById('tgModal').classList.remove('open');
+  document.body.style.overflow='';
+};
+
+window.tgCloseMod = function(e) {
+  if(e.target===document.getElementById('tgModal')) tgCloseModal();
+};
+
+window.tgZoomIn    = ()=>{ galZoom=Math.min(galZoom+0.25,3); applyGalZoom(); };
+window.tgZoomOut   = ()=>{ galZoom=Math.max(galZoom-0.25,0.5); applyGalZoom(); };
+window.tgZoomReset = ()=>{ galZoom=1; applyGalZoom(); };
+
+function applyGalZoom() {
+  document.getElementById('tgModImg').style.transform=`scale(${galZoom})`;
+  document.getElementById('tgModImg').style.transformOrigin='center top';
+  document.getElementById('tgZoomLabel').textContent=Math.round(galZoom*100)+'%';
+}
+
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') tgCloseModal(); });
+
+// ── Helpers ──
+function rv(label, value) {
+  return `<div class="result-item"><div class="label">${label}</div><div class="value">${value}</div></div>`;
+}
+
+function exportPDF() { alert('PDF export: integrate jsPDF or use window.print() with a print stylesheet.'); }
+
+// ── Report timer ──
+let countdownInterval;
+function startReportAccess() {
+  document.getElementById('previewBtn').style.display='none';
+  if (!localStorage.getItem('reportExpiry')) {
+    localStorage.setItem('reportExpiry', Date.now() + 2*60*60*1000);
+  }
+  showReport();
+}
+function showReport() {
+  const expiry = localStorage.getItem('reportExpiry');
+  if (!expiry) return;
+  if (Date.now() >= expiry) { showExpiredReport(); return; }
+  document.getElementById('reportContainer').style.display='block';
+  document.getElementById('expiredMessage').style.display='none';
+  document.getElementById('countdown').style.display='block';
+  if (countdownInterval) clearInterval(countdownInterval);
+  countdownInterval = setInterval(() => {
+    const rem = parseInt(localStorage.getItem('reportExpiry')) - Date.now();
+    if (rem <= 0) { clearInterval(countdownInterval); showExpiredReport(); localStorage.removeItem('reportExpiry'); return; }
+    const h=Math.floor(rem/3600000), m=Math.floor((rem%3600000)/60000), s=Math.floor((rem%60000)/1000);
+    document.getElementById('timeLeft').textContent=`${h}h ${m}m ${s}s`;
+  }, 1000);
+}
+function showExpiredReport() {
+  if(document.getElementById('reportContainer')) document.getElementById('reportContainer').style.display='none';
+  if(document.getElementById('countdown')) document.getElementById('countdown').style.display='none';
+  if(document.getElementById('expiredMessage')) document.getElementById('expiredMessage').style.display='block';
+}
+function requestNewLink() { alert('Please contact the administrator to get a new access link.'); }
+
+// ── Init ──
+window.addEventListener('load', () => {
+  // Dark mode
+  if(localStorage.getItem('darkMode')==='true') {
+    document.body.classList.add('dark');
+    document.getElementById('dark-icon').className='fas fa-sun';
+    document.getElementById('dark-lbl').textContent='Light';
+  }
+  // Resume report timer if active
+  showReport();
+  // Build gallery
+  buildGallery();
+  // Init conversions
+  convertYarnCount(); calculateWeightToCount(); calculateYarnDiameter();
+  calculateLengthToWeight(); calculateWeightToLength(); convertLengthUnits(); convertWeightUnits();
+});
+
+</script>
+</body>
+</html>
