@@ -264,6 +264,78 @@
       font-size:.62rem;opacity:.6;margin-top:-2px;
       color:rgb(var(--nc));}
 
+    /* ═══ PREMIUM LOCK CARDS ═══ */
+    .ncb-premium{
+      position:relative;cursor:pointer !important;pointer-events:all !important;
+      opacity:1 !important;}
+    .ncb-premium .ncb-lock-overlay{
+      position:absolute;inset:0;border-radius:14px;
+      background:linear-gradient(135deg,rgba(255,209,102,.13),rgba(168,99,255,.10));
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+      opacity:0;transition:opacity .2s ease;z-index:2;}
+    .ncb-premium:hover .ncb-lock-overlay{opacity:1;}
+    .ncb-premium-badge{
+      position:absolute;top:-5px;right:-5px;z-index:3;
+      background:linear-gradient(135deg,#ffd166,#ffaa00);
+      color:#1a1200;font-size:.5rem;font-weight:900;
+      padding:2px 7px;border-radius:99px;letter-spacing:.4px;
+      text-transform:uppercase;display:flex;align-items:center;gap:3px;
+      box-shadow:0 2px 8px rgba(255,209,102,.5);}
+
+    /* Premium upgrade modal */
+    .premium-modal-overlay{
+      display:none;position:fixed;inset:0;z-index:600;
+      background:rgba(0,0,0,.75);backdrop-filter:blur(10px);
+      align-items:center;justify-content:center;padding:20px;}
+    .premium-modal-overlay.open{display:flex;}
+    .premium-modal{
+      background:var(--sf);border:1.5px solid rgba(255,209,102,.35);
+      border-radius:24px;width:100%;max-width:420px;
+      padding:36px 32px;text-align:center;position:relative;
+      animation:pop .3s cubic-bezier(.34,1.56,.64,1) both;
+      box-shadow:0 20px 60px rgba(255,209,102,.15);}
+    .pm-close{
+      position:absolute;top:14px;right:14px;
+      background:var(--sf2);border:1px solid var(--bd);color:var(--mu);
+      width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:.85rem;
+      display:flex;align-items:center;justify-content:center;
+      transition:var(--dur) var(--ease);}
+    .pm-close:hover{background:var(--rd);border-color:var(--rd);color:#fff;}
+    .pm-crown{
+      width:64px;height:64px;border-radius:20px;margin:0 auto 18px;
+      background:linear-gradient(135deg,rgba(255,209,102,.25),rgba(168,99,255,.15));
+      border:1.5px solid rgba(255,209,102,.35);
+      display:flex;align-items:center;justify-content:center;font-size:1.8rem;}
+    .pm-title{
+      font-family:var(--fd);font-size:1.5rem;font-weight:800;margin-bottom:8px;
+      background:linear-gradient(135deg,#ffd166,#ffaa00);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .pm-subtitle{color:var(--tx2);font-size:.92rem;line-height:1.6;margin-bottom:22px;}
+    .pm-note-name{
+      background:linear-gradient(135deg,rgba(255,209,102,.12),rgba(168,99,255,.08));
+      border:1px solid rgba(255,209,102,.25);border-radius:10px;
+      padding:10px 16px;font-size:.88rem;font-weight:700;color:var(--ac2);
+      margin-bottom:22px;display:flex;align-items:center;gap:8px;justify-content:center;}
+    .pm-features{
+      list-style:none;text-align:left;margin-bottom:26px;display:flex;flex-direction:column;gap:8px;}
+    .pm-features li{
+      font-size:.85rem;color:var(--tx2);display:flex;align-items:center;gap:10px;}
+    .pm-features li::before{
+      content:'✓';width:20px;height:20px;border-radius:50%;flex-shrink:0;
+      background:rgba(255,209,102,.15);color:var(--ac2);font-weight:900;font-size:.75rem;
+      display:flex;align-items:center;justify-content:center;}
+    .pm-btn{
+      width:100%;padding:14px;border-radius:99px;border:none;
+      background:linear-gradient(135deg,#ffd166,#ffaa00);
+      color:#1a1200;font-weight:800;font-family:var(--fd);font-size:1rem;
+      cursor:pointer;transition:var(--dur) var(--ease);
+      box-shadow:0 6px 20px rgba(255,209,102,.35);}
+    .pm-btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(255,209,102,.45);}
+    .pm-later{
+      margin-top:12px;font-size:.8rem;color:var(--mu);cursor:pointer;
+      transition:color var(--dur) var(--ease);}
+    .pm-later:hover{color:var(--tx2);}
+
     /* FOOTER */
     footer{text-align:center;color:var(--mu);font-size:.83rem;padding:36px 0 0;border-top:1px solid var(--bd);}
     .f-soc{display:flex;justify-content:center;gap:10px;margin-top:14px;}
@@ -517,7 +589,7 @@
   <!-- COUNTDOWN -->
   <div class="cd-card">
     <div class="cd-ttl">⏳ Next Release In</div>
-    <div class="cd-sub">Semester 6 &amp; 8 Old Question Papers are being prepared</div>
+    <div class="cd-sub">6 & &amp; 8th sem notes are availabll soon</div>
     <div class="cd-row">
       <div class="cd-box"><div class="cd-v" id="cdD">00</div><div class="cd-l">Days</div></div>
       <div class="cd-box"><div class="cd-v" id="cdH">00</div><div class="cd-l">Hours</div></div>
@@ -641,6 +713,25 @@
   </footer>
 </div>
 
+<!-- PREMIUM MODAL -->
+<div class="premium-modal-overlay" id="premiumOverlay">
+  <div class="premium-modal">
+    <button class="pm-close" id="pmClose"><i class="fas fa-times"></i></button>
+    <div class="pm-crown">👑</div>
+    <div class="pm-title">Premium Content</div>
+    <div class="pm-subtitle">This note is available exclusively in the <strong>TextileNotes Premium</strong> plan.</div>
+    <div class="pm-note-name" id="pmNoteName"><i class="fas fa-lock"></i> <span id="pmNoteLabel">Note</span></div>
+    <ul class="pm-features">
+      <li>Full access to all chapter notes</li>
+      <li>Coming-soon notes as they release</li>
+      <li>Download PDFs &amp; offline access</li>
+      <li>Ad-free, distraction-free reading</li>
+    </ul>
+    <button class="pm-btn" id="pmUpgradeBtn"><i class="fas fa-crown"></i> &nbsp;Upgrade to Premium</button>
+    <div class="pm-later" id="pmLater">Maybe later</div>
+  </div>
+</div>
+
 <!-- MODAL -->
 <div class="overlay" id="overlay">
   <div class="modal" id="modal">
@@ -757,6 +848,18 @@ const SEMS=[
        {label:"Filtration",             file:"Filtration.html",                      icon:"fas fa-filter",        color:"255,165,0",   coming:true},
        {label:"Ropes & Cordage",        file:"Ropes and Cordage.html",               icon:"fas fa-link",          color:"40,199,111",  coming:true},
        {label:"Fibers in Tech Textiles",file:"Fibers in technical textiles.html",    icon:"fas fa-microscope",    color:"255,77,109",  coming:true}
+     ],
+     "HPF":[
+       {label:"Nomex",             file:"Nomex.html",             icon:"fas fa-fire-alt",      color:"255,107,53"},
+       {label:"Kevlar",            file:"Kevlar.html",            icon:"fas fa-shield-alt",    color:"255,209,102"},
+       {label:"Polyethylene",      file:"polyethylene.html",      icon:"fas fa-atom",          color:"74,158,255"},
+       {label:"Carbon Fibres",     file:"Carbon fibres.html",     icon:"fas fa-bolt",          color:"80,80,80"},
+       {label:"Vectran",           file:"Vectran.html",           icon:"fas fa-dna",           color:"40,199,111"},
+       {label:"PBO",               file:"PBO.html",               icon:"fas fa-atom",          color:"168,99,255"},
+       {label:"Glass Fibre",       file:"glass fibre.html",       icon:"fas fa-vial",          color:"0,210,210",   coming:true},
+       {label:"Optical Fibres",    file:"optical fibres.html",    icon:"fas fa-broadcast-tower",color:"168,99,255", coming:true},
+       {label:"Polymeric Fibres",  file:"polymeric fibres.html",  icon:"fas fa-project-diagram",color:"255,77,109", coming:true},
+       {label:"Nano Fibres",       file:"nano fibres.html",       icon:"fas fa-microscope",    color:"255,165,0",   coming:true}
      ]
    }},
 ];
@@ -870,16 +973,18 @@ function openModal(s){
       const rgb  = n.color || NC_PALETTE[i % NC_PALETTE.length];
       const icon = n.icon  || NC_ICONS[i % NC_ICONS.length];
       if(n.coming){
-        // Coming soon card — muted, not clickable
-        return `<div class="note-card-btn ncb-soon" style="--nc:${rgb};opacity:.45;cursor:default;pointer-events:none;">
+        // Premium-locked card — clickable, opens premium modal
+        return `<div class="note-card-btn ncb-premium" style="--nc:${rgb}" data-premium-label="${n.label}">
           <div class="ncb-icon" style="position:relative;">
             <i class="${icon}"></i>
-            <span style="position:absolute;top:-5px;right:-5px;background:rgba(var(--nc),.9);
-              color:#fff;font-size:.52rem;font-weight:900;padding:1px 5px;border-radius:99px;
-              letter-spacing:.3px;text-transform:uppercase;">Soon</span>
+            <span class="ncb-premium-badge">👑 Premium</span>
           </div>
           <div class="ncb-label">${n.label}</div>
-          <div class="ncb-arrow">Coming Soon</div>
+          <div class="ncb-arrow" style="display:flex;align-items:center;gap:3px;"><i class="fas fa-lock" style="font-size:.55rem;"></i> Premium Only</div>
+          <div class="ncb-lock-overlay">
+            <i class="fas fa-crown" style="font-size:1.1rem;color:#ffd166;"></i>
+            <span style="font-size:.65rem;font-weight:800;color:#ffd166;">Unlock Premium</span>
+          </div>
         </div>`;
       }
       return `<a class="note-card-btn m-open-notes" href="${n.file}" target="_blank" rel="noopener"
@@ -908,6 +1013,34 @@ function openModal(s){
   $('#overlay').classList.add('open');}
 $('#mX').addEventListener('click',()=>$('#overlay').classList.remove('open'));
 $('#overlay').addEventListener('click',e=>{if(e.target.id==='overlay')$('#overlay').classList.remove('open');});
+
+/* ═══ PREMIUM MODAL ═══ */
+(()=>{
+  const overlay = $('#premiumOverlay');
+  const pmClose = $('#pmClose');
+  const pmLater = $('#pmLater');
+
+  // Open when clicking a premium card (delegated — modal body rebuilt dynamically)
+  document.addEventListener('click', e => {
+    const card = e.target.closest('.ncb-premium');
+    if(card){
+      $('#pmNoteLabel').textContent = card.dataset.premiumLabel || 'This Note';
+      overlay.classList.add('open');
+    }
+  });
+
+  const close = () => overlay.classList.remove('open');
+  pmClose.addEventListener('click', close);
+  pmLater.addEventListener('click', close);
+  overlay.addEventListener('click', e => { if(e.target === overlay) close(); });
+
+  // Upgrade button — point to your payment/contact link
+  $('#pmUpgradeBtn').addEventListener('click', () => {
+    toast('Redirecting to Premium upgrade… 👑', '👑');
+    // Replace '#' with your actual premium page URL
+     window.open('index.html', '_blank');
+  });
+})();
 
 /* ═══ SUBSCRIBE ═══ */
 $('#subBtn').addEventListener('click',async()=>{
@@ -958,7 +1091,7 @@ setInterval(tickNS,1000);tickNS();
 
 /* ═══ 8TH SEM COMPLETE COUNTDOWN — global fixed target ═══ */
 // Target: 1 June 2025 00:00:00 UTC — update when complete 8th sem notes are ready
-const S8_TARGET = new Date('2026-04-12T00:00:00Z').getTime();
+const S8_TARGET = new Date('2026-04-01T00:00:00Z').getTime();
 function tickS8(){
   const d = S8_TARGET - Date.now();
   if(d<=0){
@@ -1032,26 +1165,19 @@ async function sendMsg(override){
   addUserMsg(txt);
   showTyping();
   try{
-    const GEMINI_KEY='AIzaSyCbq4GfT09fpeCeERwCkWJpF2x8KKJxeO0';
-    const sysPrompt=buildSysPrompt();
-    // Build contents array: system instruction + history + new user message
-    const contents=[];
-    chatHistory.forEach(m=>{
-      contents.push({role:m.role==='assistant'?'model':'user',parts:[{text:m.content}]});
-    });
-    contents.push({role:'user',parts:[{text:txt}]});
-    const res=await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`,
-      {method:'POST',headers:{'Content-Type':'application/json'},
-       body:JSON.stringify({
-         system_instruction:{parts:[{text:sysPrompt}]},
-         contents,
-         generationConfig:{maxOutputTokens:1000,temperature:0.7}
-       })});
-    const data=await res.json();
-    const reply=data?.candidates?.[0]?.content?.parts?.[0]?.text||"Sorry, I couldn't get a response. Please try again.";
-    removeTyping();addBotMsg(reply);
     chatHistory.push({role:'user',content:txt});
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        system:buildSysPrompt(),
+        messages:chatHistory
+      })});
+    const data=await res.json();
+    const reply=data?.content?.map(b=>b.text||'').join('')||"Sorry, I couldn't get a response. Please try again.";
+    removeTyping();addBotMsg(reply);
     chatHistory.push({role:'assistant',content:reply});
     if(chatHistory.length>20)chatHistory=chatHistory.slice(-20);
   }catch(err){removeTyping();addBotMsg("⚠️ Connection issue. Please try again in a moment.");console.error(err);}
