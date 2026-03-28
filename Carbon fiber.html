@@ -1,0 +1,1474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carbon Fibres — Exam Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Code+Pro:wght@400;600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --card: #16161f;
+    --border: #2a2a3a;
+    --accent: #e8a020;
+    --accent2: #4fc3f7;
+    --accent3: #81c784;
+    --accent4: #f06292;
+    --text: #e8e8f0;
+    --muted: #8888aa;
+    --heading: #f5f0e8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    line-height: 1.75;
+    overflow-x: hidden;
+  }
+
+  /* Animated background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 40% at 20% 10%, rgba(232,160,32,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 50% at 80% 90%, rgba(79,195,247,0.05) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Fibre pattern overlay */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 3px,
+      rgba(255,255,255,0.008) 3px,
+      rgba(255,255,255,0.008) 4px
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── HEADER ── */
+  header {
+    padding: 60px 0 40px;
+    text-align: center;
+    position: relative;
+  }
+
+  .subject-tag {
+    display: inline-block;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid rgba(232,160,32,0.35);
+    padding: 4px 14px;
+    border-radius: 2px;
+    margin-bottom: 20px;
+    background: rgba(232,160,32,0.06);
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    font-weight: 900;
+    color: var(--heading);
+    line-height: 1.15;
+    margin-bottom: 14px;
+    letter-spacing: -0.5px;
+  }
+
+  header h1 span {
+    color: var(--accent);
+  }
+
+  .header-sub {
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  .divider {
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    margin: 24px auto;
+  }
+
+  /* ── TOC ── */
+  .toc {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 4px;
+    padding: 28px 32px;
+    margin-bottom: 48px;
+  }
+
+  .toc h2 {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  .toc ol {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 24px;
+  }
+
+  .toc ol li {
+    counter-increment: toc-counter;
+    font-size: 13.5px;
+  }
+
+  .toc ol li::before {
+    content: counter(toc-counter, decimal-leading-zero) ". ";
+    font-family: 'Source Code Pro', monospace;
+    color: var(--accent);
+    font-size: 11px;
+  }
+
+  .toc ol { counter-reset: toc-counter; }
+
+  .toc a {
+    color: var(--text);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .toc a:hover { color: var(--accent); }
+
+  @media (max-width: 600px) {
+    .toc ol { grid-template-columns: 1fr; }
+  }
+
+  /* ── SECTION ── */
+  section {
+    margin-bottom: 52px;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-num {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    min-width: 28px;
+  }
+
+  .section-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: var(--heading);
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 24px 28px;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.25s, transform 0.25s;
+  }
+
+  .card:hover {
+    border-color: rgba(232,160,32,0.3);
+    transform: translateY(-2px);
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+
+  .card:hover::before { opacity: 1; }
+
+  .card.blue { border-left: 3px solid var(--accent2); }
+  .card.green { border-left: 3px solid var(--accent3); }
+  .card.pink { border-left: 3px solid var(--accent4); }
+  .card.gold { border-left: 3px solid var(--accent); }
+
+  .card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--heading);
+    margin-bottom: 12px;
+    font-weight: 700;
+  }
+
+  .card h4 {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin: 14px 0 8px;
+  }
+
+  p { margin-bottom: 10px; font-size: 14.5px; }
+  p:last-child { margin-bottom: 0; }
+
+  /* ── HIGHLIGHT BOXES ── */
+  .highlight {
+    background: rgba(232,160,32,0.08);
+    border: 1px solid rgba(232,160,32,0.25);
+    border-radius: 3px;
+    padding: 14px 18px;
+    margin: 14px 0;
+    font-size: 14px;
+  }
+
+  .highlight strong { color: var(--accent); }
+
+  .info-box {
+    background: rgba(79,195,247,0.07);
+    border: 1px solid rgba(79,195,247,0.2);
+    border-radius: 3px;
+    padding: 14px 18px;
+    margin: 14px 0;
+    font-size: 14px;
+  }
+
+  .info-box strong { color: var(--accent2); }
+
+  .success-box {
+    background: rgba(129,199,132,0.07);
+    border: 1px solid rgba(129,199,132,0.2);
+    border-radius: 3px;
+    padding: 14px 18px;
+    margin: 14px 0;
+    font-size: 14px;
+  }
+
+  .success-box strong { color: var(--accent3); }
+
+  /* ── LISTS ── */
+  ul, ol {
+    padding-left: 20px;
+    font-size: 14.5px;
+  }
+
+  ul li, ol li {
+    margin-bottom: 7px;
+    padding-left: 6px;
+  }
+
+  ul li::marker { color: var(--accent); }
+  ol li::marker { color: var(--accent); font-family: 'Source Code Pro', monospace; font-size: 12px; }
+
+  li strong { color: var(--heading); font-weight: 700; }
+
+  /* ── PROCESS FLOW ── */
+  .process-flow {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    margin: 20px 0;
+    flex-wrap: wrap;
+  }
+
+  .process-step {
+    flex: 1;
+    min-width: 120px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 16px 14px;
+    text-align: center;
+    position: relative;
+    transition: background 0.2s;
+  }
+
+  .process-step:hover { background: rgba(232,160,32,0.06); }
+
+  .process-step:not(:last-child)::after {
+    content: '→';
+    position: absolute;
+    right: -14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--accent);
+    font-size: 18px;
+    z-index: 2;
+  }
+
+  .step-temp {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .step-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--heading);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .step-note {
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  /* ── COMPARISON TABLE ── */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 16px 0;
+  }
+
+  .compare-table th {
+    background: rgba(232,160,32,0.1);
+    color: var(--accent);
+    font-family: 'Source Code Pro', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    text-align: left;
+    border: 1px solid var(--border);
+  }
+
+  .compare-table td {
+    padding: 9px 14px;
+    border: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.6;
+  }
+
+  .compare-table tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+  .compare-table tr:hover td { background: rgba(232,160,32,0.03); }
+
+  /* ── PROPERTY GRID ── */
+  .prop-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px;
+    margin: 16px 0;
+  }
+
+  .prop-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 14px 16px;
+    transition: border-color 0.2s;
+  }
+
+  .prop-item:hover { border-color: var(--accent); }
+
+  .prop-label {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .prop-value {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent2);
+  }
+
+  /* ── FORMULA ── */
+  .formula {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 12px 18px;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 13.5px;
+    color: var(--accent3);
+    margin: 10px 0;
+    text-align: center;
+  }
+
+  /* ── ACCORDION ── */
+  .accordion {
+    margin: 10px 0;
+  }
+
+  .acc-header {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 14px 18px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.2s, border-color 0.2s;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--heading);
+  }
+
+  .acc-header:hover {
+    background: var(--card);
+    border-color: rgba(232,160,32,0.3);
+  }
+
+  .acc-header.open {
+    border-color: rgba(232,160,32,0.4);
+    background: rgba(232,160,32,0.05);
+    color: var(--accent);
+  }
+
+  .acc-icon {
+    font-family: 'Source Code Pro', monospace;
+    color: var(--accent);
+    font-size: 16px;
+    transition: transform 0.3s;
+    flex-shrink: 0;
+  }
+
+  .acc-header.open .acc-icon { transform: rotate(45deg); }
+
+  .acc-body {
+    display: none;
+    border: 1px solid var(--border);
+    border-top: none;
+    padding: 18px 20px;
+    background: var(--card);
+    font-size: 14px;
+  }
+
+  .acc-body.open { display: block; }
+
+  /* ── MEMORY BOX ── */
+  .memory-box {
+    background: rgba(240,98,146,0.07);
+    border: 1px solid rgba(240,98,146,0.25);
+    border-radius: 3px;
+    padding: 16px 20px;
+    margin: 16px 0;
+  }
+
+  .memory-box .mem-title {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent4);
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .memory-box p { font-size: 14px; }
+  .memory-box strong { color: var(--accent4); }
+
+  /* ── BADGE ── */
+  .badge {
+    display: inline-block;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    padding: 2px 8px;
+    border-radius: 2px;
+    margin-right: 5px;
+    margin-bottom: 4px;
+  }
+
+  .badge-gold { background: rgba(232,160,32,0.15); color: var(--accent); border: 1px solid rgba(232,160,32,0.3); }
+  .badge-blue { background: rgba(79,195,247,0.12); color: var(--accent2); border: 1px solid rgba(79,195,247,0.3); }
+  .badge-green { background: rgba(129,199,132,0.12); color: var(--accent3); border: 1px solid rgba(129,199,132,0.3); }
+  .badge-pink { background: rgba(240,98,146,0.12); color: var(--accent4); border: 1px solid rgba(240,98,146,0.3); }
+
+  /* ── QUICK QUIZ ── */
+  .quiz-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--accent4);
+    border-radius: 4px;
+    padding: 28px;
+    margin-top: 48px;
+    margin-bottom: 48px;
+  }
+
+  .quiz-section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--heading);
+    margin-bottom: 6px;
+  }
+
+  .quiz-section .sub {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 24px;
+  }
+
+  .quiz-q {
+    margin-bottom: 20px;
+    padding: 16px 18px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+  }
+
+  .quiz-q p {
+    font-weight: 700;
+    color: var(--heading);
+    margin-bottom: 12px;
+    font-size: 14px;
+  }
+
+  .quiz-q .options button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 9px 14px;
+    margin-bottom: 6px;
+    cursor: pointer;
+    font-size: 13.5px;
+    font-family: 'Lato', sans-serif;
+    border-radius: 2px;
+    transition: all 0.2s;
+  }
+
+  .quiz-q .options button:hover:not(.answered) {
+    border-color: var(--accent);
+    background: rgba(232,160,32,0.06);
+  }
+
+  .quiz-q .options button.correct {
+    background: rgba(129,199,132,0.12);
+    border-color: var(--accent3);
+    color: var(--accent3);
+  }
+
+  .quiz-q .options button.wrong {
+    background: rgba(240,98,146,0.1);
+    border-color: var(--accent4);
+    color: var(--accent4);
+  }
+
+  .quiz-q .feedback {
+    margin-top: 10px;
+    font-size: 13px;
+    color: var(--muted);
+    display: none;
+  }
+
+  .quiz-q .feedback.show { display: block; }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 40px 0;
+    color: var(--muted);
+    font-size: 12px;
+    border-top: 1px solid var(--border);
+    font-family: 'Source Code Pro', monospace;
+    letter-spacing: 1px;
+  }
+
+  /* ── SCROLL TOP ── */
+  #scrollTop {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 40px;
+    height: 40px;
+    background: var(--accent);
+    color: #000;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 18px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    transition: opacity 0.2s;
+  }
+
+  #scrollTop:hover { opacity: 0.85; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .process-flow { flex-direction: column; }
+    .process-step::after { display: none; }
+    .process-step { border-bottom: 2px solid rgba(232,160,32,0.2); }
+    .prop-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<div class="container">
+
+  <header>
+    <div class="subject-tag">Materials Science · Exam Notes</div>
+    <h1>Carbon <span>Fibres</span></h1>
+    <p class="header-sub">Precursors · Processing · Structure · Properties · Applications</p>
+    <div class="divider"></div>
+  </header>
+
+  <!-- TABLE OF CONTENTS -->
+  <nav class="toc">
+    <h2>// Contents</h2>
+    <ol>
+      <li><a href="#intro">Introduction & Overview</a></li>
+      <li><a href="#precursors">Precursor Materials</a></li>
+      <li><a href="#rayon">Viscose Rayon Route</a></li>
+      <li><a href="#pan">PAN Route</a></li>
+      <li><a href="#pitch">Pitch Route</a></li>
+      <li><a href="#preox">Preoxidation Process</a></li>
+      <li><a href="#carb">Carbonization</a></li>
+      <li><a href="#graph">Graphitization</a></li>
+      <li><a href="#struct">Structure of Carbon Fibre</a></li>
+      <li><a href="#props">Properties</a></li>
+      <li><a href="#apps">Applications</a></li>
+      <li><a href="#quiz">Quick Revision Quiz</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1. INTRODUCTION -->
+  <section id="intro">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2>Introduction & Overview</h2>
+    </div>
+
+    <div class="card gold">
+      <h3>What are Carbon Fibres?</h3>
+      <p>Carbon fibres are fibres containing at least <strong>92% carbon by weight</strong>, obtained by the controlled pyrolysis (thermal decomposition in inert atmosphere) of organic precursor fibres. They are <strong>not drawn from molten carbon</strong> — they are derived from organic polymer precursors.</p>
+      <div class="highlight">
+        <strong>Key Fact:</strong> Carbon fibres with &gt;99% carbon content and a highly ordered graphite-like structure are called <strong>graphite fibres</strong>.
+      </div>
+    </div>
+
+    <div class="process-flow">
+      <div class="process-step">
+        <span class="step-temp">STEP 1</span>
+        <span class="step-name">Precursor Fibre</span>
+        <span class="step-note">Rayon / PAN / Pitch</span>
+      </div>
+      <div class="process-step">
+        <span class="step-temp">200–400 °C</span>
+        <span class="step-name">Preoxidation</span>
+        <span class="step-note">Stabilization</span>
+      </div>
+      <div class="process-step">
+        <span class="step-temp">1000–1500 °C</span>
+        <span class="step-name">Carbonization</span>
+        <span class="step-note">Inert atmosphere</span>
+      </div>
+      <div class="process-step">
+        <span class="step-temp">&gt;2000 °C</span>
+        <span class="step-name">Graphitization</span>
+        <span class="step-note">Optional</span>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <strong>Historical Note:</strong> Thomas Edison used carbon fibres (from pyrolyzed cotton thread) as filaments in his early light bulbs (1879). Modern high-performance carbon fibres were developed by Roger Bacon (1958) and refined at Royal Aircraft Establishment, UK (1963).
+    </div>
+  </section>
+
+  <!-- 2. PRECURSORS -->
+  <section id="precursors">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2>Precursor Materials — Overview</h2>
+    </div>
+
+    <p>The choice of precursor affects the final fibre's structure, properties, and cost. Three main precursors are used commercially:</p>
+
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Precursor</th>
+          <th>Carbon Yield</th>
+          <th>Fibre Type</th>
+          <th>Key Advantage</th>
+          <th>Market Share</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Polyacrylonitrile (PAN)</strong></td>
+          <td>~50–55%</td>
+          <td>High-strength (Type II)</td>
+          <td>Best mechanical properties</td>
+          <td>~90%</td>
+        </tr>
+        <tr>
+          <td><strong>Pitch (Coal/Petroleum)</strong></td>
+          <td>~80–90%</td>
+          <td>High-modulus (Type I)</td>
+          <td>High modulus, low cost</td>
+          <td>~8%</td>
+        </tr>
+        <tr>
+          <td><strong>Viscose Rayon</strong></td>
+          <td>~25–30%</td>
+          <td>Low-modulus</td>
+          <td>Historical importance; flexible</td>
+          <td>~2%</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="memory-box">
+      <span class="mem-title">🧠 Memory Aid</span>
+      <p><strong>"PAN gives Performance, Pitch gives high-Modulus at low Price, Rayon gives only Rubbish yield"</strong> — PPR to remember yield order: <strong>Pitch &gt; PAN &gt; Rayon</strong></p>
+    </div>
+  </section>
+
+  <!-- 3. RAYON -->
+  <section id="rayon">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2>Viscose Rayon Route</h2>
+    </div>
+
+    <div class="card blue">
+      <h3>Viscose Rayon as Precursor</h3>
+      <p>Viscose rayon is a <strong>cellulose-based fibre</strong> (regenerated cellulose). Its empirical formula is <strong>(C₆H₁₀O₅)ₙ</strong>. It was the first precursor used commercially for making carbon fibres.</p>
+      <h4>Characteristics of Rayon Precursor</h4>
+      <ul>
+        <li><strong>Source:</strong> Wood pulp (cellulose) processed via viscose process</li>
+        <li><strong>Carbon content:</strong> ~44% in the precursor fibre</li>
+        <li><strong>Structure:</strong> Semi-crystalline polymer with β-1,4-glycosidic bonds</li>
+        <li><strong>Drawback:</strong> Very <strong>low carbon yield (~25–30%)</strong> due to high oxygen content</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Processing Steps for Rayon-Based CF</h3>
+      <div class="accordion">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          Step 1: Drying & Degumming (RT to 150°C)
+          <span class="acc-icon">+</span>
+        </div>
+        <div class="acc-body">
+          Moisture removed; minor weight loss; no chemical change. Endothermic stage.
+        </div>
+      </div>
+      <div class="accordion">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          Step 2: Dehydration (150–240°C) — Preoxidation
+          <span class="acc-icon">+</span>
+        </div>
+        <div class="acc-body">
+          Loss of H₂O from cellulose; C=C double bonds begin to form. The glycosidic bonds break. The exothermic decomposition of cellulose begins, producing H₂O, CO, CO₂, and various volatile organics. A Lewis acid catalyst (e.g. ZnCl₂, NH₄H₂PO₄) is often used to improve yield.
+        </div>
+      </div>
+      <div class="accordion">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          Step 3: Carbonization (400–1500°C)
+          <span class="acc-icon">+</span>
+        </div>
+        <div class="acc-body">
+          Aromatic ring condensation; elimination of remaining H, O, N atoms. Turbostratic carbon structure forms. Significant mass loss continues.
+        </div>
+      </div>
+      <div class="accordion">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          Step 4: Graphitization (&gt;2000°C, optional)
+          <span class="acc-icon">+</span>
+        </div>
+        <div class="acc-body">
+          Hot stretching applied to improve crystallite alignment and increase modulus. Without stretching, fibres have low modulus (25–50 GPa).
+        </div>
+      </div>
+    </div>
+
+    <div class="formula">C₆H₁₀O₅  →  6C + 5H₂O  (simplified dehydration)</div>
+
+    <div class="highlight">
+      <strong>Important:</strong> Rayon-derived CF has <em>lower modulus and strength</em> than PAN-derived CF. They are used mainly in <strong>ablative heat shields</strong> (spacecraft re-entry) and <strong>insulation</strong> due to their excellent thermal properties.
+    </div>
+  </section>
+
+  <!-- 4. PAN -->
+  <section id="pan">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2>PAN Route (Dominant Route)</h2>
+    </div>
+
+    <div class="card green">
+      <h3>Polyacrylonitrile (PAN) as Precursor</h3>
+      <p>PAN is an <strong>addition polymer of acrylonitrile (CH₂=CHCN)</strong>. It is the most widely used precursor (~90% of commercial CF production). The pendant nitrile (-CN) groups are key to the stabilization chemistry.</p>
+      <div class="formula">(-CH₂-CH(CN)-)ₙ — Polyacrylonitrile</div>
+      <h4>Precursor Preparation</h4>
+      <ul>
+        <li>PAN copolymers used (typically 93–95% AN with 5–7% comonomers like methacrylic acid, itaconic acid)</li>
+        <li>Comonomers lower cyclization temperature and improve processing</li>
+        <li>Wet-spun or dry-jet wet-spun into fibres; then drawn to align polymer chains (imparts preferred orientation)</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Stage 1 — Preoxidation / Stabilization (200–300°C in Air)</h3>
+      <p>Most critical step for PAN. The fibre is heated under <strong>tension in air</strong>. Three main reactions occur:</p>
+      <ul>
+        <li><strong>Cyclization:</strong> Adjacent –CN groups undergo intramolecular cyclization forming a ladder polymer (pyridine ring structure). Exothermic.</li>
+        <li><strong>Dehydrogenation:</strong> H₂ is removed, C=C double bonds form within and between chains → conjugated system</li>
+        <li><strong>Oxidation:</strong> O₂ incorporation → forms –OH, C=O groups → cross-linking between chains → thermally stable structure</li>
+      </ul>
+      <div class="formula">–(CH₂–CH–CN)–  →  Cyclic ladder polymer (dark brown/black fibre)</div>
+      <div class="info-box">
+        <strong>Why tension?</strong> Maintained under tension to prevent fibre shrinkage (PAN shrinks ~30% if unconstrained). Tension preserves molecular orientation → better mechanical properties in final fibre.
+      </div>
+      <h4>Chemical Changes</h4>
+      <ul>
+        <li>Colour changes: white → yellow → brown → black</li>
+        <li>Density increases from ~1.17 to ~1.35 g/cm³</li>
+        <li>The fibre becomes infusible (non-melting) — essential before high-temperature treatment</li>
+        <li>C:N ratio changes due to cyclization and dehydrogenation</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Stage 2 — Carbonization (1000–1500°C in N₂/Ar)</h3>
+      <ul>
+        <li>Non-carbon atoms (H, O, N) eliminated as <strong>HCN, H₂O, N₂, CO, CO₂</strong></li>
+        <li>Aromatic ring condensation → turbostratic graphite-like layers</li>
+        <li>Carbon content rises from ~60% (stabilized) to &gt;92%</li>
+        <li>Crystallite size (La, Lc) and crystallinity increase with temperature</li>
+        <li>Fibre loses ~50% of its initial mass but retains shape (pseudomorphism)</li>
+        <li>Small crystallites, many defects → <strong>high strength</strong></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Stage 3 — Graphitization (2000–3000°C, optional)</h3>
+      <ul>
+        <li>Applied to produce <strong>high-modulus (Type I) fibres</strong></li>
+        <li>Further ordering → larger graphite crystallites, reduced layer spacing (d₀₀₂ → 0.3354 nm for perfect graphite)</li>
+        <li>Crystallite alignment along fibre axis increases → higher modulus but <em>lower strength</em></li>
+        <li>Electrical and thermal conductivity increase dramatically</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 5. PITCH -->
+  <section id="pitch">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2>Pitch Route</h2>
+    </div>
+
+    <div class="card pink">
+      <h3>Pitch as Precursor</h3>
+      <p>Pitch is a complex mixture of polycyclic aromatic hydrocarbons (PAHs). Two types are used:</p>
+      <ul>
+        <li><strong>Isotropic pitch</strong> (coal tar or petroleum pitch) — random molecular arrangement → lower quality CF</li>
+        <li><strong>Mesophase pitch (anisotropic)</strong> — partially ordered liquid crystalline state → high modulus CF</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Isotropic Pitch Route</h3>
+      <ul>
+        <li>Low cost; low-performance general purpose CF</li>
+        <li>Softening point ~80–120°C; melt-spun into fibres</li>
+        <li>Preoxidized at 200–300°C to infusibilize → carbonized → CF</li>
+        <li>Properties: Modulus 30–60 GPa, Tensile Strength ~600 MPa</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Mesophase Pitch Route (High Performance)</h3>
+      <p>Mesophase pitch is produced by:</p>
+      <ol>
+        <li>Thermal treatment of isotropic pitch at 400–450°C for extended periods</li>
+        <li>PAH molecules form disc-like structures that stack into liquid crystal (nematic) domains</li>
+        <li>The mesophase content increases with time/temperature</li>
+        <li>100% mesophase pitch is used for best properties</li>
+      </ol>
+      <div class="info-box">
+        <strong>Melt Spinning:</strong> Mesophase pitch is melt-spun through a spinneret. The liquid crystal molecules align along the fibre axis due to shear and extensional flow → this pre-alignment is key to the high modulus of the final fibre.
+      </div>
+      <h4>Processing Advantage</h4>
+      <ul>
+        <li><strong>High carbon yield (~80–90%)</strong> — economical despite higher precursor cost</li>
+        <li>Near-perfect graphitizable structure → highest modulus (~900 GPa possible)</li>
+        <li>Final fibres: <strong>High modulus, good thermal/electrical conductivity</strong></li>
+      </ul>
+    </div>
+
+    <div class="memory-box">
+      <span class="mem-title">🧠 Pitch vs PAN: Key Distinction</span>
+      <p>PAN → <strong>High Strength</strong> (many defects = crack arrest) | Pitch → <strong>High Modulus</strong> (near-perfect alignment = stiff)<br>
+      Think: <strong>PAN = Performance in strength; Pitch = Perfectly stiff</strong></p>
+    </div>
+  </section>
+
+  <!-- 6. PREOXIDATION -->
+  <section id="preox">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2>Preoxidation (Stabilization)</h2>
+    </div>
+
+    <div class="card gold">
+      <h3>Purpose of Preoxidation</h3>
+      <p>To convert the thermoplastic precursor into a <strong>thermosetting (infusible, non-combustible) fibre</strong> that can survive subsequent high-temperature treatments without melting, fusing, or degrading.</p>
+      <div class="highlight">
+        <strong>Without preoxidation:</strong> The precursor fibre would simply melt or burn during carbonization, destroying the fibrous morphology.
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Physical & Chemical Changes During Preoxidation</h3>
+      <table class="compare-table">
+        <thead>
+          <tr><th>Parameter</th><th>Change</th><th>Reason</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Colour</td><td>White/cream → black</td><td>Conjugated system formation, oxidation</td></tr>
+          <tr><td>Density</td><td>Increases (~1.17 → ~1.35 g/cm³ for PAN)</td><td>Cross-linking, oxygen uptake</td></tr>
+          <tr><td>Tensile strength</td><td>Decreases initially</td><td>Chain scission, stress relaxation</td></tr>
+          <tr><td>Chemical structure</td><td>Linear chains → ladder/cross-linked network</td><td>Cyclization (PAN), dehydration (Rayon)</td></tr>
+          <tr><td>Oxygen content</td><td>Increases (PAN: 8–12 wt%)</td><td>O₂ diffusion and incorporation</td></tr>
+          <tr><td>Thermal stability</td><td>TGA onset rises significantly</td><td>Cross-linking prevents flow</td></tr>
+          <tr><td>Solubility</td><td>Becomes insoluble</td><td>3D network formed</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>Preoxidation of PAN — Reaction Details</h3>
+      <ul>
+        <li><strong>Cyclization:</strong> –CN + –CN → six-membered pyridine rings (ladder polymer)</li>
+        <li><strong>Dehydrogenation:</strong> –CH₂–CH– → –CH=C– (removes H, forms C=C bonds)</li>
+        <li><strong>Oxidation:</strong> –CH= + O₂ → –C(=O)–, –OH; provides cross-links</li>
+      </ul>
+      <div class="success-box">
+        <strong>Key:</strong> The rate must be controlled — too fast causes runaway exotherm and thermal damage; too slow is uneconomical. Typical residence time: <strong>1–2 hours at 200–300°C</strong>.
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. CARBONIZATION -->
+  <section id="carb">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <h2>Carbonization</h2>
+    </div>
+
+    <div class="card green">
+      <h3>Process Parameters</h3>
+      <ul>
+        <li><strong>Temperature range:</strong> 1000–1500°C (for Type II / high-strength CF)</li>
+        <li><strong>Atmosphere:</strong> Inert — N₂ or Ar (prevents oxidation)</li>
+        <li><strong>Tension:</strong> Maintained to preserve orientation</li>
+        <li><strong>Heating rate:</strong> Slow rate below 600°C (volatile evolution); faster above</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Chemical Changes During Carbonization</h3>
+      <ol>
+        <li><strong>300–600°C:</strong> Elimination of N as HCN, NH₃; H₂ evolution; further aromatic condensation begins</li>
+        <li><strong>600–1000°C:</strong> Rapid elimination of residual H, N, O as gaseous by-products; graphene layer formation; carbon content rises to &gt;95%</li>
+        <li><strong>1000–1500°C:</strong> Turbostratic carbon fully established; layer spacing d₀₀₂ decreases (from ~0.365 nm to ~0.345 nm); defect density still high</li>
+      </ol>
+      <div class="formula">By-products: HCN, N₂, H₂O, CO, CO₂, H₂ (monitored for safety)</div>
+    </div>
+
+    <div class="card">
+      <h3>Physical Changes During Carbonization</h3>
+      <table class="compare-table">
+        <thead><tr><th>Property</th><th>Change</th></tr></thead>
+        <tbody>
+          <tr><td>Mass</td><td>~50% loss from precursor fibre</td></tr>
+          <tr><td>Diameter</td><td>Decreases (5–8 μm from ~12 μm PAN fibre)</td></tr>
+          <tr><td>Density</td><td>Increases to ~1.7–1.8 g/cm³</td></tr>
+          <tr><td>Tensile strength</td><td>Rises sharply above 600°C; peaks at ~1300°C for Type II</td></tr>
+          <tr><td>Young's modulus</td><td>Increases with temperature</td></tr>
+          <tr><td>Electrical resistivity</td><td>Decreases dramatically (becomes conductor)</td></tr>
+          <tr><td>Carbon content</td><td>Rises from ~60% (oxidized PAN) to &gt;92%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 8. GRAPHITIZATION -->
+  <section id="graph">
+    <div class="section-header">
+      <span class="section-num">08</span>
+      <h2>Graphitization</h2>
+    </div>
+
+    <div class="card blue">
+      <h3>Process Parameters</h3>
+      <ul>
+        <li><strong>Temperature:</strong> 1500–3000°C (typically 2500–3000°C for high-modulus)</li>
+        <li><strong>Atmosphere:</strong> Inert (Ar preferred over N₂ at these temperatures)</li>
+        <li><strong>Time:</strong> Seconds to a few minutes (very short at highest temperatures)</li>
+        <li><strong>Optional stretch:</strong> ~5–10% elongation at temperature to improve crystallite alignment</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Structural Changes During Graphitization</h3>
+      <ul>
+        <li>Turbostratic carbon (random layer stacking) → <strong>3D ordered graphite structure</strong> (A-B-A-B stacking)</li>
+        <li>d₀₀₂ decreases: ~0.345 nm (carbonized) → 0.3354 nm (perfect graphite)</li>
+        <li>Crystallite dimensions La (crystallite width) and Lc (crystallite height) increase</li>
+        <li>Preferred orientation of basal planes along fibre axis improves (OA, orientation angle decreases)</li>
+        <li>Carbon content approaches 99%+</li>
+        <li>Sp² hybridized carbon network maximized</li>
+      </ul>
+      <div class="highlight">
+        <strong>Trade-off:</strong> Graphitization increases <em>modulus</em> but <em>reduces tensile strength</em> (fewer defects = fewer crack arrest points; crack propagates more easily along graphene planes).
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Physical Property Changes</h3>
+      <div class="prop-grid">
+        <div class="prop-item">
+          <span class="prop-label">Young's Modulus</span>
+          <span class="prop-value">↑↑ Increases</span>
+        </div>
+        <div class="prop-item">
+          <span class="prop-label">Tensile Strength</span>
+          <span class="prop-value">↓ Decreases</span>
+        </div>
+        <div class="prop-item">
+          <span class="prop-label">Thermal Conductivity</span>
+          <span class="prop-value">↑↑ Increases</span>
+        </div>
+        <div class="prop-item">
+          <span class="prop-label">Electrical Cond.</span>
+          <span class="prop-value">↑↑ Increases</span>
+        </div>
+        <div class="prop-item">
+          <span class="prop-label">d₀₀₂ Spacing</span>
+          <span class="prop-value">↓ Decreases</span>
+        </div>
+        <div class="prop-item">
+          <span class="prop-label">Density</span>
+          <span class="prop-value">~1.9–2.1 g/cm³</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. STRUCTURE -->
+  <section id="struct">
+    <div class="section-header">
+      <span class="section-num">09</span>
+      <h2>Structure of Carbon Fibre</h2>
+    </div>
+
+    <div class="card gold">
+      <h3>Atomic-Level Structure</h3>
+      <p>Carbon fibres consist of <strong>turbostratic graphite</strong> — stacked graphene layers (hexagonal carbon network) with:</p>
+      <ul>
+        <li>Strong <strong>covalent sp² C–C bonds</strong> within layers (very short, ~0.142 nm)</li>
+        <li>Weak <strong>van der Waals forces</strong> between layers</li>
+        <li>Layer spacing (~0.34–0.365 nm) — larger than perfect graphite (0.3354 nm) due to disorder</li>
+        <li><strong>Turbostratic:</strong> layers are roughly parallel but randomly rotated about the c-axis (no A-B-A-B stacking)</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Microstructure — The "Skin-Core" Model</h3>
+      <ul>
+        <li><strong>Skin region:</strong> Graphene planes aligned more parallel to fibre axis → higher orientation → better tensile properties</li>
+        <li><strong>Core region:</strong> More disordered, wrinkled graphene layers, defects, voids</li>
+        <li>Diameter: typically <strong>5–10 μm</strong></li>
+        <li>Cross-section shape: circular (PAN) or kidney/lobular (some PAN grades), circular/irregular (pitch)</li>
+      </ul>
+      <div class="info-box">
+        <strong>Crystallite Parameters (from XRD):</strong><br>
+        Lc = crystallite height (c-direction), La = crystallite width (a-direction),<br>
+        d₀₀₂ = interlayer spacing, OA = orientation angle (Herman's orientation factor)
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Structural Comparison: Type I vs Type II CF</h3>
+      <table class="compare-table">
+        <thead>
+          <tr><th>Feature</th><th>Type I (High Modulus)</th><th>Type II (High Strength)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Processing temperature</td><td>&gt;2000°C</td><td>~1000–1500°C</td></tr>
+          <tr><td>Crystallite size (La, Lc)</td><td>Large</td><td>Small</td></tr>
+          <tr><td>d₀₀₂</td><td>~0.336 nm</td><td>~0.344 nm</td></tr>
+          <tr><td>Orientation</td><td>High (low OA)</td><td>Moderate</td></tr>
+          <tr><td>Young's Modulus</td><td>350–900 GPa</td><td>200–280 GPa</td></tr>
+          <tr><td>Tensile Strength</td><td>2.0–3.0 GPa</td><td>3.5–7.0 GPa</td></tr>
+          <tr><td>Surface energy</td><td>Lower</td><td>Higher</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 10. PROPERTIES -->
+  <section id="props">
+    <div class="section-header">
+      <span class="section-num">10</span>
+      <h2>Properties of Carbon Fibres</h2>
+    </div>
+
+    <div class="card green">
+      <h3>Mechanical Properties</h3>
+      <div class="prop-grid">
+        <div class="prop-item">
+          <span class="prop-label">Tensile Strength</span>
+          <span class="prop-value">2–7 GPa</span>
+        </div>
+        <div class="prop-item">
+          <span class="prop-label">Young's Modulus</span>
+          <span class="prop-value">200–900 GPa</span>
+        </div>
+        <div class="prop-item">
+          <span class="prop-label">Density</span>
+          <span class="prop-value">1.75–1.95 g/cm³</span>
+        </div>
+        <div class="prop-item">
+          <span class="prop-label">Elongation at Break</span>
+          <span class="prop-value">0.3–2.4%</span>
+        </div>
+        <div class="prop-item">
+          <span class="prop-label">Specific Strength</span>
+          <span class="prop-value">&gt;2 GPa·cm³/g</span>
+        </div>
+        <div class="prop-item">
+          <span class="prop-label">Compressive Str.</span>
+          <span class="prop-value">~60–80% of tensile</span>
+        </div>
+      </div>
+      <div class="highlight">
+        <strong>Specific modulus</strong> (modulus/density) of CF is 3–5× that of steel — this is why CF composites replace metals in aerospace.
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Thermal Properties</h3>
+      <ul>
+        <li><strong>Axial CTE:</strong> Slightly negative (−0.1 to −0.5 × 10⁻⁶/K) — unique; fibre contracts on heating in the axial direction</li>
+        <li><strong>Radial CTE:</strong> Positive, ~7–10 × 10⁻⁶/K</li>
+        <li><strong>Axial thermal conductivity:</strong> 10–1000 W/m·K (high-modulus pitch: up to 1000 W/m·K — higher than copper!)</li>
+        <li><strong>Melting point:</strong> No true melting — sublimes above 3600°C</li>
+        <li><strong>Oxidation onset:</strong> ~400–450°C in air; much higher in inert atmospheres</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Electrical Properties</h3>
+      <ul>
+        <li>CF is electrically conductive (unlike glass or aramid fibres)</li>
+        <li><strong>Resistivity:</strong> ~1.5–2.5 × 10⁻⁵ Ω·m (Type II) to ~9 × 10⁻⁶ Ω·m (Type I)</li>
+        <li>Can cause galvanic corrosion when in contact with metals → requires isolation</li>
+        <li>Used for electromagnetic shielding (EMI)</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Chemical & Surface Properties</h3>
+      <ul>
+        <li>Chemically inert to most solvents, acids (except strong oxidizing acids), and bases</li>
+        <li>High surface area; surface treatment (oxidation, sizing) needed for good fibre–matrix adhesion in composites</li>
+        <li><strong>Surface treatment methods:</strong> Anodic oxidation (electrochemical), gas-phase oxidation, wet chemical oxidation → introduce –COOH, –OH, C=O groups</li>
+        <li><strong>Sizing:</strong> Thin polymer coating applied to protect fibre and improve wettability with resin</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Comparison: CF vs Other Reinforcing Fibres</h3>
+      <table class="compare-table">
+        <thead>
+          <tr><th>Fibre</th><th>Tensile Str. (GPa)</th><th>Modulus (GPa)</th><th>Density (g/cm³)</th><th>Note</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Carbon (PAN, HS)</strong></td><td>3.5–7.0</td><td>220–280</td><td>1.76</td><td>Best strength/density</td></tr>
+          <tr><td><strong>Carbon (Pitch, HM)</strong></td><td>2.0–3.0</td><td>350–900</td><td>2.10</td><td>Best modulus</td></tr>
+          <tr><td>E-Glass</td><td>3.5</td><td>73</td><td>2.54</td><td>Low cost</td></tr>
+          <tr><td>Kevlar 49 (Aramid)</td><td>3.6</td><td>125</td><td>1.45</td><td>Best toughness</td></tr>
+          <tr><td>Boron</td><td>3.5</td><td>400</td><td>2.65</td><td>Expensive</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 11. APPLICATIONS -->
+  <section id="apps">
+    <div class="section-header">
+      <span class="section-num">11</span>
+      <h2>Applications of Carbon Fibres</h2>
+    </div>
+
+    <p>CF is almost always used as a <strong>reinforcement in composite materials (CFRP — Carbon Fibre Reinforced Polymer/Plastics)</strong>, typically with epoxy, polyimide, or thermoplastic matrices.</p>
+
+    <div class="card blue">
+      <h3>Aerospace & Defence</h3>
+      <span class="badge badge-gold">High Priority</span>
+      <span class="badge badge-blue">Largest Segment</span>
+      <ul>
+        <li>Aircraft structural components: fuselage skins, wing spars, empennage (Boeing 787: ~50% CFRP by weight)</li>
+        <li>Rocket motor casings, satellite structures, solar panels</li>
+        <li>Military aircraft (F-22, F-35): airframe components for stealth and lightweight performance</li>
+        <li>Ablative heat shields on spacecraft re-entry vehicles (rayon-based CF used here)</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Automotive</h3>
+      <span class="badge badge-green">Growing Sector</span>
+      <ul>
+        <li>Racing cars (Formula 1): entire chassis, monocoque, bodywork</li>
+        <li>High-end production vehicles (BMW i3/i8, Lamborghini, Ferrari): body panels, roof structures</li>
+        <li>Drive shafts, brake discs (C/C composites), springs</li>
+        <li>Electric vehicle battery enclosures and structural frames</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Sports & Leisure</h3>
+      <span class="badge badge-pink">Consumer</span>
+      <ul>
+        <li>Tennis racquets, golf club shafts, fishing rods</li>
+        <li>Bicycle frames, helmets, rowing shells</li>
+        <li>Hockey sticks, archery bows, ski poles</li>
+        <li>Prosthetic limbs and orthopaedic devices</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Industrial & Civil Engineering</h3>
+      <ul>
+        <li>Wind turbine blades (CF/glass hybrid)</li>
+        <li>Pressure vessels and pipelines (oil & gas)</li>
+        <li>Structural reinforcement of bridges and buildings (CFRP wrapping, plates)</li>
+        <li>Chemical plant equipment resistant to corrosion</li>
+        <li>Flywheels for energy storage</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Electrical & Thermal Applications</h3>
+      <ul>
+        <li><strong>EMI shielding:</strong> Electronics enclosures, aircraft avionics</li>
+        <li><strong>Heating elements:</strong> Radiant heaters, floor heating</li>
+        <li><strong>Electrodes:</strong> Fuel cells, capacitors, lithium-ion battery electrodes</li>
+        <li><strong>Carbon-carbon (C/C) composites:</strong> Brake discs for aircraft and racing cars, rocket nozzles</li>
+        <li><strong>Thermal management:</strong> High-modulus pitch CF with thermal conductivity &gt;500 W/m·K used in electronic cooling</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Medical & Biomedical</h3>
+      <ul>
+        <li>X-ray tables and CT scanner components (radiolucent CF allows unobstructed imaging)</li>
+        <li>Prosthetic limbs: running blades (e.g. Flex-Foot), arm prostheses</li>
+        <li>Surgical instruments, endoscopes</li>
+        <li>Carbon fibre scaffolds for tissue engineering (biocompatibility demonstrated)</li>
+      </ul>
+    </div>
+
+    <div class="success-box">
+      <strong>Special Application — Carbon-Carbon (C/C) Composites:</strong> Made by infiltrating CF preforms with carbon matrix (chemical vapour infiltration or resin impregnation + pyrolysis). Retain mechanical properties above 2000°C in inert atmospheres. Used in aircraft brakes, rocket nozzles, and re-entry heat shields.
+    </div>
+  </section>
+
+  <!-- 12. QUIZ -->
+  <div id="quiz" class="quiz-section">
+    <h2>Quick Revision Quiz</h2>
+    <p class="sub">Test your understanding — click an option to check your answer.</p>
+
+    <div class="quiz-q" id="q1">
+      <p>1. Which precursor gives the highest carbon yield during pyrolysis?</p>
+      <div class="options">
+        <button onclick="answer('q1',this,false)">A. Viscose Rayon (~25–30%)</button>
+        <button onclick="answer('q1',this,false)">B. PAN (~50–55%)</button>
+        <button onclick="answer('q1',this,true)">C. Mesophase Pitch (~80–90%)</button>
+        <button onclick="answer('q1',this,false)">D. Cellulose Acetate</button>
+      </div>
+      <div class="feedback">✅ Correct! Mesophase pitch has the highest carbon yield (~80–90%) because it is already highly aromatic with minimal heteroatoms to lose.</div>
+    </div>
+
+    <div class="quiz-q" id="q2">
+      <p>2. The purpose of maintaining tension during PAN preoxidation is to:</p>
+      <div class="options">
+        <button onclick="answer('q2',this,false)">A. Prevent oxidation of the fibre surface</button>
+        <button onclick="answer('q2',this,true)">B. Preserve molecular orientation and prevent shrinkage</button>
+        <button onclick="answer('q2',this,false)">C. Increase the cyclization reaction rate</button>
+        <button onclick="answer('q2',this,false)">D. Reduce the processing temperature required</button>
+      </div>
+      <div class="feedback">✅ Correct! PAN shrinks ~30% during preoxidation. Tension preserves chain alignment, directly impacting final fibre mechanical properties.</div>
+    </div>
+
+    <div class="quiz-q" id="q3">
+      <p>3. Turbostratic carbon differs from graphite in that turbostratic carbon has:</p>
+      <div class="options">
+        <button onclick="answer('q3',this,false)">A. No hexagonal carbon layers</button>
+        <button onclick="answer('q3',this,true)">B. Randomly rotated graphene layers with no A-B-A-B stacking</button>
+        <button onclick="answer('q3',this,false)">C. sp³ hybridized carbon bonds</button>
+        <button onclick="answer('q3',this,false)">D. Smaller interlayer spacing than graphite</button>
+      </div>
+      <div class="feedback">✅ Correct! Turbostratic carbon has parallel but randomly rotated graphene layers → larger d₀₀₂ (~0.34–0.365 nm) than perfect graphite (0.3354 nm).</div>
+    </div>
+
+    <div class="quiz-q" id="q4">
+      <p>4. Graphitization increases modulus but decreases tensile strength because:</p>
+      <div class="options">
+        <button onclick="answer('q4',this,false)">A. The carbon content decreases</button>
+        <button onclick="answer('q4',this,false)">B. The fibre diameter increases</button>
+        <button onclick="answer('q4',this,true)">C. Fewer defects mean fewer crack arrest sites; cracks propagate more easily along graphene planes</button>
+        <button onclick="answer('q4',this,false)">D. The density decreases significantly</button>
+      </div>
+      <div class="feedback">✅ Correct! A more perfect crystal has fewer defects. In strength theory, defects (and misaligned crystallites) act as crack-arrest barriers. Remove them and strength drops.</div>
+    </div>
+
+    <div class="quiz-q" id="q5">
+      <p>5. Which key reaction occurs during PAN preoxidation that makes the fibre infusible?</p>
+      <div class="options">
+        <button onclick="answer('q5',this,false)">A. Dehydration of hydroxyl groups</button>
+        <button onclick="answer('q5',this,true)">B. Cyclization of adjacent –CN groups forming a ladder polymer + cross-linking via oxidation</button>
+        <button onclick="answer('q5',this,false)">C. Elimination of nitrogen as N₂ gas</button>
+        <button onclick="answer('q5',this,false)">D. Formation of sp³ carbon bonds</button>
+      </div>
+      <div class="feedback">✅ Correct! The cyclization creates a ladder polymer; oxidative cross-linking connects chains in 3D → no longer thermoplastic. This is the essence of PAN stabilization.</div>
+    </div>
+  </div>
+
+  <footer>
+    Carbon Fibres — Exam Revision Notes &nbsp;|&nbsp; Materials Science &nbsp;|&nbsp; © 2025
+  </footer>
+
+</div>
+
+<script>
+  // Intersection Observer for scroll animations
+  const sections = document.querySelectorAll('section');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), 60);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  sections.forEach(s => observer.observe(s));
+
+  // Also trigger quiz section
+  const quizSection = document.querySelector('.quiz-section');
+  const quizObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = 1;
+        e.target.style.transform = 'none';
+        quizObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  quizSection.style.opacity = '0';
+  quizSection.style.transition = 'opacity 0.5s ease';
+  quizObs.observe(quizSection);
+
+  // Accordion
+  function toggleAcc(header) {
+    const body = header.nextElementSibling;
+    const isOpen = body.classList.contains('open');
+    // Close all in same card
+    const card = header.closest('.card');
+    card.querySelectorAll('.acc-body').forEach(b => b.classList.remove('open'));
+    card.querySelectorAll('.acc-header').forEach(h => h.classList.remove('open'));
+    if (!isOpen) {
+      body.classList.add('open');
+      header.classList.add('open');
+    }
+  }
+
+  // Quiz
+  function answer(qid, btn, isCorrect) {
+    const qEl = document.getElementById(qid);
+    if (qEl.dataset.answered) return;
+    qEl.dataset.answered = 'true';
+    const btns = qEl.querySelectorAll('button');
+    btns.forEach(b => b.classList.add('answered'));
+    if (isCorrect) {
+      btn.classList.add('correct');
+    } else {
+      btn.classList.add('wrong');
+      // Mark the correct one
+      btns.forEach(b => {
+        if (b.onclick && b.onclick.toString().includes('true')) {
+          b.classList.add('correct');
+        }
+      });
+    }
+    const feedback = qEl.querySelector('.feedback');
+    feedback.classList.add('show');
+  }
+
+  // Scroll to top button
+  const scrollBtn = document.getElementById('scrollTop');
+  window.addEventListener('scroll', () => {
+    scrollBtn.style.display = window.scrollY > 400 ? 'flex' : 'none';
+  });
+</script>
+</body>
+</html>

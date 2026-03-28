@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kevlar – Comprehensive Exam Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #0d0f14;
+    --surface:   #141720;
+    --surface2:  #1c2030;
+    --border:    #262c3d;
+    --gold:      #d4a843;
+    --gold-dim:  #a07830;
+    --teal:      #3ec9b0;
+    --rose:      #e05a6a;
+    --blue:      #5b9cdf;
+    --purple:    #a97bdb;
+    --green:     #5db87a;
+    --text:      #e8e6e0;
+    --muted:     #8890a4;
+    --highlight: rgba(212,168,67,0.10);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 16px;
+    line-height: 1.75;
+    min-height: 100vh;
+  }
+
+  /* ── SIDEBAR NAV ── */
+  #nav {
+    position: fixed;
+    top: 0; left: 0;
+    width: 260px;
+    height: 100vh;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    padding: 28px 0 20px;
+    z-index: 100;
+    overflow-y: auto;
+  }
+  #nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    color: var(--gold);
+    padding: 0 24px 24px;
+    border-bottom: 1px solid var(--border);
+    letter-spacing: 0.03em;
+  }
+  #nav-logo span { display: block; font-size: 0.7rem; color: var(--muted); font-family: 'Source Serif 4',serif; font-weight: 300; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 2px; }
+  #nav ul { list-style: none; padding: 16px 0; }
+  #nav ul li a {
+    display: block;
+    padding: 9px 24px;
+    font-size: 0.82rem;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.2s, background 0.2s, padding-left 0.2s;
+    border-left: 2px solid transparent;
+  }
+  #nav ul li a:hover,
+  #nav ul li a.active {
+    color: var(--gold);
+    background: var(--highlight);
+    border-left-color: var(--gold);
+    padding-left: 28px;
+  }
+  #nav ul li.group-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    padding: 14px 24px 4px;
+    opacity: 0.6;
+  }
+
+  /* ── MAIN CONTENT ── */
+  #main {
+    margin-left: 260px;
+    padding: 0 48px 80px 60px;
+    max-width: 1100px;
+  }
+
+  /* ── HERO ── */
+  #hero {
+    padding: 64px 0 48px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 56px;
+    position: relative;
+  }
+  #hero::after {
+    content: 'KEVLAR';
+    position: absolute;
+    right: -10px;
+    top: 30px;
+    font-family: 'Playfair Display', serif;
+    font-size: 8rem;
+    color: rgba(212,168,67,0.04);
+    font-weight: 900;
+    pointer-events: none;
+    user-select: none;
+  }
+  .hero-tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--teal);
+    background: rgba(62,201,176,0.08);
+    border: 1px solid rgba(62,201,176,0.25);
+    border-radius: 3px;
+    padding: 4px 12px;
+    margin-bottom: 20px;
+  }
+  h1.title {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.2rem;
+    line-height: 1.1;
+    color: var(--text);
+    font-weight: 900;
+    margin-bottom: 16px;
+  }
+  h1.title em { color: var(--gold); font-style: normal; }
+  .hero-sub {
+    color: var(--muted);
+    font-size: 1rem;
+    max-width: 540px;
+    font-weight: 300;
+    font-style: italic;
+    margin-bottom: 28px;
+  }
+  .hero-pills { display: flex; flex-wrap: wrap; gap: 10px; }
+  .pill {
+    font-size: 0.75rem;
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.02em;
+  }
+  .pill-gold  { background: rgba(212,168,67,0.12); color: var(--gold);   border: 1px solid rgba(212,168,67,0.3); }
+  .pill-teal  { background: rgba(62,201,176,0.10); color: var(--teal);   border: 1px solid rgba(62,201,176,0.25); }
+  .pill-rose  { background: rgba(224,90,106,0.10); color: var(--rose);   border: 1px solid rgba(224,90,106,0.25); }
+  .pill-blue  { background: rgba(91,156,223,0.10); color: var(--blue);   border: 1px solid rgba(91,156,223,0.25); }
+  .pill-purple{ background: rgba(169,123,219,0.10);color: var(--purple); border: 1px solid rgba(169,123,219,0.25); }
+
+  /* ── SECTIONS ── */
+  section {
+    margin-bottom: 68px;
+    scroll-margin-top: 32px;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--gold);
+    background: rgba(212,168,67,0.1);
+    border: 1px solid rgba(212,168,67,0.2);
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 6px;
+    flex-shrink: 0;
+  }
+  h2.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.85rem;
+    color: var(--text);
+    font-weight: 700;
+  }
+
+  h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    color: var(--gold);
+    margin: 28px 0 12px;
+    font-weight: 700;
+  }
+  h4 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--teal);
+    margin: 20px 0 8px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  p { margin-bottom: 14px; color: var(--text); }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin-bottom: 20px;
+  }
+  .card-accent-gold  { border-left: 3px solid var(--gold); }
+  .card-accent-teal  { border-left: 3px solid var(--teal); }
+  .card-accent-rose  { border-left: 3px solid var(--rose); }
+  .card-accent-blue  { border-left: 3px solid var(--blue); }
+  .card-accent-purple{ border-left: 3px solid var(--purple); }
+  .card-accent-green { border-left: 3px solid var(--green); }
+
+  /* ── GRID ── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  @media(max-width:900px){ .grid-2,.grid-3 { grid-template-columns: 1fr; } }
+
+  /* ── BULLET LISTS ── */
+  ul.fancy { list-style: none; padding: 0; }
+  ul.fancy li {
+    padding: 7px 0 7px 22px;
+    position: relative;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 0.95rem;
+  }
+  ul.fancy li:last-child { border-bottom: none; }
+  ul.fancy li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+    font-size: 0.75rem;
+    top: 9px;
+  }
+  ul.fancy.teal  li::before { color: var(--teal); }
+  ul.fancy.rose  li::before { color: var(--rose); }
+  ul.fancy.blue  li::before { color: var(--blue); }
+  ul.fancy.purple li::before { color: var(--purple); }
+  ul.fancy.green li::before { color: var(--green); }
+
+  /* ── CALLOUT ── */
+  .callout {
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 18px 0;
+    font-size: 0.93rem;
+    display: flex;
+    gap: 14px;
+  }
+  .callout-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; }
+  .callout-gold   { background: rgba(212,168,67,0.08); border: 1px solid rgba(212,168,67,0.2); }
+  .callout-teal   { background: rgba(62,201,176,0.08); border: 1px solid rgba(62,201,176,0.2); }
+  .callout-rose   { background: rgba(224,90,106,0.08); border: 1px solid rgba(224,90,106,0.2); }
+
+  /* ── CHEMISTRY BOX ── */
+  .chem-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 16px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.88rem;
+    line-height: 2;
+    color: var(--teal);
+    text-align: center;
+  }
+  .chem-box .chem-label {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: 8px;
+  }
+  .chem-arrow { color: var(--gold); font-size: 1.4rem; display: block; margin: 4px 0; }
+  .chem-condition { color: var(--rose); font-size: 0.78rem; }
+
+  /* ── DATA TABLE ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    margin: 16px 0;
+  }
+  thead tr { background: var(--surface2); }
+  th {
+    padding: 12px 16px;
+    text-align: left;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border-bottom: 1px solid var(--border);
+  }
+  td {
+    padding: 10px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    vertical-align: top;
+  }
+  tr:hover td { background: rgba(212,168,67,0.03); }
+  .td-label { color: var(--muted); font-size: 0.85rem; }
+  .td-val { color: var(--text); font-weight: 600; }
+  .td-val-teal { color: var(--teal); font-family: 'JetBrains Mono', monospace; }
+
+  /* ── COMPARE TABLE (adv/disadv) ── */
+  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .compare-col { padding: 0; }
+  .compare-head {
+    padding: 14px 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .compare-head.adv  { background: rgba(93,184,122,0.12); color: var(--green); border-bottom: 1px solid var(--border); }
+  .compare-head.disadv{ background: rgba(224,90,106,0.10); color: var(--rose); border-bottom: 1px solid var(--border); }
+  .compare-body { padding: 16px 20px; background: var(--surface); }
+  .compare-col:first-child { border-right: 1px solid var(--border); }
+
+  /* ── VARIANT CARDS ── */
+  .variant-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 18px;
+    transition: transform 0.15s, border-color 0.15s;
+  }
+  .variant-card:hover { transform: translateY(-2px); border-color: var(--gold-dim); }
+  .variant-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+  .variant-desc { font-size: 0.85rem; color: var(--muted); }
+
+  /* ── APP TAG CLOUD ── */
+  .app-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+  .app-tag {
+    font-size: 0.8rem;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text);
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+    cursor: default;
+  }
+  .app-tag:hover { background: rgba(212,168,67,0.1); border-color: var(--gold-dim); color: var(--gold); }
+  .app-tag.defence  { border-color: rgba(224,90,106,0.3); color: var(--rose); }
+  .app-tag.aero     { border-color: rgba(91,156,223,0.3); color: var(--blue); }
+  .app-tag.auto     { border-color: rgba(169,123,219,0.3); color: var(--purple); }
+  .app-tag.industrial{ border-color: rgba(62,201,176,0.3); color: var(--teal); }
+  .app-tag.marine   { border-color: rgba(93,184,122,0.3); color: var(--green); }
+
+  /* ── STRUCTURE DIAGRAM ── */
+  .struct-diagram {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 16px 0;
+  }
+  .struct-layer {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 20px;
+    border: 1px solid var(--border);
+    position: relative;
+  }
+  .struct-layer:first-child { border-radius: 8px 8px 0 0; }
+  .struct-layer:last-child  { border-radius: 0 0 8px 8px; }
+  .struct-layer + .struct-layer { border-top: none; }
+  .struct-layer-num {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .sn-gold   { background: rgba(212,168,67,0.15); color: var(--gold); border: 1px solid rgba(212,168,67,0.3); }
+  .sn-teal   { background: rgba(62,201,176,0.12); color: var(--teal); border: 1px solid rgba(62,201,176,0.25); }
+  .sn-blue   { background: rgba(91,156,223,0.12); color: var(--blue); border: 1px solid rgba(91,156,223,0.25); }
+  .struct-layer-title { font-weight: 600; font-size: 0.95rem; min-width: 160px; }
+  .struct-layer-desc  { font-size: 0.88rem; color: var(--muted); }
+
+  /* ── PROCESS STEPS ── */
+  .process-steps { display: flex; flex-direction: column; gap: 0; margin: 16px 0; }
+  .pstep {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    padding: 18px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    position: relative;
+  }
+  .pstep:last-child { border-bottom: none; }
+  .pstep-num {
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    background: rgba(212,168,67,0.1);
+    border: 1px solid rgba(212,168,67,0.25);
+    color: var(--gold);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .pstep-content h4 { margin: 0 0 6px; font-size: 0.95rem; text-transform: none; letter-spacing: 0; color: var(--text); font-family: 'Source Serif 4', serif; font-weight: 600; }
+  .pstep-content p  { margin: 0; font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
+
+  /* ── PROPERTY METER ── */
+  .prop-meter { margin: 8px 0; }
+  .prop-meter-label { display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 5px; }
+  .prop-meter-label span:first-child { color: var(--muted); }
+  .prop-meter-label span:last-child  { color: var(--text); font-family:'JetBrains Mono',monospace; }
+  .prop-bar { height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .prop-bar-fill { height: 100%; border-radius: 3px; transition: width 1s ease; }
+
+  /* ── KEYWORD HIGHLIGHT ── */
+  .kw { color: var(--gold); font-weight: 600; }
+  .kw-teal { color: var(--teal); font-weight: 600; }
+  .kw-rose { color: var(--rose); font-weight: 600; }
+  .kw-blue { color: var(--blue); font-weight: 600; }
+  .kw-purple { color: var(--purple); font-weight: 600; }
+
+  sub, sup { font-size: 0.65em; }
+
+  /* ── PROGRESS BAR TOP ── */
+  #progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--teal));
+    width: 0%;
+    z-index: 999;
+    transition: width 0.1s;
+  }
+
+  /* ── SCROLL TO TOP ── */
+  #scroll-top {
+    position: fixed;
+    bottom: 32px; right: 32px;
+    width: 44px; height: 44px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    color: var(--gold);
+    font-size: 1.2rem;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s, background 0.2s;
+    z-index: 200;
+  }
+  #scroll-top.visible { opacity: 1; }
+  #scroll-top:hover { background: var(--highlight); }
+
+  @media(max-width:768px){
+    #nav { display: none; }
+    #main { margin-left: 0; padding: 0 20px 60px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<!-- SIDEBAR -->
+<nav id="nav">
+  <div id="nav-logo">Kevlar<span>Comprehensive Exam Notes</span></div>
+  <ul>
+    <li class="group-label">Introduction</li>
+    <li><a href="#intro">Overview & Discovery</a></li>
+    <li><a href="#nomex-kevlar">Nomex vs Kevlar</a></li>
+    <li class="group-label">Manufacture</li>
+    <li><a href="#synthesis">Polycondensation Synthesis</a></li>
+    <li><a href="#dope">Dope Preparation</a></li>
+    <li><a href="#spinning">Spinning Process</a></li>
+    <li class="group-label">Structure</li>
+    <li><a href="#primary">Primary Structure</a></li>
+    <li><a href="#secondary">Secondary Structure</a></li>
+    <li><a href="#tertiary">Tertiary Structure</a></li>
+    <li><a href="#strength">Why High Strength?</a></li>
+    <li class="group-label">Properties</li>
+    <li><a href="#mechanical">Mechanical Properties</a></li>
+    <li><a href="#thermal">Thermal Properties</a></li>
+    <li><a href="#electrical">Electrical & Optical</a></li>
+    <li><a href="#chemical">Chemical Properties</a></li>
+    <li><a href="#environmental">Environmental Behaviour</a></li>
+    <li class="group-label">Variants & Applications</li>
+    <li><a href="#variants">Kevlar Variants</a></li>
+    <li><a href="#adv-disadv">Advantages & Disadvantages</a></li>
+    <li><a href="#applications">Applications</a></li>
+  </ul>
+</nav>
+
+<!-- MAIN -->
+<main id="main">
+
+  <!-- HERO -->
+  <header id="hero">
+    <div class="hero-tag">High-Performance Polymer Fibre</div>
+    <h1 class="title">Understanding <em>Kevlar</em></h1>
+    <p class="hero-sub">Manufacture, Structure, Properties & Applications — complete exam notes compiled from lecture slides.</p>
+    <div class="hero-pills">
+      <span class="pill pill-gold">PPTA Polymer</span>
+      <span class="pill pill-teal">Liquid Crystal Spinning</span>
+      <span class="pill pill-rose">Aromatic Polyamide</span>
+      <span class="pill pill-blue">Para-linkage</span>
+      <span class="pill pill-purple">Du Pont, 1965</span>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════ 1. INTRODUCTION ═══════════════════════ -->
+  <section id="intro">
+    <div class="section-header">
+      <div class="section-num">01</div>
+      <h2 class="section-title">Overview & Discovery</h2>
+    </div>
+
+    <div class="card card-accent-gold">
+      <p>Kevlar is a <span class="kw">para-aramid synthetic fibre</span> developed by <span class="kw">Stephanie Kwolek at Du Pont in 1965</span>. It is the commercial trade name for <span class="kw">poly(p-phenylene terephthalamide) — PPTA</span>. The key breakthrough was the discovery that <em>para</em>-linkage (connecting benzene rings at 1 and 4 positions) gives chains a rod-like, extended conformation that allows them to crystallise into highly ordered structures, producing exceptionally strong fibres.</p>
+    </div>
+
+    <div class="callout callout-gold">
+      <span class="callout-icon">💡</span>
+      <div><strong>Exam Key Point:</strong> Kevlar belongs to the class of <span class="kw">lyotropic liquid-crystal polymers</span>. The polymer forms an ordered, anisotropic solution in concentrated sulphuric acid, and this pre-ordered state is directly "transferred" into the fibre during spinning — this is why no post-draw step is needed (it is <em>spin-oriented</em>, not spin-drawn).</div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ 2. NOMEX vs KEVLAR ═══════════════════════ -->
+  <section id="nomex-kevlar">
+    <div class="section-header">
+      <div class="section-num">02</div>
+      <h2 class="section-title">Nomex vs Kevlar — Structural Difference</h2>
+    </div>
+
+    <p>Both Nomex and Kevlar are aromatic polyamides but differ crucially in how the benzene rings are connected into the backbone:</p>
+
+    <div class="grid-2">
+      <div class="card card-accent-rose">
+        <h3 style="color:var(--rose)">Nomex (meta-aramid)</h3>
+        <ul class="fancy rose">
+          <li>Benzene rings linked through <span class="kw-rose">1 and 3 positions (meta-linkage)</span></li>
+          <li>Chain adopts a <em>kinked / bent</em> conformation</li>
+          <li><span class="kw-rose">Less crystallisable</span> — chains cannot pack efficiently</li>
+          <li>Compact packing is <span class="kw-rose">disallowed</span></li>
+          <li>Lower strength → mainly used for heat-resistant applications</li>
+        </ul>
+      </div>
+      <div class="card card-accent-teal">
+        <h3 style="color:var(--teal)">Kevlar (para-aramid)</h3>
+        <ul class="fancy teal">
+          <li>Benzene rings linked through <span class="kw-teal">1 and 4 positions (para-linkage)</span></li>
+          <li>Chain adopts a <em>rod-like, fully extended</em> conformation</li>
+          <li><span class="kw-teal">More crystallisable</span> — chains pack tightly and efficiently</li>
+          <li>Compact packing is <span class="kw-teal">allowed</span></li>
+          <li>Very high tensile strength and modulus</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout callout-teal">
+      <span class="callout-icon">🔑</span>
+      <div>The <strong>motivation for discovering Kevlar</strong> was the poor crystallisability and thus inferior mechanical performance of Nomex. Switching from meta- to para-linkage was the structural solution that unlocked high-performance behaviour.</div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ 3. SYNTHESIS ═══════════════════════ -->
+  <section id="synthesis">
+    <div class="section-header">
+      <div class="section-num">03</div>
+      <h2 class="section-title">Polycondensation Synthesis</h2>
+    </div>
+
+    <p>Kevlar (PPTA) is synthesised by <span class="kw">low-temperature polycondensation</span> of two monomers:</p>
+
+    <div class="chem-box">
+      <span class="chem-label">Reactants</span>
+      <span><strong>H₂N—⬡—NH₂</strong> &nbsp;+&nbsp; <strong>ClOC—⬡—COCl</strong></span>
+      <span style="color:var(--muted); font-size:0.8rem;">p-Phenylene Diamine (PPD) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Terephthaloyl Chloride (TCl)</span>
+      <span class="chem-condition">Solvent: n-methyl pyrrolidone (NMP) &nbsp;|&nbsp; Temp: 10 – 20°C</span>
+      <span class="chem-arrow">↓</span>
+      <span><strong>[ –HN—⬡—NH–OC—⬡–CO– ]ₙ</strong> &nbsp;+&nbsp; 2HCl</span>
+      <span style="color:var(--muted); font-size:0.8rem;"><em>p</em>-Phenylene Terephthalamide (PPTA)</span>
+    </div>
+
+    <h3>Polycondensation Conditions</h3>
+    <div class="card card-accent-teal">
+      <ul class="fancy teal">
+        <li><span class="kw">Temperature: 10–20°C</span> — kept low to avoid polymer degradation and minimise side reactions</li>
+        <li>Reaction mixture is <span class="kw">vigorously stirred</span> to ensure homogeneity</li>
+        <li>Products are <span class="kw">ground in water, filtered</span>, and the resulting polymer is thoroughly washed to remove HCl by-product and solvent</li>
+        <li>Polymer with <span class="kw">minimum viscosity (4) in H₂SO₄</span> is preferred — at this molecular weight, <em>maximum anisotropy</em> is achieved in the spinning dope</li>
+      </ul>
+    </div>
+
+    <div class="callout callout-rose">
+      <span class="callout-icon">⚠️</span>
+      <div><strong>Why low temperature?</strong> The amide bond can hydrolyse or the aromatic amine can undergo side reactions at elevated temperatures, reducing molecular weight and degrading the final fibre properties.</div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ 4. DOPE CHARACTERISTICS ═══════════════════════ -->
+  <section id="dope">
+    <div class="section-header">
+      <div class="section-num">04</div>
+      <h2 class="section-title">Dope Preparation & Characteristics</h2>
+    </div>
+
+    <p>The dry PPTA polymer must be dissolved into a <span class="kw">spinning dope</span> before fibre formation. The dope is a concentrated solution of PPTA in <span class="kw">100% H₂SO₄ (water-free sulphuric acid)</span>.</p>
+
+    <div class="card card-accent-gold">
+      <h4>Spinning Solution Composition</h4>
+      <ul class="fancy">
+        <li><span class="kw">10–20 wt% polymer</span> in 100% H₂SO₄</li>
+        <li>Temperature: <span class="kw">100°C</span> for normal fibre; <span class="kw">70–90°C</span> for high-tenacity fibre</li>
+        <li>Anhydrous acid is essential — water would cause premature precipitation</li>
+      </ul>
+    </div>
+
+    <h3>Liquid Crystal Behaviour of the Dope</h3>
+    <div class="card card-accent-blue">
+      <p>The dope passes through distinct phase regimes as polymer concentration increases — this is the <em>heart</em> of why Kevlar achieves such high orientation:</p>
+      <ul class="fancy blue">
+        <li>At <span class="kw">low concentration</span> → solution behaves as a normal <span class="kw-blue">isotropic</span> fluid; viscosity increases with concentration</li>
+        <li>Beyond the <span class="kw">critical concentration</span> → viscosity <em>drops</em>; the solution undergoes a transition from isotropic to a <span class="kw-blue">partially anisotropic liquid-crystal state</span></li>
+        <li>In the liquid-crystal state, molecules are <span class="kw">free from chain entanglements</span> — they can align easily</li>
+        <li>Groups of molecules aggregate and form <span class="kw">rod-like parallel chains</span>, which constitute the <span class="kw-blue">anisotropic domains</span></li>
+        <li>Isotropic and anisotropic regions have <span class="kw">sufficient density difference</span> to coexist</li>
+        <li>These groups maintain a "safe distance" to avoid precipitation — a self-organising colloidal stability</li>
+      </ul>
+    </div>
+
+    <div class="callout callout-gold">
+      <span class="callout-icon">📌</span>
+      <div>The <strong>phase diagram</strong> (LiCl concentration vs polymer concentration in DMA) shows distinct regions: Isotropic, Anisotropic + Isotropic, Anisotropic, and Anisotropic + Solid polymer. The viscosity peak in the H₂SO₄ system corresponds to the onset of anisotropy — Curve 4 (highest MW) shows the most pronounced peak.</div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ 5. SPINNING ═══════════════════════ -->
+  <section id="spinning">
+    <div class="section-header">
+      <div class="section-num">05</div>
+      <h2 class="section-title">Spinning Process — Dry-Jet Wet Spinning</h2>
+    </div>
+
+    <p>Kevlar is manufactured by <span class="kw">dry-jet wet spinning</span> (also called air-gap wet spinning), exploiting the liquid-crystal nature of the dope to achieve near-perfect chain orientation without post-draw.</p>
+
+    <div class="process-steps">
+      <div class="pstep">
+        <div class="pstep-num">1</div>
+        <div class="pstep-content">
+          <h4>Extrusion through Spinneret</h4>
+          <p>The anisotropic dope (liquid crystal domains) is pumped through a <span class="kw">spinneret</span>. The act of elongational flow through the spinneret holes aligns the crystal domains along the fibre axis. This is the <em>primary orientation step</em>.</p>
+        </div>
+      </div>
+      <div class="pstep">
+        <div class="pstep-num">2</div>
+        <div class="pstep-content">
+          <h4>Air Gap (0.5–1 cm)</h4>
+          <p>The extrudate passes through a small <span class="kw">air gap of 0.5–1 cm</span> before entering the coagulation bath. In the air gap, the temperature is lower than that of the hot dope, causing <em>fibre precipitation to begin</em>. Elongation in the air gap further aligns crystal domains — this is where <span class="kw">partial disorientation</span> from the spinneret is <em>recovered and improved by reorientation</em>.</p>
+        </div>
+      </div>
+      <div class="pstep">
+        <div class="pstep-num">3</div>
+        <div class="pstep-content">
+          <h4>Coagulation Bath (0–5°C)</h4>
+          <p>The fibre enters a <span class="kw">cold coagulation bath at 0–5°C</span> (water or dilute acid). The acid (H₂SO₄) is washed out, and the polymer precipitates / solidifies. The crystallinity of the liquid-crystal solution is <span class="kw">transferred directly to the fibre</span>. The pleated sheet structure characteristic of Kevlar forms here as PPTA enters the coagulation bath.</p>
+        </div>
+      </div>
+      <div class="pstep">
+        <div class="pstep-num">4</div>
+        <div class="pstep-content">
+          <h4>Washing & Drying (ASF Stage)</h4>
+          <p>After coagulation, the as-spun fibre (ASF) is <span class="kw">washed thoroughly</span> to remove residual acid, then dried. The yarn is collected on a <span class="kw">take-up bobbin</span>. Spinning speed is typically <span class="kw">50 m/min</span>.</p>
+        </div>
+      </div>
+      <div class="pstep">
+        <div class="pstep-num">5</div>
+        <div class="pstep-content">
+          <h4>Heat Treatment Under Tension</h4>
+          <p>Properties are improved by <span class="kw">heat treatment at 450–550°C under tension for a few seconds</span>. This improves crystallinity and reduces fibrillar defects. The process uses tension to prevent contraction — the result is higher tenacity and modulus.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3>Spin Stretch Factor (SSF)</h3>
+    <div class="card card-accent-purple">
+      <p><span class="kw">SSF = velocity of fibre leaving coagulation bath ÷ dope velocity emerging from spinneret</span></p>
+      <ul class="fancy purple">
+        <li>As SSF increases → <span class="kw-purple">tenacity and modulus increase</span>; breaking extension decreases</li>
+        <li>SSF <span class="kw">&lt; 10</span> is used in practice — beyond SSF = 10, filaments break, making the process uneconomical</li>
+        <li>SSF is a key <em>quality variable</em> alongside spinning system choice (wet vs dry-jet-wet)</li>
+      </ul>
+    </div>
+
+    <h3>Advantages of Dry-Jet-Wet over Wet Spinning</h3>
+    <div class="card card-accent-green">
+      <ul class="fancy green">
+        <li><span class="kw">Low coagulation temperature</span> (0–5°C) is achievable without freezing the dope, because the air gap thermally decouples the hot spinneret from the cold bath</li>
+        <li>Higher concentration dope (20%) can be spun at elevated temperatures if the air gap is maintained — increases throughput and molecular alignment</li>
+        <li>Elongation in the air gap <span class="kw">aligns crystal domains</span> further, improving orientation without drawing</li>
+      </ul>
+    </div>
+
+    <h3>Orientation Comparison: Flexible vs Rod-like Polymers</h3>
+    <div class="grid-2">
+      <div class="card card-accent-rose">
+        <div style="color:var(--rose); font-weight:600; margin-bottom:8px;">Flexible Chains (e.g. Nylon)</div>
+        <ul class="fancy rose">
+          <li>In dilute solution: random coil conformation</li>
+          <li>Higher concentration: entangled coils — need <em>spin-drawing</em> to extend chains</li>
+          <li>Result: <span class="kw-rose">partially extended chains</span></li>
+          <li>Orientation factor ~ 0.6–0.7</li>
+        </ul>
+      </div>
+      <div class="card card-accent-teal">
+        <div style="color:var(--teal); font-weight:600; margin-bottom:8px;">Rod-like Chains (Kevlar)</div>
+        <ul class="fancy teal">
+          <li>Even in dilute solution: stiff rods, partially aligned</li>
+          <li>At critical concentration: liquid crystal state — rods self-align</li>
+          <li>Result: <span class="kw-teal">fully extended chains</span> by <em>spin-orientation</em></li>
+          <li>Orientation factor <span class="kw">~ 0.95</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout callout-teal">
+      <span class="callout-icon">🔑</span>
+      <div><strong>Key Exam Point:</strong> Kevlar is <em>spin-oriented, NOT spin-drawn</em>. The high orientation (~0.95) comes from the inherent stiffness of the chain and the liquid-crystal dope ordering — not from post-spinning draw ratios.</div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ 6. PRIMARY STRUCTURE ═══════════════════════ -->
+  <section id="primary">
+    <div class="section-header">
+      <div class="section-num">06</div>
+      <h2 class="section-title">Primary (Crystal) Structure</h2>
+    </div>
+
+    <div class="card card-accent-gold">
+      <p>The molecular-level arrangement of Kevlar crystals is classified as <span class="kw">monoclinic</span> with the following unit cell parameters:</p>
+      <table>
+        <thead><tr><th>Parameter</th><th>Value</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr><td class="td-label">a</td><td class="td-val-teal">7.87 Å</td><td>—</td></tr>
+          <tr><td class="td-label">b</td><td class="td-val-teal">5.18 Å</td><td>Inter-chain H-bond direction</td></tr>
+          <tr><td class="td-label">c</td><td class="td-val-teal">12.9 Å</td><td>Fibre (chain) axis</td></tr>
+          <tr><td class="td-label">Unit Cell Angle</td><td class="td-val-teal">90°</td><td>Orthogonal stacking</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:12px; font-size:0.88rem; color:var(--muted);">Note: Published values vary slightly by source (a = 7.85–7.87 Å; b = 5.15–5.18 Å; c = 12.8–12.9 Å) — learn the approximate values.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ 7. SECONDARY STRUCTURE ═══════════════════════ -->
+  <section id="secondary">
+    <div class="section-header">
+      <div class="section-num">07</div>
+      <h2 class="section-title">Secondary Structure — Hydrogen-Bonded Sheets</h2>
+    </div>
+
+    <div class="card card-accent-teal">
+      <ul class="fancy teal">
+        <li><span class="kw">Pleated sheet configuration</span> oriented <span class="kw">perpendicular to the fibre axis</span> — analogous to the β-sheet in proteins but with aromatic rings</li>
+        <li>Adjacent PPTA chains form <span class="kw">hydrogen bonds</span> between C=O and N–H groups, creating flat, planar <em>hydrogen-bonded sheets</em></li>
+        <li>These sheets then <span class="kw">stack together</span> (via van der Waals / π–π interactions between benzene rings) to form a 3D crystalline domain</li>
+        <li><span class="kw">Pleats form in the core region</span> when PPTA enters the coagulation bath — rapid coagulation "locks in" the pleating</li>
+        <li>The pleating of fibrils is superimposed on the fibrillar structure with a <span class="kw">variation from linearity of ~5°</span> and a <span class="kw">periodicity of 500 nm</span></li>
+      </ul>
+    </div>
+
+    <div class="callout callout-gold">
+      <span class="callout-icon">📌</span>
+      <div>Think of it as: chains bond <em>sideways</em> (H-bonds) to form a 2D sheet → sheets stack <em>radially</em> (like pages in a book arranged around the fibre axis) → this gives a cylindrical, radially symmetric fibril.</div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ 8. TERTIARY STRUCTURE ═══════════════════════ -->
+  <section id="tertiary">
+    <div class="section-header">
+      <div class="section-num">08</div>
+      <h2 class="section-title">Tertiary Structure — Skin–Core Morphology</h2>
+    </div>
+
+    <div class="struct-diagram">
+      <div class="struct-layer" style="background:rgba(212,168,67,0.05)">
+        <div class="struct-layer-num sn-gold">S</div>
+        <div class="struct-layer-title" style="color:var(--gold)">Skin (Outer Layer)</div>
+        <div class="struct-layer-desc">Virtually <strong>non-crystalline</strong> — rapid quench during coagulation prevents ordered packing. Forms a thin sheath around the fibre. Influences surface properties and adhesion.</div>
+      </div>
+      <div class="struct-layer" style="background:rgba(62,201,176,0.05)">
+        <div class="struct-layer-num sn-teal">C</div>
+        <div class="struct-layer-title" style="color:var(--teal)">Core (Inner Region)</div>
+        <div class="struct-layer-desc">High degree of <strong>crystalline order</strong> with extensive <strong>intermolecular hydrogen bonding</strong>. This is where most of the mechanical load is carried. Contains the pleated sheet fibrillar architecture.</div>
+      </div>
+    </div>
+
+    <div class="card card-accent-blue">
+      <p>The skin–core structure develops during <span class="kw">spinning and post-treatment</span>. The skin forms due to rapid solvent exchange at the surface, while the core solidifies more slowly, allowing crystallisation. This gradient in structure from surface to centre is a general feature of wet-spun and dry-jet wet-spun fibres.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ 9. WHY HIGH STRENGTH ═══════════════════════ -->
+  <section id="strength">
+    <div class="section-header">
+      <div class="section-num">09</div>
+      <h2 class="section-title">Why Does Kevlar Show High Strength?</h2>
+    </div>
+
+    <div class="callout callout-gold">
+      <span class="callout-icon">⚡</span>
+      <div><strong>The combined effect of two bonding mechanisms:</strong></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card card-accent-purple">
+        <h3 style="color:var(--purple)">1. Covalent Cross-Linkages</h3>
+        <p>The covalent amide (–CO–NH–) bonds along the backbone provide the primary tensile load path. Because the chains are <span class="kw-purple">fully extended and perfectly aligned</span> along the fibre axis, load is transferred along the stiffest possible backbone — no chain folding or slack.</p>
+      </div>
+      <div class="card card-accent-blue">
+        <h3 style="color:var(--blue)">2. Hydrogen Bonds Between Chains</h3>
+        <p>The N–H···O=C hydrogen bonds in the pleated sheets resist <span class="kw-blue">lateral separation</span> of chains. Because the chains are planar and aromatic, a very high density of H-bonds forms in the lateral direction — these act like transverse "stitching".</p>
+      </div>
+    </div>
+
+    <div class="card card-accent-gold" style="margin-top:16px;">
+      <p style="text-align:center; font-family:'JetBrains Mono', monospace; font-size:1rem; color:var(--text);">
+        Cross-linkages (covalent backbone) &nbsp;<span style="color:var(--gold)">+</span>&nbsp; Hydrogen bonds (lateral sheets)
+        <span style="display:block; font-size:1.5rem; color:var(--gold); margin:6px 0;">↓</span>
+        <span style="color:var(--gold); font-weight:700; font-size:1.1rem;">HIGH STRENGTH &amp; HIGH MODULUS</span>
+      </p>
+    </div>
+
+    <p>Additionally, there is <span class="kw">no molecular mechanism for plastic deformation</span> (no chain unfolding, no slip planes in the usual sense), so the fibre behaves elastically right up to failure — this is why it has outstanding <em>toughness</em> combined with high stiffness.</p>
+  </section>
+
+  <!-- ═══════════════════════ 10. MECHANICAL PROPERTIES ═══════════════════════ -->
+  <section id="mechanical">
+    <div class="section-header">
+      <div class="section-num">10</div>
+      <h2 class="section-title">Mechanical Properties</h2>
+    </div>
+
+    <div class="card card-accent-gold">
+      <table>
+        <thead><tr><th>Property</th><th>Value</th><th>Significance</th></tr></thead>
+        <tbody>
+          <tr><td class="td-label">Tenacity</td><td class="td-val-teal">23–25 g/denier (gpd)</td><td>~5× stronger than steel by weight</td></tr>
+          <tr><td class="td-label">Modulus</td><td class="td-val-teal">555–885 g/denier (gpd)</td><td>Extremely stiff — resists elastic deformation</td></tr>
+          <tr><td class="td-label">Toughness</td><td class="td-val-teal">Very good</td><td>High energy absorption before fracture</td></tr>
+          <tr><td class="td-label">Density</td><td class="td-val-teal">~1.44 g/cm³</td><td>Low density → outstanding specific properties</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Property Visualisation (relative scale)</h3>
+    <div class="card" style="padding:24px 28px;">
+      <div class="prop-meter">
+        <div class="prop-meter-label"><span>Tenacity</span><span>23–25 gpd</span></div>
+        <div class="prop-bar"><div class="prop-bar-fill" style="width:90%; background:linear-gradient(90deg,var(--gold),var(--teal));"></div></div>
+      </div>
+      <div class="prop-meter" style="margin-top:14px;">
+        <div class="prop-meter-label"><span>Modulus</span><span>555–885 gpd</span></div>
+        <div class="prop-bar"><div class="prop-bar-fill" style="width:82%; background:linear-gradient(90deg,var(--blue),var(--purple));"></div></div>
+      </div>
+      <div class="prop-meter" style="margin-top:14px;">
+        <div class="prop-meter-label"><span>Breaking Extension</span><span>~2–4%</span></div>
+        <div class="prop-bar"><div class="prop-bar-fill" style="width:22%; background:var(--rose);"></div></div>
+      </div>
+      <div class="prop-meter" style="margin-top:14px;">
+        <div class="prop-meter-label"><span>Toughness</span><span>Very Good</span></div>
+        <div class="prop-bar"><div class="prop-bar-fill" style="width:75%; background:var(--green);"></div></div>
+      </div>
+    </div>
+
+    <h3>Dimensional Stability</h3>
+    <div class="card card-accent-teal">
+      <ul class="fancy teal">
+        <li>Shrinkage in <span class="kw">water at 100°C &lt; 0.1%</span> — exceptional dimensional stability in hot wet conditions</li>
+        <li>In <span class="kw">dry air at 177°C &lt; 0.1%</span> — retains dimensions at elevated temperatures</li>
+        <li>No negative thermal expansion coefficient anomalies</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ 11. THERMAL PROPERTIES ═══════════════════════ -->
+  <section id="thermal">
+    <div class="section-header">
+      <div class="section-num">11</div>
+      <h2 class="section-title">Thermal Properties</h2>
+    </div>
+
+    <div class="card card-accent-rose">
+      <ul class="fancy rose">
+        <li>The <span class="kw-rose">aromatic nature</span> of the polymer backbone provides intrinsically very high heat resistance — the fully conjugated aromatic rings require large amounts of energy to break or rearrange</li>
+        <li>Kevlar fibres <span class="kw">do not have a melting point</span> or a conventional glass transition temperature — the crystal structure decomposes before melting</li>
+        <li><span class="kw">Flame resistant</span> with a <span class="kw">Limiting Oxygen Index (LOI) = 29</span> (air has LOI = 21; LOI &gt; 21 means the material requires an oxygen-enriched atmosphere to sustain combustion)</li>
+        <li>Useful service range: <span class="kw">–200°C to +200°C</span></li>
+        <li>Not generally recommended for prolonged use above <span class="kw">150°C</span> due to progressive oxidation</li>
+        <li>Decomposes above <span class="kw">675 K (~402°C)</span> without melting</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ 12. ELECTRICAL & OPTICAL ═══════════════════════ -->
+  <section id="electrical">
+    <div class="section-header">
+      <div class="section-num">12</div>
+      <h2 class="section-title">Electrical &amp; Optical Properties</h2>
+    </div>
+
+    <div class="grid-2">
+      <div class="card card-accent-blue">
+        <h3 style="color:var(--blue)">Electrical</h3>
+        <ul class="fancy blue">
+          <li><span class="kw-blue">Electrical insulator</span> — suitable for electrically sensitive applications</li>
+          <li>Dielectric constant: <span class="kw">4 at 10⁶ Hz</span></li>
+          <li>Stable dielectric properties across a range of frequencies</li>
+        </ul>
+      </div>
+      <div class="card card-accent-purple">
+        <h3 style="color:var(--purple)">Optical (Birefringence)</h3>
+        <ul class="fancy purple">
+          <li>Refractive index <span class="kw-purple">parallel</span> to the fibre axis: <span class="kw">2.0</span></li>
+          <li>Refractive index <span class="kw-purple">perpendicular</span> to fibre axis: <span class="kw">1.6</span></li>
+          <li>Large birefringence (Δn ≈ 0.4) confirms very high axial chain orientation</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ 13. CHEMICAL PROPERTIES ═══════════════════════ -->
+  <section id="chemical">
+    <div class="section-header">
+      <div class="section-num">13</div>
+      <h2 class="section-title">Chemical Properties</h2>
+    </div>
+
+    <div class="card card-accent-green">
+      <ul class="fancy green">
+        <li><span class="kw">Resistant to most organic chemicals and solvents</span> — the aromatic backbone and dense packing make it chemically inert to common solvents, oils, and fuels</li>
+        <li><span class="kw-rose">UV radiation can degrade it</span> — aromatic ring cleavage by high-energy photons is a known weakness; must be protected in outdoor use</li>
+        <li><span class="kw-rose">Hypochlorite</span> (bleach) can also cause degradation under prolonged exposure at elevated temperature</li>
+        <li><span class="kw">No embrittlement or degradation at temperatures as low as –196°C</span> (cryogenic conditions) — exceptional low-temperature toughness</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ 14. ENVIRONMENTAL BEHAVIOUR ═══════════════════════ -->
+  <section id="environmental">
+    <div class="section-header">
+      <div class="section-num">14</div>
+      <h2 class="section-title">Environmental Behaviour (Moisture)</h2>
+    </div>
+
+    <div class="card card-accent-rose">
+      <p>Kevlar contains <span class="kw">polar amide groups (–CO–NH–)</span> that are accessible for hydrogen bonding with water. This makes it hygroscopic:</p>
+      <table>
+        <thead><tr><th>Variant</th><th>Moisture Regain (at 60% RH)</th></tr></thead>
+        <tbody>
+          <tr><td>Kevlar 29 &amp; Kevlar 49</td><td class="td-val-teal">~4.0%</td></tr>
+          <tr><td>Kevlar 149</td><td class="td-val-teal">~1.5%</td></tr>
+        </tbody>
+      </table>
+      <div class="callout callout-rose" style="margin-top:14px;">
+        <span class="callout-icon">⚠️</span>
+        <div><strong>Important:</strong> Water molecules that enter the polar sites can disrupt hydrogen bonds between chains, <span class="kw-rose">reducing tensile strength</span> — this is one reason Kevlar's compressive performance and wet strength are inferior to its dry tensile performance.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ 15. VARIANTS ═══════════════════════ -->
+  <section id="variants">
+    <div class="section-header">
+      <div class="section-num">15</div>
+      <h2 class="section-title">Kevlar Variants</h2>
+    </div>
+
+    <div class="grid-3">
+      <div class="variant-card">
+        <div class="variant-name">Kevlar K29</div>
+        <div class="variant-desc">Standard grade — bullet-resistant vests, ropes, cables, tires</div>
+      </div>
+      <div class="variant-card">
+        <div class="variant-name">Kevlar K49</div>
+        <div class="variant-desc">High modulus — composites, cables, optical fibre cables</div>
+      </div>
+      <div class="variant-card">
+        <div class="variant-name">Kevlar K100</div>
+        <div class="variant-desc">Coloured Kevlar for consumer and protective products</div>
+      </div>
+      <div class="variant-card">
+        <div class="variant-name">Kevlar K119</div>
+        <div class="variant-desc">Higher elongation, better toughness for soft ballistic armour</div>
+      </div>
+      <div class="variant-card">
+        <div class="variant-name">Kevlar K129</div>
+        <div class="variant-desc">Very high tenacity — advanced soft body armour</div>
+      </div>
+      <div class="variant-card">
+        <div class="variant-name">Kevlar K149</div>
+        <div class="variant-desc">Ultra-high modulus — structural composites; lower moisture regain (~1.5%)</div>
+      </div>
+      <div class="variant-card">
+        <div class="variant-name">Kevlar K981</div>
+        <div class="variant-desc">Specialised for advanced protective applications</div>
+      </div>
+      <div class="variant-card">
+        <div class="variant-name">Kevlar AP</div>
+        <div class="variant-desc">Armour Protection — specific ballistic performance optimised</div>
+      </div>
+      <div class="variant-card">
+        <div class="variant-name">Kevlar XP</div>
+        <div class="variant-desc">Extreme performance — next-generation body armour</div>
+      </div>
+      <div class="variant-card">
+        <div class="variant-name">Kevlar KM2</div>
+        <div class="variant-desc">Military helmets and soft armour — US Army standard</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ 16. ADV / DISADV ═══════════════════════ -->
+  <section id="adv-disadv">
+    <div class="section-header">
+      <div class="section-num">16</div>
+      <h2 class="section-title">Advantages &amp; Disadvantages</h2>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-col">
+        <div class="compare-head adv">✔ Advantages</div>
+        <div class="compare-body">
+          <ul class="fancy green">
+            <li><span class="kw">High strength-to-weight ratio</span> — 5× stronger than steel on a weight basis</li>
+            <li><span class="kw">Excellent impact resistance</span> — absorbs large amounts of energy before failure</li>
+            <li><span class="kw">Abrasion resistance</span> — resists surface wear and cutting</li>
+            <li><span class="kw">Does not expand on heating</span> — low or near-zero thermal expansion along fibre axis</li>
+            <li><span class="kw">Heat resistant</span> — decomposes above 675 K without melting; LOI = 29</li>
+            <li><span class="kw">Chemical resistance</span> — stable in most organic solvents and environments</li>
+            <li><span class="kw">Cryogenic toughness</span> — no embrittlement at –196°C</li>
+          </ul>
+        </div>
+      </div>
+      <div class="compare-col">
+        <div class="compare-head disadv">✘ Disadvantages</div>
+        <div class="compare-body">
+          <ul class="fancy rose">
+            <li><span class="kw-rose">Absorbs moisture</span> — hygroscopic amide groups reduce wet strength; 4% regain for K29/K49</li>
+            <li><span class="kw-rose">Poor compressive strength</span> — fibrils buckle under compression; not suitable as a stand-alone structural material under compressive loads</li>
+            <li><span class="kw-rose">Difficult to cut, drill, and machine</span> — hardness and toughness require specialised tools</li>
+            <li><span class="kw-rose">Degrades under UV light</span> — requires protective coatings in outdoor applications</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ 17. APPLICATIONS ═══════════════════════ -->
+  <section id="applications">
+    <div class="section-header">
+      <div class="section-num">17</div>
+      <h2 class="section-title">Applications of Kevlar</h2>
+    </div>
+
+    <h3>Defence &amp; Personal Protection</h3>
+    <div class="app-tags">
+      <span class="app-tag defence">Bullet &amp; fragmentation-resistant vests</span>
+      <span class="app-tag defence">Military helmets</span>
+      <span class="app-tag defence">Antimine boots</span>
+      <span class="app-tag defence">Cut-resistant gloves (police &amp; military)</span>
+      <span class="app-tag defence">Thermal &amp; cut protective aprons/sleeves</span>
+    </div>
+
+    <h3>Aerospace</h3>
+    <div class="app-tags">
+      <span class="app-tag aero">Aircraft structural body parts</span>
+      <span class="app-tag aero">Cabin panels</span>
+      <span class="app-tag aero">Aerostat tethers</span>
+      <span class="app-tag aero">Robotic tethers</span>
+      <span class="app-tag aero">Submarine tethers</span>
+    </div>
+
+    <h3>Automotive</h3>
+    <div class="app-tags">
+      <span class="app-tag auto">Tires (aircraft, automobiles, trucks, race cars)</span>
+      <span class="app-tag auto">Automotive heating/cooling belts &amp; hoses</span>
+      <span class="app-tag auto">Automotive gaskets (high pressure &amp; temperature)</span>
+      <span class="app-tag auto">Power transmission belts</span>
+      <span class="app-tag auto">Brake pads</span>
+      <span class="app-tag auto">Clutch linings</span>
+    </div>
+
+    <h3>Industrial</h3>
+    <div class="app-tags">
+      <span class="app-tag industrial">Asbestos replacement</span>
+      <span class="app-tag industrial">Industrial gaskets</span>
+      <span class="app-tag industrial">Industrial hoses</span>
+      <span class="app-tag industrial">Adhesives &amp; sealants</span>
+      <span class="app-tag industrial">Ignition wires</span>
+      <span class="app-tag industrial">Communication &amp; data cables</span>
+    </div>
+
+    <h3>Marine &amp; Sporting</h3>
+    <div class="app-tags">
+      <span class="app-tag marine">Boats</span>
+      <span class="app-tag marine">Industrial &amp; marine utility ropes</span>
+      <span class="app-tag marine">Mooring &amp; emergency tow lines</span>
+      <span class="app-tag marine">Lifting slings</span>
+      <span class="app-tag marine">Netting &amp; webbing</span>
+      <span class="app-tag marine">Fishing lines</span>
+      <span class="app-tag marine">Sporting goods</span>
+    </div>
+
+    <div class="callout callout-teal" style="margin-top:28px;">
+      <span class="callout-icon">📋</span>
+      <div><strong>Exam Summary Statement:</strong> The extraordinary combination of <em>high specific strength, high modulus, toughness, thermal stability, and chemical resistance</em> makes Kevlar one of the most versatile high-performance fibres in engineering. Its applications span from personal protection to aerospace structures to everyday automotive components — all enabled by its unique liquid-crystal spinning route and para-aramid molecular architecture.</div>
+    </div>
+  </section>
+
+</main>
+
+<button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">↑</button>
+
+<script>
+  // Progress bar
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    const total = document.body.scrollHeight - window.innerHeight;
+    document.getElementById('progress-bar').style.width = (scrolled / total * 100) + '%';
+    document.getElementById('scroll-top').classList.toggle('visible', scrolled > 400);
+  });
+
+  // Active nav highlight
+  const sections = document.querySelectorAll('section[id], header[id]');
+  const navLinks = document.querySelectorAll('#nav a');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(a => {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id);
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

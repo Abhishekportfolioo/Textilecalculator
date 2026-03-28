@@ -1,0 +1,1497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Automotive Textiles — Seminar Presentation</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,600;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --steel: #1a1f2e;
+    --midnight: #0d1117;
+    --chrome: #c8cdd8;
+    --accent: #e8502a;
+    --gold: #c9a84c;
+    --cyan: #3ecfcf;
+    --white: #f4f5f7;
+    --dim: #6b7280;
+    --card: #1e2535;
+    --border: rgba(200,205,216,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--midnight);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--white);
+    overflow: hidden;
+    will-change: transform, opacity;
+  }
+
+  /* ── Slide Container ── */
+  #presentation {
+    width: 100vw; height: 100vh;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 60px 80px;
+    opacity: 0;
+    transform: translateX(80px);
+    
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  /* ── Background treatments ── */
+  .slide::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: var(--midnight);
+    z-index: 0;
+  }
+  .slide .bg-grid {
+    position: absolute; inset: 0; z-index: 0;
+    background-image:
+      linear-gradient(rgba(200,205,216,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(200,205,216,0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+  .slide .bg-accent-bar {
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 6px;
+    background: linear-gradient(180deg, var(--accent), var(--gold));
+    z-index: 1;
+  }
+  .slide .bg-number {
+    position: absolute; right: 60px; bottom: 40px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 140px; line-height: 1;
+    color: rgba(200,205,216,0.04);
+    z-index: 0;
+    user-select: none;
+    letter-spacing: -4px;
+  }
+  .slide-content { position: relative; z-index: 2; width: 100%; }
+
+  /* ── Typography ── */
+  .label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; letter-spacing: .18em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 7vw, 88px);
+    line-height: .95;
+    letter-spacing: 1px;
+    color: var(--white);
+  }
+  h1 span { color: var(--accent); }
+  h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(32px, 4.5vw, 58px);
+    letter-spacing: .5px;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 28px;
+  }
+  h2 span { color: var(--accent); }
+  h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px; letter-spacing: .5px;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  p {
+    font-size: 15px; line-height: 1.75;
+    color: var(--chrome);
+    max-width: 72ch;
+    font-weight: 300;
+  }
+  .subtitle {
+    font-size: clamp(14px,1.8vw,18px);
+    color: var(--chrome);
+    font-weight: 300;
+    margin-top: 16px;
+    max-width: 60ch;
+    line-height: 1.6;
+  }
+  .highlight { color: var(--cyan); font-weight: 600; }
+
+  /* ── Two-column ── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    width: 100%;
+    margin-top: 20px;
+  }
+  .three-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 28px;
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  /* ── Cards ── */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 22px;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--gold));
+  }
+  .card p { font-size: 13.5px; }
+
+  /* ── Stat / Pill ── */
+  .stat-row {
+    display: flex; gap: 20px; flex-wrap: wrap;
+    margin-top: 24px;
+  }
+  .stat {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 22px;
+    text-align: center;
+  }
+  .stat .val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 38px; line-height: 1;
+    color: var(--cyan);
+  }
+  .stat .unit {
+    font-size: 11px; color: var(--dim);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  /* ── List ── */
+  ul.fancy {
+    list-style: none;
+    margin-top: 18px;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  ul.fancy li {
+    display: flex; align-items: flex-start; gap: 12px;
+    font-size: 14px; color: var(--chrome); line-height: 1.6;
+  }
+  ul.fancy li::before {
+    content: '▸';
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 2px;
+    font-size: 12px;
+  }
+
+  /* ── Table ── */
+  table.data {
+    width: 100%; border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 13.5px;
+  }
+  table.data th {
+    background: rgba(232,80,42,0.15);
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; letter-spacing: .12em;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  table.data td {
+    padding: 10px 14px;
+    color: var(--chrome);
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  table.data tr:last-child td { border-bottom: none; }
+  table.data tr:hover td { background: rgba(255,255,255,0.02); }
+
+  /* ── Progress bar ── */
+  .bar-row { margin-top: 6px; }
+  .bar-label { font-size: 12px; color: var(--chrome); margin-bottom: 4px; display: flex; justify-content: space-between; }
+  .bar-track { height: 6px; background: var(--card); border-radius: 3px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--accent), var(--gold)); transition: width 1s ease; }
+
+  /* ── Icon circle ── */
+  .icon-badge {
+    width: 48px; height: 48px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    background: rgba(232,80,42,0.12);
+    border: 1px solid rgba(232,80,42,0.25);
+    margin-bottom: 12px;
+    flex-shrink: 0;
+  }
+
+  /* ── Divider ── */
+  .divider {
+    width: 60px; height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--gold));
+    border-radius: 2px;
+    margin: 18px 0;
+  }
+
+  /* ── Navigation ── */
+  #nav {
+    position: fixed; bottom: 28px; left: 50%;
+    transform: translateX(-50%);
+    display: flex; align-items: center; gap: 16px;
+    background: rgba(13,17,23,0.88);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    padding: 10px 24px;
+    z-index: 1000;
+  }
+  #nav button {
+    background: none; border: none; cursor: pointer;
+    color: var(--chrome); font-size: 18px;
+    transition: color .2s;
+    padding: 4px 8px;
+    font-family: 'DM Sans', sans-serif;
+  }
+  #nav button:hover { color: var(--accent); }
+  #nav button:disabled { opacity: .3; cursor: default; }
+  #slide-counter {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px; color: var(--dim);
+    min-width: 64px; text-align: center;
+  }
+  #progress-bar {
+    position: fixed; top: 0; left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--gold));
+    transition: width .4s ease;
+    z-index: 1000;
+  }
+
+  /* ── Title slide special ── */
+  .title-slide .bg-texture {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 80% 50%, rgba(232,80,42,0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(62,207,207,0.05) 0%, transparent 60%);
+    z-index: 0;
+  }
+  .title-slide h1 { font-size: clamp(60px, 9vw, 108px); line-height: .88; }
+  .tag-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 28px; }
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: .15em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    color: var(--dim);
+  }
+  .tag.hot { border-color: rgba(232,80,42,.4); color: var(--accent); }
+
+  /* ── Section divider slide ── */
+  .section-slide { background: transparent; }
+  .section-slide::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(232,80,42,0.06) 0%, transparent 60%);
+    z-index: 0;
+  }
+  .section-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(70px, 10vw, 120px);
+    line-height: .85; letter-spacing: 2px;
+    color: var(--white);
+  }
+  .section-number {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px; letter-spacing: .25em;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+
+  /* ── Fibre diagram ── */
+  .fibre-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-top: 20px;
+    width: 100%;
+  }
+  .fibre-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .fibre-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    flex-shrink: 0; margin-top: 5px;
+  }
+  .fibre-item h4 {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; letter-spacing: .1em;
+    color: var(--gold); text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .fibre-item p { font-size: 12px; }
+
+  /* ── Timeline ── */
+  .timeline { margin-top: 20px; display: flex; flex-direction: column; gap: 14px; }
+  .tl-item { display: flex; gap: 20px; align-items: flex-start; }
+  .tl-year {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px; color: var(--accent);
+    min-width: 60px; flex-shrink: 0;
+    line-height: 1.3;
+  }
+  .tl-line {
+    display: flex; flex-direction: column; align-items: center;
+    flex-shrink: 0;
+    padding-top: 6px;
+  }
+  .tl-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%; background: var(--accent);
+    border: 2px solid var(--card);
+    box-shadow: 0 0 0 3px rgba(232,80,42,0.2);
+    flex-shrink: 0;
+  }
+  .tl-track {
+    width: 2px; flex: 1;
+    background: var(--border);
+    min-height: 28px;
+    margin-top: 4px;
+  }
+  .tl-text { font-size: 13px; color: var(--chrome); line-height: 1.6; }
+
+  /* ── Process steps ── */
+  .steps {
+    display: flex; gap: 0;
+    margin-top: 22px; width: 100%;
+    overflow: hidden;
+  }
+  .step {
+    flex: 1;
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 18px 16px;
+    position: relative;
+  }
+  .step:not(:last-child)::after {
+    content: '›';
+    position: absolute; right: -12px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 22px; color: var(--accent);
+    z-index: 3;
+  }
+  .step:first-child { border-radius: 10px 0 0 10px; }
+  .step:last-child { border-radius: 0 10px 10px 0; }
+  .step-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px; color: rgba(232,80,42,.2);
+    line-height: 1;
+  }
+  .step h4 {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 6px;
+  }
+  .step p { font-size: 12px; }
+
+  /* ── Compact list variant ── */
+  .compact-list { columns: 2; gap: 28px; margin-top: 14px; }
+  .compact-list li {
+    font-size: 13.5px; color: var(--chrome);
+    margin-bottom: 8px; line-height: 1.5;
+    break-inside: avoid;
+    padding-left: 16px; position: relative;
+  }
+  .compact-list li::before {
+    content: '▸'; color: var(--accent);
+    position: absolute; left: 0; top: 1px;
+    font-size: 10px;
+  }
+
+  /* ── Scroll inside slide if needed ── */
+  .scroll-inner { overflow-y: auto; max-height: 62vh; padding-right: 8px; }
+  .scroll-inner::-webkit-scrollbar { width: 4px; }
+  .scroll-inner::-webkit-scrollbar-track { background: transparent; }
+  .scroll-inner::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  /* ── Summary pill row ── */
+  .pill-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+  .pill {
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    padding: 7px 18px;
+    font-size: 12.5px;
+    color: var(--chrome);
+  }
+  .pill.accent { border-color: rgba(232,80,42,.4); color: var(--accent); }
+  .pill.gold { border-color: rgba(201,168,76,.4); color: var(--gold); }
+  .pill.cyan { border-color: rgba(62,207,207,.4); color: var(--cyan); }
+
+  /* ── Keyboard hint ── */
+  #key-hint {
+    position: fixed; top: 20px; right: 24px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; color: var(--dim);
+    z-index: 999;
+  }
+  kbd {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 6px;
+    background: var(--card);
+    color: var(--chrome);
+  }
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+<div id="key-hint"><kbd>←</kbd> <kbd>→</kbd> to navigate</div>
+
+<div id="presentation">
+
+  <!-- ══════════════ SLIDE 1 — TITLE ══════════════ -->
+  <div class="slide title-slide active" data-num="1">
+    <div class="bg-grid"></div>
+    <div class="bg-accent-bar"></div>
+    <div class="bg-texture"></div>
+    <div class="bg-number">01</div>
+    <div class="slide-content">
+      <div class="label">Seminar Presentation · Textile Engineering</div>
+      <h1>AUTOMOTIVE<br><span>TEXTILES</span></h1>
+      <p class="subtitle">Fibres, Manufacturing Processes &amp; Applications in Modern Vehicles — from Upholstery to Tyres, Safety Systems, Filtration &amp; Engine Components</p>
+      <div style="margin-top:24px; margin-bottom:4px; display:flex; align-items:center; gap:14px">
+        <div style="width:36px;height:2px;background:linear-gradient(90deg,var(--accent),var(--gold));border-radius:2px"></div>
+        <span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase">Presented by</span>
+      </div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;color:var(--white);margin-bottom:18px">Abhishek Dangi</div>
+      <div class="tag-row">
+        <span class="tag hot">Upholstery</span>
+        <span class="tag hot">Carpets</span>
+        <span class="tag hot">Tyres</span>
+        <span class="tag hot">Safety Devices</span>
+        <span class="tag">Filters</span>
+        <span class="tag">Engine Parts</span>
+        <span class="tag">Preformed Parts</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ SLIDE 2 — AGENDA ══════════════ -->
+  <div class="slide" data-num="2">
+    <div class="bg-grid"></div><div class="bg-accent-bar"></div><div class="bg-number">02</div>
+    <div class="slide-content">
+      <div class="label">Overview</div>
+      <h2>SEMINAR <span>AGENDA</span></h2>
+      <div class="two-col">
+        <ul class="fancy">
+          <li>Introduction to Automotive Textiles</li>
+          <li>Historical Development &amp; Market Overview</li>
+          <li>Classification of Automotive Textiles</li>
+          <li>Fibres Used — Natural &amp; Man-made</li>
+          <li>Upholstery — Fabrics &amp; Manufacture</li>
+          <li>Automotive Carpets &amp; Floor Systems</li>
+          <li>Preformed &amp; Moulded Textile Parts</li>
+          <li>Headliners &amp; Interior Trim</li>
+        </ul>
+        <ul class="fancy">
+          <li>Tyre Reinforcement Textiles</li>
+          <li>Safety Devices — Airbags &amp; Seatbelts</li>
+          <li>Acoustic &amp; Thermal Insulation</li>
+          <li>Filtration — Air, Oil, Fuel &amp; Cabin</li>
+          <li>Engine Compartment Textiles</li>
+          <li>Smart &amp; Technical Textiles in Cars</li>
+          <li>Sustainability in Automotive Textiles</li>
+          <li>Future Trends &amp; Conclusion</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ SLIDE 3 — INTRODUCTION ══════════════ -->
+  <div class="slide" data-num="3">
+    <div class="bg-grid"></div><div class="bg-accent-bar"></div><div class="bg-number">03</div>
+    <div class="slide-content">
+      <div class="label">Introduction</div>
+      <h2>WHAT ARE <span>AUTOMOTIVE TEXTILES?</span></h2>
+      <p>Automotive textiles encompass all fibrous materials used in vehicle construction — from the visible interior fabrics to hidden technical components. They are a crucial sub-sector of <span class="highlight">technical textiles</span>, engineered not just for aesthetics, but for performance, durability, and safety.</p>
+      <div class="stat-row">
+        <div class="stat"><div class="val">35+</div><div class="unit">kg textiles per car</div></div>
+        <div class="stat"><div class="val">60+</div><div class="unit">% of interior surface</div></div>
+        <div class="stat"><div class="val">$30B+</div><div class="unit">Global market value</div></div>
+        <div class="stat"><div class="val">100+</div><div class="unit">distinct applications</div></div>
+      </div>
+      <div class="divider"></div>
+      <p>A modern passenger car contains approximately <span class="highlight">35 kg</span> of textile materials. These range from woven seat fabrics to complex technical components like tyre cords, airbags, and engine belts — each with precisely engineered fibre compositions.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════ SLIDE 4 — HISTORY ══════════════ -->
+  <div class="slide" data-num="4">
+    <div class="bg-grid"></div><div class="bg-accent-bar"></div><div class="bg-number">04</div>
+    <div class="slide-content">
+      <div class="label">Historical Development</div>
+      <h2>EVOLUTION OF <span>AUTOMOTIVE TEXTILES</span></h2>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-year">1880s</div>
+          <div class="tl-line"><div class="tl-dot"></div><div class="tl-track"></div></div>
+          <div class="tl-text">Early automobiles used horse-carriage upholstery — natural leather, wool broadcloth, and cotton padding for seat cushions.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">1920s</div>
+          <div class="tl-line"><div class="tl-dot"></div><div class="tl-track"></div></div>
+          <div class="tl-text">Introduction of cotton tyre cords and wool-based carpets. Mass production drove demand for standardised textile components.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">1950s</div>
+          <div class="tl-line"><div class="tl-dot"></div><div class="tl-track"></div></div>
+          <div class="tl-text">Nylon and rayon tyre cords replaced cotton. PVC-coated fabrics emerged. Synthetic fibres began replacing natural ones in upholstery.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">1970s</div>
+          <div class="tl-line"><div class="tl-dot"></div><div class="tl-track"></div></div>
+          <div class="tl-text">Polyester and aramid tyre reinforcements introduced. Nonwoven carpets and needle-punched felts became standard. First airbag prototypes.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2000s+</div>
+          <div class="tl-line"><div class="tl-dot"></div></div>
+          <div class="tl-text">Smart textiles, lightweight composites, recycled fibre content, and e-textiles for heated/sensor functions entered mainstream automotive use.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ SLIDE 5 — CLASSIFICATION ══════════════ -->
+  <div class="slide" data-num="5">
+    <div class="bg-grid"></div><div class="bg-accent-bar"></div><div class="bg-number">05</div>
+    <div class="slide-content">
+      <div class="label">Classification</div>
+      <h2>CLASSIFICATION OF <span>AUTOMOTIVE TEXTILES</span></h2>
+      <div class="three-col">
+        <div class="card">
+          <div class="icon-badge">🪑</div>
+          <h3>Interior Textiles</h3>
+          <p>Seat upholstery, headliners, door panel fabrics, parcel shelves, boot liners. Primarily aesthetic but also functional.</p>
+        </div>
+        <div class="card">
+          <div class="icon-badge">⚙️</div>
+          <h3>Technical Textiles</h3>
+          <p>Tyre reinforcements, airbags, seatbelts, filters, engine compartment belts, hoses — engineered for extreme performance.</p>
+        </div>
+        <div class="card">
+          <div class="icon-badge">🔇</div>
+          <h3>Functional Textiles</h3>
+          <p>Acoustic insulation, thermal barriers, under-bonnet pads, vibration dampers — improve comfort and performance.</p>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <p>Alternatively classified by <span class="highlight">position in vehicle</span>: floor systems, overhead systems, vertical trim, engine bay, chassis and under-body components.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════ SLIDE 6 — FIBRES OVERVIEW ══════════════ -->
+  <div class="slide" data-num="6">
+    <div class="bg-grid"></div><div class="bg-accent-bar"></div><div class="bg-number">06</div>
+    <div class="slide-content">
+      <div class="label">Raw Materials</div>
+      <h2>FIBRES USED IN <span>AUTOMOTIVE APPLICATIONS</span></h2>
+      <p>Automotive textiles employ a wide spectrum of fibres — both natural and synthetic. The choice depends on mechanical performance, durability, flame resistance, weight, and cost.</p>
+      <div class="fibre-grid" style="margin-top:18px;">
+        <div class="fibre-item"><div class="fibre-dot" style="background:#c9a84c"></div><div><h4>Polyester (PET)</h4><p>Dominant fibre — upholstery, carpets, filters, airbag fabric, seatbelts</p></div></div>
+        <div class="fibre-item"><div class="fibre-dot" style="background:#3ecfcf"></div><div><h4>Nylon (PA 6/66)</h4><p>High tenacity — airbag fabric, tyre cords, seatbelts, carpet face yarns</p></div></div>
+        <div class="fibre-item"><div class="fibre-dot" style="background:#e8502a"></div><div><h4>Polypropylene (PP)</h4><p>Lightweight, chemical-resistant — carpets, nonwovens, geotextile liners</p></div></div>
+        <div class="fibre-item"><div class="fibre-dot" style="background:#7c6af5"></div><div><h4>Aramid (Kevlar/Nomex)</h4><p>Ultra-high strength, flame-resistant — tyre reinforcement, racing textiles</p></div></div>
+        <div class="fibre-item"><div class="fibre-dot" style="background:#60a5fa"></div><div><h4>Glass Fibre</h4><p>Dimensionally stable, heat-resistant — headliners, preformed parts, composites</p></div></div>
+        <div class="fibre-item"><div class="fibre-dot" style="background:#34d399"></div><div><h4>Carbon Fibre</h4><p>Lightweight, ultra-stiff — structural composites, performance vehicle trim</p></div></div>
+        <div class="fibre-item"><div class="fibre-dot" style="background:#f59e0b"></div><div><h4>Rayon / Viscose</h4><p>Historical tyre cord, blends for upholstery, acoustic substrates</p></div></div>
+        <div class="fibre-item"><div class="fibre-dot" style="background:#ec4899"></div><div><h4>Wool &amp; Cotton</h4><p>Traditional upholstery blends, luxury vehicles — natural aesthetics</p></div></div>
+        <div class="fibre-item"><div class="fibre-dot" style="background:#a78bfa"></div><div><h4>Polyurethane (PU)</h4><p>Foam backing, synthetic leather, coating for coated seat fabrics</p></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ SLIDE 7 — FIBRE PROPERTIES TABLE ══════════════ -->
+  <div class="slide" data-num="7">
+    <div class="bg-grid"></div><div class="bg-accent-bar"></div><div class="bg-number">07</div>
+    <div class="slide-content">
+      <div class="label">Material Science</div>
+      <h2>FIBRE <span>PROPERTIES</span> COMPARISON</h2>
+      <table class="data">
+        <thead>
+          <tr>
+            <th>Fibre</th><th>Tensile Strength</th><th>Elongation</th><th>Heat Resistance</th><th>Key Automotive Use</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Polyester (PET)</td><td>0.4–0.8 N/tex</td><td>10–50%</td><td>Up to 150°C</td><td>Upholstery, seatbelts, filters</td></tr>
+          <tr><td>Nylon 6,6</td><td>0.5–0.8 N/tex</td><td>16–40%</td><td>Up to 130°C</td><td>Airbags, tyre cords, carpets</td></tr>
+          <tr><td>Polypropylene</td><td>0.3–0.5 N/tex</td><td>15–40%</td><td>Up to 110°C</td><td>Nonwoven carpets, liners</td></tr>
+          <tr><td>Aramid (p-)</td><td>2.1–2.9 N/tex</td><td>2–4%</td><td>Up to 370°C</td><td>Tyre reinforcement, hoses</td></tr>
+          <tr><td>Glass Fibre</td><td>1.0–1.4 N/tex</td><td>2–4%</td><td>Up to 550°C</td><td>Headliners, preformed parts</td></tr>
+          <tr><td>Carbon Fibre</td><td>2.0–4.0 N/tex</td><td>1–2%</td><td>Up to 500°C</td><td>Structural composites</td></tr>
+          <tr><td>Viscose/Rayon</td><td>0.18–0.32 N/tex</td><td>15–30%</td><td>Up to 150°C</td><td>Historical tyre cords, blends</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══════════════ SLIDE 8 — SECTION: UPHOLSTERY ══════════════ -->
+  <div class="slide section-slide" data-num="8">
+    <div class="bg-grid"></div><div class="bg-accent-bar"></div><div class="bg-number">08</div>
+    <div class="slide-content">
+      <div class="section-number">SECTION 01</div>
+      <div class="section-label">SEAT<br><span style="color:var(--accent)">UPHOLSTERY</span></div>
+      <div class="divider"></div>
+      <p>Woven, knitted, and coated fabrics used for seat covers — balancing aesthetics, durability, and passenger comfort.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════ SLIDE 9 — UPHOLSTERY FABRICS ══════════════ -->
+  <div class="slide" data-num="9">
+    <div class="bg-grid"></div><div class="bg-accent-bar"></div><div class="bg-number">09</div>
+    <div class="slide-content">
+      <div class="label">Upholstery</div>
+      <h2>SEAT UPHOLSTERY <span>FABRICS</span></h2>
+      <div class="two-col">
+        <div>
+          <h3>Types of Upholstery Fabric</h3>
+          <ul class="fancy">
+            <li><strong style="color:var(--gold)">Woven Fabrics:</strong> Jacquard, dobby, and plain weave constructions — PET/Nylon blends. Highest durability, pattern variety.</li>
+            <li><strong style="color:var(--gold)">Warp-Knitted:</strong> Tricot and Raschel constructions — stretch, conformability, softness. Common in budget to mid-range vehicles.</li>
+            <li><strong style="color:var(--gold)">Velour/Pile:</strong> Cut-pile woven or knitted — plush feel, luxury vehicles. PET or Nylon face yarns on PE backing.</li>
+            <li><strong style="color:var(--gold)">Faux Leather (PU):</strong> Polyurethane-coated woven substrate — easy clean, leather-like handle.</li>
+            <li><strong style="color:var(--gold)">Real Leather:</strong> Natural hide, treated for automotive use — premium OEM specification.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Key Performance Requirements</h3>
+          <ul class="fancy">
+            <li>Abrasion resistance ≥ 100,000 cycles (Martindale)</li>
+            <li>Colourfastness to light: ≥ Grade 5 (Xenon arc)</li>
+            <li>Flame retardancy: FMVSS 302, ISO 3795</li>
+            <li>Tensile and tear strength standards</li>
+            <li>Resistance to UV degradation, humidity, and temperature cycling (-40°C to +90°C)</li>
+            <li>Low VOC emission (fogging resistance)</li>
+            <li>Pilling resistance, soiling and stain resistance</li>
+          </ul>
+          <div class="divider"></div>
+          <p style="font-size:13px">Fabrics must pass OEM-specific test protocols (VW, BMW, Ford, Toyota) which are often stricter than ISO standards.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ SLIDE 10 — UPHOLSTERY MANUFACTURE ══════════════ -->
+  <div class="slide" data-num="10">
+    <div class="bg-grid"></div><div class="bg-accent-bar"></div><div class="bg-number">10</div>
+    <div class="slide-content">
+      <div class="label">Upholstery Manufacturing</div>
+      <h2>SEAT COVER <span>MANUFACTURING PROCESS</span></h2>
+      <div class="steps">
+        <div class="step"><div class="step-num">01</div><h4>Yarn Selection</h4><p>PET/PA high-tenacity yarn, solution-dyed or beam-dyed for UV stability</p></div>
+        <div class="step"><div class="step-num">02</div><h4>Fabric Formation</h4><p>Weaving (rapier/Jacquard loom) or warp knitting (Raschel machine)</p></div>
+        <div class="step"><div class="step-num">03</div><h4>Finishing</h4><p>Heat-setting, FR treatment, soil-resist coating, lamination to foam backing</p></div>
+        <div class="step"><div class="step-num">04</div><h4>Cutting</h4><p>Computer-aided die cutting or laser cutting to pattern pieces</p></div>
+        <div class="step"><div class="step-num">05</div><h4>Sewing</h4><p>Industrial sewing, seam welding, or bonding. Assembly into 3D seat shape.</p></div>
+      </div>
+      <div class="divider" style="margin-top:28px"></div>
+      <div class="two-col" style="margin-top:0">
+        <p>Modern seat trim combines the outer fabric, foam spacer layer, and backing nonwoven in a laminated sandwich — providing cushioning and breathability simultaneously.</p>
+        <p>3D spacer fabrics (warp-knitted with monofilament spacer yarns) are increasingly replacing foam in ventilated seat systems, offering improved airflow and recyclability.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ SLIDE 11 — SECTION: CARPETS ══════════════ -->
+  <div class="slide section-slide" data-num="11">
+    <div class="bg-grid"></div><div class="bg-accent-bar"></div><div class="bg-number">11</div>
+    <div class="slide-content">
+      <div class="section-number">SECTION 02</div>
+      <div class="section-label">AUTOMOTIVE<br><span style="color:var(--accent)">CARPETS</span></div>
+      <div class="divider"></div>
+      <p>Floor covering systems providing acoustic insulation, thermal comfort, and aesthetic finishing in vehicle interiors.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════ SLIDE 12 — CARPET TYPES ══════════════ -->
+  <div class="slide" data-num="12">
+    <div class="bg-grid"></div><div class="bg-accent-bar"></div><div class="bg-number">12</div>
+    <div class="slide-content">
+      <div class="label">Carpets</div>
+      <h2>AUTOMOTIVE CARPET <span>TYPES &amp; CONSTRUCTION</span></h2>
+      <div class="three-col">
+        <div class="card">
+          <h3>Needle-Punch Carpet</h3>
+          <p>Nonwoven fibres mechanically entangled by barbed needles. PP or PET fibres. Most economical, used in budget segments and trunk liners. Flat, dense surface.</p>
+        </div>
+        <div class="card">
+          <h3>Tufted Carpet</h3>
+          <p>Pile yarns stitched through primary backing with U-shaped loops. Secondary backing (SBR latex or PU foam) added. Cut-pile or loop-pile. Most common in passenger cars.</p>
+        </div>
+        <div class="card">
+          <h3>Woven Carpet</h3>
+          <p>Axminster or Wilton construction. Highest quality, pattern richness. Used in luxury OEM vehicles. More expensive, less common at volume.</p>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="two-col" style="margin-top:0">
+        <div>
+          <h3>Carpet Backing Systems</h3>
+          <ul class="fancy">
+            <li>SBR latex — traditional, inexpensive</li>
+            <li>PU foam backing — acoustic absorption</li>
+            <li>Bitumen heavy layer — sound damping, moulding</li>
+            <li>EVA or thermoplastic — recyclable, mould-friendly</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Fibres Used</h3>
+          <ul class="fancy">
+            <li>Polypropylene — cost, stain resistance</li>
+            <li>Polyester (PET) — colourability, durability</li>
+            <li>Nylon (PA6) — premium durability, luxury</li>
+            <li>Recycled PET (rPET) — sustainable option</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ SLIDE 13 — CARPET MANUFACTURE ══════════════ -->
+  <div class="slide" data-num="13">
+    <div class="bg-grid"></div><div class="bg-accent-bar"></div><div class="bg-number">13</div>
+    <div class="slide-content">
+      <div class="label">Carpet Manufacturing</div>
+      <h2>CARPET PRODUCTION &amp; <span>MOULDING PROCESS</span></h2>
+      <div class="steps">
+        <div class="step"><div class="step-num">01</div><h4>Yarn / Fibre</h4><p>BCF (Bulk Continuous Filament) yarn texturing or staple fibre preparation</p></div>
+        <div class="step"><div class="step-num">02</div><h4>Construction</h4><p>Tufting: 1/8" to 5/32" gauge; Needle-punch: Web formation + needling</p></div>
+        <div class="step"><div class="step-num">03</div><h4>Backing</h4><p>Latex/PU/EVA application, heavy layer lamination for acoustic mass</p></div>
+        <div class="step"><div class="step-num">04</div><h4>Moulding</h4><p>Hot press moulding at 160–200°C — shaped to 3D floor contour of vehicle</p></div>
+        <div class="step"><div class="step-num">05</div><h4>Die-Cut &amp; Fit</h4><p>CNC trimming, fixing clips or Velcro attachment installed</p></div>
+      </div>
+      <div class="divider" style="margin-top:24px"></div>
+      <p>Automotive carpet modules often integrate the floor carpet, sound insulation pad, and heat barrier into a single moulded assembly — reducing assembly time on the production line and improving acoustic performance.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════ SLIDE 14 — SECTION: PREFORMED PARTS ══════════════ -->
+  <div class="slide section-slide" data-num="14">
+    <div class="bg-grid"></div><div class="bg-accent-bar"></div><div class="bg-number">14</div>
+    <div class="slide-content">
+      <div class="section-number">SECTION 03</div>
+      <div class="section-label">PREFORMED<br><span style="color:var(--accent)">PARTS</span></div>
+      <div class="divider"></div>
+      <p>Moulded textile-based components — headliners, door panels, parcel shelves, wheel arch liners — combining aesthetics with structural function.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════ SLIDE 15 — HEADLINERS ══════════════ -->
+  <div class="slide" data-num="15">
+    <div class="bg-grid"></div><div class="bg-accent-bar"></div><div class="bg-number">15</div>
+    <div class="slide-content">
+      <div class="label">Preformed Parts</div>
+      <h2>HEADLINERS &amp; <span>OVERHEAD SYSTEMS</span></h2>
+      <div class="two-col">
+        <div>
+          <p>The automotive headliner is a multi-layer composite panel covering the roof interior. It serves aesthetic, thermal, and acoustic roles simultaneously.</p>
+          <div class="divider"></div>
+          <h3>Headliner Construction (Layers)</h3>
+          <ul class="fancy">
+            <li><strong style="color:var(--cyan)">Face fabric:</strong> Warp-knit PET, woven fabric, or microfibre — decorative, low-lint</li>
+            <li><strong style="color:var(--cyan)">Adhesive film:</strong> Hot-melt polyester bonding layer</li>
+            <li><strong style="color:var(--cyan)">Polyurethane foam:</strong> 6–12 mm, acoustic and thermal insulation core</li>
+            <li><strong style="color:var(--cyan)">Substrate:</strong> Fibreglass-reinforced polyurethane (FRPU) or natural fibre composite board</li>
+            <li><strong style="color:var(--cyan)">Backing nonwoven:</strong> PP or PET — structural support</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Manufacture Process</h3>
+          <ul class="fancy">
+            <li>Substrate formed by spraying PU foam onto glass mat and curing</li>
+            <li>Layers assembled and bonded in heated press (120–160°C, 3–5 min)</li>
+            <li>Moulded to 3D roof contour under pressure</li>
+            <li>CNC trimmed, holes cut for handles and lights</li>
+            <li>Clips and electrical connectors fitted before assembly</li>
+          </ul>
+          <div class="divider"></div>
+          <h3>Natural Fibre Alternative</h3>
+          <p style="font-size:13px">Kenaf, flax or hemp fibre mats with biopolymer binders replace glass — lighter, greener, increasingly OEM-approved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ SLIDE 16 — DOOR PANELS & PARCEL SHELF ══════════════ -->
+  <div class="slide" data-num="16">
+    <div class="bg-grid"></div><div class="bg-accent-bar"></div><div class="bg-number">16</div>
+    <div class="slide-content">
+      <div class="label">Preformed Parts</div>
+      <h2>DOOR PANELS &amp; <span>PARCEL SHELVES</span></h2>
+      <div class="two-col">
+        <div class="card">
+          <h3>Door Panel Trim</h3>
+          <p>Textile-covered rigid substrate forms the visible inner door surface. Construction includes:</p>
+          <ul class="fancy" style="margin-top:10px">
+            <li>PP or ABS injection-moulded substrate base</li>
+            <li>PU foam layer (3–6 mm) for soft-touch feel</li>
+            <li>Woven, knitted, or vinyl face fabric</li>
+            <li>Wrapped and glued or In-Mould Forming (IMF)</li>
+          </ul>
+          <p style="margin-top:10px; font-size:13px">The use of <span class="highlight">in-mould fabric</span> techniques (IMFA) allows simultaneous fabric application and substrate moulding — reducing weight and assembly steps.</p>
+        </div>
+        <div class="card">
+          <h3>Parcel Shelf / Rear Deck</h3>
+          <p>Load-bearing, lightweight shelf behind rear seats. Requires:</p>
+          <ul class="fancy" style="margin-top:10px">
+            <li>Rigid core: fibreglass board, honeycomb PP, or natural fibre composite</li>
+            <li>Nonwoven facing fabric (needle-punch PP or PET)</li>
+            <li>Sound-reflective / absorptive treatment</li>
+          </ul>
+          <div class="divider"></div>
+          <h3>Boot Liners</h3>
+          <p style="font-size:13px">Needle-punched nonwoven or tufted carpet moulded to boot shape. Often with non-slip backing. PE or EVA thermoplastic backing enables 3D moulding.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ SLIDE 17 — SECTION: TYRES ══════════════ -->
+  <div class="slide section-slide" data-num="17">
+    <div class="bg-grid"></div><div class="bg-accent-bar"></div><div class="bg-number">17</div>
+    <div class="slide-content">
+      <div class="section-number">SECTION 04</div>
+      <div class="section-label">TYRE<br><span style="color:var(--accent)">REINFORCEMENT</span></div>
+      <div class="divider"></div>
+      <p>Textile reinforcement cords are critical structural elements within pneumatic tyre construction — providing strength, dimensional stability, and fatigue resistance.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════ SLIDE 18 — TYRE CONSTRUCTION ══════════════ -->
+  <div class="slide" data-num="18">
+    <div class="bg-grid"></div><div class="bg-accent-bar"></div><div class="bg-number">18</div>
+    <div class="slide-content">
+      <div class="label">Tyre Textiles</div>
+      <h2>TYRE CORD <span>TECHNOLOGY</span></h2>
+      <div class="two-col">
+        <div>
+          <h3>Role of Textile Reinforcement</h3>
+          <p>Tyre cords are embedded in rubber to form the structural skeleton (carcass) and belt layers. They must withstand:</p>
+          <ul class="fancy" style="margin-top:12px">
+            <li>Cyclic fatigue (millions of flexing cycles)</li>
+            <li>High tensile loads during cornering and braking</li>
+            <li>Temperature extremes from road friction</li>
+            <li>Adhesion to rubber matrix (RFL treatment)</li>
+          </ul>
+          <div class="divider"></div>
+          <h3>RFL Treatment</h3>
+          <p style="font-size:13px">Resorcinol-Formaldehyde-Latex (RFL) dipping is the critical process that bonds the textile cord to the rubber. Cords are dipped, dried, and heat-set to develop chemical adhesion.</p>
+        </div>
+        <div>
+          <h3>Tyre Cord Fibres (Historical &amp; Current)</h3>
+          <table class="data" style="margin-top:8px">
+            <thead><tr><th>Fibre</th><th>Era</th><th>Application</th></tr></thead>
+            <tbody>
+              <tr><td>Cotton</td><td>Pre-1950s</td><td>Bias tyre carcass</td></tr>
+              <tr><td>Rayon</td><td>1940–1970</td><td>Carcass ply, radial</td></tr>
+              <tr><td>Nylon 6,6</td><td>1950–present</td><td>Carcass, cap ply</td></tr>
+              <tr><td>Polyester</td><td>1960–present</td><td>Carcass ply (dominant)</td></tr>
+              <tr><td>Aramid (Kevlar)</td><td>1970–present</td><td>Belt, bead wrap</td></tr>
+              <tr><td>Steel cord</td><td>1960–present</td><td>Belt reinforcement</td></tr>
+              <tr><td>PEN</td><td>1990–present</td><td>Cap ply, performance tyres</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ SLIDE 19 — TYRE LAYERS ══════════════ -->
+  <div class="slide" data-num="19">
+    <div class="bg-grid"></div><div class="bg-accent-bar"></div><div class="bg-number">19</div>
+    <div class="slide-content">
+      <div class="label">Tyre Structure</div>
+      <h2>RADIAL TYRE <span>TEXTILE LAYER STRUCTURE</span></h2>
+      <div class="three-col">
+        <div class="card">
+          <div class="icon-badge">⬤</div>
+          <h3>Bead Bundle</h3>
+          <p>High-tensile steel wire wrapped with nylon or aramid filament wind. Anchors tyre to rim. Bead apex — rubber/PP/nylon stiffener controls sidewall stiffness.</p>
+        </div>
+        <div class="card">
+          <div class="icon-badge">◎</div>
+          <h3>Carcass Ply</h3>
+          <p>Polyester (most common) or nylon cord fabric — one or two plies in radial tyres. Cords run 90° to direction of travel. Primary structural layer carrying inflation pressure.</p>
+        </div>
+        <div class="card">
+          <div class="icon-badge">◻</div>
+          <h3>Belt Package</h3>
+          <p>2–4 crossed-angle steel or aramid cord layers at 15–25° angle. Provides dimensional stability under load and high-speed conditions. Nylon cap ply overlaid for high-speed tyres.</p>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <p>The manufacturing of tyre cord fabric involves: fibre extrusion → twisting to cord → weaving into cord fabric → RFL dipping → drying at 150°C → final heat-treatment at 220–240°C (heat-setting). The cord fabric is then calendered with rubber compound before tyre building.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════ SLIDE 20 — SECTION: SAFETY ══════════════ -->
+  <div class="slide section-slide" data-num="20">
+    <div class="bg-grid"></div><div class="bg-accent-bar"></div><div class="bg-number">20</div>
+    <div class="slide-content">
+      <div class="section-number">SECTION 05</div>
+      <div class="section-label">SAFETY<br><span style="color:var(--accent)">DEVICES</span></div>
+      <div class="divider"></div>
+      <p>Airbags, seatbelts, and child restraint systems — textiles that directly protect human life in the event of a collision.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════ SLIDE 21 — AIRBAGS ══════════════ -->
+  <div class="slide" data-num="21">
+    <div class="bg-grid"></div><div class="bg-accent-bar"></div><div class="bg-number">21</div>
+    <div class="slide-content">
+      <div class="label">Safety Devices</div>
+      <h2>AIRBAG <span>TECHNOLOGY</span></h2>
+      <div class="two-col">
+        <div>
+          <h3>Airbag Fabric Requirements</h3>
+          <ul class="fancy">
+            <li>Deployment in &lt;30 milliseconds — extreme dynamic loading</li>
+            <li>Zero porosity (OPW) or controlled porosity for gas retention</li>
+            <li>High tear and burst strength (must contain 150–250 kPa)  </li>
+            <li>Thermal resistance — hot gas contact at 200–300°C</li>
+            <li>Compact packaging — small module volume requires thin, pliable fabric</li>
+            <li>Long-term aging stability — 15+ years in stored state</li>
+          </ul>
+          <div class="divider"></div>
+          <h3>Airbag Coating</h3>
+          <p style="font-size:13px">Silicone coating (15–25 g/m²) applied to ensure gas impermeability and temperature resistance. Modern OPW (One Piece Woven) bags eliminate seams in critical areas.</p>
+        </div>
+        <div>
+          <h3>Construction &amp; Manufacture</h3>
+          <ul class="fancy">
+            <li><strong style="color:var(--gold)">Fibre:</strong> 470 dtex or 940 dtex Nylon 6,6 high-tenacity yarn</li>
+            <li><strong style="color:var(--gold)">Weave:</strong> Plain weave, tight construction, 28–36 picks/cm</li>
+            <li><strong style="color:var(--gold)">Weaving:</strong> Rapier or water-jet loom for OPW — complex 3D shapes in single weaving step</li>
+            <li><strong style="color:var(--gold)">Finishing:</strong> Scouring, heat-setting, silicone coating, calendering</li>
+            <li><strong style="color:var(--gold)">Cutting:</strong> Laser cutting for precision pattern pieces</li>
+            <li><strong style="color:var(--gold)">Assembly:</strong> High-strength seam sewing, folding, module packing</li>
+          </ul>
+          <p style="font-size:13px; margin-top:12px">A modern car has 6–12 airbags: frontal, side-curtain, knee, and seat-integrated. Curtain airbags use OPW construction to achieve complex three-dimensional inflated shapes without sewn seams.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ SLIDE 22 — SEATBELTS ══════════════ -->
+  <div class="slide" data-num="22">
+    <div class="bg-grid"></div><div class="bg-accent-bar"></div><div class="bg-number">22</div>
+    <div class="slide-content">
+      <div class="label">Safety Devices</div>
+      <h2>SEATBELT <span>WEBBING</span></h2>
+      <div class="two-col">
+        <div>
+          <h3>Webbing Construction</h3>
+          <p>Seatbelt webbing is a narrow woven textile — one of the most safety-critical fibrous structures in a vehicle. Key characteristics:</p>
+          <ul class="fancy" style="margin-top:12px">
+            <li><strong style="color:var(--gold)">Fibre:</strong> Polyester (PET) high-tenacity yarn — 1,100–2,200 dtex</li>
+            <li><strong style="color:var(--gold)">Width:</strong> 46–50 mm standard webbing</li>
+            <li><strong style="color:var(--gold)">Construction:</strong> Warp-faced weave — dense warp yarns carry load; weft maintains width</li>
+            <li><strong style="color:var(--gold)">Strength:</strong> Minimum 26 kN breaking load (ECE R16 standard)</li>
+            <li><strong style="color:var(--gold)">Elongation:</strong> Controlled — energy-absorbing extension profile</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Manufacturing Process</h3>
+          <ul class="fancy">
+            <li>Narrow fabric weaving — shuttle or needle loom</li>
+            <li>Heat-setting to control elongation profile</li>
+            <li>Dyeing (solution-dyed PET preferred for UV stability)</li>
+            <li>Edge sealing to prevent fraying</li>
+            <li>Quality testing: tensile, dynamic loading, abrasion, light fastness, microslip</li>
+          </ul>
+          <div class="divider"></div>
+          <h3>Pretensioner Integration</h3>
+          <p style="font-size:13px">Modern belts integrate pyrotechnic pretensioners that retract 100–150 mm of webbing within 8 ms of crash detection, removing slack before restraint loading.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ SLIDE 23 — SECTION: FILTERS ══════════════ -->
+  <div class="slide section-slide" data-num="23">
+    <div class="bg-grid"></div><div class="bg-accent-bar"></div><div class="bg-number">23</div>
+    <div class="slide-content">
+      <div class="section-number">SECTION 06</div>
+      <div class="section-label">FILTRATION<br><span style="color:var(--accent)">SYSTEMS</span></div>
+      <div class="divider"></div>
+      <p>Textile-based filter media for air intake, oil, fuel, and cabin air — protecting engine efficiency and passenger health.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════ SLIDE 24 — FILTER TYPES ══════════════ -->
+  <div class="slide" data-num="24">
+    <div class="bg-grid"></div><div class="bg-accent-bar"></div><div class="bg-number">24</div>
+    <div class="slide-content">
+      <div class="label">Filtration</div>
+      <h2>AUTOMOTIVE <span>FILTER MEDIA</span></h2>
+      <div class="three-col">
+        <div class="card">
+          <div class="icon-badge">💨</div>
+          <h3>Engine Air Filter</h3>
+          <p>Pleated wet-laid cellulose/synthetic blend paper media. Captures particles ≥1 µm. Treated with phenolic resin for wet strength. PA or PET scrims for support. Sintered or foam polyurethane pre-cleaners in heavy-duty applications.</p>
+        </div>
+        <div class="card">
+          <div class="icon-badge">🛢</div>
+          <h3>Oil &amp; Fuel Filter</h3>
+          <p>Depth-filtration media — meltblown PP or glass microfibre nonwoven. Multi-layer gradient structure captures progressively finer particles. Must resist oil/fuel chemistry and temperatures up to 150°C continuously.</p>
+        </div>
+        <div class="card">
+          <div class="icon-badge">🌿</div>
+          <h3>Cabin Air Filter</h3>
+          <p>Activated carbon + meltblown PP electrospun fibre layers. Removes pollen (≥5µm), fine particulates (PM2.5), NOx and VOC gases. HEPA-grade versions increasingly standard (capture ≥99.97% of 0.3µm particles).</p>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="two-col" style="margin-top:0">
+        <div>
+          <h3>Transmission &amp; Hydraulic Filters</h3>
+          <p style="font-size:13px">Fine woven metal + synthetic nonwoven media for ATF filtration. Glass microfibre sheets with ≤10µm absolute rating. Must survive temperature extremes and aggressive fluid chemistry.</p>
+        </div>
+        <div>
+          <h3>Meltblown Technology</h3>
+          <p style="font-size:13px">Meltblowing (extruding PP/PET through fine nozzles into high-velocity hot air) creates ultra-fine fibres (0.5–5 µm diameter) — ideal for fine filtration with low pressure drop.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ SLIDE 25 — FILTER MANUFACTURE ══════════════ -->
+  <div class="slide" data-num="25">
+    <div class="bg-grid"></div><div class="bg-accent-bar"></div><div class="bg-number">25</div>
+    <div class="slide-content">
+      <div class="label">Filter Manufacturing</div>
+      <h2>FILTER MEDIA <span>PRODUCTION PROCESSES</span></h2>
+      <div class="steps">
+        <div class="step"><div class="step-num">01</div><h4>Fibre Selection</h4><p>Glass microfibre, meltblown PP, cellulose pulp or electrospun nanofibre depending on application</p></div>
+        <div class="step"><div class="step-num">02</div><h4>Web Formation</h4><p>Wet-lay (paper) or dry-lay or meltblown process to form uniform fibrous sheet</p></div>
+        <div class="step"><div class="step-num">03</div><h4>Bonding</h4><p>Thermal bonding, resin saturation, or calendering to achieve strength and structure</p></div>
+        <div class="step"><div class="step-num">04</div><h4>Pleating</h4><p>Rotary or knife pleating increases surface area 5–10× within compact housing volume</p></div>
+        <div class="step"><div class="step-num">05</div><h4>Lamination</h4><p>Multi-layer constructions: pre-filter + media + scrim. Activated carbon layer added for cabin filters</p></div>
+      </div>
+      <div class="divider" style="margin-top:24px"></div>
+      <p>Electrospun nanofibre layers (fibre diameter 100–500 nm) deposited onto conventional nonwovens represent the next generation — enabling ultra-fine filtration (sub-PM2.5) with minimal pressure drop increase and extended service life.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════ SLIDE 26 — SECTION: ENGINE COMPARTMENT ══════════════ -->
+  <div class="slide section-slide" data-num="26">
+    <div class="bg-grid"></div><div class="bg-accent-bar"></div><div class="bg-number">26</div>
+    <div class="slide-content">
+      <div class="section-number">SECTION 07</div>
+      <div class="section-label">ENGINE<br><span style="color:var(--accent)">COMPARTMENT</span></div>
+      <div class="divider"></div>
+      <p>High-performance technical textiles operating in extreme heat and chemical environments — belts, hoses, gaskets, and under-bonnet insulation.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════ SLIDE 27 — ENGINE TEXTILES ══════════════ -->
+  <div class="slide" data-num="27">
+    <div class="bg-grid"></div><div class="bg-accent-bar"></div><div class="bg-number">27</div>
+    <div class="slide-content">
+      <div class="label">Engine Compartment</div>
+      <h2>ENGINE BAY <span>TEXTILE COMPONENTS</span></h2>
+      <div class="two-col">
+        <div>
+          <div class="card" style="margin-bottom:16px">
+            <h3>Timing &amp; Drive Belts</h3>
+            <p>Fibre-reinforced rubber belts — aramid or high-modulus polyester cord reinforcement within chloroprene (CR) or EPDM rubber matrix. Must transmit high torque with zero slip, endure 100,000+ km at temperatures up to 140°C and in the presence of oil mist.</p>
+          </div>
+          <div class="card">
+            <h3>Radiator &amp; Coolant Hoses</h3>
+            <p>Rubber hose with woven or braided textile reinforcement. Nylon, polyester, or aramid braid provides dimensional stability under pressure. Inner lining — EPDM or silicone. Operating temp: -40°C to +180°C.</p>
+          </div>
+        </div>
+        <div>
+          <div class="card" style="margin-bottom:16px">
+            <h3>Under-Hood Insulation</h3>
+            <p>Needle-punched fibreglass or basalt fibre mat + aluminium foil laminate. Reduces underbonnet temperatures by 30–50°C. Protects sensors, wiring, and plastics from radiated heat from exhaust manifold.</p>
+          </div>
+          <div class="card">
+            <h3>Wiring Harness Tapes &amp; Sleeves</h3>
+            <p>Woven or braided glass or basalt fibre sleeving protects wire harnesses from heat and abrasion. PPS or PTFE-yarn braided tubes for extreme-temperature zones near exhaust. Self-adhesive nonwoven tapes for bundling harnesses.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ SLIDE 28 — ACOUSTIC & THERMAL INSULATION ══════════════ -->
+  <div class="slide" data-num="28">
+    <div class="bg-grid"></div><div class="bg-accent-bar"></div><div class="bg-number">28</div>
+    <div class="slide-content">
+      <div class="label">Functional Textiles</div>
+      <h2>ACOUSTIC &amp; THERMAL <span>INSULATION</span></h2>
+      <div class="two-col">
+        <div>
+          <h3>Acoustic Insulation</h3>
+          <p>Multi-layer systems reduce interior NVH (Noise, Vibration, Harshness):</p>
+          <ul class="fancy" style="margin-top:12px">
+            <li><strong style="color:var(--cyan)">Absorption:</strong> Low-density needle-punch PET or cotton shoddy — porous absorber for mid-high frequencies</li>
+            <li><strong style="color:var(--cyan)">Mass layer:</strong> Bitumen-backed felt or EVA — barrier for airborne noise transmission</li>
+            <li><strong style="color:var(--cyan)">Decoupler:</strong> Soft foam or spring wool layer isolates mass layer from body panel vibration</li>
+          </ul>
+          <div class="divider"></div>
+          <p style="font-size:13px">A typical floor system: tufted carpet + PU foam + mass-spring decoupler + hot-melt felt achieves ~15 dB insertion loss across 100–3,150 Hz octave bands.</p>
+        </div>
+        <div>
+          <h3>Thermal Insulation</h3>
+          <ul class="fancy">
+            <li>Aerogel-impregnated needled glass mats — ultra-low thermal conductivity (λ = 0.015 W/mK)</li>
+            <li>Aluminium foil + needle-punch glass composite — reflective heat shields around exhaust, catalytic converter</li>
+            <li>Mineral wool blankets under bonnet for passive thermal management</li>
+            <li>In EVs: thermal runaway protection using ceramic-fibre textiles around battery packs</li>
+          </ul>
+          <div class="divider"></div>
+          <h3>Recycled Content</h3>
+          <p style="font-size:13px">Cotton shoddy (recycled garment fibre) is widely used in acoustic pads — reducing cost and embodied carbon. 50–80% recycled content is standard in many OEM specifications.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ SLIDE 29 — SMART TEXTILES ══════════════ -->
+  <div class="slide" data-num="29">
+    <div class="bg-grid"></div><div class="bg-accent-bar"></div><div class="bg-number">29</div>
+    <div class="slide-content">
+      <div class="label">Smart &amp; Technical Textiles</div>
+      <h2>SMART TEXTILES IN <span>AUTOMOTIVE APPLICATIONS</span></h2>
+      <div class="three-col">
+        <div class="card">
+          <div class="icon-badge">🌡️</div>
+          <h3>Heated Seats &amp; Steering</h3>
+          <p>Resistive heating elements — carbon fibre tow, stainless or cupronickel wire embroidered or woven into seat fabric. Thermostat-controlled, typically 12V/24W. Also used in steering wheels and armrests.</p>
+        </div>
+        <div class="card">
+          <div class="icon-badge">👁️</div>
+          <h3>Occupant Sensing</h3>
+          <p>Pressure-sensitive textile sensors woven into seat fabric detect occupant presence, weight class, and position for airbag suppression/deployment control. Capacitive or piezo-resistive fibre arrays.</p>
+        </div>
+        <div class="card">
+          <div class="icon-badge">📡</div>
+          <h3>Antenna Integration</h3>
+          <p>Conductive yarn antennas woven or embroidered into headliners or window surrounds — replacing metallic structures. Enables AM/FM, DAB, GPS, and V2X connectivity without visual compromise.</p>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="two-col" style="margin-top:0">
+        <p><span class="highlight">Ventilated seats</span> use 3D spacer fabrics (warp-knitted with monofilament spacer yarns creating a 5–12 mm air channel) connected to fans that circulate air through the seat surface — providing active cooling/heating.</p>
+        <p><span class="highlight">Health monitoring textiles</span> — embedding ECG electrodes and heart-rate sensors into seatback fabric — are in development by major OEMs to monitor driver fatigue and cardiovascular conditions.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ SLIDE 30 — SUSTAINABILITY ══════════════ -->
+  <div class="slide" data-num="30">
+    <div class="bg-grid"></div><div class="bg-accent-bar"></div><div class="bg-number">30</div>
+    <div class="slide-content">
+      <div class="label">Sustainability</div>
+      <h2>SUSTAINABLE <span>AUTOMOTIVE TEXTILES</span></h2>
+      <div class="two-col">
+        <div>
+          <h3>Recycled &amp; Bio-based Fibres</h3>
+          <ul class="fancy">
+            <li><strong style="color:var(--cyan)">rPET:</strong> Recycled PET bottles → automotive carpet face yarn. BMW, Toyota, Ford: 30–100% rPET content targets</li>
+            <li><strong style="color:var(--cyan)">Natural fibres:</strong> Kenaf, flax, hemp, jute used in door panels and headliner substrates — 30–40% weight saving vs glass fibre</li>
+            <li><strong style="color:var(--cyan)">Bio-PA:</strong> Castor-oil-derived Nylon 11/12 for airbag fabric — being trialled to reduce fossil feedstock</li>
+            <li><strong style="color:var(--cyan)">Cotton shoddy:</strong> Recycled garment fibre for acoustic pads — 60–80% recycled content</li>
+          </ul>
+        </div>
+        <div>
+          <h3>End-of-Life &amp; Circular Economy</h3>
+          <ul class="fancy">
+            <li>ELV Directive requires 95% vehicle recyclability by mass</li>
+            <li>Chemical recycling of PET back to monomer (closed-loop)</li>
+            <li>Thermoplastic backing systems enable carpet recycling vs thermoset</li>
+            <li>Natural fibre composites — compostable/biodegradable end-of-life pathways</li>
+          </ul>
+          <div class="divider"></div>
+          <h3>Lightweighting</h3>
+          <p style="font-size:13px">Every 10 kg weight reduction improves fuel economy by ~0.5 L/100 km. Natural fibre composites replacing glass achieve 20–40% mass savings in headliner and door panel substrates.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ SLIDE 31 — TESTING & STANDARDS ══════════════ -->
+  <div class="slide" data-num="31">
+    <div class="bg-grid"></div><div class="bg-accent-bar"></div><div class="bg-number">31</div>
+    <div class="slide-content">
+      <div class="label">Quality &amp; Compliance</div>
+      <h2>TESTING STANDARDS &amp; <span>REGULATIONS</span></h2>
+      <table class="data">
+        <thead><tr><th>Standard / Regulation</th><th>Scope</th><th>Application</th></tr></thead>
+        <tbody>
+          <tr><td>ISO 3795 / FMVSS 302</td><td>Horizontal flame spread rate ≤ 100 mm/min</td><td>All interior trim textiles</td></tr>
+          <tr><td>ECE Regulation 16</td><td>Seatbelt assembly strength, elongation, microslip</td><td>Seatbelt webbing</td></tr>
+          <tr><td>ECE Regulation 12/94</td><td>Airbag system performance in crash tests</td><td>Airbag fabric &amp; system</td></tr>
+          <tr><td>ISO 105-B06</td><td>Colourfastness to artificial light (Xenon arc)</td><td>Upholstery &amp; carpets</td></tr>
+          <tr><td>ISO 12947</td><td>Martindale abrasion resistance</td><td>Seat fabrics ≥ 100,000 cycles</td></tr>
+          <tr><td>ISO 6721 / SAE J1027</td><td>Acoustic absorption coefficient</td><td>Insulation &amp; carpets</td></tr>
+          <tr><td>ELV Directive 2000/53/EC</td><td>95% vehicle recyclability, restricted substances</td><td>All automotive materials</td></tr>
+          <tr><td>REACH / RoHS</td><td>Hazardous substance restrictions in components</td><td>Coatings, dyes, treatments</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══════════════ SLIDE 32 — MARKET & FUTURE TRENDS ══════════════ -->
+  <div class="slide" data-num="32">
+    <div class="bg-grid"></div><div class="bg-accent-bar"></div><div class="bg-number">32</div>
+    <div class="slide-content">
+      <div class="label">Industry Outlook</div>
+      <h2>MARKET &amp; <span>FUTURE TRENDS</span></h2>
+      <div class="two-col">
+        <div>
+          <h3>Current Market Landscape</h3>
+          <div class="bar-row">
+            <div class="bar-label"><span>Interior Textiles (Upholstery/Carpet)</span><span>38%</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:38%"></div></div>
+          </div>
+          <div class="bar-row" style="margin-top:12px">
+            <div class="bar-label"><span>Tyre Reinforcement Textiles</span><span>28%</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:28%"></div></div>
+          </div>
+          <div class="bar-row" style="margin-top:12px">
+            <div class="bar-label"><span>Safety (Airbags + Seatbelts)</span><span>18%</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:18%"></div></div>
+          </div>
+          <div class="bar-row" style="margin-top:12px">
+            <div class="bar-label"><span>Filtration &amp; Technical</span><span>10%</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:10%"></div></div>
+          </div>
+          <div class="bar-row" style="margin-top:12px">
+            <div class="bar-label"><span>Engine Compartment / Other</span><span>6%</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:6%"></div></div>
+          </div>
+        </div>
+        <div>
+          <h3>Emerging Trends</h3>
+          <ul class="fancy">
+            <li><strong style="color:var(--gold)">Electrification:</strong> EVs shift demand — less engine compartment textiles, more battery thermal management and acoustic control</li>
+            <li><strong style="color:var(--gold)">Lightweighting:</strong> Natural fibre-reinforced composites, aerogels, thin-ply NCF replacing traditional glass/steel</li>
+            <li><strong style="color:var(--gold)">Connectivity:</strong> Antenna integration, touch-sensitive fabrics, flexible display backings</li>
+            <li><strong style="color:var(--gold)">Personalisation:</strong> Digital Jacquard weaving enables complex pattern customisation on-demand</li>
+            <li><strong style="color:var(--gold)">Nanofibre filtration:</strong> Electrospun layers delivering sub-PM1 filtration</li>
+            <li><strong style="color:var(--gold)">Bio-based chemistry:</strong> Bio-PA, PLA, and cellulose-derived fibres reducing fossil content</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ SLIDE 33 — COMPARISON SUMMARY ══════════════ -->
+  <div class="slide" data-num="33">
+    <div class="bg-grid"></div><div class="bg-accent-bar"></div><div class="bg-number">33</div>
+    <div class="slide-content">
+      <div class="label">Summary Reference</div>
+      <h2>APPLICATION <span>SUMMARY TABLE</span></h2>
+      <table class="data">
+        <thead><tr><th>Application</th><th>Primary Fibre(s)</th><th>Construction Method</th><th>Key Properties Required</th></tr></thead>
+        <tbody>
+          <tr><td>Seat Upholstery</td><td>PET, PA, Wool</td><td>Woven / Warp-knit</td><td>Abrasion, UV, Flame resistance</td></tr>
+          <tr><td>Carpet</td><td>PP, PET, PA6</td><td>Tufted / Needle-punch</td><td>Wear, acoustic absorption, mouldability</td></tr>
+          <tr><td>Headliner</td><td>PET, Glass, Natural</td><td>Composite laminate</td><td>Stiffness, lightweight, acoustic</td></tr>
+          <tr><td>Tyre Cord</td><td>PET, PA, Aramid</td><td>Twisted cord + RFL</td><td>High tenacity, fatigue, rubber adhesion</td></tr>
+          <tr><td>Airbag Fabric</td><td>PA 6,6</td><td>Plain weave / OPW</td><td>High burst strength, gas impermeability, compact fold</td></tr>
+          <tr><td>Seatbelt Webbing</td><td>PET HT</td><td>Narrow weave</td><td>26 kN min strength, controlled elongation</td></tr>
+          <tr><td>Engine Air Filter</td><td>Cellulose, Glass, PP meltblown</td><td>Wet-lay / Meltblown</td><td>Particle efficiency E10–E12, low pressure drop</td></tr>
+          <tr><td>Cabin Air Filter</td><td>PP meltblown + Activated carbon</td><td>Multi-layer nonwoven</td><td>HEPA/ULPA, gas adsorption, life cycle</td></tr>
+          <tr><td>Engine Belts</td><td>Aramid, PET HM</td><td>Cord in rubber matrix</td><td>High modulus, heat/oil resistance, fatigue life</td></tr>
+          <tr><td>Under-hood Insulation</td><td>Glass, Basalt fibre</td><td>Needle-punch + foil</td><td>Thermal resistance, lightweight, acoustic</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══════════════ SLIDE 34 — KEY TAKEAWAYS ══════════════ -->
+  <div class="slide" data-num="34">
+    <div class="bg-grid"></div><div class="bg-accent-bar"></div><div class="bg-number">34</div>
+    <div class="slide-content">
+      <div class="label">Key Takeaways</div>
+      <h2>CRITICAL INSIGHTS IN <span>AUTOMOTIVE TEXTILES</span></h2>
+      <div class="three-col">
+        <div class="card">
+          <h3>01 — Fibre Diversity</h3>
+          <p>No single fibre dominates. Each application demands a specific fibre or blend — from nylon in safety-critical airbags to polypropylene in economy carpets and aramid in high-performance tyre belts.</p>
+        </div>
+        <div class="card">
+          <h3>02 — Process Engineering</h3>
+          <p>Automotive textiles require sophisticated manufacturing — RFL dipping of tyre cords, OPW weaving for airbags, thermoforming for headliners — each process precision-engineered for performance.</p>
+        </div>
+        <div class="card">
+          <h3>03 — Life-Critical Function</h3>
+          <p>Seatbelt webbing and airbag fabric are directly responsible for saving lives in crashes. Zero-defect manufacturing and rigorous testing protocols (ECE R16, FMVSS) are non-negotiable.</p>
+        </div>
+      </div>
+      <div class="three-col" style="margin-top:16px">
+        <div class="card">
+          <h3>04 — Multifunctionality</h3>
+          <p>Modern automotive textiles are multi-layer composite systems — a floor carpet simultaneously provides aesthetics, acoustic absorption, thermal insulation, and dimensional stability after moulding.</p>
+        </div>
+        <div class="card">
+          <h3>05 — Sustainability Imperative</h3>
+          <p>ELV legislation and OEM sustainability targets are driving rapid adoption of recycled PET, natural fibre composites, and bio-based polymers across all segments of the automotive textile supply chain.</p>
+        </div>
+        <div class="card">
+          <h3>06 — Future: Smart &amp; Digital</h3>
+          <p>Electronic functionality integration — sensors, antennas, heating elements — into textile structures represents the frontier, enabling vehicles to respond dynamically to occupant needs and environment.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ SLIDE 35 — CONCLUSION ══════════════ -->
+  <div class="slide" data-num="35">
+    <div class="bg-grid"></div><div class="bg-accent-bar"></div><div class="bg-number">35</div>
+    <div class="slide-content" style="text-align:center; align-items:center; display:flex; flex-direction:column; justify-content:center; width:100%">
+      <div class="label" style="text-align:center">Conclusion</div>
+      <h1 style="text-align:center">AUTOMOTIVE<br><span>TEXTILES</span></h1>
+      <div class="divider" style="margin:20px auto"></div>
+      <p style="text-align:center; max-width:65ch; margin:0 auto">From the thread in a seatbelt that saves a life in milliseconds, to the microfibre that silences road noise, to the nanofibre layer capturing PM2.5 particles from cabin air — automotive textiles are hidden heroes of modern mobility. This field sits at the intersection of materials science, mechanical engineering, and textile technology.</p>
+      <div class="pill-row" style="justify-content:center; margin-top:28px">
+        <span class="pill accent">35 kg per vehicle</span>
+        <span class="pill gold">100+ applications</span>
+        <span class="pill cyan">$30B+ market</span>
+        <span class="pill">Safety-critical components</span>
+        <span class="pill">Sustainability transition</span>
+      </div>
+      <div style="margin-top:36px; font-family:'DM Mono',monospace; font-size:13px; color:var(--dim)">
+        Thank you · Questions Welcome
+      </div>
+    </div>
+  </div>
+
+</div><!-- /presentation -->
+
+<!-- ── Navigation ── -->
+<nav id="nav">
+  <button id="prev-btn" onclick="changeSlide(-1)" disabled>&#8592; Prev</button>
+  <span id="slide-counter">1 / 35</span>
+  <button id="next-btn" onclick="changeSlide(1)">Next &#8594;</button>
+</nav>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let current = 0;
+  let animating = false;
+  const total = slides.length;
+
+  // Init: position all slides correctly
+  slides.forEach((s, i) => {
+    s.style.transition = 'none';
+    s.style.opacity = i === 0 ? '1' : '0';
+    s.style.transform = i === 0 ? 'translateX(0)' : 'translateX(80px)';
+    s.style.pointerEvents = i === 0 ? 'all' : 'none';
+    s.style.zIndex = i === 0 ? '1' : '0';
+  });
+
+  function updateUI() {
+    document.getElementById('slide-counter').textContent = `${current + 1} / ${total}`;
+    document.getElementById('prev-btn').disabled = current === 0;
+    document.getElementById('next-btn').disabled = current === total - 1;
+    const pct = (current / (total - 1)) * 100;
+    document.getElementById('progress-bar').style.width = pct + '%';
+  }
+
+  function changeSlide(dir) {
+    if (animating) return;
+    const next = current + dir;
+    if (next < 0 || next >= total) return;
+    animating = true;
+
+    const outSlide = slides[current];
+    const inSlide  = slides[next];
+
+    // Position incoming slide off-screen instantly (no transition)
+    inSlide.style.transition = 'none';
+    inSlide.style.opacity    = '0';
+    inSlide.style.transform  = `translateX(${dir > 0 ? 80 : -80}px)`;
+    inSlide.style.zIndex     = '2';
+    inSlide.style.pointerEvents = 'none';
+
+    // Force reflow before animating
+    inSlide.getBoundingClientRect();
+
+    const DUR    = '0.45s';
+    const EASE   = 'cubic-bezier(0.4,0,0.2,1)';
+
+    // Animate out
+    outSlide.style.transition = `opacity ${DUR} ${EASE}, transform ${DUR} ${EASE}`;
+    outSlide.style.opacity    = '0';
+    outSlide.style.transform  = `translateX(${dir > 0 ? -80 : 80}px)`;
+    outSlide.style.zIndex     = '1';
+
+    // Animate in
+    inSlide.style.transition = `opacity ${DUR} ${EASE}, transform ${DUR} ${EASE}`;
+    inSlide.style.opacity    = '1';
+    inSlide.style.transform  = 'translateX(0)';
+    inSlide.style.pointerEvents = 'all';
+
+    current = next;
+    updateUI();
+
+    setTimeout(() => {
+      outSlide.style.zIndex        = '0';
+      outSlide.style.pointerEvents = 'none';
+      outSlide.style.transition    = 'none';
+      outSlide.style.transform     = `translateX(${dir > 0 ? 80 : -80}px)`;
+      inSlide.style.zIndex         = '1';
+      animating = false;
+    }, 460);
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changeSlide(1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   changeSlide(-1);
+  });
+
+  let touchStartX = 0;
+  document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, {passive: true});
+  document.addEventListener('touchend',   e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 50) changeSlide(dx < 0 ? 1 : -1);
+  });
+
+  updateUI();
+</script>
+</body>
+</html>

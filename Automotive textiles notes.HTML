@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Automotive Textiles — Exam Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0b0e;
+    --surface: #111318;
+    --surface2: #181c24;
+    --border: #1e2430;
+    --accent: #e8a020;
+    --accent2: #3b7de8;
+    --accent3: #2ec4a0;
+    --text: #d8dde8;
+    --text-dim: #6b7690;
+    --text-bright: #f0f4ff;
+    --red: #e84040;
+    --tag-bg: rgba(232,160,32,0.10);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.4;
+  }
+
+  /* ── SIDEBAR NAV ── */
+  #sidebar {
+    position: fixed; top: 0; left: 0; bottom: 0;
+    width: 240px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 28px 0;
+    overflow-y: auto;
+    z-index: 100;
+    transition: transform 0.3s ease;
+  }
+
+  #sidebar .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 2px;
+    color: var(--accent);
+    padding: 0 22px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 10px;
+  }
+  #sidebar .logo span { color: var(--text-dim); font-size: 11px; font-family: 'DM Mono', monospace; letter-spacing: 1px; display: block; margin-top: 2px; }
+
+  #sidebar nav { padding: 16px 0; }
+  #sidebar nav a {
+    display: block;
+    padding: 8px 22px;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 12.5px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    border-left: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  #sidebar nav a:hover, #sidebar nav a.active {
+    color: var(--accent);
+    border-left-color: var(--accent);
+    background: rgba(232,160,32,0.05);
+  }
+  #sidebar nav .nav-section {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 16px 22px 4px;
+    opacity: 0.5;
+  }
+
+  /* ── MAIN CONTENT ── */
+  #main {
+    margin-left: 240px;
+    padding: 0 0 80px;
+    position: relative; z-index: 1;
+  }
+
+  /* ── HERO ── */
+  #hero {
+    background: linear-gradient(135deg, #0e1219 0%, #111827 50%, #0d1117 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 64px 56px 52px;
+    position: relative; overflow: hidden;
+  }
+  #hero::after {
+    content: 'AUTOMOTIVE TEXTILES';
+    position: absolute; right: -10px; bottom: -28px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 110px;
+    color: rgba(255,255,255,0.025);
+    letter-spacing: 4px;
+    pointer-events: none; user-select: none;
+    white-space: nowrap;
+  }
+  #hero .subject-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    border: 1px solid rgba(232,160,32,0.3);
+    padding: 4px 12px;
+    display: inline-block;
+    border-radius: 2px;
+    margin-bottom: 18px;
+  }
+  #hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 56px;
+    letter-spacing: 2px;
+    line-height: 1;
+    color: var(--text-bright);
+    margin-bottom: 12px;
+  }
+  #hero h1 em { color: var(--accent); font-style: normal; }
+  #hero p {
+    color: var(--text-dim);
+    max-width: 560px;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+  .hero-stats {
+    display: flex; gap: 32px; margin-top: 32px; flex-wrap: wrap;
+  }
+  .hero-stats .stat {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    padding: 12px 20px;
+    border-radius: 4px;
+    min-width: 100px;
+  }
+  .hero-stats .stat .val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 30px;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .hero-stats .stat .lbl {
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-top: 2px;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── SEARCH ── */
+  #search-bar {
+    padding: 20px 56px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 50;
+  }
+  #search-input {
+    width: 100%; max-width: 500px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px 16px 10px 42px;
+    border-radius: 4px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+    position: relative;
+  }
+  #search-input:focus { border-color: var(--accent); }
+  .search-wrap { position: relative; display: inline-block; width: 100%; max-width: 500px; }
+  .search-wrap::before {
+    content: '⌕';
+    position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+    color: var(--text-dim); font-size: 18px; pointer-events: none; z-index: 1;
+  }
+
+  /* ── CONTENT AREA ── */
+  #content { padding: 40px 56px; }
+
+  /* ── SECTION ── */
+  .section {
+    margin-bottom: 52px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--surface);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .section:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+
+  .section-header {
+    padding: 22px 28px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: space-between;
+    user-select: none;
+  }
+  .section-header-left { display: flex; align-items: center; gap: 16px; }
+  .section-icon {
+    width: 40px; height: 40px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .section-number {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-bottom: 2px;
+    letter-spacing: 1px;
+  }
+  .section-header h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: 1.5px;
+    color: var(--text-bright);
+    line-height: 1.1;
+  }
+  .toggle-btn {
+    color: var(--text-dim);
+    font-size: 20px;
+    transition: transform 0.3s;
+    flex-shrink: 0;
+  }
+  .section.collapsed .toggle-btn { transform: rotate(-90deg); }
+  .section-body { padding: 28px 28px; }
+  .section.collapsed .section-body { display: none; }
+
+  /* ── HIGHLIGHT BAND ── */
+  .highlight-band {
+    background: rgba(232,160,32,0.06);
+    border-left: 3px solid var(--accent);
+    padding: 14px 20px;
+    border-radius: 0 4px 4px 0;
+    margin-bottom: 20px;
+    font-size: 13.5px;
+    line-height: 1.8;
+  }
+  .highlight-band strong { color: var(--accent); }
+
+  /* ── CARDS GRID ── */
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin: 20px 0; }
+  .card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 18px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .card:hover { border-color: var(--accent2); background: rgba(59,125,232,0.05); }
+  .card-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 1px;
+    color: var(--text-bright);
+    margin-bottom: 8px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .card-title .badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 2px;
+    background: var(--tag-bg);
+    color: var(--accent);
+    border: 1px solid rgba(232,160,32,0.2);
+    letter-spacing: 1px;
+  }
+  .card p { font-size: 13px; color: var(--text-dim); line-height: 1.7; }
+
+  /* ── TABLE ── */
+  .table-wrap { overflow-x: auto; margin: 20px 0; border-radius: 6px; border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  thead th {
+    background: var(--surface2);
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: rgba(255,255,255,0.02); }
+  tbody td { padding: 11px 16px; color: var(--text); vertical-align: top; }
+  tbody td:first-child { color: var(--text-bright); font-weight: 500; }
+  .pill {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.5px;
+  }
+  .pill-green { background: rgba(46,196,160,0.12); color: var(--accent3); border: 1px solid rgba(46,196,160,0.2); }
+  .pill-blue  { background: rgba(59,125,232,0.12);  color: #7ab3f5;       border: 1px solid rgba(59,125,232,0.2); }
+  .pill-red   { background: rgba(232,64,64,0.12);   color: #f07878;       border: 1px solid rgba(232,64,64,0.2); }
+  .pill-gold  { background: rgba(232,160,32,0.12);  color: var(--accent);  border: 1px solid rgba(232,160,32,0.2); }
+
+  /* ── PROCESS STEPS ── */
+  .process { display: flex; flex-direction: column; gap: 0; margin: 20px 0; }
+  .step {
+    display: flex; gap: 18px; align-items: flex-start;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .step:last-child { border-bottom: none; }
+  .step-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: var(--border);
+    line-height: 1;
+    min-width: 32px;
+    transition: color 0.2s;
+  }
+  .step:hover .step-num { color: var(--accent); }
+  .step-content h4 { color: var(--text-bright); font-weight: 500; margin-bottom: 4px; }
+  .step-content p { font-size: 13px; color: var(--text-dim); line-height: 1.7; }
+
+  /* ── KEY POINTS ── */
+  .key-points { margin: 16px 0; }
+  .key-point {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .key-point:last-child { border-bottom: none; }
+  .key-point .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-top: 8px;
+    flex-shrink: 0;
+  }
+  .key-point .dot.blue  { background: var(--accent2); }
+  .key-point .dot.green { background: var(--accent3); }
+  .key-point .dot.red   { background: var(--red); }
+  .key-point p { font-size: 13.5px; color: var(--text); line-height: 1.7; }
+  .key-point p strong { color: var(--text-bright); }
+
+  /* ── NOTE CALLOUT ── */
+  .callout {
+    border-radius: 4px;
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: 13px;
+    line-height: 1.7;
+    display: flex; gap: 12px;
+  }
+  .callout-icon { font-size: 18px; flex-shrink: 0; }
+  .callout.info   { background: rgba(59,125,232,0.08); border: 1px solid rgba(59,125,232,0.2); }
+  .callout.warn   { background: rgba(232,160,32,0.08); border: 1px solid rgba(232,160,32,0.2); }
+  .callout.tip    { background: rgba(46,196,160,0.08); border: 1px solid rgba(46,196,160,0.2); }
+  .callout.danger { background: rgba(232,64,64,0.08);  border: 1px solid rgba(232,64,64,0.2); }
+
+  /* ── SUB HEADING ── */
+  h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 1px;
+    color: var(--accent2);
+    margin: 24px 0 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  h3::before { content: '//'; color: var(--border); font-family: 'DM Mono'; font-size: 14px; }
+  h4 { color: var(--text-bright); font-size: 14px; font-weight: 600; margin: 14px 0 6px; }
+
+  /* ── FIBRES TAG CLOUD ── */
+  .tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    cursor: default;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+  .tag:hover { color: var(--text-bright); border-color: var(--accent); background: var(--tag-bg); }
+  .tag.nat  { border-color: rgba(46,196,160,0.3);  color: var(--accent3); }
+  .tag.syn  { border-color: rgba(59,125,232,0.3);  color: #7ab3f5; }
+  .tag.man  { border-color: rgba(232,160,32,0.3);  color: var(--accent); }
+  .tag.spec { border-color: rgba(232,64,64,0.3);   color: #f07878; }
+
+  /* ── COMPARISON COLS ── */
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+  .compare-box {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px;
+  }
+  .compare-box h4 { margin-top: 0; font-size: 13px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; font-family: 'DM Mono', monospace; margin-bottom: 10px; }
+  .compare-box ul { list-style: none; }
+  .compare-box ul li { font-size: 13px; color: var(--text); padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.04); display: flex; gap: 8px; }
+  .compare-box ul li::before { content: '→'; color: var(--text-dim); flex-shrink: 0; }
+
+  /* ── QUICK REFERENCE ── */
+  #quick-ref {
+    position: fixed; bottom: 24px; right: 24px; z-index: 200;
+  }
+  #qr-btn {
+    background: var(--accent);
+    color: #000;
+    border: none;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    letter-spacing: 1px;
+    padding: 12px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(232,160,32,0.4);
+    transition: all 0.2s;
+  }
+  #qr-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(232,160,32,0.5); }
+  #qr-panel {
+    display: none;
+    position: absolute; bottom: 52px; right: 0;
+    width: 320px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 20px;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.6);
+  }
+  #qr-panel.open { display: block; }
+  #qr-panel h3 { font-size: 18px; margin-top: 0; }
+  #qr-panel h3::before { display: none; }
+  #qr-panel ul { list-style: none; margin-top: 8px; }
+  #qr-panel ul li { font-size: 12px; color: var(--text); padding: 6px 0; border-bottom: 1px solid var(--border); display: flex; gap: 8px; }
+  #qr-panel ul li:last-child { border-bottom: none; }
+  #qr-panel ul li strong { color: var(--accent); min-width: 100px; flex-shrink: 0; }
+
+  /* ── PROGRESS BAR ── */
+  #progress-bar {
+    position: fixed; top: 0; left: 240px; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transform-origin: left;
+    transform: scaleX(0);
+    z-index: 999;
+    transition: transform 0.1s linear;
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    #sidebar, #search-bar, #quick-ref, #progress-bar { display: none !important; }
+    #main { margin-left: 0; }
+    .section.collapsed .section-body { display: block !important; }
+    body { background: white; color: black; }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    #sidebar { transform: translateX(-100%); }
+    #sidebar.open { transform: translateX(0); }
+    #main { margin-left: 0; }
+    #hero { padding: 40px 24px 36px; }
+    #content { padding: 24px; }
+    #search-bar { padding: 14px 24px; }
+    .compare { grid-template-columns: 1fr; }
+    #progress-bar { left: 0; }
+    #mobile-menu {
+      display: flex;
+      position: fixed; top: 12px; left: 12px; z-index: 200;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      align-items: center; gap: 6px;
+    }
+  }
+  #mobile-menu { display: none; }
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<!-- SIDEBAR -->
+<aside id="sidebar">
+  <div class="logo">
+    <div>
+      <div>AUTO TEXTILES</div>
+      <span>EXAM NOTES</span>
+    </div>
+  </div>
+  <nav>
+    <div class="nav-section">Overview</div>
+    <a href="#intro" class="nav-link">Introduction</a>
+    <a href="#fibres" class="nav-link">Fibre Types</a>
+    <div class="nav-section">Applications</div>
+    <a href="#upholstery" class="nav-link">Upholstery</a>
+    <a href="#carpets" class="nav-link">Carpets & Floor Coverings</a>
+    <a href="#preformed" class="nav-link">Preformed Parts</a>
+    <a href="#tires" class="nav-link">Tyres</a>
+    <a href="#safety" class="nav-link">Safety Devices</a>
+    <a href="#filters" class="nav-link">Filters</a>
+    <a href="#engine" class="nav-link">Engine Compartment</a>
+    <div class="nav-section">Summary</div>
+    <a href="#comparison" class="nav-link">Fibre Comparison Table</a>
+    <a href="#key-facts" class="nav-link">Key Exam Facts</a>
+  </nav>
+</aside>
+
+<!-- MOBILE MENU -->
+<button id="mobile-menu" onclick="document.getElementById('sidebar').classList.toggle('open')">☰ Menu</button>
+
+<!-- MAIN -->
+<main id="main">
+
+  <!-- HERO -->
+  <div id="hero">
+    <div class="subject-tag">Textile Technology · Module 7</div>
+    <h1>AUTOMOTIVE<br><em>TEXTILES</em></h1>
+    <p>Comprehensive exam notes covering fibres used in automotive applications — their manufacture, properties, and roles in upholstery, carpets, preformed parts, tyres, safety devices, filters, and engine components.</p>
+    <div style="margin-top:28px;display:inline-block;position:relative;">
+      <div style="
+        display:inline-flex;align-items:center;gap:16px;
+        background:linear-gradient(135deg,rgba(232,160,32,0.08),rgba(59,125,232,0.06));
+        border:1px solid rgba(232,160,32,0.25);
+        padding:14px 28px 14px 20px;
+        border-radius:6px;
+        box-shadow:0 0 32px rgba(232,160,32,0.08), inset 0 1px 0 rgba(255,255,255,0.05);
+        position:relative;overflow:hidden;
+      ">
+        <div style="position:absolute;top:-20px;left:-20px;width:80px;height:80px;background:radial-gradient(circle,rgba(232,160,32,0.15),transparent 70%);pointer-events:none;"></div>
+        <div style="
+          width:46px;height:46px;border-radius:50%;
+          background:linear-gradient(135deg,#e8a020,#e86020);
+          display:flex;align-items:center;justify-content:center;
+          font-family:'Bebas Neue',sans-serif;font-size:20px;color:#000;
+          box-shadow:0 0 16px rgba(232,160,32,0.4);
+          flex-shrink:0;letter-spacing:1px;
+        ">AD</div>
+        <div>
+          <div style="font-family:'DM Mono',monospace;font-size:9px;color:#e8a020;letter-spacing:3px;text-transform:uppercase;opacity:0.8;margin-bottom:4px;">✦ Prepared by</div>
+          <div style="
+            font-family:'Bebas Neue',sans-serif;
+            font-size:28px;
+            letter-spacing:3px;
+            line-height:1;
+            background:linear-gradient(90deg,#f0d080,#e8a020,#f0a030);
+            -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+          ">Abhishek Dangi</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="val">8</div><div class="lbl">Applications</div></div>
+      <div class="stat"><div class="val">20+</div><div class="lbl">Fibre Types</div></div>
+      <div class="stat"><div class="val">~35%</div><div class="lbl">Car = Textiles (by weight)</div></div>
+      <div class="stat"><div class="val">30+</div><div class="lbl">kg Textiles/Car</div></div>
+    </div>
+  </div>
+
+  <!-- SEARCH -->
+  <div id="search-bar">
+    <div class="search-wrap">
+      <input type="text" id="search-input" placeholder="Search notes... (e.g. nylon, airbag, tyre cord)" oninput="searchNotes(this.value)">
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div id="content">
+
+    <!-- 1. INTRODUCTION -->
+    <div class="section" id="intro">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-header-left">
+          <div class="section-icon" style="background:rgba(232,160,32,0.1);">🚗</div>
+          <div>
+            <div class="section-number">01 — INTRODUCTION</div>
+            <h2>What Are Automotive Textiles?</h2>
+          </div>
+        </div>
+        <span class="toggle-btn">▾</span>
+      </div>
+      <div class="section-body">
+        <div class="highlight-band">
+          <strong>Definition:</strong> Automotive textiles (also called <strong>automotives</strong> or <strong>technical textiles for vehicles</strong>) refer to all fibre-based materials and structures used in the manufacture of automobiles, trucks, buses, and other motor vehicles.
+        </div>
+        <div class="key-points">
+          <div class="key-point"><div class="dot"></div><p>A typical modern car contains <strong>30–40 kg of textile materials</strong>, accounting for ~35% of a car's weight in textile components.</p></div>
+          <div class="key-point"><div class="dot blue"></div><p>They serve functional roles: <strong>structural, safety, filtration, thermal/acoustic insulation</strong>, and aesthetic roles.</p></div>
+          <div class="key-point"><div class="dot green"></div><p>Automotive textiles are a subset of <strong>technical textiles</strong> — engineered fabrics designed for performance rather than aesthetics.</p></div>
+          <div class="key-point"><div class="dot red"></div><p>The field is driven by demands for <strong>weight reduction, durability, recyclability, safety, and comfort</strong>.</p></div>
+        </div>
+        <h3>Why Textiles in Cars?</h3>
+        <div class="cards">
+          <div class="card"><div class="card-title">Weight Saving</div><p>Textile-based composites replace heavy metals, reducing vehicle weight and improving fuel efficiency.</p></div>
+          <div class="card"><div class="card-title">Safety</div><p>High-tenacity fibres absorb crash energy in seatbelts, airbags, and tyre reinforcement.</p></div>
+          <div class="card"><div class="card-title">Comfort</div><p>Upholstery and carpets provide thermal, acoustic, and tactile comfort inside the cabin.</p></div>
+          <div class="card"><div class="card-title">Durability</div><p>Engineered fibres resist heat, abrasion, and chemicals in filters and engine compartments.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. FIBRE TYPES -->
+    <div class="section" id="fibres">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-header-left">
+          <div class="section-icon" style="background:rgba(59,125,232,0.1);">🧵</div>
+          <div>
+            <div class="section-number">02 — FIBRES</div>
+            <h2>Fibres Used in Automotive Applications</h2>
+          </div>
+        </div>
+        <span class="toggle-btn">▾</span>
+      </div>
+      <div class="section-body">
+        <div class="highlight-band"><strong>Key Principle:</strong> Fibre selection is driven by the specific demands of each application — mechanical performance, heat resistance, moisture management, cost, and processability.</div>
+
+        <h3>Natural Fibres</h3>
+        <div class="tag-cloud">
+          <span class="tag nat">Cotton</span><span class="tag nat">Wool</span><span class="tag nat">Jute</span><span class="tag nat">Sisal</span><span class="tag nat">Hemp</span><span class="tag nat">Flax</span><span class="tag nat">Coir</span>
+        </div>
+        <div class="key-points">
+          <div class="key-point"><div class="dot green"></div><p><strong>Cotton</strong> — soft, absorbent, comfortable; used in headliners, seat covers, and some woven fabrics. Low heat and abrasion resistance limits structural use.</p></div>
+          <div class="key-point"><div class="dot green"></div><p><strong>Wool</strong> — excellent thermal and acoustic insulation, naturally flame-retardant, resilient; used in high-end upholstery and seat fabrics.</p></div>
+          <div class="key-point"><div class="dot green"></div><p><strong>Jute / Sisal / Hemp / Flax</strong> — bast fibres; used as reinforcement in natural fibre composites (NFCs) for door panels, dashboards, parcel shelves. Lightweight, low cost, biodegradable.</p></div>
+          <div class="key-point"><div class="dot green"></div><p><strong>Coir</strong> (coconut fibre) — used in seat cushions and floor mats; resilient and moisture-resistant.</p></div>
+        </div>
+        <div class="callout info"><div class="callout-icon">ℹ️</div><div>Natural fibre composites (NFCs) in automotive interiors are gaining traction due to sustainability goals (e.g., EU End-of-Life Vehicle Directive mandates 85% recyclability).</div></div>
+
+        <h3>Synthetic Fibres</h3>
+        <div class="tag-cloud">
+          <span class="tag syn">Polyester (PET)</span><span class="tag syn">Nylon (PA6/PA66)</span><span class="tag syn">Polypropylene (PP)</span><span class="tag syn">Polyacrylonitrile (PAN)</span><span class="tag syn">Polyurethane (PU)</span><span class="tag syn">PTFE</span>
+        </div>
+        <div class="key-points">
+          <div class="key-point"><div class="dot blue"></div><p><strong>Polyester (PET)</strong> — most widely used synthetic in automotive textiles. High tensile strength, UV and abrasion resistance, low moisture absorption. Used in seat fabrics, carpets, seatbelts, airbags, tyre cords.</p></div>
+          <div class="key-point"><div class="dot blue"></div><p><strong>Nylon (PA6, PA66)</strong> — excellent tenacity, abrasion resistance, and fatigue resistance. Key fibre for airbag fabric and tyre cord. PA66 preferred over PA6 for higher melting point (265°C vs 220°C).</p></div>
+          <div class="key-point"><div class="dot blue"></div><p><strong>Polypropylene (PP)</strong> — lightweight, chemically resistant, low cost; widely used in carpets (needle-punched), filtration, and non-woven fabrics for headliners and trunk liners.</p></div>
+          <div class="key-point"><div class="dot blue"></div><p><strong>Polyacrylonitrile (Acrylic)</strong> — wool-like feel, UV resistant; used in convertible soft tops and some seat fabrics.</p></div>
+          <div class="key-point"><div class="dot blue"></div><p><strong>Polyurethane (PU)</strong> — used as foam (not a fibre per se), but also as elastane (spandex) fibres for stretch covers; laminated to seat fabrics.</p></div>
+          <div class="key-point"><div class="dot blue"></div><p><strong>PTFE (Teflon)</strong> — chemical and heat resistance; used in filtration membranes and seal tapes in engine areas.</p></div>
+        </div>
+
+        <h3>High-Performance / Speciality Fibres</h3>
+        <div class="tag-cloud">
+          <span class="tag spec">Aramid (Kevlar/Nomex)</span><span class="tag spec">Carbon Fibre (PAN-based)</span><span class="tag spec">Glass Fibre</span><span class="tag spec">Basalt Fibre</span><span class="tag spec">Ceramic Fibres</span><span class="tag spec">Ultra-HMPE (Dyneema)</span>
+        </div>
+        <div class="key-points">
+          <div class="key-point"><div class="dot red"></div><p><strong>Aramid (Para: Kevlar; Meta: Nomex)</strong> — para-aramid for tyre reinforcement and structural parts; meta-aramid for heat and flame protection. 5× stronger than steel by weight.</p></div>
+          <div class="key-point"><div class="dot red"></div><p><strong>Carbon Fibre</strong> — extremely high stiffness-to-weight ratio; used in CFRP body panels, structural reinforcements, and racing car chassis. Expensive but growing in EVs for weight saving.</p></div>
+          <div class="key-point"><div class="dot red"></div><p><strong>Glass Fibre (E-glass, S-glass)</strong> — used in GFRP composites for body parts, dashboards, headliners; good stiffness, low cost, heavy compared to carbon.</p></div>
+          <div class="key-point"><div class="dot red"></div><p><strong>Ceramic Fibres (Alumina, Silica)</strong> — high-temperature insulation in exhaust systems and engine shields. Stable up to 1000–1600°C.</p></div>
+        </div>
+
+        <h3>Man-Made Cellulosic Fibres</h3>
+        <div class="tag-cloud">
+          <span class="tag man">Viscose / Rayon</span><span class="tag man">Lyocell (Tencel)</span><span class="tag man">Modal</span><span class="tag man">Cellulose Acetate</span>
+        </div>
+        <div class="key-points">
+          <div class="key-point"><div class="dot"></div><p><strong>Viscose Rayon</strong> — used in high-modulus form (HM viscose) as tyre cord. Provides dimensional stability and adhesion to rubber. Good heat resistance versus nylon (less moisture sensitive).</p></div>
+          <div class="key-point"><div class="dot"></div><p><strong>Lyocell</strong> — eco-friendly solvent-spun cellulose. Emerging use in natural-fibre composites and non-woven fabrics for interiors.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. UPHOLSTERY -->
+    <div class="section" id="upholstery">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-header-left">
+          <div class="section-icon" style="background:rgba(46,196,160,0.1);">💺</div>
+          <div>
+            <div class="section-number">03 — APPLICATION</div>
+            <h2>Upholstery</h2>
+          </div>
+        </div>
+        <span class="toggle-btn">▾</span>
+      </div>
+      <div class="section-body">
+        <div class="highlight-band"><strong>Definition:</strong> Automotive upholstery refers to seat coverings, headliners, door panels, dashboard covers, and armrests. It combines comfort, aesthetics, and durability.</div>
+        <h3>Fibres Used</h3>
+        <div class="key-points">
+          <div class="key-point"><div class="dot blue"></div><p><strong>Polyester (PET)</strong> — dominant fibre; woven, knitted, or non-woven seat fabric; pill-resistant, UV-stable, easy to dye.</p></div>
+          <div class="key-point"><div class="dot blue"></div><p><strong>Nylon (PA)</strong> — abrasion-resistant; blended with PET for high-wear seat areas.</p></div>
+          <div class="key-point"><div class="dot green"></div><p><strong>Wool</strong> — used in luxury/premium vehicles; natural comfort, flame retardancy, and temperature regulation.</p></div>
+          <div class="key-point"><div class="dot green"></div><p><strong>Cotton</strong> — breathable and soft; often blended with PET for balance of comfort and durability.</p></div>
+          <div class="key-point"><div class="dot"></div><p><strong>Vinyl (PVC) / Leather substitutes</strong> — not fibres but layered textile backings; PU-coated fabrics used as leather alternatives.</p></div>
+        </div>
+        <h3>Fabric Construction</h3>
+        <div class="cards">
+          <div class="card"><div class="card-title">Woven <span class="badge">COMMON</span></div><p>Plain, twill, or jacquard weaves. High dimensional stability, defined pattern, good durability. Used on seat faces.</p></div>
+          <div class="card"><div class="card-title">Knitted</div><p>Warp or weft knit. More stretch and conformability. Used on seat sides and bolsters where shaping is needed.</p></div>
+          <div class="card"><div class="card-title">Non-woven</div><p>Needlepunched or spunbonded. Used for backing layers, headliners, boot liners.</p></div>
+          <div class="card"><div class="card-title">Velour / Velvet</div><p>Cut-pile woven. Plush, premium feel. Used in luxury segment seating.</p></div>
+        </div>
+        <h3>Manufacturing Process</h3>
+        <div class="process">
+          <div class="step"><div class="step-num">01</div><div class="step-content"><h4>Fibre Spinning / Yarn Formation</h4><p>Polyester or nylon filaments produced by melt spinning; texturised to add bulk and softness.</p></div></div>
+          <div class="step"><div class="step-num">02</div><div class="step-content"><h4>Fabric Formation</h4><p>Weaving, knitting, or non-woven production on appropriate machinery (rapier loom, warp knitting machine, needle loom).</p></div></div>
+          <div class="step"><div class="step-num">03</div><div class="step-content"><h4>Dyeing & Finishing</h4><p>Piece dyeing or yarn dyeing; application of finishes (anti-soiling, anti-static, UV stabilisation, fire retardancy).</p></div></div>
+          <div class="step"><div class="step-num">04</div><div class="step-content"><h4>Lamination</h4><p>Fabric laminated to PU foam (flame lamination or adhesive) for comfort and structure; often backed with scrim for dimensional stability.</p></div></div>
+          <div class="step"><div class="step-num">05</div><div class="step-content"><h4>Cutting & Sewing</h4><p>Pattern pieces cut (CNC die cutting or laser cutting) and sewn into three-dimensional seat covers using industrial sewing machines.</p></div></div>
+        </div>
+        <div class="callout warn"><div class="callout-icon">⚠️</div><div>Upholstery fabrics must pass <strong>FMVSS 302</strong> (USA) or <strong>ISO 3795</strong> (EU) horizontal burn tests. Burn rate must not exceed 100 mm/min.</div></div>
+        <h3>Key Requirements</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Property</th><th>Test Standard</th><th>Requirement</th></tr></thead>
+            <tbody>
+              <tr><td>Abrasion Resistance</td><td>Martindale / Taber</td><td>&gt;50,000 cycles (seat face)</td></tr>
+              <tr><td>Pilling Resistance</td><td>ICI Box / Martindale</td><td>Rating ≥ 4/5</td></tr>
+              <tr><td>Lightfastness (UV)</td><td>ISO 105-B06 / SAE J1885</td><td>Grade 4–5 (Xenon arc)</td></tr>
+              <tr><td>Flammability</td><td>FMVSS 302 / ISO 3795</td><td>≤100 mm/min</td></tr>
+              <tr><td>Colourfastness to Crocking</td><td>ISO 105-X12</td><td>Dry ≥ 4, Wet ≥ 3</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. CARPETS -->
+    <div class="section" id="carpets">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-header-left">
+          <div class="section-icon" style="background:rgba(232,64,64,0.1);">🪣</div>
+          <div>
+            <div class="section-number">04 — APPLICATION</div>
+            <h2>Carpets & Floor Coverings</h2>
+          </div>
+        </div>
+        <span class="toggle-btn">▾</span>
+      </div>
+      <div class="section-body">
+        <div class="highlight-band"><strong>Function:</strong> Automotive carpets provide <strong>sound absorption, thermal insulation, moisture management</strong>, and aesthetic finishing of the vehicle floor, boot, and lower door panels.</div>
+        <h3>Fibres Used</h3>
+        <div class="key-points">
+          <div class="key-point"><div class="dot blue"></div><p><strong>Nylon (PA6/PA66)</strong> — premium carpet fibre; excellent abrasion resistance, resilience, dyeability. Used in woven and tufted carpets.</p></div>
+          <div class="key-point"><div class="dot blue"></div><p><strong>Polypropylene (PP)</strong> — most commonly used due to low cost and good chemical resistance; used in needle-punched and tufted carpets; olefin fibre.</p></div>
+          <div class="key-point"><div class="dot blue"></div><p><strong>Polyester (PET)</strong> — recycled PET (rPET) growing in eco-cars; good colour retention and UV stability.</p></div>
+        </div>
+        <h3>Carpet Types & Manufacture</h3>
+        <div class="cards">
+          <div class="card">
+            <div class="card-title">Tufted <span class="badge">MOST COMMON</span></div>
+            <p>Yarn loops (cut or uncut pile) inserted into a pre-woven primary backing using tufting needles. Secondary backing (latex or PU foam) bonded for stability. Fast, economical production. Used for most car floor carpets.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">Needle-Punched</div>
+            <p>Fibres mechanically interlocked by barbed needles. No distinct pile. Used for boot liners, wheel arch liners, economical floor mats. Can be moulded into 3D shapes.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">Woven</div>
+            <p>Wilton or Axminster weave. High-end, patterned. Used in luxury vehicles (e.g., Rolls Royce). Expensive; accurate pattern repeat, good durability.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">Moulded / Preformed</div>
+            <p>Needle-punched or tufted carpets moulded under heat and pressure to exact floor contours. Laminated with EVA foam or heavy bitumen backing for sound damping.</p>
+          </div>
+        </div>
+        <h3>Process (Needle-Punched Carpet)</h3>
+        <div class="process">
+          <div class="step"><div class="step-num">01</div><div class="step-content"><h4>Fibre Opening & Blending</h4><p>PP or PET staple fibres opened, blended, and formed into a batt using carding or airlaying.</p></div></div>
+          <div class="step"><div class="step-num">02</div><div class="step-content"><h4>Needle Punching</h4><p>Batt fed through needle loom; barbed needles entangle fibres vertically, creating a cohesive non-woven structure.</p></div></div>
+          <div class="step"><div class="step-num">03</div><div class="step-content"><h4>Backing Application</h4><p>Foam, latex, bitumen, or thermoplastic backing applied by lamination for acoustic damping.</p></div></div>
+          <div class="step"><div class="step-num">04</div><div class="step-content"><h4>Moulding</h4><p>Thermoforming under heat/pressure to replicate floor pan contours. Die cutting to final shape.</p></div></div>
+        </div>
+        <div class="callout tip"><div class="callout-icon">💡</div><div><strong>Exam Tip:</strong> Needle-punched carpets are the most economical and most widely used type. Remember: they have NO distinct weave or pile — fibres are mechanically entangled by needles.</div></div>
+      </div>
+    </div>
+
+    <!-- 5. PREFORMED PARTS -->
+    <div class="section" id="preformed">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-header-left">
+          <div class="section-icon" style="background:rgba(59,125,232,0.1);">🔧</div>
+          <div>
+            <div class="section-number">05 — APPLICATION</div>
+            <h2>Preformed Parts (Interior Composites)</h2>
+          </div>
+        </div>
+        <span class="toggle-btn">▾</span>
+      </div>
+      <div class="section-body">
+        <div class="highlight-band"><strong>Definition:</strong> Preformed parts are <strong>moulded textile-reinforced composite components</strong> used to form rigid or semi-rigid interior and exterior parts (door panels, headliners, parcel shelves, dashboards, trunk liners, A/B/C pillars).</div>
+        <h3>Fibres / Reinforcements Used</h3>
+        <div class="key-points">
+          <div class="key-point"><div class="dot blue"></div><p><strong>Glass Fibre (E-glass)</strong> — chopped strand mat, woven roving, or continuous filament mat; used with polyester/epoxy resin in GFRP composites for body panels and structural parts.</p></div>
+          <div class="key-point"><div class="dot red"></div><p><strong>Carbon Fibre</strong> — PAN-based; woven or UD prepregs; high stiffness; used in lightweight structural panels (doors, hoods) in premium/sports/EV cars.</p></div>
+          <div class="key-point"><div class="dot green"></div><p><strong>Natural Fibres (Flax, Hemp, Kenaf, Jute, Sisal)</strong> — used as reinforcement in thermoplastic (PP) or thermoset matrices for door panels, dashboards, parcel shelves. Low density, bio-renewable, good acoustic damping.</p></div>
+          <div class="key-point"><div class="dot blue"></div><p><strong>Polyester / PP non-wovens</strong> — substrate and backing layers in interior trim; bonded with polyester binding fibres.</p></div>
+        </div>
+        <h3>Headliner Construction</h3>
+        <div class="cards">
+          <div class="card"><div class="card-title">Structure</div><p>Multilayer sandwich: face fabric (PET/PP non-woven) → PU foam → substrate (glass fibre mat or thermoplastic honeycomb) → backing scrim.</p></div>
+          <div class="card"><div class="card-title">Process</div><p>Layers assembled and moulded under heat/pressure. The substrate gives rigidity; PU foam provides acoustic insulation; face fabric gives the interior finish.</p></div>
+        </div>
+        <h3>Natural Fibre Composite (NFC) Door Panel Manufacturing</h3>
+        <div class="process">
+          <div class="step"><div class="step-num">01</div><div class="step-content"><h4>Fibre Preparation</h4><p>Natural fibres (e.g., hemp, kenaf) are decorticated, retted, and formed into mats by needlepunching or thermobonding with PP fibres.</p></div></div>
+          <div class="step"><div class="step-num">02</div><div class="step-content"><h4>Mat Layup</h4><p>NFC mats stacked to required thickness and weight; often combined with a face layer of woven or knit decorative fabric.</p></div></div>
+          <div class="step"><div class="step-num">03</div><div class="step-content"><h4>Compression Moulding</h4><p>Heated in an oven (PP melts ~165°C) then compression moulded in a cold steel tool; PP solidifies around natural fibres forming a stiff composite panel.</p></div></div>
+          <div class="step"><div class="step-num">04</div><div class="step-content"><h4>Trimming & Assembly</h4><p>Die cut to final shape; clips and inserts attached; decorative surface film or fabric bonded if not already included.</p></div></div>
+        </div>
+        <div class="callout info"><div class="callout-icon">ℹ️</div><div><strong>Key advantage of NFC:</strong> 25–30% lighter than equivalent glass fibre composites, better acoustic performance, and end-of-life recyclability. Widely used by BMW, Mercedes, VW, Ford.</div></div>
+      </div>
+    </div>
+
+    <!-- 6. TYRES -->
+    <div class="section" id="tires">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-header-left">
+          <div class="section-icon" style="background:rgba(232,64,64,0.1);">⚙️</div>
+          <div>
+            <div class="section-number">06 — APPLICATION</div>
+            <h2>Tyres (Tyre Reinforcement)</h2>
+          </div>
+        </div>
+        <span class="toggle-btn">▾</span>
+      </div>
+      <div class="section-body">
+        <div class="highlight-band"><strong>Role of Textiles:</strong> Textile cords (the "carcass" and "belt" layers) give the tyre its shape, dimensional stability, load-bearing capacity, and resistance to expansion. The rubber alone cannot do this — textile reinforcement is essential.</div>
+        <h3>Tyre Structure (Textile Layers)</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Tyre Layer</th><th>Location</th><th>Fibre Used</th><th>Function</th></tr></thead>
+            <tbody>
+              <tr><td>Carcass / Body Ply</td><td>Inner structural layer</td><td>Nylon (PA66), Polyester (PET), Rayon</td><td>Primary load-bearing; maintains tyre shape under pressure</td></tr>
+              <tr><td>Belt / Breaker</td><td>Between carcass and tread</td><td>Steel cord, Aramid (Kevlar), Glass</td><td>Circumferential stability; prevents tread lift at speed</td></tr>
+              <tr><td>Cap Ply / Overlay</td><td>Over belts</td><td>Nylon (PA66), Aramid</td><td>High-speed performance; prevents belt edge lift</td></tr>
+              <tr><td>Bead Reinforcement</td><td>Bead area</td><td>Steel, Aramid, Nylon</td><td>Anchors tyre to rim; hoop strength</td></tr>
+              <tr><td>Flipper / Chipper</td><td>Bead wrap</td><td>Nylon, Polyester</td><td>Protects bead wire, adds lateral stiffness</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>Fibres Compared</h3>
+        <div class="key-points">
+          <div class="key-point"><div class="dot blue"></div><p><strong>Rayon (HM Viscose)</strong> — first tyre cord; high modulus, low moisture sensitivity vs regular rayon. Good thermal stability, strong adhesion to rubber via RFL dip. Still used in performance and run-flat tyres.</p></div>
+          <div class="key-point"><div class="dot blue"></div><p><strong>Nylon (PA66)</strong> — high strength, excellent fatigue resistance. Disadvantage: "flat-spotting" (temporary deformation at rest due to moisture absorption). Used in cap plies and bias tyres.</p></div>
+          <div class="key-point"><div class="dot blue"></div><p><strong>Polyester (PET)</strong> — dominant in radial car tyre carcasses. Low flat-spot tendency, high modulus, excellent adhesion with RFL (Resorcinol-Formaldehyde-Latex) dip. Most widely used tyre cord fibre today.</p></div>
+          <div class="key-point"><div class="dot red"></div><p><strong>Aramid (Kevlar, para-type)</strong> — extremely high modulus and strength, very low elongation. Used in run-flat tyres (sidewall insert), belt reinforcement, and high-performance tyres. Expensive.</p></div>
+          <div class="key-point"><div class="dot red"></div><p><strong>Glass Fibre</strong> — high modulus, good dimensional stability. Used in belts. Disadvantage: brittle under flexing fatigue.</p></div>
+        </div>
+        <h3>Tyre Cord Manufacturing</h3>
+        <div class="process">
+          <div class="step"><div class="step-num">01</div><div class="step-content"><h4>Yarn Production</h4><p>High-tenacity multi-filament yarns produced by melt spinning (PET, nylon) or dry-jet wet spinning (aramid). Very high draw ratios to maximise tenacity and modulus.</p></div></div>
+          <div class="step"><div class="step-num">02</div><div class="step-content"><h4>Twisting / Cabling</h4><p>Two or three yarns plied and cabled (twisted in opposite directions) to form a balanced cord that resists compression buckling.</p></div></div>
+          <div class="step"><div class="step-num">03</div><div class="step-content"><h4>Dipping (RFL Treatment)</h4><p>Cord passed through Resorcinol-Formaldehyde-Latex (RFL) bath and heat-cured. This creates adhesion between cord and rubber — without RFL, textiles do not bond to rubber.</p></div></div>
+          <div class="step"><div class="step-num">04</div><div class="step-content"><h4>Calendering</h4><p>RFL-treated cords embedded in rubber sheets (skim coating) using calender rolls to form a rubberised ply.</p></div></div>
+          <div class="step"><div class="step-num">05</div><div class="step-content"><h4>Tyre Building & Curing</h4><p>Plies assembled on a tyre-building drum; uncured tyre vulcanised in a mould under heat and pressure (150–180°C), forming the final tyre shape.</p></div></div>
+        </div>
+        <div class="callout warn"><div class="callout-icon">⚠️</div><div><strong>Exam Tip:</strong> The <strong>RFL (Resorcinol-Formaldehyde-Latex) dip</strong> is the critical step that enables textile cords to bond to rubber. Always mention this in answers about tyre cord manufacture.</div></div>
+      </div>
+    </div>
+
+    <!-- 7. SAFETY DEVICES -->
+    <div class="section" id="safety">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-header-left">
+          <div class="section-icon" style="background:rgba(46,196,160,0.1);">🛡️</div>
+          <div>
+            <div class="section-number">07 — APPLICATION</div>
+            <h2>Safety Devices (Seatbelts & Airbags)</h2>
+          </div>
+        </div>
+        <span class="toggle-btn">▾</span>
+      </div>
+      <div class="section-body">
+
+        <h3>A. Seatbelts</h3>
+        <div class="highlight-band"><strong>Function:</strong> Seatbelts restrain occupants during a crash. The webbing must absorb impact energy and withstand the peak loads without failing (~1500 kg force in a crash), while being flexible, comfortable, and durable in everyday use.</div>
+        <div class="key-points">
+          <div class="key-point"><div class="dot blue"></div><p><strong>Fibre: Polyester (PET)</strong> — virtually universally used. High tenacity (>70 cN/tex), low elongation, UV resistance, no flat-spot issue, excellent retractor spring behaviour.</p></div>
+          <div class="key-point"><div class="dot"></div><p><strong>Construction: Woven Webbing</strong> — narrow-width warp-faced woven fabric (25–50 mm wide); produces high modulus, controlled elongation (8–12% at break), and a flat, smooth surface.</p></div>
+          <div class="key-point"><div class="dot"></div><p><strong>Weave: High-density plain or 2/2 twill</strong> — produces tight, firm structure with defined elongation characteristics for energy management.</p></div>
+        </div>
+        <h3>Seatbelt Webbing Manufacturing</h3>
+        <div class="process">
+          <div class="step"><div class="step-num">01</div><div class="step-content"><h4>Yarn Selection</h4><p>High-tenacity PET multifilament yarn (e.g., 1100 dtex, 1670 dtex); no twist or S-twist only; drawn to very high ratios for maximum tenacity.</p></div></div>
+          <div class="step"><div class="step-num">02</div><div class="step-content"><h4>Weaving (Narrow Fabric Loom)</h4><p>Needle loom or rapier narrow-fabric machine produces webbing 25–75 mm wide at high speeds. The high warp density creates the required stiffness and strength.</p></div></div>
+          <div class="step"><div class="step-num">03</div><div class="step-content"><h4>Dyeing (Piece Dyeing)</h4><p>Polyester dyed with disperse dyes at high temperature (130°C in pressurised jig or jet dyeing); fastness requirements are critical (lightfastness ≥ 5).</p></div></div>
+          <div class="step"><div class="step-num">04</div><div class="step-content"><h4>Finishing</h4><p>Heat-setting to stabilise dimensions; stiffening or softening finishes applied for retractor performance; cutting to length.</p></div></div>
+        </div>
+        <div class="callout info"><div class="callout-icon">ℹ️</div><div>Standards: <strong>ECE R16 (Europe) / FMVSS 209 (USA)</strong> specify minimum breaking strength (>14.7 kN), elongation, abrasion resistance, and light and heat fastness for seatbelt webbing.</div></div>
+
+        <h3>B. Airbags</h3>
+        <div class="highlight-band"><strong>Function:</strong> Airbags inflate explosively (30–50 ms) to cushion occupants from impact. The fabric must withstand instantaneous deployment pressure, high temperatures from the inflator gas, and NOT burst or leak excessively, while being compact enough to fold into the steering wheel or dashboard.</div>
+        <div class="key-points">
+          <div class="key-point"><div class="dot blue"></div><p><strong>Primary Fibre: Nylon (PA66)</strong> — chosen for high energy absorption, excellent fatigue resistance, toughness at low temperatures, and the ability to be woven at very fine counts for compactness.</p></div>
+          <div class="key-point"><div class="dot blue"></div><p><strong>Secondary / Cost Option: Polyester (PET)</strong> — lower moisture sensitivity than nylon (PA66 absorbs moisture, affecting folded storage performance). Increasingly used in newer designs.</p></div>
+        </div>
+        <div class="compare">
+          <div class="compare-box">
+            <h4>Coated Airbag Fabric</h4>
+            <ul>
+              <li>Silicone or neoprene coating applied</li>
+              <li>Low gas permeability</li>
+              <li>Used for driver/passenger bags</li>
+              <li>Heat resistant coating</li>
+              <li>Stiffer — bulkier when folded</li>
+            </ul>
+          </div>
+          <div class="compare-box">
+            <h4>Uncoated (OPW) Airbag Fabric</h4>
+            <ul>
+              <li>One-Piece Woven technology</li>
+              <li>3D woven seamlessly</li>
+              <li>Softer, more compact folding</li>
+              <li>Controlled gas permeability via weave</li>
+              <li>Used for side curtain/knee airbags</li>
+            </ul>
+          </div>
+        </div>
+        <h3>Airbag Fabric Manufacturing</h3>
+        <div class="process">
+          <div class="step"><div class="step-num">01</div><div class="step-content"><h4>Yarn Preparation</h4><p>Fine, high-tenacity PA66 or PET multifilament yarns (e.g., 470 dtex, 700 dtex); low twist to maximise filament packing and strength.</p></div></div>
+          <div class="step"><div class="step-num">02</div><div class="step-content"><h4>Weaving (Plain Weave, OPW)</h4><p>Tight plain-weave or OPW (One-Piece Woven) on jacquard-controlled rapier looms. OPW weaves inflatable chambers directly — no seams needed.</p></div></div>
+          <div class="step"><div class="step-num">03</div><div class="step-content"><h4>Scouring & Heat Setting</h4><p>Fabric scoured to remove spin finishes; heat set to stabilise dimensions under deployment forces.</p></div></div>
+          <div class="step"><div class="step-num">04</div><div class="step-content"><h4>Coating (for coated type)</h4><p>Silicone or chloroprene coating knife-coated or calendered onto one or both sides. Cured at 150–200°C.</p></div></div>
+          <div class="step"><div class="step-num">05</div><div class="step-content"><h4>Cutting & Sewing</h4><p>Airbag panels cut to shape (if not OPW) and sewn into bags. Critical seam strength tested. Bags folded and packed into module.</p></div></div>
+        </div>
+        <div class="callout warn"><div class="callout-icon">⚠️</div><div><strong>Key Distinction:</strong> OPW (One-Piece Woven) technology eliminates stitched seams, improving uniformity, reducing manufacturing steps, and allowing more complex shapes (side curtain airbags). Always compare coated vs uncoated in exam answers.</div></div>
+      </div>
+    </div>
+
+    <!-- 8. FILTERS -->
+    <div class="section" id="filters">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-header-left">
+          <div class="section-icon" style="background:rgba(232,160,32,0.1);">🔬</div>
+          <div>
+            <div class="section-number">08 — APPLICATION</div>
+            <h2>Filtration Textiles</h2>
+          </div>
+        </div>
+        <span class="toggle-btn">▾</span>
+      </div>
+      <div class="section-body">
+        <div class="highlight-band"><strong>Types:</strong> Air filtration (engine intake, cabin HVAC), fuel filtration, oil filtration, transmission fluid filtration, and exhaust gas aftertreatment (DPF substrates).</div>
+
+        <h3>Air Filters (Engine Intake)</h3>
+        <div class="key-points">
+          <div class="key-point"><div class="dot blue"></div><p><strong>Fibres: Polyester, Polypropylene, Glass Microfibre, Cellulose</strong> — formed into wet-laid or melt-blown non-woven media. Cellulose/synthetic blends used in standard paper-style filters.</p></div>
+          <div class="key-point"><div class="dot blue"></div><p><strong>Structure: Pleated non-woven</strong> — increased surface area. Gradient structure (coarse outer layer → fine inner layer) for depth filtration and dust-holding capacity.</p></div>
+          <div class="key-point"><div class="dot"></div><p><strong>Manufacture:</strong> Wet-laid paper process (cellulose/glass) or melt-blowing (PP) → pleating → end-caps applied (polyurethane potting) → housing.</p></div>
+        </div>
+
+        <h3>Cabin Air Filters (HVAC / Pollen Filters)</h3>
+        <div class="key-points">
+          <div class="key-point"><div class="dot blue"></div><p><strong>Fibres: PET/PP non-woven + activated carbon layer + electret-charged melt-blown PP</strong> — multi-layer structure captures particles ≥ 0.3 μm, allergens, and odours.</p></div>
+          <div class="key-point"><div class="dot blue"></div><p><strong>Electret charging</strong> increases electrostatic attraction to particles without increasing resistance (ΔP), allowing high filtration efficiency at low pressure drop.</p></div>
+        </div>
+
+        <h3>Oil & Fuel Filters</h3>
+        <div class="key-points">
+          <div class="key-point"><div class="dot red"></div><p><strong>Fibres: Glass microfibre, polyester, nylon mesh (for fuel)</strong> — must resist prolonged contact with oils, fuels, and high temperatures (engine oil filter: up to 150°C).</p></div>
+          <div class="key-point"><div class="dot red"></div><p><strong>Fuel filters:</strong> Fine nylon or PET mesh (micron rating 2–40 μm) prevents fuel injector blockage.</p></div>
+        </div>
+
+        <h3>Diesel Particulate Filter (DPF) Substrates</h3>
+        <div class="key-points">
+          <div class="key-point"><div class="dot red"></div><p><strong>Ceramic fibre (cordierite, silicon carbide)</strong> — not a woven textile but a ceramic fibre-based honeycomb structure. Captures soot particles and can withstand regeneration temperatures of 600–1000°C.</p></div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Filter Type</th><th>Key Fibre(s)</th><th>Filtration Rating</th><th>Critical Property</th></tr></thead>
+            <tbody>
+              <tr><td>Engine Air Filter</td><td>Cellulose/glass/PET</td><td>5–50 μm</td><td>Dust capacity, ΔP</td></tr>
+              <tr><td>Cabin/Pollen Filter</td><td>PP melt-blown, PET, activated C</td><td>≥ 0.3 μm (PM2.5)</td><td>Electret efficiency, odour control</td></tr>
+              <tr><td>Oil Filter</td><td>Glass microfibre, cellulose</td><td>15–35 μm</td><td>Heat/oil resistance</td></tr>
+              <tr><td>Fuel Filter</td><td>Nylon, PET mesh</td><td>2–40 μm</td><td>Chemical resistance</td></tr>
+              <tr><td>Transmission Filter</td><td>Glass, PET</td><td>25–100 μm</td><td>Fluid resistance, life</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9. ENGINE COMPARTMENT -->
+    <div class="section" id="engine">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-header-left">
+          <div class="section-icon" style="background:rgba(232,64,64,0.1);">🔥</div>
+          <div>
+            <div class="section-number">09 — APPLICATION</div>
+            <h2>Engine Compartment Textiles</h2>
+          </div>
+        </div>
+        <span class="toggle-btn">▾</span>
+      </div>
+      <div class="section-body">
+        <div class="highlight-band"><strong>Challenge:</strong> Engine compartment textiles are exposed to extreme conditions — temperatures 100–300°C (locally up to 600°C near exhausts), oils, fuels, coolants, and mechanical vibration. Only high-performance fibres survive.</div>
+        <h3>Applications & Fibres</h3>
+        <div class="cards">
+          <div class="card">
+            <div class="card-title">Engine Covers & Heat Shields <span class="badge">INSULATION</span></div>
+            <p><strong>Fibres:</strong> Ceramic fibres (alumina, silica), glass fibre, basalt fibre, and aluminium-foil-faced laminates. Withstand 500–1000°C.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">Hose & Cable Sleeving</div>
+            <p><strong>Fibres:</strong> Glass fibre braid, aramid braid, silicone-coated fibreglass. Protects hydraulic hoses, wiring looms, and fuel lines from heat and abrasion.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">Gaskets & Seals</div>
+            <p><strong>Fibres:</strong> Aramid (Kevlar/Nomex) fibres compressed with rubber/graphite binders. Replace asbestos (now banned); used in cylinder head gaskets, manifold gaskets.</p></div>
+          <div class="card">
+            <div class="card-title">Timing Belts</div>
+            <p><strong>Fibres:</strong> Fibreglass cord or HSHT (High-Strength High-Temperature) PET cord embedded in HNBR (rubber). Must be dimensionally stable over engine life (~100,000 km).</p>
+          </div>
+          <div class="card">
+            <div class="card-title">V-Belts / Poly-V Belts</div>
+            <p><strong>Fibres:</strong> Polyester or aramid tension cords in EPDM or neoprene matrix. Drive alternators, power steering pumps, A/C compressors.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">Acoustic Engine Encapsulation</div>
+            <p><strong>Fibres:</strong> Glass wool, polyester fibre pads, or melamine foam; moulded to underhood shape to reduce engine noise inside the cabin.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">Exhaust Insulation Blankets</div>
+            <p><strong>Fibres:</strong> High-silica glass or aluminosilicate ceramic fibre blankets; wrapped around catalytic converters and exhaust pipes to maintain operating temperature and reduce heat soak.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">Wiring Harness Wrap</div>
+            <p><strong>Fibres:</strong> Non-woven PET tape (abrasion wrap), glass fibre braid for high-temperature zones, or PTFE-coated glass for underhood wiring protection.</p>
+          </div>
+        </div>
+        <div class="callout danger"><div class="callout-icon">🚫</div><div><strong>Historical Note:</strong> Asbestos was extensively used in automotive gaskets and insulation until the 1970s–1990s. It has been replaced by aramid fibre-based and glass-based alternatives following health and safety legislation.</div></div>
+        <h3>Key Properties Required (Engine Zone)</h3>
+        <div class="key-points">
+          <div class="key-point"><div class="dot red"></div><p><strong>Thermal Stability:</strong> Continuous use at 200–300°C; short-term at 500–1000°C (ceramic fibres).</p></div>
+          <div class="key-point"><div class="dot red"></div><p><strong>Chemical Resistance:</strong> Engine oil, coolant, brake fluid, petrol/diesel, exhaust gases.</p></div>
+          <div class="key-point"><div class="dot red"></div><p><strong>Vibration Resistance:</strong> Must survive 10+ years of engine vibration without fatigue failure (belts).</p></div>
+          <div class="key-point"><div class="dot red"></div><p><strong>Dimensional Stability:</strong> Belts and timing gear must not stretch or creep over life of vehicle.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10. COMPARISON TABLE -->
+    <div class="section" id="comparison">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-header-left">
+          <div class="section-icon" style="background:rgba(59,125,232,0.1);">📊</div>
+          <div>
+            <div class="section-number">10 — REFERENCE</div>
+            <h2>Fibre Comparison & Summary Table</h2>
+          </div>
+        </div>
+        <span class="toggle-btn">▾</span>
+      </div>
+      <div class="section-body">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Fibre</th><th>Key Property</th><th>Primary Use in Automotive</th><th>Limitation</th><th>Category</th></tr></thead>
+            <tbody>
+              <tr><td>Polyester (PET)</td><td>High tenacity, UV stability, low moisture absorption</td><td>Seatbelts, tyre cords (carcass), seat fabrics, carpets</td><td>Low melting point vs meta-aramid</td><td><span class="pill pill-blue">Synthetic</span></td></tr>
+              <tr><td>Nylon PA66</td><td>High toughness, fatigue resistance</td><td>Airbag fabric, tyre cap ply, seatbelts</td><td>Moisture absorption (flat-spot in tyres)</td><td><span class="pill pill-blue">Synthetic</span></td></tr>
+              <tr><td>Polypropylene (PP)</td><td>Lightweight, chemical resistant</td><td>Carpets (needle-punched), headliner backing, filters</td><td>Low melting point (165°C), UV sensitivity</td><td><span class="pill pill-blue">Synthetic</span></td></tr>
+              <tr><td>Rayon (HM Viscose)</td><td>High modulus, heat stable, good adhesion</td><td>Tyre cord (carcass), performance tyres</td><td>Moisture sensitive, cost</td><td><span class="pill pill-gold">MMC</span></td></tr>
+              <tr><td>Para-Aramid (Kevlar)</td><td>5× steel strength by weight, very high modulus</td><td>Tyre belts, run-flat sidewalls, gaskets, belts</td><td>Expensive, poor compression strength</td><td><span class="pill pill-red">HiPerf</span></td></tr>
+              <tr><td>Meta-Aramid (Nomex)</td><td>Flame/heat resistance (LOI >28)</td><td>Engine insulation, gaskets, thermal protection</td><td>Expensive, lower modulus than para-aramid</td><td><span class="pill pill-red">HiPerf</span></td></tr>
+              <tr><td>Glass Fibre (E-glass)</td><td>High stiffness, low cost composite</td><td>Preformed parts (door panels), tyre belts, filters</td><td>Brittle, fatigue sensitive in flex</td><td><span class="pill pill-red">HiPerf</span></td></tr>
+              <tr><td>Carbon Fibre (PAN)</td><td>Highest stiffness/weight</td><td>Structural composites, body panels (luxury/EV)</td><td>Very expensive, conductive, difficult to recycle</td><td><span class="pill pill-red">HiPerf</span></td></tr>
+              <tr><td>Cotton</td><td>Soft, absorbent, comfort</td><td>Seat fabrics (blends), wipes</td><td>Low abrasion/UV resistance</td><td><span class="pill pill-green">Natural</span></td></tr>
+              <tr><td>Wool</td><td>Thermal regulation, natural FR</td><td>Premium upholstery, seat fabrics</td><td>Expensive, requires dry-clean care</td><td><span class="pill pill-green">Natural</span></td></tr>
+              <tr><td>Jute / Hemp / Flax</td><td>Lightweight, biodegradable, acoustic</td><td>NFC door panels, trunk liners, dashboards</td><td>Moisture absorption, variable quality</td><td><span class="pill pill-green">Natural</span></td></tr>
+              <tr><td>Ceramic Fibre</td><td>Withstands 1000–1600°C</td><td>Exhaust insulation, DPF, heat shields</td><td>Health risk (ceramic fibre dust), heavy</td><td><span class="pill pill-red">HiPerf</span></td></tr>
+              <tr><td>PTFE</td><td>Chemical inertness, low friction</td><td>Engine seals, filter membranes</td><td>Very expensive, low strength</td><td><span class="pill pill-blue">Synthetic</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 11. KEY EXAM FACTS -->
+    <div class="section" id="key-facts">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-header-left">
+          <div class="section-icon" style="background:rgba(46,196,160,0.1);">⭐</div>
+          <div>
+            <div class="section-number">11 — EXAM PREP</div>
+            <h2>Key Exam Facts & Must-Know Points</h2>
+          </div>
+        </div>
+        <span class="toggle-btn">▾</span>
+      </div>
+      <div class="section-body">
+        <div class="callout tip"><div class="callout-icon">💡</div><div>These are the high-frequency exam points. Each is a concise fact you must be able to state and explain.</div></div>
+        <div class="key-points">
+          <div class="key-point"><div class="dot"></div><p>🚗 A modern car contains <strong>30–40 kg of textile materials</strong>, ~35% of total weight in textile-related components.</p></div>
+          <div class="key-point"><div class="dot blue"></div><p>🏎️ <strong>Polyester (PET)</strong> is the MOST widely used fibre in automotive textiles overall — seatbelts, tyre cords, seat fabrics, carpets.</p></div>
+          <div class="key-point"><div class="dot blue"></div><p>💺 <strong>Seatbelt webbing = high-tenacity PET woven on narrow fabric needle looms.</strong> Standards: ECE R16 / FMVSS 209.</p></div>
+          <div class="key-point"><div class="dot blue"></div><p>🫧 <strong>Airbag fabric = Nylon PA66</strong> (primary choice) plain-weave, either silicone-coated OR uncoated OPW (One-Piece Woven). OPW = no seams, used for curtain airbags.</p></div>
+          <div class="key-point"><div class="dot"></div><p>🔄 <strong>RFL dip (Resorcinol-Formaldehyde-Latex)</strong> is the essential adhesion treatment applied to tyre cords to bond them to rubber. Without it, no adhesion.</p></div>
+          <div class="key-point"><div class="dot"></div><p>🛞 <strong>Tyre cord fibre evolution:</strong> Cotton → Rayon → Nylon → Polyester (dominant today) → Aramid (high performance). PET replaced nylon because of lower flat-spot tendency.</p></div>
+          <div class="key-point"><div class="dot green"></div><p>🌿 <strong>Natural Fibre Composites (NFCs)</strong> use hemp/flax/jute + PP matrix, made by compression moulding. Used in door panels by BMW, Mercedes, VW. 25–30% lighter than GFRP.</p></div>
+          <div class="key-point"><div class="dot red"></div><p>🔥 <strong>Asbestos → Aramid:</strong> Asbestos was replaced in gaskets and engine insulation by aramid (Kevlar/Nomex) and glass fibres due to carcinogenicity.</p></div>
+          <div class="key-point"><div class="dot red"></div><p>⚙️ <strong>Needle-punched non-wovens</strong> = most economical carpet type (boot liners, floor mats); thermoformable for 3D shapes. No woven structure — mechanically entangled fibres.</p></div>
+          <div class="key-point"><div class="dot red"></div><p>♻️ <strong>EU ELV Directive</strong> requires 85% recyclability by weight → drives use of thermoplastic-matrix NFCs and monomaterial designs (e.g., all-PET components).</p></div>
+          <div class="key-point"><div class="dot blue"></div><p>🌬️ <strong>Cabin air filters</strong> use electret-charged melt-blown PP to capture PM2.5 particles without high pressure drop. Key word: electret.</p></div>
+          <div class="key-point"><div class="dot"></div><p>🧱 <strong>OPW (One-Piece Woven)</strong> for airbags = woven in one piece on a jacquard loom to form the 3D bag shape — eliminates seams, enables complex shapes like side curtain airbags.</p></div>
+          <div class="key-point"><div class="dot red"></div><p>🌡️ <strong>Ceramic fibres</strong> (aluminosilicate, silica) are used for exhaust/DPF insulation. They withstand 1000–1600°C. Not conventional textile fibres but fibre-based materials.</p></div>
+          <div class="key-point"><div class="dot blue"></div><p>🎯 <strong>Flammability test for interior textiles = FMVSS 302 / ISO 3795</strong> (horizontal burn, ≤ 100 mm/min). Know this standard!</p></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</main>
+
+<!-- QUICK REFERENCE PANEL -->
+<div id="quick-ref">
+  <button id="qr-btn" onclick="toggleQR()">⚡ QUICK REF</button>
+  <div id="qr-panel">
+    <h3 style="color:var(--accent);font-family:'Bebas Neue';letter-spacing:2px;">QUICK REFERENCE</h3>
+    <ul>
+      <li><strong>Seatbelt Fibre:</strong> High-tenacity PET; woven webbing</li>
+      <li><strong>Airbag Fibre:</strong> PA66 (primary); PA66/PET; OPW or coated</li>
+      <li><strong>Tyre Carcass:</strong> PET (radial); Nylon (bias/cap ply)</li>
+      <li><strong>Tyre Belt:</strong> Steel / Aramid</li>
+      <li><strong>Tyre Adhesion:</strong> RFL dip process</li>
+      <li><strong>Car Carpet:</strong> PP or Nylon; needle-punched or tufted</li>
+      <li><strong>Door Panel:</strong> NFC (natural + PP) compression moulded</li>
+      <li><strong>Engine Insulation:</strong> Ceramic fibre, meta-aramid, glass</li>
+      <li><strong>Gaskets:</strong> Para-aramid + rubber/graphite binder</li>
+      <li><strong>Cabin Filter:</strong> Electret melt-blown PP + activated carbon</li>
+      <li><strong>Flammability Std:</strong> FMVSS 302 / ISO 3795</li>
+      <li><strong>Seatbelt Std:</strong> ECE R16 / FMVSS 209</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  // Toggle sections
+  function toggleSection(header) {
+    const section = header.parentElement;
+    section.classList.toggle('collapsed');
+  }
+
+  // QR Panel
+  function toggleQR() {
+    document.getElementById('qr-panel').classList.toggle('open');
+  }
+  document.addEventListener('click', function(e) {
+    if (!document.getElementById('quick-ref').contains(e.target)) {
+      document.getElementById('qr-panel').classList.remove('open');
+    }
+  });
+
+  // Progress bar
+  window.addEventListener('scroll', () => {
+    const el = document.getElementById('progress-bar');
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = scrollTop / docHeight;
+    el.style.transform = `scaleX(${pct})`;
+  });
+
+  // Active nav
+  const navLinks = document.querySelectorAll('.nav-link');
+  const sections = document.querySelectorAll('.section');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(sec => {
+      if (window.scrollY >= sec.offsetTop - 120) current = sec.id;
+    });
+    navLinks.forEach(l => {
+      l.classList.toggle('active', l.getAttribute('href') === '#' + current);
+    });
+  });
+
+  // Search
+  function searchNotes(query) {
+    if (!query.trim()) {
+      document.querySelectorAll('.section').forEach(s => s.style.display = '');
+      return;
+    }
+    const q = query.toLowerCase();
+    document.querySelectorAll('.section').forEach(sec => {
+      const text = sec.innerText.toLowerCase();
+      if (text.includes(q)) {
+        sec.style.display = '';
+        sec.classList.remove('collapsed');
+        highlightText(sec, q);
+      } else {
+        sec.style.display = 'none';
+      }
+    });
+  }
+
+  function highlightText(el, q) {
+    // simple highlight - remove old highlights first
+    el.querySelectorAll('.search-highlight').forEach(h => {
+      h.replaceWith(document.createTextNode(h.textContent));
+    });
+  }
+
+  // Keyboard shortcut: / to focus search
+  document.addEventListener('keydown', e => {
+    if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+      e.preventDefault();
+      document.getElementById('search-input').focus();
+    }
+  });
+
+  // Expand all / collapse all buttons in sidebar
+  const nav = document.querySelector('#sidebar nav');
+  const ctrlDiv = document.createElement('div');
+  ctrlDiv.style = 'padding: 8px 22px; display:flex; gap:8px;';
+  ctrlDiv.innerHTML = `
+    <button onclick="document.querySelectorAll('.section').forEach(s=>s.classList.remove('collapsed'))" style="font-size:10px;font-family:'DM Mono';background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--text-dim);padding:4px 8px;border-radius:3px;cursor:pointer;">Expand All</button>
+    <button onclick="document.querySelectorAll('.section').forEach(s=>s.classList.add('collapsed'))" style="font-size:10px;font-family:'DM Mono';background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--text-dim);padding:4px 8px;border-radius:3px;cursor:pointer;">Collapse All</button>
+  `;
+  nav.appendChild(ctrlDiv);
+</script>
+</body>
+</html>

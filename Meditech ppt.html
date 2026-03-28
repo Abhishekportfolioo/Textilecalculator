@@ -1,0 +1,3349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MedTech Seminar — The Future of Medicine</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #03080f;
+    --surface: #060d18;
+    --card: #0a1628;
+    --border: #1a2d4a;
+    --accent: #00d4ff;
+    --accent2: #00ff9d;
+    --accent3: #ff6b35;
+    --accent4: #bf5af2;
+    --text: #e8f4fd;
+    --muted: #6b8fa8;
+    --red: #ff3b5c;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Syne', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    user-select: none;
+  }
+
+  /* SLIDE CONTAINER */
+  #presentation {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 80px;
+    opacity: 0;
+    transform: translateX(60px);
+    pointer-events: none;
+    transition: opacity 0.55s cubic-bezier(0.22,1,0.36,1), transform 0.55s cubic-bezier(0.22,1,0.36,1);
+    overflow: hidden;
+  }
+
+  .slide.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: all;
+  }
+
+  .slide.exit {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+
+  /* BACKGROUNDS */
+  .slide::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--bg);
+    z-index: -2;
+  }
+
+  .bg-grid::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    z-index: -1;
+  }
+
+  .bg-radial::before {
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,212,255,0.08) 0%, var(--bg) 70%) !important;
+  }
+
+  .bg-radial-green::before {
+    background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(0,255,157,0.07) 0%, var(--bg) 70%) !important;
+  }
+
+  .bg-radial-purple::before {
+    background: radial-gradient(ellipse 80% 60% at 100% 50%, rgba(191,90,242,0.08) 0%, var(--bg) 70%) !important;
+  }
+
+  .bg-radial-orange::before {
+    background: radial-gradient(ellipse 80% 60% at 0% 50%, rgba(255,107,53,0.08) 0%, var(--bg) 70%) !important;
+  }
+
+  /* DECORATIVE CIRCLE */
+  .deco-circle {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid;
+    opacity: 0.08;
+    pointer-events: none;
+  }
+
+  /* NAVIGATION */
+  #nav {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    z-index: 100;
+    background: rgba(6,13,24,0.85);
+    border: 1px solid var(--border);
+    padding: 10px 20px;
+    border-radius: 50px;
+    backdrop-filter: blur(20px);
+  }
+
+  #nav button {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    padding: 8px 18px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.05em;
+  }
+
+  #nav button:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(0,212,255,0.05);
+  }
+
+  #slide-counter {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    min-width: 60px;
+    text-align: center;
+  }
+
+  /* PROGRESS BAR */
+  #progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transition: width 0.4s ease;
+    z-index: 200;
+    box-shadow: 0 0 10px var(--accent);
+  }
+
+  /* SECTION BADGE */
+  .section-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid rgba(0,212,255,0.3);
+    padding: 5px 14px;
+    border-radius: 50px;
+    margin-bottom: 20px;
+    display: inline-block;
+  }
+
+  /* TYPOGRAPHY */
+  .slide-eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  h1.hero-title {
+    font-size: clamp(52px, 7vw, 96px);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 24px;
+    text-align: center;
+  }
+
+  h1.hero-title span {
+    display: block;
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+
+  h2.slide-title {
+    font-size: clamp(32px, 4vw, 56px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    margin-bottom: 12px;
+  }
+
+  h2.slide-title em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent2);
+  }
+
+  h3.sub-title {
+    font-size: clamp(22px, 2.5vw, 36px);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 8px;
+  }
+
+  p.lead {
+    font-size: clamp(14px, 1.4vw, 18px);
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 680px;
+    text-align: center;
+  }
+
+  p.body-text {
+    font-size: clamp(13px, 1.2vw, 16px);
+    color: rgba(232,244,253,0.75);
+    line-height: 1.7;
+  }
+
+  /* CARDS */
+  .card-grid {
+    display: grid;
+    gap: 16px;
+    width: 100%;
+    max-width: 1100px;
+  }
+
+  .card-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+  .card-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .card-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0,212,255,0.04) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .card-icon {
+    font-size: 28px;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .card h4 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .card p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .card .stat {
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .card .stat-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* ACCENT COLORS FOR CARDS */
+  .card.green .card-icon, .card.green h4 { color: var(--accent2); }
+  .card.green::before { background: linear-gradient(135deg, rgba(0,255,157,0.05) 0%, transparent 60%); }
+  .card.orange .card-icon, .card.orange h4 { color: var(--accent3); }
+  .card.orange::before { background: linear-gradient(135deg, rgba(255,107,53,0.05) 0%, transparent 60%); }
+  .card.purple .card-icon, .card.purple h4 { color: var(--accent4); }
+  .card.purple::before { background: linear-gradient(135deg, rgba(191,90,242,0.05) 0%, transparent 60%); }
+  .card.red .card-icon, .card.red h4 { color: var(--red); }
+  .card.red::before { background: linear-gradient(135deg, rgba(255,59,92,0.05) 0%, transparent 60%); }
+
+  /* STAT */
+  .stat-block { text-align: center; }
+  .big-stat {
+    font-size: clamp(64px, 10vw, 120px);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* TIMELINE */
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+    max-width: 900px;
+  }
+
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 120px 1px 1fr;
+    gap: 0 24px;
+    align-items: start;
+    padding-bottom: 28px;
+  }
+
+  .timeline-item:last-child { padding-bottom: 0; }
+
+  .timeline-year {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+    text-align: right;
+    padding-top: 2px;
+  }
+
+  .timeline-line {
+    background: var(--border);
+    width: 1px;
+    height: 100%;
+    position: relative;
+  }
+
+  .timeline-line::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent);
+  }
+
+  .timeline-content {
+    padding-bottom: 28px;
+  }
+
+  .timeline-content h4 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .timeline-content p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* PILL LIST */
+  .pill-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    max-width: 900px;
+  }
+
+  .pill {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    padding: 8px 16px;
+    border-radius: 50px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    background: var(--card);
+  }
+
+  .pill.active {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(0,212,255,0.07);
+  }
+
+  /* TABLE */
+  .data-table {
+    width: 100%;
+    max-width: 1000px;
+    border-collapse: collapse;
+  }
+
+  .data-table th {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: left;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .data-table td {
+    font-size: 14px;
+    padding: 14px 20px;
+    border-bottom: 1px solid rgba(26,45,74,0.5);
+    color: var(--text);
+  }
+
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: rgba(0,212,255,0.03); }
+
+  .tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    padding: 3px 10px;
+    border-radius: 50px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+  }
+
+  .tag.blue { background: rgba(0,212,255,0.12); color: var(--accent); }
+  .tag.green { background: rgba(0,255,157,0.12); color: var(--accent2); }
+  .tag.orange { background: rgba(255,107,53,0.12); color: var(--accent3); }
+  .tag.purple { background: rgba(191,90,242,0.12); color: var(--accent4); }
+
+  /* QUOTE BLOCK */
+  .quote-block {
+    max-width: 800px;
+    text-align: center;
+  }
+
+  .quote-block blockquote {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(22px, 2.5vw, 36px);
+    font-style: italic;
+    line-height: 1.4;
+    color: var(--text);
+    margin-bottom: 24px;
+    position: relative;
+  }
+
+  .quote-block blockquote::before {
+    content: '"';
+    font-size: 120px;
+    color: rgba(0,212,255,0.1);
+    position: absolute;
+    top: -40px;
+    left: -20px;
+    font-family: Georgia, serif;
+    line-height: 1;
+  }
+
+  .quote-block cite {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-style: normal;
+  }
+
+  /* 2-COL LAYOUT */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+    width: 100%;
+    max-width: 1100px;
+  }
+
+  /* NUMBERED LIST */
+  .num-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    max-width: 900px;
+  }
+
+  .num-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px 24px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+
+  .num-list .num {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    min-width: 24px;
+    margin-top: 2px;
+  }
+
+  .num-list .content h4 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .num-list .content p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* SECTION TITLE SLIDE */
+  .section-slide {
+    text-align: center;
+  }
+
+  .section-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  .section-main {
+    font-size: clamp(44px, 6vw, 80px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 0.95;
+  }
+
+  .section-main em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent2);
+  }
+
+  /* HORIZONTAL DIVIDER */
+  .hdiv {
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    margin: 20px auto;
+  }
+
+  /* GLOW DOT */
+  .glow {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent2);
+    box-shadow: 0 0 12px var(--accent2);
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+
+  /* ICON ROW */
+  .icon-row {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 1000px;
+  }
+
+  .icon-item {
+    flex: 1;
+    text-align: center;
+  }
+
+  .icon-item .icon { font-size: 36px; display: block; margin-bottom: 12px; }
+  .icon-item h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+  .icon-item p { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  /* INLINE STAT ROW */
+  .stat-row {
+    display: flex;
+    gap: 32px;
+    margin-top: 24px;
+  }
+
+  .stat-item {
+    flex: 1;
+    padding: 20px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    text-align: center;
+  }
+
+  .stat-item .val {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .stat-item .lbl {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* BAR CHART */
+  .bar-chart {
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .bar-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .bar-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    min-width: 180px;
+    text-align: right;
+  }
+
+  .bar-track {
+    flex: 1;
+    height: 8px;
+    background: var(--card);
+    border-radius: 50px;
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    height: 100%;
+    border-radius: 50px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transition: width 1s cubic-bezier(0.22,1,0.36,1);
+  }
+
+  .bar-val {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    min-width: 50px;
+  }
+
+  /* SLIDE COUNTER TOP */
+  .slide-meta {
+    position: absolute;
+    top: 28px;
+    right: 40px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  /* KEYBOARD HINT */
+  #hint {
+    position: fixed;
+    top: 32px;
+    left: 40px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    opacity: 0.6;
+    letter-spacing: 0.1em;
+  }
+
+  /* ANIMATED HEARTBEAT LINE */
+  .ecg-line {
+    position: absolute;
+    bottom: 80px;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    opacity: 0.12;
+  }
+
+  /* ACCENT LINE */
+  .accent-line {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    margin: 16px 0;
+    opacity: 0.4;
+  }
+
+  /* CONNECTOR ARROWS */
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    width: 100%;
+    max-width: 1000px;
+  }
+
+  .flow-box {
+    flex: 1;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 16px;
+    text-align: center;
+  }
+
+  .flow-box .ficon { font-size: 24px; display: block; margin-bottom: 8px; }
+  .flow-box h4 { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .flow-box p { font-size: 11px; color: var(--muted); }
+
+  .flow-arrow {
+    font-size: 20px;
+    color: var(--accent);
+    padding: 0 8px;
+    flex-shrink: 0;
+    opacity: 0.6;
+  }
+
+  /* RESPONSIVE TEXT */
+  @media (max-width: 1200px) {
+    .slide { padding: 40px 50px; }
+    .card-grid.cols-4 { grid-template-columns: repeat(2, 1fr); }
+    .card-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+    .timeline-item { grid-template-columns: 90px 1px 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+<div id="hint">← → ARROW KEYS TO NAVIGATE</div>
+
+<div id="presentation">
+
+  <!-- ============ SLIDE 1: HERO ============ -->
+  <div class="slide bg-grid bg-radial active" id="s1">
+    <div class="slide-meta">01 / 47</div>
+    <div class="deco-circle" style="width:600px;height:600px;right:-200px;top:-200px;border-color:var(--accent);"></div>
+    <div class="deco-circle" style="width:300px;height:300px;left:-100px;bottom:-100px;border-color:var(--accent2);"></div>
+    <div style="text-align:center;">
+      <div class="section-badge">SEMINAR PRESENTATION</div>
+      <h1 class="hero-title">
+        MED<span>TECH</span>
+        REVOLUTION
+      </h1>
+      <p class="lead">Transforming Healthcare Through Technology — Diagnostics, AI, Genomics, Wearables, and the Future of Medicine</p>
+      <div class="accent-line" style="max-width:300px;margin:32px auto;"></div>
+      <div style="display:flex;gap:32px;justify-content:center;margin-top:12px;">
+        <span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);">59 SLIDES</span>
+        <span style="color:var(--border)">|</span>
+        <span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);">COMPREHENSIVE OVERVIEW</span>
+        <span style="color:var(--border)">|</span>
+        <span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);">2024–2030</span>
+      </div>
+    </div>
+    <!-- ECG-like decorative line -->
+    <svg class="ecg-line" viewBox="0 0 1400 60" preserveAspectRatio="none">
+      <polyline points="0,30 100,30 140,30 160,5 180,55 200,10 220,30 260,30 360,30 380,30 400,5 420,55 440,10 460,30 500,30 600,30 620,5 640,55 660,10 680,30 720,30 820,30 840,5 860,55 880,10 900,30 940,30 1040,30 1060,5 1080,55 1100,10 1120,30 1160,30 1400,30" stroke="var(--accent)" stroke-width="2" fill="none"/>
+    </svg>
+  </div>
+
+  <!-- ============ SLIDE 2: AGENDA ============ -->
+  <div class="slide bg-grid" id="s2">
+    <div class="slide-meta">02 / 47</div>
+    <div style="width:100%;max-width:1100px;">
+      <div class="slide-eyebrow">What we'll cover today</div>
+      <h2 class="slide-title">Seminar <em>Agenda</em></h2>
+      <div class="accent-line"></div>
+      <div class="card-grid cols-3" style="margin-top:24px;">
+        <div class="card">
+          <span class="card-icon">📌</span>
+          <h4>01 — Introduction</h4>
+          <p>What is MedTech, market overview, historical milestones, and key definitions.</p>
+        </div>
+        <div class="card green">
+          <span class="card-icon">🤖</span>
+          <h4>02 — AI & Diagnostics</h4>
+          <p>Machine learning in imaging, NLP in EHRs, AI-assisted clinical decisions.</p>
+        </div>
+        <div class="card orange">
+          <span class="card-icon">🧬</span>
+          <h4>03 — Genomics</h4>
+          <p>Precision medicine, CRISPR, pharmacogenomics, and gene therapy.</p>
+        </div>
+        <div class="card purple">
+          <span class="card-icon">⌚</span>
+          <h4>04 — Wearables & IoT</h4>
+          <p>Remote patient monitoring, consumer health devices, connected hospitals.</p>
+        </div>
+        <div class="card">
+          <span class="card-icon">🔬</span>
+          <h4>05 — Digital Therapeutics</h4>
+          <p>Software as medicine, telehealth, mental health platforms, apps.</p>
+        </div>
+        <div class="card red">
+          <span class="card-icon">⚖️</span>
+          <h4>06 — Challenges & Future</h4>
+          <p>Regulation, ethics, equity, cybersecurity, and what lies ahead.</p>
+        </div>
+        <div class="card" style="border-color:rgba(0,255,157,0.3);">
+          <span class="card-icon">🧵</span>
+          <h4>07 — Medical Textiles</h4>
+          <p>Fibers, hygiene & non-implantable products, biotextiles, vascular grafts, wound dressings, scaffolds, sutures, and fabrication methods.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 3: SECTION 1 INTRO ============ -->
+  <div class="slide bg-radial" id="s3">
+    <div class="slide-meta">03 / 47</div>
+    <div class="section-slide">
+      <div class="section-num">SECTION 01</div>
+      <div class="section-main">INTRO TO<br><em>MEDTECH</em></div>
+      <div class="hdiv"></div>
+      <p class="lead">Understanding the landscape, market size, and the forces driving healthcare innovation.</p>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 4: WHAT IS MEDTECH ============ -->
+  <div class="slide bg-grid" id="s4">
+    <div class="slide-meta">04 / 47</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Definition</div>
+      <h2 class="slide-title">What is <em>MedTech</em>?</h2>
+      <div class="accent-line"></div>
+      <div class="two-col" style="margin-top:24px;">
+        <div>
+          <p class="body-text" style="margin-bottom:16px;">Medical technology (MedTech) is the broad application of technology to healthcare — encompassing devices, diagnostics, digital tools, software, and data-driven platforms that improve prevention, diagnosis, treatment, and monitoring of disease.</p>
+          <p class="body-text">It spans from a simple bandage to robotic surgery systems, from wearable fitness trackers to AI-powered radiology software. MedTech is one of the fastest-growing sectors globally, integrating with pharma, biotech, and digital health.</p>
+        </div>
+        <div class="card-grid" style="grid-template-columns:1fr;gap:12px;">
+          <div class="card">
+            <span class="card-icon">🏥</span>
+            <h4>Medical Devices</h4>
+            <p>Pacemakers, insulin pumps, surgical robots, imaging equipment</p>
+          </div>
+          <div class="card green">
+            <span class="card-icon">💻</span>
+            <h4>Digital Health</h4>
+            <p>EHRs, telemedicine, mobile health apps, AI diagnostics</p>
+          </div>
+          <div class="card orange">
+            <span class="card-icon">🧫</span>
+            <h4>In-Vitro Diagnostics</h4>
+            <p>Blood tests, genomics, point-of-care testing, biomarkers</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 5: MARKET SIZE ============ -->
+  <div class="slide bg-radial-green" id="s5">
+    <div class="slide-meta">05 / 47</div>
+    <div style="text-align:center;width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Market Overview</div>
+      <h2 class="slide-title">Global MedTech <em>Market</em></h2>
+      <div class="accent-line" style="max-width:200px;margin:16px auto;"></div>
+      <div class="stat-row" style="margin-top:32px;">
+        <div class="stat-item">
+          <span class="val" style="color:var(--accent2);">$660B</span>
+          <span class="lbl">Global Market 2023</span>
+        </div>
+        <div class="stat-item">
+          <span class="val">$1.3T</span>
+          <span class="lbl">Projected by 2030</span>
+        </div>
+        <div class="stat-item">
+          <span class="val" style="color:var(--accent3);">8.5%</span>
+          <span class="lbl">CAGR (2023–2030)</span>
+        </div>
+        <div class="stat-item">
+          <span class="val" style="color:var(--accent4);">6,500+</span>
+          <span class="lbl">MedTech Companies Worldwide</span>
+        </div>
+      </div>
+      <div style="margin-top:32px;">
+        <div class="bar-chart">
+          <div class="bar-row">
+            <span class="bar-label">North America</span>
+            <div class="bar-track"><div class="bar-fill" style="width:42%"></div></div>
+            <span class="bar-val">$278B</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Europe</span>
+            <div class="bar-track"><div class="bar-fill" style="width:28%;background:linear-gradient(90deg,var(--accent2),#00a86b)"></div></div>
+            <span class="bar-val" style="color:var(--accent2);">$185B</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Asia-Pacific</span>
+            <div class="bar-track"><div class="bar-fill" style="width:22%;background:linear-gradient(90deg,var(--accent3),#ff9500)"></div></div>
+            <span class="bar-val" style="color:var(--accent3);">$145B</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Rest of World</span>
+            <div class="bar-track"><div class="bar-fill" style="width:8%;background:linear-gradient(90deg,var(--accent4),#8e4ec6)"></div></div>
+            <span class="bar-val" style="color:var(--accent4);">$52B</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 6: HISTORY TIMELINE ============ -->
+  <div class="slide bg-grid" id="s6">
+    <div class="slide-meta">06 / 47</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Historical Context</div>
+      <h2 class="slide-title">MedTech <em>Milestones</em></h2>
+      <div class="accent-line"></div>
+      <div class="timeline" style="margin-top:24px;">
+        <div class="timeline-item">
+          <div class="timeline-year">1895</div>
+          <div class="timeline-line"></div>
+          <div class="timeline-content"><h4>X-Ray Discovery</h4><p>Wilhelm Röntgen discovers X-rays, founding modern medical imaging.</p></div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">1958</div>
+          <div class="timeline-line"></div>
+          <div class="timeline-content"><h4>First Pacemaker</h4><p>Arne Larsson receives the world's first implanted pacemaker in Stockholm.</p></div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">1972</div>
+          <div class="timeline-line"></div>
+          <div class="timeline-content"><h4>CT Scanner</h4><p>Hounsfield & Cormack introduce computed tomography, revolutionizing diagnostics.</p></div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2003</div>
+          <div class="timeline-line"></div>
+          <div class="timeline-content"><h4>Human Genome Project</h4><p>Complete human genome sequenced, opening the era of genomic medicine.</p></div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2015</div>
+          <div class="timeline-line"></div>
+          <div class="timeline-content"><h4>CRISPR-Cas9 Therapy</h4><p>Gene editing moves from lab to clinical trials for genetic diseases.</p></div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2024</div>
+          <div class="timeline-line"></div>
+          <div class="timeline-content"><h4>AI Diagnostics & LLMs in Healthcare</h4><p>FDA clears multiple AI-based diagnostic tools; LLMs enter clinical workflows.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 7: KEY DRIVERS ============ -->
+  <div class="slide bg-grid bg-radial-orange" id="s7">
+    <div class="slide-meta">07 / 47</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Market Drivers</div>
+      <h2 class="slide-title">Forces <em>Driving Growth</em></h2>
+      <div class="accent-line"></div>
+      <div class="card-grid cols-3" style="margin-top:24px;">
+        <div class="card">
+          <span class="card-icon">👴</span>
+          <h4>Aging Population</h4>
+          <p>By 2050, 2.1 billion people will be over 60, dramatically increasing demand for chronic disease management and elder care devices.</p>
+        </div>
+        <div class="card orange">
+          <span class="card-icon">🌍</span>
+          <h4>Disease Burden</h4>
+          <p>Chronic conditions (diabetes, CVD, cancer) affect over 1.9 billion globally, driving demand for continuous monitoring and precision treatment.</p>
+        </div>
+        <div class="card green">
+          <span class="card-icon">📡</span>
+          <h4>Digital Infrastructure</h4>
+          <p>5G networks, cloud computing, and IoT connectivity enable real-time health data collection and remote patient care at scale.</p>
+        </div>
+        <div class="card purple">
+          <span class="card-icon">🧪</span>
+          <h4>R&D Investment</h4>
+          <p>Global healthcare R&D spending exceeds $250B annually, fueling breakthroughs in diagnostics, therapeutics, and device engineering.</p>
+        </div>
+        <div class="card">
+          <span class="card-icon">⚕️</span>
+          <h4>Value-Based Care</h4>
+          <p>Shift from fee-for-service to outcomes-based payment systems incentivizes cost-effective MedTech that proves clinical benefit.</p>
+        </div>
+        <div class="card red">
+          <span class="card-icon">🦠</span>
+          <h4>Pandemic Lessons</h4>
+          <p>COVID-19 dramatically accelerated telemedicine adoption, rapid diagnostics development, and remote monitoring infrastructure.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 8: MAJOR PLAYERS ============ -->
+  <div class="slide bg-grid" id="s8">
+    <div class="slide-meta">08 / 47</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Industry Landscape</div>
+      <h2 class="slide-title">Key <em>Players</em></h2>
+      <div class="accent-line"></div>
+      <table class="data-table" style="margin-top:24px;">
+        <thead>
+          <tr><th>Company</th><th>Headquarters</th><th>Focus Area</th><th>Market Cap (Est.)</th><th>Category</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Medtronic</td><td>Dublin, Ireland</td><td>Cardiac devices, neuromodulation</td><td>$110B</td><td><span class="tag blue">DEVICES</span></td></tr>
+          <tr><td>Abbott</td><td>Abbott Park, IL</td><td>Diagnostics, glucose monitoring</td><td>$185B</td><td><span class="tag green">DIAGNOSTICS</span></td></tr>
+          <tr><td>Intuitive Surgical</td><td>Sunnyvale, CA</td><td>Robotic surgery (da Vinci)</td><td>$140B</td><td><span class="tag orange">ROBOTICS</span></td></tr>
+          <tr><td>Philips</td><td>Amsterdam, NL</td><td>Imaging, patient monitoring</td><td>$22B</td><td><span class="tag blue">IMAGING</span></td></tr>
+          <tr><td>Illumina</td><td>San Diego, CA</td><td>Genomics sequencing</td><td>$20B</td><td><span class="tag purple">GENOMICS</span></td></tr>
+          <tr><td>Apple / Fitbit</td><td>Cupertino / SF</td><td>Consumer wearables, health sensors</td><td>Billions</td><td><span class="tag green">WEARABLES</span></td></tr>
+          <tr><td>Veeva / Epic</td><td>USA</td><td>Healthcare software, EHR</td><td>$30B+</td><td><span class="tag orange">DIGITAL</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 9: SECTION 2 — AI ============ -->
+  <div class="slide bg-radial-purple" id="s9">
+    <div class="slide-meta">09 / 47</div>
+    <div class="section-slide">
+      <div class="section-num">SECTION 02</div>
+      <div class="section-main">AI & MACHINE<br><em>LEARNING</em><br>IN HEALTHCARE</div>
+      <div class="hdiv"></div>
+      <p class="lead">How artificial intelligence is transforming diagnosis, drug discovery, and clinical operations.</p>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 10: AI OVERVIEW ============ -->
+  <div class="slide bg-grid" id="s10">
+    <div class="slide-meta">10 / 47</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Artificial Intelligence</div>
+      <h2 class="slide-title">AI in <em>Medicine</em></h2>
+      <div class="accent-line"></div>
+      <div class="two-col" style="margin-top:24px;gap:40px;">
+        <div>
+          <p class="body-text" style="margin-bottom:16px;">Artificial intelligence in healthcare refers to algorithms and software that mimic human cognition — analyzing complex medical data faster and often more accurately than human clinicians alone.</p>
+          <p class="body-text" style="margin-bottom:16px;">AI in MedTech spans multiple domains: computer vision for imaging, NLP for clinical notes, predictive analytics for risk stratification, and generative AI for drug discovery.</p>
+          <div class="stat-row" style="margin-top:20px;gap:12px;">
+            <div class="stat-item">
+              <span class="val">$45B</span>
+              <span class="lbl">AI Health Market 2028</span>
+            </div>
+            <div class="stat-item">
+              <span class="val" style="color:var(--accent2);">700+</span>
+              <span class="lbl">FDA-Cleared AI Devices</span>
+            </div>
+          </div>
+        </div>
+        <ul class="num-list" style="gap:10px;">
+          <li><span class="num">01</span><div class="content"><h4>Medical Imaging</h4><p>Deep learning detects cancer, fractures, retinopathy with radiologist-level accuracy</p></div></li>
+          <li><span class="num">02</span><div class="content"><h4>Clinical Decision Support</h4><p>AI flags sepsis, medication errors, deteriorating patients in real time</p></div></li>
+          <li><span class="num">03</span><div class="content"><h4>Drug Discovery</h4><p>AlphaFold, generative AI accelerate protein structure prediction and molecule design</p></div></li>
+          <li><span class="num">04</span><div class="content"><h4>NLP & EHRs</h4><p>Extraction of structured insights from unstructured clinical notes at scale</p></div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 11: AI IMAGING ============ -->
+  <div class="slide bg-grid bg-radial-purple" id="s11">
+    <div class="slide-meta">11 / 47</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Computer Vision</div>
+      <h2 class="slide-title">AI in Medical <em>Imaging</em></h2>
+      <div class="accent-line"></div>
+      <div class="card-grid cols-2" style="margin-top:24px;">
+        <div class="card purple">
+          <span class="card-icon">🫁</span>
+          <h4>Radiology — Chest X-Ray</h4>
+          <p>AI models like CheXNet (Stanford) detect 14 pathologies including pneumonia and cardiomegaly with AUC >0.9. Reduces radiologist workload by 30–50%.</p>
+        </div>
+        <div class="card">
+          <span class="card-icon">🔴</span>
+          <h4>Pathology — Cancer Detection</h4>
+          <p>Google's LYNA algorithm detects lymph node metastases of breast cancer with 99% accuracy. Whole-slide image analysis automates pathologist workflows.</p>
+        </div>
+        <div class="card green">
+          <span class="card-icon">👁️</span>
+          <h4>Ophthalmology — Retinal Scans</h4>
+          <p>IDx-DR was the first FDA-authorized AI for diabetic retinopathy — screening without an ophthalmologist. Used in 900+ clinics in the US.</p>
+        </div>
+        <div class="card orange">
+          <span class="card-icon">🧠</span>
+          <h4>Neurology — Brain MRI</h4>
+          <p>AI tools like Viz.ai detect large vessel occlusion strokes within minutes, alerting stroke teams and reducing time-to-treatment by over 50 minutes.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 12: NLP EHR ============ -->
+  <div class="slide bg-grid" id="s12">
+    <div class="slide-meta">12 / 47</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Natural Language Processing</div>
+      <h2 class="slide-title">AI in Clinical <em>Documentation</em></h2>
+      <div class="accent-line"></div>
+      <div class="two-col" style="margin-top:24px;">
+        <div>
+          <p class="body-text" style="margin-bottom:16px;">Physicians spend nearly 2 hours on documentation for every 1 hour of direct patient care. NLP and large language models are addressing this critical burnout driver.</p>
+          <div class="card-grid" style="grid-template-columns:1fr;gap:12px;margin-top:16px;">
+            <div class="card">
+              <h4>Ambient AI Scribes</h4>
+              <p>Tools like Nuance DAX and Abridge listen to physician-patient conversations and auto-generate structured clinical notes, saving 3+ hours/day.</p>
+            </div>
+            <div class="card green">
+              <h4>ICD Coding Automation</h4>
+              <p>AI extracts diagnoses and procedures from notes to auto-code bills, reducing coding errors by 30% and denial rates in revenue cycle.</p>
+            </div>
+            <div class="card orange">
+              <h4>Clinical Trial Matching</h4>
+              <p>NLP scans EHRs to identify eligible patients for trials, matching complex eligibility criteria at scale — 10× faster than manual review.</p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card" style="margin-bottom:16px;">
+            <span class="stat">2h</span>
+            <span class="stat-label">Documentation per 1h patient care</span>
+          </div>
+          <div class="card green">
+            <span class="stat" style="color:var(--accent2);">45%</span>
+            <span class="stat-label">Physician burnout linked to admin burden</span>
+          </div>
+          <div class="card orange" style="margin-top:16px;">
+            <span class="stat" style="color:var(--accent3);">3.4h</span>
+            <span class="stat-label">Daily time saved with AI scribe tools</span>
+          </div>
+          <div style="margin-top:20px;padding:20px;background:var(--card);border:1px solid var(--border);border-radius:12px;">
+            <p style="font-family:'Space Mono',monospace;font-size:11px;color:var(--accent);margin-bottom:8px;">EXAMPLE: MICROSOFT + EPIC</p>
+            <p class="body-text" style="font-size:13px;">GPT-4 integration in Epic MyChart enables patients to receive AI-drafted responses to clinical inbox messages, reviewed and approved by nurses before sending.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 13: AI DRUG DISCOVERY ============ -->
+  <div class="slide bg-grid bg-radial" id="s13">
+    <div class="slide-meta">13 / 47</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Pharmaceutical Innovation</div>
+      <h2 class="slide-title">AI-Powered Drug <em>Discovery</em></h2>
+      <div class="accent-line"></div>
+      <div class="flow" style="margin-top:32px;">
+        <div class="flow-box">
+          <span class="ficon">🎯</span>
+          <h4>Target ID</h4>
+          <p>AI analyzes genomic & proteomic data to identify disease targets</p>
+        </div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box green" style="border-color:rgba(0,255,157,0.3);">
+          <span class="ficon">🧪</span>
+          <h4>Lead Discovery</h4>
+          <p>Generative AI designs novel molecular candidates (millions/day)</p>
+        </div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box" style="border-color:rgba(255,107,53,0.3);">
+          <span class="ficon">⚗️</span>
+          <h4>Optimization</h4>
+          <p>ML predicts ADMET properties, filters toxic or ineffective leads</p>
+        </div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box" style="border-color:rgba(191,90,242,0.3);">
+          <span class="ficon">🏥</span>
+          <h4>Clinical Trials</h4>
+          <p>AI designs trials, predicts responders, monitors safety signals</p>
+        </div>
+      </div>
+      <div class="card-grid cols-3" style="margin-top:24px;">
+        <div class="card">
+          <span class="stat">$2.6B</span>
+          <span class="stat-label">Average cost of bringing a drug to market</span>
+        </div>
+        <div class="card green">
+          <span class="stat" style="color:var(--accent2);">60%</span>
+          <span class="stat-label">Potential cost reduction with AI-aided discovery</span>
+        </div>
+        <div class="card orange">
+          <span class="stat" style="color:var(--accent3);">4 yrs</span>
+          <span class="stat-label">Timeline reduction vs. traditional 12–15 yr pipeline</span>
+        </div>
+      </div>
+      <p class="body-text" style="margin-top:20px;text-align:center;font-size:13px;color:var(--muted);">Landmark: Insilico Medicine's AI-designed fibrosis drug INS018_055 entered Phase II trials in 2023 — discovered in 30 months vs. industry avg. of 6+ years.</p>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 14: PREDICTIVE ANALYTICS ============ -->
+  <div class="slide bg-grid" id="s14">
+    <div class="slide-meta">14 / 47</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Predictive Analytics</div>
+      <h2 class="slide-title">Predicting <em>Patient Risk</em></h2>
+      <div class="accent-line"></div>
+      <ul class="num-list" style="margin-top:24px;">
+        <li><span class="num">01</span><div class="content"><h4>Sepsis Prediction</h4><p>Epic Sepsis Model & Sepsis ImmunoScore analyze vitals, labs, and EHR data to flag patients 6+ hours before clinical diagnosis, enabling earlier intervention and 20% mortality reduction.</p></div></li>
+        <li><span class="num">02</span><div class="content"><h4>Readmission Risk</h4><p>ML models predict 30-day hospital readmission from demographics, diagnoses, and social determinants — enabling targeted discharge planning and post-acute care coordination.</p></div></li>
+        <li><span class="num">03</span><div class="content"><h4>Cardiovascular Risk Scoring</h4><p>AI analysis of retinal fundus photos predicts cardiovascular risk factors (age, blood pressure, smoking status) — a non-invasive screening tool with major screening potential.</p></div></li>
+        <li><span class="num">04</span><div class="content"><h4>Mental Health Crisis Prevention</h4><p>Platforms like Koko and Woebot use NLP to assess depression severity and suicide risk from conversational data, connecting high-risk users with crisis resources proactively.</p></div></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 15: SECTION 3 GENOMICS ============ -->
+  <div class="slide bg-radial-green" id="s15">
+    <div class="slide-meta">15 / 47</div>
+    <div class="section-slide">
+      <div class="section-num">SECTION 03</div>
+      <div class="section-main">GENOMICS &<br><em>PRECISION</em><br>MEDICINE</div>
+      <div class="hdiv"></div>
+      <p class="lead">Reading the code of life — and using it to personalize every aspect of diagnosis and treatment.</p>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 16: GENOMICS OVERVIEW ============ -->
+  <div class="slide bg-grid" id="s16">
+    <div class="slide-meta">16 / 47</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Precision Medicine</div>
+      <h2 class="slide-title">The Genomic <em>Revolution</em></h2>
+      <div class="accent-line"></div>
+      <div class="two-col" style="margin-top:24px;">
+        <div>
+          <p class="body-text" style="margin-bottom:16px;">Genomics is the study of an organism's complete set of DNA, including all of its genes. The Human Genome Project took 13 years and $3 billion to complete. Today, a whole genome can be sequenced in under 24 hours for less than $200.</p>
+          <p class="body-text" style="margin-bottom:20px;">Precision medicine leverages genomic data to tailor treatments to the individual patient — moving away from "one size fits all" medicine toward targeted therapies with higher efficacy and fewer side effects.</p>
+          <div class="pill-list" style="justify-content:flex-start;">
+            <span class="pill active">Pharmacogenomics</span>
+            <span class="pill active">Liquid Biopsy</span>
+            <span class="pill active">CRISPR Gene Editing</span>
+            <span class="pill">Gene Therapy</span>
+            <span class="pill">Epigenomics</span>
+            <span class="pill">Proteomics</span>
+          </div>
+        </div>
+        <div class="card-grid" style="grid-template-columns:1fr;gap:12px;">
+          <div class="card green">
+            <span class="stat" style="color:var(--accent2);">$200</span>
+            <span class="stat-label">Cost of whole genome sequencing in 2024 (down from $3B in 2003)</span>
+          </div>
+          <div class="card">
+            <span class="stat">7,000+</span>
+            <span class="stat-label">Known genetic diseases with identified mutations</span>
+          </div>
+          <div class="card orange">
+            <span class="stat" style="color:var(--accent3);">$94B</span>
+            <span class="stat-label">Genomics market size projected for 2030</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 17: CRISPR ============ -->
+  <div class="slide bg-grid bg-radial-green" id="s17">
+    <div class="slide-meta">17 / 47</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Gene Editing</div>
+      <h2 class="slide-title">CRISPR-Cas9 <em>Technology</em></h2>
+      <div class="accent-line"></div>
+      <div class="card-grid cols-2" style="margin-top:24px;">
+        <div>
+          <p class="body-text" style="margin-bottom:16px;">CRISPR-Cas9 is a molecular "scissors" system adapted from a bacterial immune mechanism. It allows scientists to precisely cut, delete, insert, or modify DNA sequences in living cells with unprecedented accuracy and affordability.</p>
+          <p class="body-text">Jennifer Doudna and Emmanuelle Charpentier won the 2020 Nobel Prize in Chemistry for its development. The technology has since spawned a new generation of therapies.</p>
+        </div>
+        <div class="card-grid" style="grid-template-columns:1fr;gap:12px;">
+          <div class="card green">
+            <span class="card-icon">💉</span>
+            <h4>Casgevy — First Approved CRISPR Therapy</h4>
+            <p>FDA approved Nov 2023. Treats sickle cell disease and beta-thalassemia. 97% of patients free from pain crises in trials.</p>
+          </div>
+          <div class="card">
+            <span class="card-icon">🎯</span>
+            <h4>In-Vivo vs Ex-Vivo Editing</h4>
+            <p>Ex-vivo edits cells outside the body; in-vivo delivers CRISPR directly into the patient. In-vivo is the frontier for liver disease, blindness.</p>
+          </div>
+          <div class="card orange">
+            <span class="card-icon">⚠️</span>
+            <h4>Ethical Considerations</h4>
+            <p>Germline editing raises bioethics debates. The 2018 "CRISPR babies" scandal prompted global moratoriums on heritable human gene editing.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 18: PHARMACOGENOMICS ============ -->
+  <div class="slide bg-grid" id="s18">
+    <div class="slide-meta">18 / 47</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Drug-Gene Interactions</div>
+      <h2 class="slide-title">Pharmacogenomics: <em>Right Drug, Right Dose</em></h2>
+      <div class="accent-line"></div>
+      <ul class="num-list" style="margin-top:24px;">
+        <li><span class="num">01</span><div class="content"><h4>Why Drugs Work Differently in Different People</h4><p>Genetic variants in cytochrome P450 enzymes (CYP2D6, CYP2C19) determine whether patients are "poor" or "ultra-rapid" metabolizers of common drugs like antidepressants, opioids, and blood thinners.</p></div></li>
+        <li><span class="num">02</span><div class="content"><h4>Warfarin Dosing</h4><p>VKORC1 and CYP2C9 variants explain 40% of warfarin dose variability. Genetic testing before dosing reduces bleeding events by 31% in prospective studies.</p></div></li>
+        <li><span class="num">03</span><div class="content"><h4>Oncology — Targeted Therapies</h4><p>EGFR mutations guide use of gefitinib in lung cancer; HER2 amplification determines eligibility for trastuzumab. Tumor genomic profiling is now standard of care.</p></div></li>
+        <li><span class="num">04</span><div class="content"><h4>Clinical Implementation</h4><p>Pre-emptive pharmacogenomic panels (GeneSight, OneOme) test for 20–60 drug-gene interactions before prescription, embedded into EHR workflows at major health systems.</p></div></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 19: LIQUID BIOPSY ============ -->
+  <div class="slide bg-grid bg-radial-orange" id="s19">
+    <div class="slide-meta">19 / 47</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Early Cancer Detection</div>
+      <h2 class="slide-title">Liquid <em>Biopsy</em></h2>
+      <div class="accent-line"></div>
+      <div class="two-col" style="margin-top:24px;">
+        <div>
+          <p class="body-text" style="margin-bottom:16px;">Liquid biopsy detects cancer-derived DNA, RNA, proteins, or cells circulating in the bloodstream — offering a non-invasive window into tumor biology without surgical tissue removal.</p>
+          <p class="body-text" style="margin-bottom:20px;">Companies like Grail (Galleri test) can screen for 50+ cancer types from a single blood draw, detecting cancers often at Stage I or II — when treatment is most effective and survival rates are highest.</p>
+          <div class="card green" style="margin-top:16px;">
+            <span class="stat" style="color:var(--accent2);">71%</span>
+            <span class="stat-label">Cancers detected across all stages in Galleri trial (CCGA3 study, 2022)</span>
+          </div>
+        </div>
+        <div class="card-grid" style="grid-template-columns:1fr;gap:12px;">
+          <div class="card">
+            <span class="card-icon">🩸</span>
+            <h4>Circulating Tumor DNA (ctDNA)</h4>
+            <p>Fragments of tumor DNA shed into blood. Can be detected at concentrations of 0.01%. Used for minimal residual disease monitoring after therapy.</p>
+          </div>
+          <div class="card orange">
+            <span class="card-icon">🔭</span>
+            <h4>CTC Detection</h4>
+            <p>Circulating tumor cells (CTCs) are whole cancer cells in blood. CellSearch is FDA-cleared for monitoring metastatic breast, prostate, and colorectal cancers.</p>
+          </div>
+          <div class="card purple">
+            <span class="card-icon">📊</span>
+            <h4>Multi-Cancer Early Detection (MCED)</h4>
+            <p>Next-generation MCED tests analyze methylation patterns on cell-free DNA — identifying tissue of origin with >89% accuracy when cancer is signaled.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 20: SECTION 4 WEARABLES ============ -->
+  <div class="slide bg-radial-orange" id="s20">
+    <div class="slide-meta">20 / 47</div>
+    <div class="section-slide">
+      <div class="section-num">SECTION 04</div>
+      <div class="section-main">WEARABLES &<br><em>CONNECTED</em><br>HEALTH</div>
+      <div class="hdiv"></div>
+      <p class="lead">From smartwatches to implantable sensors — the internet of medical things is transforming patient monitoring.</p>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 21: WEARABLES OVERVIEW ============ -->
+  <div class="slide bg-grid" id="s21">
+    <div class="slide-meta">21 / 47</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Connected Devices</div>
+      <h2 class="slide-title">The Wearables <em>Ecosystem</em></h2>
+      <div class="accent-line"></div>
+      <div class="icon-row" style="margin-top:28px;">
+        <div class="icon-item">
+          <span class="icon">⌚</span>
+          <h4>Smartwatches</h4>
+          <p>Heart rate, ECG, SpO2, sleep, fall detection. 200M+ units sold annually.</p>
+        </div>
+        <div class="icon-item">
+          <span class="icon">🩺</span>
+          <h4>Patch Sensors</h4>
+          <p>Continuous ECG, glucose, temperature, hydration. Clinical-grade remote monitoring.</p>
+        </div>
+        <div class="icon-item">
+          <span class="icon">👂</span>
+          <h4>Smart Earbuds</h4>
+          <p>In-ear PPG for heart rate, temperature, audiometric health monitoring.</p>
+        </div>
+        <div class="icon-item">
+          <span class="icon">💉</span>
+          <h4>CGM Systems</h4>
+          <p>Continuous glucose monitors (Dexcom, FreeStyle Libre) — real-time glucose q1–5 min.</p>
+        </div>
+        <div class="icon-item">
+          <span class="icon">🫀</span>
+          <h4>Implantables</h4>
+          <p>Leadless pacemakers, cardiac monitors, neural implants like Neuralink.</p>
+        </div>
+      </div>
+      <div style="margin-top:28px;text-align:center;">
+        <div class="stat-row" style="max-width:700px;margin:0 auto;">
+          <div class="stat-item"><span class="val">1.1B</span><span class="lbl">Wearable Devices 2024</span></div>
+          <div class="stat-item"><span class="val" style="color:var(--accent2);">$186B</span><span class="lbl">Market Value 2030</span></div>
+          <div class="stat-item"><span class="val" style="color:var(--accent3);">80%</span><span class="lbl">Patients Want Remote Monitoring</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 22: CGM ============ -->
+  <div class="slide bg-grid bg-radial-green" id="s22">
+    <div class="slide-meta">22 / 47</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Case Study</div>
+      <h2 class="slide-title">Continuous Glucose <em>Monitoring</em></h2>
+      <div class="accent-line"></div>
+      <div class="card-grid cols-2" style="margin-top:24px;">
+        <div class="card green">
+          <span class="card-icon">📈</span>
+          <h4>How CGM Works</h4>
+          <p>A subcutaneous filament sensor measures interstitial glucose every 1–5 minutes. Data transmits to a smartphone or insulin pump. No finger sticks required. Alarms alert users to hypo/hyperglycemia.</p>
+        </div>
+        <div class="card">
+          <span class="card-icon">🔗</span>
+          <h4>Closed-Loop "Artificial Pancreas"</h4>
+          <p>CGM + algorithm + insulin pump create automated insulin delivery (AID) systems. The Medtronic MiniMed 780G and Tandem Control-IQ maintain TIR >70% with minimal user input.</p>
+        </div>
+        <div class="card orange">
+          <span class="card-icon">🌡️</span>
+          <h4>Metabolic Health Beyond Diabetes</h4>
+          <p>Consumer CGMs (Levels, Nutrisense) used by non-diabetics to optimize diet, exercise, and metabolic performance. Expanding market: 500M pre-diabetics globally.</p>
+        </div>
+        <div class="card purple">
+          <span class="card-icon">💊</span>
+          <h4>Clinical Impact</h4>
+          <p>CGM use in Type 1 DM reduces HbA1c by 1%, time in hypoglycemia by 38%, and emergency events by 48% vs. finger sticks in randomized controlled trials.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 23: IOT SMART HOSPITAL ============ -->
+  <div class="slide bg-grid" id="s23">
+    <div class="slide-meta">23 / 47</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Connected Healthcare</div>
+      <h2 class="slide-title">The Smart <em>Hospital</em></h2>
+      <div class="accent-line"></div>
+      <ul class="num-list" style="margin-top:24px;">
+        <li><span class="num">01</span><div class="content"><h4>Real-Time Location Systems (RTLS)</h4><p>RFID and BLE tags track patients, staff, and equipment in real time. Reduces equipment search time by 90%, improves infection control through contact tracing, and optimizes surgical suite utilization.</p></div></li>
+        <li><span class="num">02</span><div class="content"><h4>Smart Beds & Vital Signs Automation</h4><p>Beds with embedded sensors continuously monitor weight, movement, and pressure injury risk. Wireless vital sign monitors eliminate manual charting and alert nurses to early deterioration.</p></div></li>
+        <li><span class="num">03</span><div class="content"><h4>Command Centers & AI Operations</h4><p>Hospital command centers (e.g., GE Healthcare, Johns Hopkins) use predictive analytics to manage bed demand, staffing, and patient flow — reducing ED boarding by 35%.</p></div></li>
+        <li><span class="num">04</span><div class="content"><h4>Medication Management</h4><p>Smart IV pumps with dose error reduction systems, automated dispensing robots, and barcode medication administration reduce adverse drug events by up to 50%.</p></div></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 24: REMOTE PATIENT MONITORING ============ -->
+  <div class="slide bg-grid bg-radial" id="s24">
+    <div class="slide-meta">24 / 47</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Remote Care</div>
+      <h2 class="slide-title">Remote Patient <em>Monitoring</em></h2>
+      <div class="accent-line"></div>
+      <div class="two-col" style="margin-top:24px;">
+        <div>
+          <p class="body-text" style="margin-bottom:16px;">RPM uses digital technologies to collect patient health data outside traditional clinical settings and electronically transmit this data to healthcare providers for assessment and recommendations.</p>
+          <p class="body-text" style="margin-bottom:20px;">Post-COVID, RPM adoption surged. CMS reimbursement codes (99453, 99454, 99457, 99458) now support broad commercial deployment for chronic disease management.</p>
+          <div class="card" style="margin-top:16px;">
+            <span class="stat">38%</span>
+            <span class="stat-label">Reduction in hospital readmissions with RPM for CHF patients (Cochrane 2023)</span>
+          </div>
+        </div>
+        <div class="card-grid" style="grid-template-columns:1fr;gap:12px;">
+          <div class="card orange">
+            <span class="card-icon">❤️</span>
+            <h4>Cardiac RPM</h4>
+            <p>Implantable cardiac monitors (ICMs) record arrhythmias for 3 years. iRhythm Zio patch detects AF in 95% of long-term monitoring cases within 14 days.</p>
+          </div>
+          <div class="card">
+            <span class="card-icon">🫁</span>
+            <h4>COPD & CHF Management</h4><p>Daily weight, spirometry, and blood pressure data with AI triage identifies decompensating patients 7–14 days before hospitalization.</p>
+          </div>
+          <div class="card purple">
+            <span class="card-icon">🤱</span>
+            <h4>Obstetric Monitoring</h4>
+            <p>At-home CTG monitors, uterine contraction sensors, and blood pressure cuffs enable high-risk pregnancy management without constant hospitalization.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 25: SECTION 5 ROBOTICS ============ -->
+  <div class="slide bg-radial-purple" id="s25">
+    <div class="slide-meta">25 / 47</div>
+    <div class="section-slide">
+      <div class="section-num">SECTION 05</div>
+      <div class="section-main">SURGICAL<br><em>ROBOTICS &</em><br>AUTOMATION</div>
+      <div class="hdiv"></div>
+      <p class="lead">How robots are extending surgeons' capabilities and reshaping the operating room of the future.</p>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 26: SURGICAL ROBOTICS ============ -->
+  <div class="slide bg-grid" id="s26">
+    <div class="slide-meta">26 / 47</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Robotic Surgery</div>
+      <h2 class="slide-title">The Robot <em>Surgeon</em></h2>
+      <div class="accent-line"></div>
+      <div class="card-grid cols-2" style="margin-top:24px;">
+        <div class="card purple">
+          <span class="card-icon">🤖</span>
+          <h4>da Vinci Surgical System</h4>
+          <p>Intuitive Surgical's flagship platform. 7,500+ systems worldwide. Over 10 million procedures performed. 5-mm instruments with 7 degrees of freedom exceed human hand dexterity. FDA cleared for prostatectomy, hysterectomy, cholecystectomy.</p>
+        </div>
+        <div class="card">
+          <span class="card-icon">🦴</span>
+          <h4>MAKO Robotic Arm (Stryker)</h4>
+          <p>CT-based pre-surgical planning with intraoperative haptic guidance for knee and hip replacement. Studies show 2× precision vs. manual and reduced revision rates at 5 years.</p>
+        </div>
+        <div class="card orange">
+          <span class="card-icon">👁️</span>
+          <h4>Tremor Filtration & Microsurgery</h4>
+          <p>Robotic platforms like Preceyes filter physiological hand tremor for retinal microsurgery. Enables subretinal injections at 10-micron precision — impossible by unaided human hand.</p>
+        </div>
+        <div class="card green">
+          <span class="card-icon">🌐</span>
+          <h4>Telesurgery & Remote Operations</h4>
+          <p>5G-enabled remote surgery demonstrated in animals and pilot studies. In 2019, a surgeon in China performed laparoscopic liver surgery on a pig 50km away with 2ms latency.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 27: 3D PRINTING ============ -->
+  <div class="slide bg-grid bg-radial-orange" id="s27">
+    <div class="slide-meta">27 / 47</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Additive Manufacturing</div>
+      <h2 class="slide-title">3D Printing in <em>Medicine</em></h2>
+      <div class="accent-line"></div>
+      <ul class="num-list" style="margin-top:24px;">
+        <li><span class="num">01</span><div class="content"><h4>Custom Prosthetics & Orthotics</h4><p>Patient-specific 3D-printed prosthetic limbs at 1/10th the cost of traditional devices. E-NABLE network has distributed 8,000+ printed hands globally for under $100 each, transforming access in low-resource settings.</p></div></li>
+        <li><span class="num">02</span><div class="content"><h4>Surgical Planning & Implants</h4><p>Patient-specific implants for craniofacial, spinal, and orthopedic reconstruction. CT/MRI data converted to 3D models for pre-operative rehearsal, reducing OR time by 30%.</p></div></li>
+        <li><span class="num">03</span><div class="content"><h4>Bioprinting — Tissues & Organoids</h4><p>3D bioprinting deposits living cells in hydrogel matrices to create tissue constructs. Organovo's bioprinted liver tissue is used for drug toxicity testing. Full organ bioprinting remains a 10-year horizon goal.</p></div></li>
+        <li><span class="num">04</span><div class="content"><h4>Drug Manufacturing</h4><p>Aprecia's SPRITAM (2015) was FDA-approved as the first 3D-printed oral drug. Enables dose customization, novel drug-delivery geometries, and on-demand polypharmacy compounding.</p></div></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 28: SECTION 6 DIGITAL THERAPEUTICS ============ -->
+  <div class="slide bg-radial-green" id="s28">
+    <div class="slide-meta">28 / 47</div>
+    <div class="section-slide">
+      <div class="section-num">SECTION 06</div>
+      <div class="section-main">DIGITAL<br><em>THERAPEUTICS &</em><br>TELEHEALTH</div>
+      <div class="hdiv"></div>
+      <p class="lead">Software as medicine — prescription apps, virtual care platforms, and AI mental health companions.</p>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 29: DIGITAL THERAPEUTICS ============ -->
+  <div class="slide bg-grid" id="s29">
+    <div class="slide-meta">29 / 47</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Software as Medicine</div>
+      <h2 class="slide-title">Digital <em>Therapeutics (DTx)</em></h2>
+      <div class="accent-line"></div>
+      <div class="two-col" style="margin-top:24px;">
+        <div>
+          <p class="body-text" style="margin-bottom:16px;">Digital therapeutics (DTx) are evidence-based therapeutic interventions driven by high-quality software programs to prevent, manage, or treat a medical disorder or disease.</p>
+          <p class="body-text" style="margin-bottom:16px;">Unlike health apps, DTx must demonstrate clinical evidence through rigorous trials and often require regulatory clearance (FDA De Novo or 510(k)) before being prescribed by clinicians.</p>
+          <div class="card green" style="margin-top:16px;">
+            <h4>Landmark: Pear Therapeutics — reSET</h4>
+            <p>First prescription DTx (2017). CBT-based app for substance use disorder. RCT showed 40% improvement in retention vs. standard care. Later joined by Somryst (insomnia) and reSET-O (opioid use disorder).</p>
+          </div>
+        </div>
+        <div class="card-grid" style="grid-template-columns:1fr;gap:12px;">
+          <div class="card">
+            <span class="card-icon">🧠</span>
+            <h4>Mental Health DTx</h4>
+            <p>Freespira (PTSD/panic disorder), Rejoyn (MDD as adjunct to antidepressants), Innerwell — FDA-authorized apps delivering CBT, EMDR, and mindfulness protocols.</p>
+          </div>
+          <div class="card orange">
+            <span class="card-icon">🫀</span>
+            <h4>Cardiac & Metabolic DTx</h4>
+            <p>Hinge Health for MSK, Omada for diabetes prevention, Noom Weight — outcomes-based digital programs reimbursed by employers and insurers.</p>
+          </div>
+          <div class="card purple">
+            <span class="card-icon">👶</span>
+            <h4>Pediatric DTx</h4>
+            <p>EndeavorRx — first FDA-authorized game-based DTx for ADHD in children 8–12 years. Gamified cognitive training outperforms placebo on TOVA attention measures.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 30: TELEHEALTH ============ -->
+  <div class="slide bg-grid bg-radial" id="s30">
+    <div class="slide-meta">30 / 47</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Virtual Care</div>
+      <h2 class="slide-title">Telehealth <em>Transformation</em></h2>
+      <div class="accent-line"></div>
+      <div class="card-grid cols-2" style="margin-top:24px;">
+        <div class="card">
+          <span class="stat">38×</span>
+          <span class="stat-label">Telehealth utilization increase during COVID-19 (McKinsey 2020)</span>
+        </div>
+        <div class="card green">
+          <span class="stat" style="color:var(--accent2);">$285B</span>
+          <span class="stat-label">Projected telehealth market by 2028</span>
+        </div>
+      </div>
+      <ul class="num-list" style="margin-top:20px;gap:12px;">
+        <li><span class="num">01</span><div class="content"><h4>Synchronous Video Visits</h4><p>Real-time audio-video consultations for primary care, mental health, dermatology. Platforms: Teladoc, MDLive, Amwell. Parity laws now require insurance coverage in 43 US states.</p></div></li>
+        <li><span class="num">02</span><div class="content"><h4>Asynchronous & Store-and-Forward</h4><p>Patient sends photos, questionnaires, and history; clinician reviews asynchronously. Ideal for dermatology, ophthalmology, and low-acuity primary care — dramatically increases throughput.</p></div></li>
+        <li><span class="num">03</span><div class="content"><h4>Hospital at Home</h4><p>Acute care at home programs (Brigham & Women's, Johns Hopkins) deliver IV antibiotics, monitoring, and nursing via telehealth. Reduce cost by 38% and readmissions by 70%.</p></div></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 31: MENTAL HEALTH TECH ============ -->
+  <div class="slide bg-grid" id="s31">
+    <div class="slide-meta">31 / 47</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Behavioral Health Technology</div>
+      <h2 class="slide-title">Digital <em>Mental Health</em></h2>
+      <div class="accent-line"></div>
+      <div class="two-col" style="margin-top:24px;">
+        <div class="card-grid" style="grid-template-columns:1fr;gap:12px;">
+          <div class="card purple">
+            <span class="card-icon">💬</span>
+            <h4>AI Chatbots & Companions</h4>
+            <p>Woebot, Wysa, and Youper deliver evidence-based CBT conversations via text. Studies show significant reductions in PHQ-9 depression scores within 2 weeks of use. Scalable to millions with no therapist bottleneck.</p>
+          </div>
+          <div class="card">
+            <span class="card-icon">🎮</span>
+            <h4>VR Therapy</h4>
+            <p>Oxford VR's app treats agoraphobia via graduated exposure in virtual environments. Meta-analyses show VR therapy for phobias and PTSD equivalent to in-person exposure therapy with higher completion rates.</p>
+          </div>
+          <div class="card green">
+            <span class="card-icon">📱</span>
+            <h4>Crisis Intervention Technology</h4>
+            <p>Crisis Text Line, 988 integration with apps, and passive sensing (analyzing typing patterns, voice tone, geolocation) for early warning of mental health deterioration.</p>
+          </div>
+        </div>
+        <div>
+          <p class="body-text" style="margin-bottom:20px;">Mental health conditions affect 970 million people globally — yet only 1 in 3 people with depression in high-income countries receives adequate care. Digital tools offer a radical scalability advantage:</p>
+          <div class="stat-row" style="flex-direction:column;gap:12px;">
+            <div class="stat-item" style="text-align:left;display:flex;align-items:center;gap:16px;padding:16px;">
+              <span class="val" style="min-width:80px;">16–24</span>
+              <span class="lbl" style="text-align:left;">Weeks average wait for outpatient mental health therapy in US</span>
+            </div>
+            <div class="stat-item" style="text-align:left;display:flex;align-items:center;gap:16px;padding:16px;">
+              <span class="val" style="min-width:80px;color:var(--accent2);">~$30</span>
+              <span class="lbl" style="text-align:left;">Cost per user per year for AI-based mental health app vs. $250+/session therapy</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 32: SECTION 7 IMAGING ============ -->
+  <div class="slide bg-radial" id="s32">
+    <div class="slide-meta">32 / 47</div>
+    <div class="section-slide">
+      <div class="section-num">SECTION 07</div>
+      <div class="section-main">ADVANCED<br><em>IMAGING &</em><br>DIAGNOSTICS</div>
+      <div class="hdiv"></div>
+      <p class="lead">From MRI to molecular imaging — how advanced diagnostics are seeing the body in entirely new ways.</p>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 33: IMAGING MODALITIES ============ -->
+  <div class="slide bg-grid" id="s33">
+    <div class="slide-meta">33 / 47</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Diagnostic Imaging</div>
+      <h2 class="slide-title">Modern Imaging <em>Modalities</em></h2>
+      <div class="accent-line"></div>
+      <table class="data-table" style="margin-top:24px;">
+        <thead>
+          <tr><th>Modality</th><th>Technology</th><th>Clinical Use</th><th>AI Enhancement</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>MRI (7T)</td><td>High-field magnets</td><td>Brain, MSK, soft tissue</td><td><span class="tag purple">Synthetic MRI</span></td></tr>
+          <tr><td>CT (Spectral)</td><td>Dual-energy X-ray</td><td>Vascular, trauma, oncology</td><td><span class="tag blue">Low-dose recon</span></td></tr>
+          <tr><td>PET/MRI</td><td>Nuclear + MRI hybrid</td><td>Oncology, neurology, cardiology</td><td><span class="tag orange">Quantitative AI</span></td></tr>
+          <tr><td>Photoacoustic</td><td>Laser + ultrasound</td><td>Vascular, breast cancer</td><td><span class="tag green">Emerging</span></td></tr>
+          <tr><td>OCT-A</td><td>Coherence tomography</td><td>Retinal vasculature</td><td><span class="tag purple">AMD grading</span></td></tr>
+          <tr><td>AI Ultrasound</td><td>Deep learning probe</td><td>Point-of-care, POCUS</td><td><span class="tag blue">Auto-interpretation</span></td></tr>
+          <tr><td>Digital Pathology</td><td>Whole slide imaging</td><td>Cancer grading, IHC</td><td><span class="tag orange">Gleason grading</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 34: POINT OF CARE ============ -->
+  <div class="slide bg-grid bg-radial-green" id="s34">
+    <div class="slide-meta">34 / 47</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Decentralized Diagnostics</div>
+      <h2 class="slide-title">Point-of-Care <em>Testing (POCT)</em></h2>
+      <div class="accent-line"></div>
+      <div class="card-grid cols-3" style="margin-top:24px;">
+        <div class="card green">
+          <span class="card-icon">🩸</span>
+          <h4>Microfluidic Lab-on-Chip</h4>
+          <p>Credit-card sized devices perform blood panels, pathogen detection, and hormone testing in <15 minutes. No lab technician required. Used in ambulances, clinics, and homes.</p>
+        </div>
+        <div class="card">
+          <span class="card-icon">📱</span>
+          <h4>Smartphone-Based Diagnostics</h4>
+          <p>Urine dipstick readers, fundus cameras, ECG attachments, and hemoglobin meters connect to smartphones — turning $500 phones into $100K clinical instruments.</p>
+        </div>
+        <div class="card orange">
+          <span class="card-icon">🧬</span>
+          <h4>Rapid Molecular Testing</h4>
+          <p>CEPHEID Xpert and Abbott ID NOW perform PCR-equivalent testing in 5–45 minutes. COVID-19 accelerated deployment of rapid molecular POCT in pharmacies, airports, schools.</p>
+        </div>
+      </div>
+      <div class="quote-block" style="margin-top:32px;">
+        <blockquote style="font-size:18px;">"The democratization of diagnostics — bringing hospital-quality testing to every corner of the world — is one of the most consequential shifts in 21st-century medicine."</blockquote>
+        <cite>— Dr. Paul Yager, University of Washington, Pioneer in POCT</cite>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 35: SECTION 8 REGULATION ============ -->
+  <div class="slide bg-radial-purple" id="s35">
+    <div class="slide-meta">35 / 47</div>
+    <div class="section-slide">
+      <div class="section-num">SECTION 08</div>
+      <div class="section-main">REGULATION,<br><em>ETHICS &</em><br>CHALLENGES</div>
+      <div class="hdiv"></div>
+      <p class="lead">Navigating the complex landscape of safety, privacy, equity, and the ethics of algorithmic medicine.</p>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 36: REGULATORY LANDSCAPE ============ -->
+  <div class="slide bg-grid" id="s36">
+    <div class="slide-meta">36 / 47</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Regulatory Frameworks</div>
+      <h2 class="slide-title">Navigating <em>Regulation</em></h2>
+      <div class="accent-line"></div>
+      <div class="card-grid cols-2" style="margin-top:24px;">
+        <div class="card">
+          <span class="card-icon">🇺🇸</span>
+          <h4>FDA — United States</h4>
+          <p>21st Century Cures Act exempted low-risk wellness apps. FDA regulates higher-risk SaMD through 510(k), De Novo, and PMA pathways. Pre-Submission (Q-Sub) program supports AI/ML devices. Total Product Lifecycle (TPLC) approach for AI that learns post-market.</p>
+        </div>
+        <div class="card orange">
+          <span class="card-icon">🇪🇺</span>
+          <h4>EU MDR & AI Act</h4>
+          <p>Medical Device Regulation (MDR 2017/745) tightened CE marking requirements in 2021. EU AI Act (2024) classifies many medical AI tools as "high risk" requiring additional auditing, transparency, and human oversight requirements.</p>
+        </div>
+        <div class="card green">
+          <span class="card-icon">🔐</span>
+          <h4>HIPAA & GDPR</h4>
+          <p>US HIPAA governs health data privacy with strict breach notification. GDPR Article 9 classifies health data as "special category" requiring explicit consent. Tension between data utility for AI and privacy rights is a persistent challenge.</p>
+        </div>
+        <div class="card purple">
+          <span class="card-icon">🤝</span>
+          <h4>Global Harmonization</h4>
+          <p>IMDRF (International Medical Device Regulators Forum) works to harmonize frameworks. WHO guidance on AI in health. China's NMPA, Japan's PMDA developing parallel AI-specific frameworks.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 37: ETHICS ============ -->
+  <div class="slide bg-grid bg-radial-orange" id="s37">
+    <div class="slide-meta">37 / 47</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Bioethics</div>
+      <h2 class="slide-title">Ethical <em>Dimensions</em> of MedTech</h2>
+      <div class="accent-line"></div>
+      <ul class="num-list" style="margin-top:24px;">
+        <li><span class="num">01</span><div class="content"><h4>Algorithmic Bias & Health Equity</h4><p>AI models trained on predominantly white, male, affluent datasets underperform for underrepresented groups. Pulse oximeters showed lower accuracy in patients with dark skin. Bias in clinical decision tools may deepen rather than reduce health disparities.</p></div></li>
+        <li><span class="num">02</span><div class="content"><h4>Informed Consent in the Age of Genomics</h4><p>Direct-to-consumer genetic testing (23andMe, AncestryDNA) raises questions about incidental findings, familial implications, and secondary use of genetic databases. Right to know vs. right not to know.</p></div></li>
+        <li><span class="num">03</span><div class="content"><h4>Accountability in AI-Assisted Decisions</h4><p>When AI recommends a treatment and harm results, who bears liability — the clinician, hospital, or algorithm developer? "Black box" AI makes explainability critical for clinical trust and legal accountability.</p></div></li>
+        <li><span class="num">04</span><div class="content"><h4>Digital Divide & Access</h4><p>Advanced MedTech concentration in high-income countries widens global health inequality. Smartphone-based diagnostics, affordable sensors, and open-source AI offer a pathway toward equitable access.</p></div></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 38: CYBERSECURITY ============ -->
+  <div class="slide bg-grid" id="s38">
+    <div class="slide-meta">38 / 47</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Security Risks</div>
+      <h2 class="slide-title">MedTech <em>Cybersecurity</em></h2>
+      <div class="accent-line"></div>
+      <div class="two-col" style="margin-top:24px;">
+        <div>
+          <p class="body-text" style="margin-bottom:16px;">Connected medical devices expand the attack surface of healthcare dramatically. Hospitals experience more cyberattacks than any other sector — and the consequences of compromised medical devices can be life-threatening.</p>
+          <div class="card red" style="margin-top:16px;border-color:rgba(255,59,92,0.3);">
+            <span class="stat" style="color:var(--red);">$10.9M</span>
+            <span class="stat-label">Average healthcare data breach cost in 2023 — highest of any industry (IBM Security)</span>
+          </div>
+          <div class="card" style="margin-top:12px;">
+            <span class="stat">550</span>
+            <span class="stat-label">US healthcare data breaches in 2023 affecting 500+ individuals (HHS)</span>
+          </div>
+        </div>
+        <div class="card-grid" style="grid-template-columns:1fr;gap:12px;">
+          <div class="card red" style="border-color:rgba(255,59,92,0.3);">
+            <span class="card-icon">⚠️</span>
+            <h4 style="color:var(--red);">Real-World Incidents</h4>
+            <p>2020 Düsseldorf hospital ransomware attack caused patient death. 2023 Common Spirit attack delayed chemotherapy. FDA issued recalls for vulnerable insulin pumps and cardiac monitors.</p>
+          </div>
+          <div class="card orange">
+            <span class="card-icon">🛡️</span>
+            <h4>Mitigation Strategies</h4>
+            <p>Medical Device Security by Design (SBOM requirements), network segmentation, patch management programs, FDA Premarket Cybersecurity guidance (2023 update), ISAC threat sharing.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 39: DATA INTEROPERABILITY ============ -->
+  <div class="slide bg-grid bg-radial-green" id="s39">
+    <div class="slide-meta">39 / 47</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Health Information Technology</div>
+      <h2 class="slide-title">Interoperability & <em>Data Standards</em></h2>
+      <div class="accent-line"></div>
+      <div class="card-grid cols-3" style="margin-top:24px;">
+        <div class="card">
+          <span class="card-icon">🔗</span>
+          <h4>HL7 FHIR</h4>
+          <p>Fast Healthcare Interoperability Resources (FHIR R4) is the dominant standard for health data exchange. US 21st Century Cures Rule mandates FHIR APIs for EHR data access, enabling patient data portability.</p>
+        </div>
+        <div class="card green">
+          <span class="card-icon">☁️</span>
+          <h4>Cloud-Native EHR Platforms</h4>
+          <p>Oracle Health (Cerner), Epic, and AWS HealthLake are building FHIR-native cloud platforms. Moving from siloed data to continuous, real-time longitudinal health records accessible anywhere.</p>
+        </div>
+        <div class="card orange">
+          <span class="card-icon">🤝</span>
+          <h4>TEFCA & Information Blocking</h4>
+          <p>The Trusted Exchange Framework (TEFCA) establishes a national network for health data exchange. HHS' information blocking rule fines providers for withholding data — a shift toward patient data sovereignty.</p>
+        </div>
+      </div>
+      <div class="quote-block" style="margin-top:24px;">
+        <blockquote style="font-size:16px;">Without true data interoperability, AI in healthcare cannot reach its potential. The best algorithm is worthless without the data to train it and the infrastructure to deploy it safely.</blockquote>
+        <cite>— Eric Topol, MD — Scripps Research, author of "Deep Medicine"</cite>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 40: SECTION 9 FUTURE ============ -->
+  <div class="slide bg-radial" id="s40">
+    <div class="slide-meta">40 / 47</div>
+    <div class="section-slide">
+      <div class="section-num">SECTION 09</div>
+      <div class="section-main">THE FUTURE<br><em>OF MEDTECH</em><br>2025–2035</div>
+      <div class="hdiv"></div>
+      <p class="lead">Emerging technologies, paradigm shifts, and the vision for the next decade of healthcare innovation.</p>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 41: EMERGING TECHNOLOGIES ============ -->
+  <div class="slide bg-grid" id="s41">
+    <div class="slide-meta">41 / 47</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Horizon Technologies</div>
+      <h2 class="slide-title">What's <em>Coming Next</em></h2>
+      <div class="accent-line"></div>
+      <div class="card-grid cols-3" style="margin-top:24px;">
+        <div class="card purple">
+          <span class="card-icon">🧠</span>
+          <h4>Brain-Computer Interfaces</h4>
+          <p>Neuralink's N1 chip implanted in humans 2024. Synchron's Stentrode allows ALS patients to type via thought. BCIs offer restoring motor function, treating depression, enhancing cognitive rehabilitation.</p>
+        </div>
+        <div class="card">
+          <span class="card-icon">🔬</span>
+          <h4>Nanotechnology</h4>
+          <p>Nanoparticle drug delivery targeting tumor microenvironments. DNA origami nanorobots, lipid nanoparticles (LNPs) used in mRNA vaccines. Diagnostic nanosensors that circulate in blood detecting disease biomarkers.</p>
+        </div>
+        <div class="card green">
+          <span class="card-icon">⚛️</span>
+          <h4>Quantum Computing in Healthcare</h4>
+          <p>Quantum algorithms accelerate molecular simulation for drug discovery, protein folding, and optimization of radiation therapy dose planning. IBM, Google, and IonQ partnering with pharma.</p>
+        </div>
+        <div class="card orange">
+          <span class="card-icon">🌱</span>
+          <h4>Synthetic Biology</h4>
+          <p>Engineered microorganisms that detect and treat disease inside the body. Synlogic's "programmable bacteria" designed to break down excess ammonia in urea cycle disorders. Living medicines era beginning.</p>
+        </div>
+        <div class="card">
+          <span class="card-icon">🏗️</span>
+          <h4>Organ-on-a-Chip</h4>
+          <p>Microfluidic devices lined with living human cells that recapitulate organ-level functions. Replace animal testing for drug development. Wyss Institute lung-, gut-, and kidney-on-a-chip platforms.</p>
+        </div>
+        <div class="card red">
+          <span class="card-icon">🤖</span>
+          <h4>Autonomous AI Clinician</h4>
+          <p>LLM-powered multimodal AI agents that can read imaging, review labs, check EHR history, and draft a differential diagnosis and treatment plan — augmenting or eventually replacing certain specialist functions.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 42: FUTURE CARE MODEL ============ -->
+  <div class="slide bg-grid bg-radial-purple" id="s42">
+    <div class="slide-meta">42 / 47</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Healthcare Transformation</div>
+      <h2 class="slide-title">The Future <em>Care Model</em></h2>
+      <div class="accent-line"></div>
+      <div class="flow" style="margin-top:32px;flex-wrap:wrap;gap:12px;">
+        <div class="flow-box" style="min-width:160px;">
+          <span class="ficon">🧬</span>
+          <h4>Predict</h4>
+          <p>Polygenic risk scores + AI modeling of multi-omic data forecasts disease decades before symptoms</p>
+        </div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box" style="min-width:160px;border-color:rgba(0,255,157,0.3);">
+          <span class="ficon">🛡️</span>
+          <h4>Prevent</h4>
+          <p>Personalized lifestyle, pharmacological, and behavioral interventions block disease progression</p>
+        </div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box" style="min-width:160px;border-color:rgba(255,107,53,0.3);">
+          <span class="ficon">🔍</span>
+          <h4>Detect Early</h4>
+          <p>Liquid biopsy, ambient sensors, and AI flag subclinical disease at the earliest treatable stage</p>
+        </div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box" style="min-width:160px;border-color:rgba(191,90,242,0.3);">
+          <span class="ficon">💊</span>
+          <h4>Treat Precisely</h4>
+          <p>Gene therapies, CAR-T cells, precision DTx — curative treatments matched to individual biology</p>
+        </div>
+      </div>
+      <p class="lead" style="margin-top:32px;font-size:14px;">The vision: shifting healthcare from "sick care" — reactive, episodic, hospital-centered — to a proactive, continuous, personalized system that keeps people well. Enabled entirely by MedTech.</p>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 43: INVESTMENT LANDSCAPE ============ -->
+  <div class="slide bg-grid" id="s43">
+    <div class="slide-meta">43 / 47</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Venture & Capital</div>
+      <h2 class="slide-title">MedTech <em>Investment</em> Landscape</h2>
+      <div class="accent-line"></div>
+      <div class="card-grid cols-2" style="margin-top:24px;">
+        <div>
+          <div class="bar-chart">
+            <div class="bar-row">
+              <span class="bar-label">Digital Health</span>
+              <div class="bar-track"><div class="bar-fill" style="width:55%"></div></div>
+              <span class="bar-val">$29B</span>
+            </div>
+            <div class="bar-row">
+              <span class="bar-label">Medical Devices</span>
+              <div class="bar-track"><div class="bar-fill" style="width:38%;background:linear-gradient(90deg,var(--accent2),#00a86b)"></div></div>
+              <span class="bar-val" style="color:var(--accent2);">$21B</span>
+            </div>
+            <div class="bar-row">
+              <span class="bar-label">Biopharma / Biotech</span>
+              <div class="bar-track"><div class="bar-fill" style="width:80%;background:linear-gradient(90deg,var(--accent3),#ff9500)"></div></div>
+              <span class="bar-val" style="color:var(--accent3);">$42B</span>
+            </div>
+            <div class="bar-row">
+              <span class="bar-label">Health AI / Analytics</span>
+              <div class="bar-track"><div class="bar-fill" style="width:28%;background:linear-gradient(90deg,var(--accent4),#8e4ec6)"></div></div>
+              <span class="bar-val" style="color:var(--accent4);">$15B</span>
+            </div>
+            <div class="bar-row">
+              <span class="bar-label">Genomics</span>
+              <div class="bar-track"><div class="bar-fill" style="width:18%;background:linear-gradient(90deg,var(--red),#c02942)"></div></div>
+              <span class="bar-val" style="color:var(--red);">$9B</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-grid" style="grid-template-columns:1fr;gap:12px;">
+          <div class="card">
+            <h4>Top VC Funds in MedTech (2024)</h4>
+            <p style="margin-top:8px;">
+              <span class="tag blue" style="margin:3px;">General Catalyst</span>
+              <span class="tag green" style="margin:3px;">a16z Bio</span>
+              <span class="tag orange" style="margin:3px;">Bessemer Ventures</span>
+              <span class="tag purple" style="margin:3px;">NEA</span>
+              <span class="tag blue" style="margin:3px;">Khosla Ventures</span>
+              <span class="tag green" style="margin:3px;">GV (Google Ventures)</span>
+              <span class="tag orange" style="margin:3px;">Kaiser Permanente Ventures</span>
+            </p>
+          </div>
+          <div class="card green">
+            <span class="stat" style="color:var(--accent2);">$29B</span>
+            <span class="stat-label">Global digital health VC investment in 2023 (despite 50% contraction from 2021 peak)</span>
+          </div>
+          <div class="card orange">
+            <span class="stat" style="color:var(--accent3);">$162B</span>
+            <span class="stat-label">Total MedTech M&A deal value in 2023 (Johnson & Johnson, Medtronic, Abbott led acquisitions)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 44: CASE STUDIES COMPARISON ============ -->
+  <div class="slide bg-grid" id="s44">
+    <div class="slide-meta">44 / 47</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Real-World Evidence</div>
+      <h2 class="slide-title">Impact <em>Case Studies</em></h2>
+      <div class="accent-line"></div>
+      <table class="data-table" style="margin-top:24px;">
+        <thead>
+          <tr><th>Technology</th><th>Condition</th><th>Outcome Achieved</th><th>Evidence Level</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>AI Sepsis Detection (Epic)</td><td>Sepsis in ICU</td><td>20% mortality reduction, 6h earlier detection</td><td><span class="tag green">RCT</span></td></tr>
+          <tr><td>Continuous CGM (Dexcom)</td><td>Type 1 Diabetes</td><td>−1.0% HbA1c, −38% hypoglycemia time</td><td><span class="tag green">RCT</span></td></tr>
+          <tr><td>Casgevy CRISPR Therapy</td><td>Sickle Cell Disease</td><td>97% of patients free from pain crises</td><td><span class="tag blue">Phase III</span></td></tr>
+          <tr><td>Da Vinci Robotic Surgery</td><td>Prostatectomy</td><td>62% lower readmission, shorter LOS</td><td><span class="tag orange">Cohort</span></td></tr>
+          <tr><td>Hospital-at-Home (BWH)</td><td>Acute Medical</td><td>−38% cost, −70% readmission rate</td><td><span class="tag green">RCT</span></td></tr>
+          <tr><td>Woebot AI Therapy</td><td>Anxiety / Depression</td><td>Significant PHQ-9 reduction in 2 weeks</td><td><span class="tag blue">Pilot RCT</span></td></tr>
+          <tr><td>AI Radiology (CheXNet)</td><td>Pneumonia (X-Ray)</td><td>Exceeded average radiologist AUC</td><td><span class="tag orange">Benchmark</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 45: KEY TAKEAWAYS ============ -->
+  <div class="slide bg-grid bg-radial" id="s45">
+    <div class="slide-meta">45 / 47</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Summary</div>
+      <h2 class="slide-title">Key <em>Takeaways</em></h2>
+      <div class="accent-line"></div>
+      <ul class="num-list" style="margin-top:24px;">
+        <li><span class="num">01</span><div class="content"><h4>MedTech is the fastest-growing sector in healthcare</h4><p>From $660B today to $1.3T by 2030 — driven by aging populations, chronic disease burden, digital infrastructure, and AI breakthroughs.</p></div></li>
+        <li><span class="num">02</span><div class="content"><h4>AI is amplifying every domain of medicine</h4><p>From imaging interpretation to drug discovery to clinical note automation — AI is augmenting (and beginning to replace) specific clinical tasks with measurable patient outcome improvements.</p></div></li>
+        <li><span class="num">03</span><div class="content"><h4>Genomics is making medicine truly personal</h4><p>Sub-$200 sequencing, CRISPR therapies, pharmacogenomics, and liquid biopsy are enabling curative and precisely targeted treatments impossible a decade ago.</p></div></li>
+        <li><span class="num">04</span><div class="content"><h4>Wearables & IoT are shifting care out of hospitals</h4><p>Continuous real-time monitoring, remote patient management, and hospital-at-home programs are decentralizing care — improving outcomes at lower cost.</p></div></li>
+        <li><span class="num">05</span><div class="content"><h4>Equity, ethics, and regulation must keep pace with innovation</h4><p>The transformative power of MedTech must be matched with thoughtful governance: addressing algorithmic bias, data privacy, cybersecurity, and ensuring benefits reach all populations globally.</p></div></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 46: DISCUSSION QUESTIONS ============ -->
+  <div class="slide bg-grid bg-radial-purple" id="s46">
+    <div class="slide-meta">46 / 47</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Seminar Discussion</div>
+      <h2 class="slide-title">Discussion <em>Questions</em></h2>
+      <div class="accent-line"></div>
+      <div class="card-grid cols-2" style="margin-top:24px;">
+        <div class="card purple">
+          <span class="card-icon">💭</span>
+          <h4>Question 1</h4>
+          <p>Should AI-generated clinical recommendations be held to a higher or lower standard of evidence than human clinical judgment? Who should bear liability when AI systems fail?</p>
+        </div>
+        <div class="card">
+          <span class="card-icon">💭</span>
+          <h4>Question 2</h4>
+          <p>How do we ensure that breakthroughs like CRISPR gene therapies ($3–4M per treatment) don't become technologies exclusively available to wealthy populations and nations?</p>
+        </div>
+        <div class="card orange">
+          <span class="card-icon">💭</span>
+          <h4>Question 3</h4>
+          <p>As wearables collect unprecedented amounts of intimate health data, who should own this data — patients, devices manufacturers, or insurers — and what rights should patients have?</p>
+        </div>
+        <div class="card green">
+          <span class="card-icon">💭</span>
+          <h4>Question 4</h4>
+          <p>What is the role of human connection in medicine? As AI and digital therapeutics scale, how do we preserve the therapeutic relationship that remains central to healing?</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 47: SECTION — MEDICAL TEXTILES ============ -->
+  <div class="slide bg-radial-green" id="s47">
+    <div class="slide-meta">47 / 59</div>
+    <div class="section-slide">
+      <div class="section-num">SECTION 10</div>
+      <div class="section-main">MEDICAL<br><em>TEXTILES</em></div>
+      <div class="hdiv"></div>
+      <p class="lead">Fibers, fabrics, and functional constructs at the intersection of materials science and medicine — from wound dressings to vascular grafts.</p>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 48: WHAT ARE MEDICAL TEXTILES ============ -->
+  <div class="slide bg-grid bg-radial" id="s48">
+    <div class="slide-meta">48 / 59</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Introduction</div>
+      <h2 class="slide-title">What Are <em>Medical Textiles</em>?</h2>
+      <div class="accent-line"></div>
+      <div class="two-col" style="margin-top:24px;">
+        <div>
+          <p class="body-text" style="margin-bottom:16px;">Medical textiles are fiber-based structures designed specifically for healthcare applications — combining engineering precision with biocompatibility requirements. They represent one of the fastest-growing segments of technical textiles, spanning a spectrum from simple gauze to complex tissue-engineered scaffolds.</p>
+          <p class="body-text" style="margin-bottom:16px;">Unlike conventional textiles, medical textiles must meet strict standards of sterility, non-toxicity, non-carcinogenicity, non-allergenic behavior, and often, biodegradability. They must interact with living tissue without causing adverse biological responses.</p>
+          <div class="card green" style="margin-top:16px;">
+            <span class="stat" style="color:var(--accent2);">$26B</span>
+            <span class="stat-label">Global medical textiles market (2023), projected $48B by 2032 at 7.1% CAGR</span>
+          </div>
+        </div>
+        <div class="card-grid" style="grid-template-columns:1fr;gap:12px;">
+          <div class="card">
+            <span class="card-icon">🩹</span>
+            <h4>Non-Implantable Products</h4>
+            <p>Wound care, bandages, pressure garments, surgical drapes — used externally or in body orifices.</p>
+          </div>
+          <div class="card orange">
+            <span class="card-icon">🧫</span>
+            <h4>Implantable Products</h4>
+            <p>Sutures, vascular grafts, hernia meshes, ligament reconstruction, cardiac patches — permanently placed inside the body.</p>
+          </div>
+          <div class="card purple">
+            <span class="card-icon">🏥</span>
+            <h4>Healthcare & Hygiene Products</h4>
+            <p>Surgical gowns, masks, drapes, caps — infection control textiles for clinical environments.</p>
+          </div>
+          <div class="card green">
+            <span class="card-icon">🔬</span>
+            <h4>Extracorporeal Devices</h4>
+            <p>Dialysis membranes, blood filters, oxygenators — textiles in life-support and organ-replacement systems.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 49: MEDICAL FIBERS ============ -->
+  <div class="slide bg-grid" id="s49">
+    <div class="slide-meta">49 / 59</div>
+    <div style="width:100%;max-width:1060px;">
+      <div class="slide-eyebrow">Fiber Science</div>
+      <h2 class="slide-title">Medical <em>Fibers & Their Properties</em></h2>
+      <div class="accent-line"></div>
+      <table class="data-table" style="margin-top:24px;">
+        <thead>
+          <tr><th>Fiber Type</th><th>Origin</th><th>Key Properties</th><th>Medical Application</th><th>Biodegradable?</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Polyglycolic Acid (PGA)</td><td>Synthetic</td><td>High tensile strength, fast degradation (2–4 wks)</td><td>Absorbable sutures, scaffolds</td><td><span class="tag green">YES</span></td></tr>
+          <tr><td>Polylactic Acid (PLA)</td><td>Synthetic</td><td>Slower degradation, good biocompatibility</td><td>Sutures, bone scaffolds, drug delivery</td><td><span class="tag green">YES</span></td></tr>
+          <tr><td>Polyester (PET)</td><td>Synthetic</td><td>High strength, durable, non-degradable</td><td>Vascular grafts, hernia mesh, sutures</td><td><span class="tag orange">NO</span></td></tr>
+          <tr><td>Polypropylene (PP)</td><td>Synthetic</td><td>Chemically inert, lightweight, low cost</td><td>Hernia repair mesh, sutures</td><td><span class="tag orange">NO</span></td></tr>
+          <tr><td>Polyurethane (PU)</td><td>Synthetic</td><td>Elastomeric, flexible, blood-compatible</td><td>Wound dressings, vascular grafts, films</td><td><span class="tag blue">PARTIAL</span></td></tr>
+          <tr><td>Nylon (Polyamide)</td><td>Synthetic</td><td>High strength, smooth surface, monofilament</td><td>Non-absorbable sutures, neural conduits</td><td><span class="tag orange">NO</span></td></tr>
+          <tr><td>Silk (Fibroin)</td><td>Natural (silkworm)</td><td>Excellent biocompatibility, slow degradation</td><td>Sutures, scaffolds, drug delivery</td><td><span class="tag green">YES</span></td></tr>
+          <tr><td>Collagen</td><td>Natural (bovine/porcine)</td><td>Native ECM protein, cell-adhesive</td><td>Wound dressings, scaffolds, hemostats</td><td><span class="tag green">YES</span></td></tr>
+          <tr><td>Chitosan</td><td>Natural (crustacean)</td><td>Antimicrobial, hemostatic, biodegradable</td><td>Wound dressings, scaffolds, sutures</td><td><span class="tag green">YES</span></td></tr>
+          <tr><td>Carbon Fiber</td><td>Synthetic</td><td>Ultra-high stiffness, radiolucent</td><td>Orthopedic implants, ligament repair</td><td><span class="tag orange">NO</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 50: HYGIENE & NON-IMPLANTABLE ============ -->
+  <div class="slide bg-grid bg-radial-orange" id="s50">
+    <div class="slide-meta">50 / 59</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Non-Implantable Medical Textiles</div>
+      <h2 class="slide-title">Hygiene & <em>Non-Implantable</em> Products</h2>
+      <div class="accent-line"></div>
+      <div class="card-grid cols-3" style="margin-top:24px;">
+        <div class="card orange">
+          <span class="card-icon">😷</span>
+          <h4>Surgical Masks & Gowns</h4>
+          <p>Melt-blown polypropylene nonwovens provide electrostatic filtration. Multi-layer SMS (spunbond-meltblown-spunbond) construction balances filtration efficiency (≥95% for N95) with breathability and fluid resistance (AAMI Level 1–4).</p>
+        </div>
+        <div class="card">
+          <span class="card-icon">🩺</span>
+          <h4>Surgical Drapes & Wraps</h4>
+          <p>Sterile barrier textiles that prevent surgical site contamination. Single-use nonwoven drapes reinforced with polyethylene films in critical zones. Must meet EN 13795 / ASTM F2407 for barrier performance and linting.</p>
+        </div>
+        <div class="card green">
+          <span class="card-icon">🩹</span>
+          <h4>Bandages & Compression</h4>
+          <p>Elastic woven, knitted, or cohesive bandages manage edema, venous ulcers, and lymphedema. Graduated compression hosiery (Class I–IV, 15–40+ mmHg) prevents DVT and manages chronic venous insufficiency.</p>
+        </div>
+        <div class="card purple">
+          <span class="card-icon">🛏️</span>
+          <h4>Pressure Ulcer Prevention</h4>
+          <p>Pressure-redistributing mattress covers and anti-decubitus textiles woven with viscoelastic fibers reduce interface pressure below 32 mmHg capillary occlusion threshold. Phase-change material (PCM) fibers regulate microclimate.</p>
+        </div>
+        <div class="card">
+          <span class="card-icon">🧴</span>
+          <h4>Incontinence Products</h4>
+          <p>Superabsorbent polymer (SAP) cores within nonwoven coverstocks. Acquisition-distribution layers rapidly transport fluid away from skin. Hydrophobic top sheets maintain skin dryness; odor-control via zeolite or activated carbon fibers.</p>
+        </div>
+        <div class="card orange">
+          <span class="card-icon">🏋️</span>
+          <h4>Orthopedic Supports</h4>
+          <p>Woven or knitted elastic orthoses for ankle, knee, and wrist support. Neoprene-based thermal braces provide warmth and proprioceptive feedback. Custom compression garments post-mastectomy manage lymphedema.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 51: BIOTEXTILES ============ -->
+  <div class="slide bg-grid bg-radial-purple" id="s51">
+    <div class="slide-meta">51 / 59</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Implantable Materials</div>
+      <h2 class="slide-title"><em>Biotextiles</em> — Textiles Inside the Body</h2>
+      <div class="accent-line"></div>
+      <div class="two-col" style="margin-top:24px;">
+        <div>
+          <p class="body-text" style="margin-bottom:16px;">Biotextiles are fiber-based structures implanted into or placed in contact with biological tissue for periods exceeding 30 days. They must meet stringent biocompatibility criteria as defined by ISO 10993 — covering cytotoxicity, sensitization, genotoxicity, and hemocompatibility.</p>
+          <p class="body-text" style="margin-bottom:16px;">Unlike surface-contact textiles, biotextiles must maintain structural integrity under physiological mechanical loads (cyclic stress, fluid pressure, enzymatic degradation) while simultaneously integrating with or not provoking a foreign body response from host tissue.</p>
+          <div class="card purple" style="margin-top:16px;">
+            <h4>ISO 10993 Biocompatibility Framework</h4>
+            <p>Series of standards covering cytotoxicity, sensitization, intracutaneous reactivity, systemic toxicity, subchronic/chronic toxicity, genotoxicity, implantation, and hemocompatibility — mandatory for all implantable textiles seeking regulatory clearance.</p>
+          </div>
+        </div>
+        <div class="card-grid" style="grid-template-columns:1fr;gap:12px;">
+          <div class="card">
+            <span class="card-icon">🫀</span>
+            <h4>Vascular Biotextiles</h4>
+            <p>Woven/knitted PET grafts replace damaged arteries. Must withstand systolic pressures ≥120 mmHg with burst strength >2000 mmHg. Porosity engineered for tissue ingrowth and endothelialization.</p>
+          </div>
+          <div class="card green">
+            <span class="card-icon">🦴</span>
+            <h4>Orthopedic Biotextiles</h4>
+            <p>Ligament reconstruction (ACL) using LARS synthetic ligament (polyethylene terephthalate) or biological augmentation scaffolds that degrade as native tissue remodels.</p>
+          </div>
+          <div class="card orange">
+            <span class="card-icon">🔧</span>
+            <h4>Hernia Repair Meshes</h4>
+            <p>PP, PET, or biologic meshes reinforce abdominal wall defects. Lightweight macroporous meshes (pore size >1mm) reduce chronic pain and improve tissue integration vs. heavyweight constructs.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 52: VASCULAR GRAFTS ============ -->
+  <div class="slide bg-grid" id="s52">
+    <div class="slide-meta">52 / 59</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Application-Oriented Design</div>
+      <h2 class="slide-title">Porous Vascular <em>Grafts & Tubular Structures</em></h2>
+      <div class="accent-line"></div>
+      <div class="card-grid cols-2" style="margin-top:24px;">
+        <div>
+          <ul class="num-list" style="gap:12px;">
+            <li><span class="num">01</span><div class="content"><h4>Woven Grafts (Tight, Low Porosity)</h4><p>Tightly interlaced PET yarns create low-porosity walls (≤50 mL/min/cm²). Minimal blood seepage without pre-clotting. Used for large-diameter grafts (>8mm) — aorta, iliac artery replacements. Resistant to kinking and radial deformation under pulsatile flow.</p></div></li>
+            <li><span class="num">02</span><div class="content"><h4>Knitted Grafts (High Porosity)</h4><p>Inter-looped yarn structure creates higher porosity (>500 mL/min/cm²), allowing tissue ingrowth and cell infiltration. Requires pre-clotting with autologous blood or coating with collagen/gelatin. More compliant than woven — better matched to native vessel mechanics.</p></div></li>
+            <li><span class="num">03</span><div class="content"><h4>ePTFE (Expanded PTFE) Grafts</h4><p>Gore-Tex structure with node-and-fibril microarchitecture. Internodal distance (IND) of 30µm optimizes transmural tissue ingrowth while maintaining structural integrity. Preferred for small-diameter peripheral bypass.</p></div></li>
+            <li><span class="num">04</span><div class="content"><h4>Small-Diameter Graft Challenge</h4><p>Grafts &lt;6mm suffer high thrombosis rates due to low flow, compliance mismatch, and lack of endothelialization. Active research: electrospun nanofiber grafts, heparin surface modification, endothelial cell seeding, and biodegradable scaffolds that remodel into living vessels.</p></div></li>
+          </ul>
+        </div>
+        <div class="card-grid" style="grid-template-columns:1fr;gap:12px;">
+          <div class="card purple">
+            <span class="card-icon">📐</span>
+            <h4>Design Parameters for Vascular Grafts</h4>
+            <p style="margin-bottom:8px;">Critical engineering specifications:</p>
+            <p>• <strong>Burst pressure:</strong> &gt;2000 mmHg (min. 4× systolic)<br>• <strong>Suture retention:</strong> &gt;25N<br>• <strong>Compliance:</strong> 5–10%/100mmHg (ideally matched to native artery)<br>• <strong>Porosity:</strong> Tuned per application<br>• <strong>Kink radius:</strong> Resistance to lumen collapse on bending<br>• <strong>Diameter:</strong> 6mm–30mm for clinical grafts</p>
+          </div>
+          <div class="card green">
+            <span class="card-icon">🧬</span>
+            <h4>Surface Functionalization</h4>
+            <p>Heparin bonding reduces thrombogenicity. Albumin coating reduces platelet adhesion. Antibiotic impregnation (rifampicin) for infection resistance in high-risk patients. VEGF immobilization accelerates endothelialization in experimental models.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 53: WOUND DRESSINGS ============ -->
+  <div class="slide bg-grid bg-radial-green" id="s53">
+    <div class="slide-meta">53 / 59</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Wound Care</div>
+      <h2 class="slide-title">Advanced <em>Wound Dressings</em></h2>
+      <div class="accent-line"></div>
+      <div class="two-col" style="margin-top:24px;">
+        <div>
+          <p class="body-text" style="margin-bottom:16px;">Modern wound dressings are sophisticated engineered systems — not just absorbents. Effective wound management requires maintaining a moist wound environment, controlling exudate, preventing infection, minimizing trauma on removal, and for chronic wounds, actively promoting healing through bioactive agents.</p>
+          <div class="card" style="margin-top:16px;margin-bottom:12px;">
+            <h4>Wound Healing Phases</h4>
+            <p>1. <strong>Hemostasis</strong> (0–few hrs) — clot formation, hemostatic dressings<br>2. <strong>Inflammatory</strong> (1–4 days) — antimicrobial dressings<br>3. <strong>Proliferative</strong> (4–21 days) — moist, bioactive scaffolds<br>4. <strong>Remodeling</strong> (21 days–2 yrs) — compression, scar management</p>
+          </div>
+          <div class="card green">
+            <span class="stat" style="color:var(--accent2);">$22B</span>
+            <span class="stat-label">Advanced wound care market globally by 2028</span>
+          </div>
+        </div>
+        <div class="card-grid" style="grid-template-columns:1fr;gap:10px;">
+          <div class="card">
+            <span class="card-icon">💧</span>
+            <h4>Hydrocolloid Dressings</h4>
+            <p>Carboxymethylcellulose (CMC) particles in hydrophobic polymer matrix. Absorb exudate forming a gel. Moist healing environment. Suitable for low-to-moderate exuding wounds and pressure ulcers.</p>
+          </div>
+          <div class="card orange">
+            <span class="card-icon">🌊</span>
+            <h4>Alginate Dressings</h4>
+            <p>Calcium alginate fibers derived from seaweed. Ion exchange with wound sodium creates a gel. High absorption (10–20× weight). Hemostatic properties. For highly exuding, cavity, and infected wounds.</p>
+          </div>
+          <div class="card purple">
+            <span class="card-icon">🔮</span>
+            <h4>Hydrogel Dressings</h4>
+            <p>Cross-linked polymer networks with 80–99% water content. Donate moisture to dry/necrotic wounds. Facilitate autolytic debridement. Cooling effect reduces pain. Used in burns, radiation wounds, dry necrotic wounds.</p>
+          </div>
+          <div class="card green">
+            <span class="card-icon">🧪</span>
+            <h4>Silver & Antimicrobial Dressings</h4>
+            <p>Nanocrystalline silver (Acticoat), silver-CMC (Aquacel Ag), PHMB, iodine-impregnated dressings. Broad-spectrum antimicrobial action. Indicated for critically colonized or infected wounds.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 54: WOUND DRESSING MATERIALS DESIGN ============ -->
+  <div class="slide bg-grid" id="s54">
+    <div class="slide-meta">54 / 59</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Materials Science</div>
+      <h2 class="slide-title">Design of <em>Wound Dressing Materials</em></h2>
+      <div class="accent-line"></div>
+      <div class="flow" style="margin-top:24px;flex-wrap:wrap;gap:12px;margin-bottom:24px;">
+        <div class="flow-box">
+          <span class="ficon">🎯</span>
+          <h4>Wound Assessment</h4>
+          <p>Type, depth, exudate level, infection, patient factors</p>
+        </div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box" style="border-color:rgba(0,255,157,0.3);">
+          <span class="ficon">🧱</span>
+          <h4>Material Selection</h4>
+          <p>Fiber type, porosity, degradability, bioactivity</p>
+        </div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box" style="border-color:rgba(255,107,53,0.3);">
+          <span class="ficon">🏭</span>
+          <h4>Fabrication</h4>
+          <p>Electrospinning, freeze-drying, coating, lamination</p>
+        </div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box" style="border-color:rgba(191,90,242,0.3);">
+          <span class="ficon">✅</span>
+          <h4>Testing</h4>
+          <p>MVTR, absorption, antimicrobial, biocompatibility, in-vivo</p>
+        </div>
+      </div>
+      <div class="card-grid cols-3" style="margin-top:8px;">
+        <div class="card">
+          <span class="card-icon">🕸️</span>
+          <h4>Electrospun Nanofiber Mats</h4>
+          <p>Sub-micron PLA, PCL, or chitosan fibers produced by electrospinning create high surface area, porous membranes that mimic ECM architecture. Fiber diameters 100–500nm. Loaded with growth factors (EGF, bFGF) or antibiotics for sustained release in chronic wound beds.</p>
+        </div>
+        <div class="card green">
+          <span class="card-icon">🧊</span>
+          <h4>Freeze-Dried (Lyophilized) Foams</h4>
+          <p>Collagen or chitosan solutions freeze-dried to create highly porous 3D sponge structures. Pore size 100–300µm facilitates cell migration and vascularization. Excellent hemostatic properties. Combat gauze (QuikClot) uses kaolin-impregnated gauze for battlefield hemorrhage control.</p>
+        </div>
+        <div class="card orange">
+          <span class="card-icon">🔗</span>
+          <h4>Composite & Bilayer Designs</h4>
+          <p>Combine wound-contact layer (hydrophilic, non-adherent, bioactive) with outer backing (waterproof, semi-occlusive polyurethane film). MVTR (moisture vapor transmission rate) of 300–800 g/m²/24h maintains optimal wound moisture balance without maceration.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 55: SCAFFOLDS ============ -->
+  <div class="slide bg-grid bg-radial-purple" id="s55">
+    <div class="slide-meta">55 / 59</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Tissue Engineering</div>
+      <h2 class="slide-title">Textile <em>Scaffolds</em> for Tissue Engineering</h2>
+      <div class="accent-line"></div>
+      <div class="two-col" style="margin-top:24px;">
+        <div>
+          <p class="body-text" style="margin-bottom:16px;">Scaffolds are three-dimensional structures that serve as temporary ECM substitutes — providing mechanical support, guiding cell attachment, proliferation, and differentiation, and eventually being replaced by native tissue. Textile processing offers unparalleled control over scaffold architecture.</p>
+          <div class="card purple" style="margin-top:16px;margin-bottom:12px;">
+            <h4>Critical Scaffold Design Requirements</h4>
+            <p>• <strong>Porosity:</strong> &gt;90% with interconnected pores (100–500µm) for cell migration and vascularization<br>• <strong>Surface chemistry:</strong> Cell-adhesive motifs (RGD sequences)<br>• <strong>Mechanical match:</strong> Stiffness must match target tissue (soft tissue: 0.1–2 MPa; bone: 10–1500 MPa)<br>• <strong>Degradation kinetics:</strong> Match tissue regeneration rate<br>• <strong>Sterilizability:</strong> Gamma, EtO, or autoclave compatible</p>
+          </div>
+        </div>
+        <div class="card-grid" style="grid-template-columns:1fr;gap:12px;">
+          <div class="card">
+            <span class="card-icon">🧵</span>
+            <h4>Woven & Knitted Scaffolds</h4>
+            <p>Controlled pore geometry via yarn spacing and weave pattern. Used for tendon/ligament reconstruction (e.g., LARS ligament), cartilage, and meniscal repair. Warp-knit structures for soft tissue; 3D weaving creates complex volumetric scaffolds.</p>
+          </div>
+          <div class="card green">
+            <span class="card-icon">💫</span>
+            <h4>Electrospun Scaffolds</h4>
+            <p>Continuous nanofibers from PLA, PLGA, PCL, silk fibroin mimic native ECM fibrillar architecture. Fiber alignment can guide cell orientation (e.g., aligned fibers for tendon and nerve conduits). Drug/growth factor loading for controlled release.</p>
+          </div>
+          <div class="card orange">
+            <span class="card-icon">🖨️</span>
+            <h4>3D-Printed Textile Scaffolds</h4>
+            <p>FDM printing of PLA/PCL meshes or bioprinting of fiber-laden bioinks with cells. Braided and embroidered PCL scaffolds for intervertebral disc NP replacement. Hybrid constructs with hydrogel infill for cartilage regeneration.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 56: SUTURES ============ -->
+  <div class="slide bg-grid" id="s56">
+    <div class="slide-meta">56 / 59</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Wound Closure</div>
+      <h2 class="slide-title">Suture <em>Design & Materials</em></h2>
+      <div class="accent-line"></div>
+      <div class="card-grid cols-2" style="margin-top:24px;">
+        <div>
+          <table class="data-table">
+            <thead>
+              <tr><th>Suture Type</th><th>Material</th><th>Absorption</th><th>Use Case</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Vicryl (PGLA)</td><td>PGA + PLA copolymer</td><td>56–70 days</td><td>Soft tissue, GI, OB/GYN</td></tr>
+              <tr><td>Monocryl (PGCL)</td><td>Poliglecaprone 25</td><td>91–119 days</td><td>Subcuticular, delicate tissue</td></tr>
+              <tr><td>PDS II</td><td>Polydioxanone</td><td>180–210 days</td><td>Fascial closure, pediatric cardiac</td></tr>
+              <tr><td>Prolene</td><td>Polypropylene</td><td>Non-absorbable</td><td>Vascular anastomosis, skin</td></tr>
+              <tr><td>Ethilon</td><td>Nylon 6/6</td><td>Non-absorbable</td><td>Skin closure, microsurgery</td></tr>
+              <tr><td>Mersilene</td><td>Polyester</td><td>Non-absorbable</td><td>Cardiovascular, hernia repair</td></tr>
+              <tr><td>Chromic Gut</td><td>Treated collagen</td><td>21–28 days</td><td>Mucosal, oral, ophthalmic</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card-grid" style="grid-template-columns:1fr;gap:12px;">
+          <div class="card">
+            <span class="card-icon">📏</span>
+            <h4>USP Size Classification</h4>
+            <p>Suture diameter standardized by USP from #5 (large, 0.7mm) to 12-0 (microsurgery, 0.001mm). Tensile strength, knot security, and needle attachment (swaged vs. eyed) are critical performance parameters standardized by ISO 10334.</p>
+          </div>
+          <div class="card orange">
+            <span class="card-icon">✂️</span>
+            <h4>Monofilament vs. Multifilament</h4>
+            <p>Monofilament (nylon, PP, PDS): smooth surface, less drag, lower infection risk but harder to handle. Multifilament braided (Vicryl, silk): better knot security, softer tissue handling but may harbor bacteria in interstices (capillarity effect).</p>
+          </div>
+          <div class="card purple">
+            <span class="card-icon">🔬</span>
+            <h4>Smart & Antimicrobial Sutures</h4>
+            <p>Triclosan-coated Vicryl Plus reduces SSI by 27–30% (MOXXI trial). Experimental: pH-sensing sutures change color to signal infection, conductive sutures for wound monitoring biosensors, shape-memory sutures for self-tightening wound closure.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 57: FABRICATION METHODS ============ -->
+  <div class="slide bg-grid bg-radial" id="s57">
+    <div class="slide-meta">57 / 59</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Manufacturing Technology</div>
+      <h2 class="slide-title">Medical Textile <em>Fabrication Methods</em></h2>
+      <div class="accent-line"></div>
+      <div class="card-grid cols-3" style="margin-top:24px;">
+        <div class="card">
+          <span class="card-icon">🔄</span>
+          <h4>Weaving</h4>
+          <p>Interlacing warp (longitudinal) and weft (transverse) yarns at right angles. Produces dimensionally stable, high-strength structures. Plain, twill, and satin weave architectures offer different porosity/strength trade-offs. Used for vascular grafts, surgical meshes.</p>
+        </div>
+        <div class="card green">
+          <span class="card-icon">🧶</span>
+          <h4>Knitting</h4>
+          <p>Inter-looped yarn structures. Warp knitting (Raschel, tricot) creates stable open structures for meshes and scaffolds. Weft knitting creates extensible, compliant fabrics for compression garments and wound dressings. More conformable to body contours than woven.</p>
+        </div>
+        <div class="card orange">
+          <span class="card-icon">🌀</span>
+          <h4>Braiding</h4>
+          <p>Interlacing of yarns at oblique angles (typically 45–75°) around a central axis. Tubular braids used for sutures, stent coverings, ligament augmentation. Angle of braid determines compliance and strength ratio — high angle = high compliance, low tensile strength.</p>
+        </div>
+        <div class="card purple">
+          <span class="card-icon">📄</span>
+          <h4>Nonwovens</h4>
+          <p>Web of fibers bonded by thermal, chemical, or mechanical methods without spinning/weaving. Spunbond (higher strength), meltblown (fine filtration), needlepunched, and hydroentangled variants. Dominant in hygiene, wound care, and surgical disposables — cost-effective, single-use.</p>
+        </div>
+        <div class="card">
+          <span class="card-icon">⚡</span>
+          <h4>Electrospinning</h4>
+          <p>High-voltage electric field draws polymer solution into nanofibers (50nm–5µm) collected on a grounded mandrel. Produces ECM-mimicking fibrous mats. Fiber diameter, orientation, and porosity controlled by voltage, flow rate, and collector geometry. Key for scaffold and drug delivery dressings.</p>
+        </div>
+        <div class="card green">
+          <span class="card-icon">🧊</span>
+          <h4>Coating & Finishing</h4>
+          <p>Plasma treatment enhances surface wettability and cell adhesion. Dip coating with heparin, collagen, or antibiotics. Atomic layer deposition of antimicrobial metals. Surface grafting of bioactive peptides (RGD, GFOGER). Critical for converting inert synthetic textiles into biofunctional implants.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 58: EMERGING MEDTEXTILE INNOVATIONS ============ -->
+  <div class="slide bg-grid bg-radial-green" id="s58">
+    <div class="slide-meta">58 / 59</div>
+    <div style="width:100%;max-width:1000px;">
+      <div class="slide-eyebrow">Future Frontiers</div>
+      <h2 class="slide-title">Emerging <em>Medical Textile</em> Innovations</h2>
+      <div class="accent-line"></div>
+      <ul class="num-list" style="margin-top:24px;">
+        <li><span class="num">01</span><div class="content"><h4>Smart & Electronic Textiles (E-Textiles)</h4><p>Conductive yarn (silver-coated, stainless steel) woven into garments creates washable biosensors for ECG, EMG, respiration rate, and skin temperature monitoring. Companies like Hexoskin and Myant embed textile electrodes directly into sportswear and clinical garments, eliminating gel electrodes. FDA-cleared smart bandages can transmit wound moisture, temperature, and pH data wirelessly.</p></div></li>
+        <li><span class="num">02</span><div class="content"><h4>Drug-Eluting Textiles</h4><p>Controlled drug release from fiber matrices enables sustained local therapy. PLGA micro/nanofibers loaded with antibiotics, growth factors, or anti-inflammatories for wound healing. Cyclodextrin-functionalized textiles for chemical capture. Silver nanoparticle-impregnated textiles maintain antimicrobial activity through 50+ wash cycles.</p></div></li>
+        <li><span class="num">03</span><div class="content"><h4>Decellularized ECM Textiles</h4><p>Biological scaffolds derived by decellularizing donor tissues (pericardium, small intestinal submucosa, dermis) create acellular matrices that support host cell repopulation. MatriStem (ACell), Restore (DePuy), and Permacol (Covidien) are commercially approved biologic mesh products for soft tissue reconstruction and hernia repair.</p></div></li>
+        <li><span class="num">04</span><div class="content"><h4>4D Textiles & Shape-Memory Fibers</h4><p>Nitinol (nickel-titanium) wires woven into stent coverings expand at body temperature. Shape-memory polymers (SMPs) like polyurethane respond to temperature changes — used in self-deploying stent grafts, shape-adaptive orthopedic supports, and experimental self-tightening sutures that reduce wound dehiscence.</p></div></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 59 (was 47): CLOSING ============ -->
+  <div class="slide bg-grid bg-radial" id="s59">
+    <div class="slide-meta">59 / 59</div>
+    <div class="deco-circle" style="width:800px;height:800px;left:50%;top:50%;transform:translate(-50%,-50%);border-color:var(--accent);"></div>
+    <div style="text-align:center;position:relative;z-index:1;">
+      <div class="section-badge">THANK YOU</div>
+      <h1 class="hero-title" style="font-size:clamp(40px,6vw,80px);">
+        MEDICINE IS<br>
+        <span style="font-size:0.85em;">BEING</span> REWRITTEN
+      </h1>
+      <div class="hdiv" style="margin:28px auto;"></div>
+      <p class="lead" style="margin-bottom:32px;">The greatest MedTech innovation isn't a device or an algorithm — it's the vision that every human being, everywhere, deserves the best that science can offer.</p>
+      <div style="display:flex;gap:24px;justify-content:center;flex-wrap:wrap;">
+        <span style="font-family:'Space Mono',monospace;font-size:11px;padding:8px 18px;border:1px solid var(--border);border-radius:50px;color:var(--muted);">59 SLIDES PRESENTED</span>
+        <span style="font-family:'Space Mono',monospace;font-size:11px;padding:8px 18px;border:1px solid rgba(0,212,255,0.3);border-radius:50px;color:var(--accent);">MEDTECH SEMINAR 2024</span>
+        <span style="font-family:'Space Mono',monospace;font-size:11px;padding:8px 18px;border:1px solid var(--border);border-radius:50px;color:var(--muted);">Q&A WELCOME</span>
+      </div>
+    </div>
+    <svg class="ecg-line" viewBox="0 0 1400 60" preserveAspectRatio="none">
+      <polyline points="0,30 100,30 140,30 160,5 180,55 200,10 220,30 260,30 360,30 380,30 400,5 420,55 440,10 460,30 500,30 600,30 620,5 640,55 660,10 680,30 720,30 820,30 840,5 860,55 880,10 900,30 940,30 1040,30 1060,5 1080,55 1100,10 1120,30 1160,30 1400,30" stroke="var(--accent2)" stroke-width="2" fill="none"/>
+    </svg>
+  </div>
+
+</div>
+
+<!-- ── TOOLBAR (top-right) ── -->
+<div id="toolbar">
+  <button class="tb-btn" id="btn-theme"    title="Toggle Light/Dark">☀️</button>
+  <button class="tb-btn" id="btn-search"   title="Search Slides">🔍</button>
+  <button class="tb-btn" id="btn-thumb"    title="Slide Overview">⊞</button>
+  <button class="tb-btn" id="btn-notes"    title="Speaker Notes">📝</button>
+  <button class="tb-btn" id="btn-fs"       title="Fullscreen">⛶</button>
+  <button class="tb-btn" id="btn-pdf"      title="Download PDF">⬇ PDF</button>
+</div>
+
+<!-- ── BOTTOM NAV ── -->
+<div id="nav">
+  <button onclick="prevSlide()">← PREV</button>
+  <span id="slide-counter">1 / 59</span>
+  <button onclick="nextSlide()">NEXT →</button>
+</div>
+
+<!-- ── SEARCH OVERLAY ── -->
+<div id="search-overlay">
+  <div id="search-box">
+    <div id="search-header">
+      <span style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.15em;color:var(--accent)">SEARCH SLIDES</span>
+      <button id="search-close">✕</button>
+    </div>
+    <input id="search-input" placeholder="Type keywords — e.g. CRISPR, sutures, AI…" autocomplete="off" />
+    <div id="search-results"></div>
+  </div>
+</div>
+
+<!-- ── THUMBNAIL PANEL ── -->
+<div id="thumb-panel">
+  <div id="thumb-header">
+    <span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.15em;color:var(--accent)">ALL SLIDES</span>
+    <button id="thumb-close">✕</button>
+  </div>
+  <div id="thumb-grid"></div>
+</div>
+
+<!-- ── SPEAKER NOTES PANEL ── -->
+<div id="notes-panel">
+  <div id="notes-header">
+    <span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.15em;color:var(--accent)">SPEAKER NOTES</span>
+    <button id="notes-close">✕</button>
+  </div>
+  <div id="notes-content"></div>
+</div>
+
+<!-- ── ZOOM OVERLAY ── -->
+<div id="zoom-overlay">
+  <div id="zoom-hint">Click anywhere outside to close · Scroll to zoom</div>
+  <div id="zoom-frame"></div>
+</div>
+
+<!-- ── PDF LOADING INDICATOR ── -->
+<div id="pdf-toast">Generating PDF… please wait</div>
+
+<style>
+/* ═══════════════════════════════════
+   TOOLBAR
+═══════════════════════════════════ */
+#toolbar {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 6px;
+  z-index: 500;
+}
+.tb-btn {
+  background: rgba(6,13,24,0.88);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  padding: 7px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  backdrop-filter: blur(14px);
+  transition: border-color .2s, color .2s, background .2s;
+  letter-spacing: .04em;
+  white-space: nowrap;
+}
+.tb-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(0,212,255,.07);
+}
+
+/* ═══════════════════════════════════
+   SEARCH OVERLAY
+═══════════════════════════════════ */
+#search-overlay {
+  position: fixed; inset: 0;
+  background: rgba(3,8,15,.85);
+  backdrop-filter: blur(18px);
+  z-index: 900;
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 80px;
+}
+#search-overlay.open { display: flex; }
+#search-box {
+  width: min(700px, 92vw);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 32px 80px rgba(0,0,0,.6);
+}
+#search-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px 12px;
+  border-bottom: 1px solid var(--border);
+}
+#search-header button {
+  background: none; border: none; color: var(--muted);
+  font-size: 14px; cursor: pointer;
+}
+#search-input {
+  width: 100%;
+  padding: 16px 20px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  outline: none;
+}
+#search-input::placeholder { color: var(--muted); }
+#search-results {
+  max-height: 380px;
+  overflow-y: auto;
+  padding: 8px 0;
+}
+.search-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: background .15s;
+  border-bottom: 1px solid rgba(26,45,74,.4);
+}
+.search-item:hover { background: rgba(0,212,255,.05); }
+.search-item:last-child { border-bottom: none; }
+.si-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--accent);
+  min-width: 28px;
+  padding-top: 2px;
+}
+.si-title {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 3px;
+}
+.si-snippet {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+.si-snippet mark {
+  background: rgba(0,212,255,.2);
+  color: var(--accent);
+  border-radius: 3px;
+  padding: 0 2px;
+}
+#search-results::-webkit-scrollbar { width: 4px; }
+#search-results::-webkit-scrollbar-track { background: transparent; }
+#search-results::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+/* ═══════════════════════════════════
+   THUMBNAIL PANEL
+═══════════════════════════════════ */
+#thumb-panel {
+  position: fixed;
+  top: 0; right: 0;
+  width: 320px;
+  height: 100vh;
+  background: rgba(6,13,24,.97);
+  border-left: 1px solid var(--border);
+  backdrop-filter: blur(20px);
+  z-index: 800;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform .35s cubic-bezier(.22,1,.36,1);
+}
+#thumb-panel.open { transform: translateX(0); }
+#thumb-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+#thumb-header button, #notes-header button {
+  background: none; border: none; color: var(--muted);
+  font-size: 14px; cursor: pointer;
+  transition: color .2s;
+}
+#thumb-header button:hover, #notes-header button:hover { color: var(--text); }
+#thumb-grid {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  align-content: start;
+}
+#thumb-grid::-webkit-scrollbar { width: 4px; }
+#thumb-grid::-webkit-scrollbar-track { background: transparent; }
+#thumb-grid::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+.thumb-item {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color .2s, transform .2s;
+  background: var(--card);
+}
+.thumb-item:hover { border-color: var(--accent); transform: scale(1.03); }
+.thumb-item.active-thumb { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(0,212,255,.3); }
+.thumb-preview {
+  width: 100%;
+  aspect-ratio: 16/9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  text-align: center;
+  padding: 6px;
+  color: var(--muted);
+  line-height: 1.3;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(135deg, rgba(0,212,255,.04) 0%, transparent 60%);
+}
+.thumb-preview-num {
+  position: absolute;
+  top: 4px; left: 5px;
+  font-family: 'Space Mono', monospace;
+  font-size: 8px;
+  color: var(--accent);
+  opacity: .7;
+}
+.thumb-label {
+  padding: 5px 7px;
+  font-size: 9px;
+  font-family: 'Space Mono', monospace;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: .04em;
+}
+
+/* ═══════════════════════════════════
+   SPEAKER NOTES PANEL
+═══════════════════════════════════ */
+#notes-panel {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: 200px;
+  background: rgba(6,13,24,.97);
+  border-top: 1px solid var(--border);
+  backdrop-filter: blur(20px);
+  z-index: 800;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(100%);
+  transition: transform .35s cubic-bezier(.22,1,.36,1);
+}
+#notes-panel.open {
+  transform: translateY(0);
+}
+#notes-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+#notes-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px 24px;
+  font-size: 13px;
+  color: rgba(232,244,253,.75);
+  line-height: 1.7;
+  font-family: 'Syne', sans-serif;
+}
+#notes-content::-webkit-scrollbar { width: 4px; }
+#notes-content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+/* ═══════════════════════════════════
+   ZOOM OVERLAY
+═══════════════════════════════════ */
+#zoom-overlay {
+  position: fixed; inset: 0;
+  background: rgba(3,8,15,.92);
+  backdrop-filter: blur(8px);
+  z-index: 950;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-out;
+}
+#zoom-overlay.open { display: flex; }
+#zoom-hint {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: .1em;
+  pointer-events: none;
+}
+#zoom-frame {
+  width: 90vw;
+  max-width: 1200px;
+  aspect-ratio: 16/9;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  cursor: default;
+  box-shadow: 0 40px 120px rgba(0,0,0,.8);
+}
+#zoom-frame .slide {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  opacity: 1 !important;
+  transform: none !important;
+  pointer-events: none !important;
+  padding: 32px 48px;
+  font-size: 80%;
+  overflow: hidden;
+}
+#zoom-frame .slide-meta { display: none; }
+
+/* ═══════════════════════════════════
+   PDF TOAST
+═══════════════════════════════════ */
+#pdf-toast {
+  position: fixed;
+  bottom: 90px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--card);
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  padding: 10px 24px;
+  border-radius: 50px;
+  letter-spacing: .1em;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s, transform .3s;
+}
+#pdf-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ═══════════════════════════════════
+   LIGHT THEME
+═══════════════════════════════════ */
+body.light {
+  --bg: #f4f7fb;
+  --surface: #edf1f8;
+  --card: #ffffff;
+  --border: #d0daea;
+  --text: #0d1b2a;
+  --muted: #5a7087;
+}
+body.light #toolbar .tb-btn {
+  background: rgba(244,247,251,.95);
+  border-color: #cdd8e8;
+  color: #0d1b2a;
+}
+body.light #toolbar .tb-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(0,212,255,.07);
+}
+body.light #search-overlay,
+body.light #thumb-panel,
+body.light #notes-panel { background: rgba(244,247,251,.97); }
+body.light .search-item:hover { background: rgba(0,212,255,.06); }
+body.light #zoom-overlay { background: rgba(244,247,251,.92); }
+
+/* Shrink nav when notes open */
+#notes-panel.open ~ #nav,
+body.notes-open #nav {
+  bottom: 210px;
+}
+</style>
+
+<script>
+/* ═══════════════════════════════════
+   SPEAKER NOTES DATA
+═══════════════════════════════════ */
+const speakerNotes = [
+  "Welcome the audience. Introduce yourself and outline today's agenda. Emphasize that MedTech is one of the most consequential fields of our era — touching every human life.",
+  "Walk through the 7 sections. Ask if anyone is from a specific field (clinical, engineering, policy) to tailor depth of coverage.",
+  "Set context: MedTech isn't just devices — it's the entire ecosystem. Invite attendees to think about the last time they interacted with a medical technology.",
+  "Key point: MedTech crosses pharma, biotech, and digital health. The convergence of these sectors is what's creating the most innovation. Give a personal or local example if possible.",
+  "Emphasize the market growth trajectory. Note that Asia-Pacific is the fastest-growing region due to expanding middle class, government health investment, and manufacturing scale.",
+  "Invite audience reflection: Which milestone surprised them most? Note that pace of change is accelerating — the next 10 years may bring more change than the last 50.",
+  "Discuss how each driver reinforces the others — aging populations need chronic disease tools, which need digital infrastructure, which attracts investment. Virtuous cycle.",
+  "Invite questions about any company on this list. Highlight how diversified the sector is — from pure hardware (Medtronic) to pure software (Epic) to consumer (Apple).",
+  "Transition to AI section. Set the tone: AI is not replacing doctors — it's the most powerful tool we've ever given them. Ask audience for their prior exposure to AI in healthcare.",
+  "Key distinction: AI in healthcare is NOT one thing. It spans vision, language, prediction, discovery. Each has different maturity, evidence, and regulatory status.",
+  "Invite audience: Which AI imaging application would have the biggest impact in your context? Note that ophthalmology + AI is already widely deployed in low-resource settings.",
+  "Critical insight: physician burnout is a global crisis, and documentation is the #1 driver. NLP tools have the potential to be more impactful on workforce sustainability than any clinical breakthrough.",
+  "Key takeaway: AI drug discovery is not about replacing chemists — it's about searching a near-infinite chemical space more intelligently. The economics are transformative.",
+  "Discuss how predictive analytics changes the care model from reactive to proactive. Note the controversy around some predictive tools — e.g., Epic Sepsis Model's real-world performance vs. lab studies.",
+  "Transition to genomics. Ask: How many have done a DTC genetic test? How many have had tumor genomic profiling? Good gauge of audience familiarity.",
+  "The cost of sequencing curve is steeper than Moore's Law. Emphasize that the bottleneck is no longer sequencing — it's interpretation, consent, and clinical integration.",
+  "CRISPR is perhaps the most significant medical technology since antibiotics. Emphasize the ethical weight alongside the clinical promise. The germline editing debate is unresolved globally.",
+  "Pharmacogenomics is perhaps the most immediately actionable area — not future technology but available now. Ask: Does your institution use PGx testing before prescribing?",
+  "Liquid biopsy is transformative for oncology. The key insight: most cancers are curable when caught early, yet most are caught late. MCED testing could flip this.",
+  "Transition to wearables. The democratization of biosensing — technology once limited to ICUs is now on consumer wrists. Discuss implications for preventive care.",
+  "Key question for audience: Do you use a wearable for health? What data do you find valuable? Sets up discussion of signal vs. noise in consumer health data.",
+  "CGM case study shows the power of continuous data vs. snapshots. The closed-loop artificial pancreas is a genuine engineering marvel. Discuss what 'closing the loop' means philosophically in other conditions.",
+  "Smart hospitals are already here. Johns Hopkins Command Center reduced diversion hours by 60% in first year. The hospital as a platform — not just a building.",
+  "RPM is the bridge between hospital and home. Discuss the provider workflow challenge: data without action creates liability. How do we build clinically actionable RPM programs?",
+  "Transition to robotics. Set up: the value of surgical robots is not just precision — it's reproducibility, data capture, telementoring, and eventually autonomous sub-tasks.",
+  "da Vinci has operated more than 10 million times. But coverage and access remain uneven. Discuss cost per procedure vs. outcome benefit and the value-based care tension.",
+  "3D printing in medicine is already clinical — not just experimental. The prosthetics story is especially powerful for global health equity. Bioprinting timelines are longer than often reported.",
+  "Transition to digital therapeutics. The key concept: software can be medicine. This requires a paradigm shift for payers, providers, and regulators accustomed to molecules and devices.",
+  "Prescription DTx is still a nascent reimbursement category. The Pear Therapeutics bankruptcy (2023) was a cautionary tale — clinical evidence is necessary but not sufficient for commercial success.",
+  "The 38× telehealth surge was a forced experiment that permanently changed patient and provider behavior. The question now is which services should remain virtual vs. return to in-person.",
+  "Mental health technology is where the access gap is widest. Emphasize the scale argument: one AI chatbot can serve millions simultaneously. The ethical question: is it good enough?",
+  "Transition to imaging. Advanced imaging is still highly centralized — available in academic centers but not rural or low-resource settings. AI and POCT can democratize.",
+  "Key message: the future of imaging is multimodal + AI + quantitative. Not just 'does this look abnormal' but 'what is the probability of malignancy and what is the optimal next step.'",
+  "POCT is the great equalizer. The COVID-19 rapid test deployment was the largest POCT rollout in history — a proof of concept for scaling diagnostics to every corner of the world.",
+  "Transition to regulation and ethics. This section is often skipped in MedTech discussions — emphasize that it's where many innovations fail or create unintended harm.",
+  "Note the regulatory patchwork: a device cleared in the EU may not be approved in the US and vice versa. Harmonization is improving but significant gaps remain.",
+  "Ethics in MedTech is not an afterthought — it's a design requirement. Invite audience to identify a real-world example of algorithmic bias in clinical tools.",
+  "Cybersecurity is an existential risk to healthcare's digital transformation. The Düsseldorf case is the first documented case where a cyberattack contributed to patient death.",
+  "Interoperability is infrastructure — invisible when working, catastrophic when absent. FHIR APIs are the new healthcare plumbing. Without them, AI and digital health cannot scale.",
+  "Transition to future technologies. Emphasize: we are at the beginning, not the end, of the MedTech revolution. Ask audience: which emerging technology excites or concerns them most?",
+  "BCIs are the most science-fiction-adjacent technology that is actually happening now. Neuralink's clinical trial results in 2024 deserve careful scrutiny and optimism.",
+  "The 4P model (Predict, Prevent, Detect, Treat) is the organizing framework for the next era of medicine. The goal is not better hospitals — it's fewer hospitalizations.",
+  "Investment landscape: the 2021–2022 bubble burst was painful but healthy. Capital is now flowing to companies with real clinical evidence and sustainable business models.",
+  "Case studies are the most persuasive evidence. Invite discussion: which evidence impresses the audience most? What would it take to adopt this technology in their context?",
+  "Summarize the 5 key takeaways. Invite audience to identify which is most relevant to their professional context. Set up the discussion questions.",
+  "These are genuinely hard questions — there are no consensus answers. The goal is thoughtful discussion, not right answers. Assign one question per table if in a workshop setting.",
+  "Medical textiles section. Note: this is an underappreciated field — textiles are everywhere in medicine but rarely discussed as a discipline. Emphasize the breadth from gauze to vascular grafts.",
+  "Key point: every medical textile touches a patient — biocompatibility is non-negotiable. ISO 10993 is the universal standard. Discuss the difference between contact duration categories.",
+  "Walk through the fiber table column by column. Key insight: synthetic fibers dominate for strength and control; natural fibers offer superior biocompatibility and degradability. Hybrid approaches are the frontier.",
+  "Emphasize the scale of this market: billions of nonwoven products used and discarded daily. Sustainability is an emerging imperative — single-use culture in healthcare generates enormous waste.",
+  "ISO 10993 biocompatibility is the gating requirement for all implantable textiles. Walk through the framework: cytotoxicity tests come first, then in-vivo implantation studies, then clinical trials.",
+  "Vascular grafts are among the most demanding medical textile applications. The compliance mismatch problem — where rigid grafts meet compliant arteries — drives intimal hyperplasia and stenosis. This is still an unsolved engineering challenge.",
+  "Wound dressing design is far more nuanced than most clinicians realize. The moist wound healing paradigm (Winter, 1962) was a paradigm shift — previously wounds were deliberately dried. Ask: has anyone used an advanced wound dressing clinically?",
+  "Electrospinning is a transformative fabrication technology for medical textiles. The ability to mimic ECM architecture at nanoscale opens doors to regenerative medicine applications that are simply not possible with conventional weaving or knitting.",
+  "Tissue engineering scaffolds represent the convergence of materials science, cell biology, and mechanical engineering. The key insight: scaffolds are not permanent implants — they're temporary instructional templates that should disappear as native tissue matures.",
+  "Suture selection is a daily clinical decision with significant outcomes implications. Invite any clinicians in the audience to share their experience with suture failure or smart suture use.",
+  "Walk through each fabrication method and its unique capability. Emphasize that fabrication method selection is inseparable from material selection and application requirements — they must be designed together.",
+  "Close the medical textiles section by emphasizing the convergence with digital health: smart textiles, biosensing garments, and drug-eluting dressings are the bridge between wearable technology and implantable medicine.",
+  "Closing slide. Invite Q&A. Thank the audience. Remind them: the technologies discussed today are not future possibilities — many are clinical realities. The opportunity to apply them meaningfully is here now."
+];
+
+/* ═══════════════════════════════════
+   SLIDE TITLES (for thumbnails & search)
+═══════════════════════════════════ */
+const slideTitles = [
+  "MedTech Revolution — Hero","Seminar Agenda","Section 01: Intro to MedTech","What is MedTech?","Global MedTech Market","MedTech Milestones Timeline","Forces Driving Growth","Key Industry Players","Section 02: AI & ML in Healthcare","AI in Medicine — Overview","AI in Medical Imaging","AI in Clinical Documentation","AI-Powered Drug Discovery","Predicting Patient Risk","Section 03: Genomics & Precision Medicine","The Genomic Revolution","CRISPR-Cas9 Technology","Pharmacogenomics","Liquid Biopsy","Section 04: Wearables & Connected Health","The Wearables Ecosystem","Continuous Glucose Monitoring","The Smart Hospital","Remote Patient Monitoring","Section 05: Surgical Robotics","The Robot Surgeon","3D Printing in Medicine","Section 06: Digital Therapeutics","Digital Therapeutics (DTx)","Telehealth Transformation","Digital Mental Health","Section 07: Advanced Imaging","Modern Imaging Modalities","Point-of-Care Testing","Section 08: Regulation & Ethics","Navigating Regulation","Ethical Dimensions of MedTech","MedTech Cybersecurity","Interoperability & Data Standards","Section 09: Future of MedTech","Emerging Technologies 2025–2035","The Future Care Model","MedTech Investment Landscape","Impact Case Studies","Key Takeaways","Discussion Questions","Section 10: Medical Textiles","What Are Medical Textiles?","Medical Fibers & Properties","Hygiene & Non-Implantable Products","Biotextiles — Inside the Body","Porous Vascular Grafts","Advanced Wound Dressings","Wound Dressing Materials Design","Textile Scaffolds","Suture Design & Materials","Medical Textile Fabrication","Emerging Medical Textile Innovations","Closing — Medicine is Being Rewritten"
+];
+
+/* ═══════════════════════════════════
+   CORE STATE
+═══════════════════════════════════ */
+const slides = document.querySelectorAll('#presentation .slide');
+const total = slides.length;
+let current = 0;
+let notesOpen = false;
+let thumbOpen = false;
+let searchOpen = false;
+let zoomOpen = false;
+let isLight = false;
+
+/* ═══════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════ */
+function goTo(index) {
+  if (index < 0 || index >= total) return;
+  const prev = current;
+  current = index;
+
+  slides[prev].classList.remove('active');
+  slides[prev].classList.add('exit');
+  setTimeout(() => slides[prev].classList.remove('exit'), 550);
+
+  slides[current].classList.add('active');
+
+  document.getElementById('slide-counter').textContent = `${current + 1} / ${total}`;
+  document.getElementById('progress').style.width = `${((current + 1) / total) * 100}%`;
+
+  updateThumbnailActive();
+  updateNotes();
+}
+
+function nextSlide() { goTo(current + 1); }
+function prevSlide() { goTo(current - 1); }
+
+document.addEventListener('keydown', e => {
+  if (searchOpen || zoomOpen) return;
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); nextSlide(); }
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); prevSlide(); }
+  if (e.key === 'Escape') { closeAll(); }
+});
+
+let touchStartX = 0;
+document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+document.addEventListener('touchend', e => {
+  if (searchOpen || zoomOpen || thumbOpen) return;
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  if (Math.abs(dx) > 50) dx < 0 ? nextSlide() : prevSlide();
+});
+
+/* ═══════════════════════════════════
+   CLOSE ALL PANELS
+═══════════════════════════════════ */
+function closeAll() {
+  if (searchOpen) toggleSearch();
+  if (thumbOpen) toggleThumb();
+  if (notesOpen) toggleNotes();
+  if (zoomOpen) closeZoom();
+}
+
+/* ═══════════════════════════════════
+   DARK / LIGHT THEME TOGGLE
+═══════════════════════════════════ */
+document.getElementById('btn-theme').addEventListener('click', () => {
+  isLight = !isLight;
+  document.body.classList.toggle('light', isLight);
+  document.getElementById('btn-theme').textContent = isLight ? '🌙' : '☀️';
+});
+
+/* ═══════════════════════════════════
+   FULLSCREEN
+═══════════════════════════════════ */
+document.getElementById('btn-fs').addEventListener('click', () => {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch(() => {});
+    document.getElementById('btn-fs').textContent = '⛶ Exit';
+  } else {
+    document.exitFullscreen();
+    document.getElementById('btn-fs').textContent = '⛶';
+  }
+});
+document.addEventListener('fullscreenchange', () => {
+  if (!document.fullscreenElement)
+    document.getElementById('btn-fs').textContent = '⛶';
+});
+
+/* ═══════════════════════════════════
+   SEARCH
+═══════════════════════════════════ */
+function toggleSearch() {
+  searchOpen = !searchOpen;
+  const el = document.getElementById('search-overlay');
+  el.classList.toggle('open', searchOpen);
+  if (searchOpen) {
+    setTimeout(() => document.getElementById('search-input').focus(), 80);
+    renderSearch('');
+  }
+}
+
+document.getElementById('btn-search').addEventListener('click', toggleSearch);
+document.getElementById('search-close').addEventListener('click', toggleSearch);
+document.getElementById('search-overlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('search-overlay')) toggleSearch();
+});
+
+document.getElementById('search-input').addEventListener('input', e => {
+  renderSearch(e.target.value.trim());
+});
+
+function renderSearch(query) {
+  const container = document.getElementById('search-results');
+  if (!query) {
+    container.innerHTML = `<p style="padding:16px 20px;color:var(--muted);font-size:13px;font-family:'Space Mono',monospace;">Type to search across all ${total} slides…</p>`;
+    return;
+  }
+  const q = query.toLowerCase();
+  const results = [];
+  slides.forEach((slide, i) => {
+    const text = slide.innerText || '';
+    if (text.toLowerCase().includes(q) || (slideTitles[i] || '').toLowerCase().includes(q)) {
+      const idx = text.toLowerCase().indexOf(q);
+      const snippet = idx >= 0
+        ? text.substring(Math.max(0, idx - 40), idx + q.length + 60).replace(/\s+/g, ' ')
+        : text.substring(0, 100);
+      const highlighted = snippet.replace(new RegExp(`(${query})`, 'gi'), '<mark>$1</mark>');
+      results.push({ i, title: slideTitles[i] || `Slide ${i + 1}`, snippet: highlighted });
+    }
+  });
+  if (!results.length) {
+    container.innerHTML = `<p style="padding:16px 20px;color:var(--muted);font-size:13px;font-family:'Space Mono',monospace;">No results for "${query}"</p>`;
+    return;
+  }
+  container.innerHTML = results.map(r => `
+    <div class="search-item" onclick="goTo(${r.i});toggleSearch();">
+      <span class="si-num">${r.i + 1}</span>
+      <div>
+        <div class="si-title">${r.title}</div>
+        <div class="si-snippet">…${r.snippet}…</div>
+      </div>
+    </div>`).join('');
+}
+
+/* ═══════════════════════════════════
+   THUMBNAIL PANEL
+═══════════════════════════════════ */
+function buildThumbnails() {
+  const grid = document.getElementById('thumb-grid');
+  slides.forEach((slide, i) => {
+    const item = document.createElement('div');
+    item.className = 'thumb-item' + (i === 0 ? ' active-thumb' : '');
+    item.dataset.idx = i;
+    // Extract eyebrow + title text for preview
+    const eyebrow = slide.querySelector('.slide-eyebrow, .section-num, .slide-eyebrow');
+    const title = slide.querySelector('h2.slide-title, h1.hero-title, .section-main');
+    const eyebrowTxt = eyebrow ? eyebrow.innerText.trim().substring(0, 30) : '';
+    const titleTxt = title ? title.innerText.trim().substring(0, 40) : (slideTitles[i] || `Slide ${i+1}`);
+    item.innerHTML = `
+      <div class="thumb-preview">
+        <span class="thumb-preview-num">${i + 1}</span>
+        <div>
+          ${eyebrowTxt ? `<div style="color:var(--accent);font-family:'Space Mono',monospace;font-size:7px;margin-bottom:3px;letter-spacing:.1em;">${eyebrowTxt}</div>` : ''}
+          <div style="font-weight:700;font-size:10px;line-height:1.3;">${titleTxt}</div>
+        </div>
+      </div>
+      <div class="thumb-label">${slideTitles[i] || `Slide ${i + 1}`}</div>`;
+    item.addEventListener('click', () => { goTo(i); });
+    grid.appendChild(item);
+  });
+}
+
+function updateThumbnailActive() {
+  document.querySelectorAll('.thumb-item').forEach((el, i) => {
+    el.classList.toggle('active-thumb', i === current);
+  });
+  // Scroll active thumb into view
+  const active = document.querySelector('.thumb-item.active-thumb');
+  if (active) active.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+}
+
+function toggleThumb() {
+  thumbOpen = !thumbOpen;
+  document.getElementById('thumb-panel').classList.toggle('open', thumbOpen);
+  document.getElementById('btn-thumb').style.borderColor = thumbOpen ? 'var(--accent)' : '';
+  document.getElementById('btn-thumb').style.color = thumbOpen ? 'var(--accent)' : '';
+}
+
+document.getElementById('btn-thumb').addEventListener('click', toggleThumb);
+document.getElementById('thumb-close').addEventListener('click', toggleThumb);
+
+/* ═══════════════════════════════════
+   SPEAKER NOTES
+═══════════════════════════════════ */
+function updateNotes() {
+  const content = document.getElementById('notes-content');
+  const note = speakerNotes[current] || 'No notes for this slide.';
+  content.innerHTML = `<strong style="color:var(--accent);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.15em;display:block;margin-bottom:8px;">SLIDE ${current + 1} — ${slideTitles[current] || ''}</strong>${note}`;
+}
+
+function toggleNotes() {
+  notesOpen = !notesOpen;
+  document.getElementById('notes-panel').classList.toggle('open', notesOpen);
+  document.body.classList.toggle('notes-open', notesOpen);
+  document.getElementById('btn-notes').style.borderColor = notesOpen ? 'var(--accent)' : '';
+  document.getElementById('btn-notes').style.color = notesOpen ? 'var(--accent)' : '';
+  if (notesOpen) updateNotes();
+}
+
+document.getElementById('btn-notes').addEventListener('click', toggleNotes);
+document.getElementById('notes-close').addEventListener('click', toggleNotes);
+
+/* ═══════════════════════════════════
+   ZOOM ON CLICK
+═══════════════════════════════════ */
+function openZoom() {
+  const frame = document.getElementById('zoom-frame');
+  const clone = slides[current].cloneNode(true);
+  clone.classList.add('active');
+  clone.classList.remove('exit');
+  frame.innerHTML = '';
+  frame.appendChild(clone);
+  document.getElementById('zoom-overlay').classList.add('open');
+  zoomOpen = true;
+}
+
+function closeZoom() {
+  document.getElementById('zoom-overlay').classList.remove('open');
+  zoomOpen = false;
+}
+
+// Click on active slide to zoom
+slides.forEach(slide => {
+  slide.addEventListener('dblclick', () => {
+    if (!thumbOpen && !notesOpen && !searchOpen) openZoom();
+  });
+});
+
+document.getElementById('zoom-overlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('zoom-overlay') || e.target === document.getElementById('zoom-hint'))
+    closeZoom();
+});
+
+// Single click hint update
+document.getElementById('hint').textContent = '← → NAVIGATE  ·  DOUBLE-CLICK SLIDE TO ZOOM';
+
+/* ═══════════════════════════════════
+   PDF DOWNLOAD
+═══════════════════════════════════ */
+document.getElementById('btn-pdf').addEventListener('click', () => {
+  const toast = document.getElementById('pdf-toast');
+  toast.classList.add('show');
+
+  // Small delay for toast to show, then trigger print
+  setTimeout(() => {
+    // Inject print styles temporarily
+    const style = document.createElement('style');
+    style.id = 'print-inject';
+    style.textContent = `
+      @media print {
+        @page { size: 16in 9in landscape; margin: 0; }
+        body { overflow: visible !important; }
+        #toolbar, #nav, #hint, #progress, #thumb-panel, #notes-panel, #search-overlay, #zoom-overlay, #pdf-toast { display: none !important; }
+        #presentation { position: static !important; width: 16in !important; height: auto !important; }
+        .slide {
+          position: static !important;
+          display: flex !important;
+          opacity: 1 !important;
+          transform: none !important;
+          pointer-events: all !important;
+          width: 16in !important;
+          height: 9in !important;
+          page-break-after: always !important;
+          break-after: page !important;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+    window.print();
+    setTimeout(() => {
+      document.getElementById('print-inject')?.remove();
+      toast.classList.remove('show');
+    }, 2000);
+  }, 300);
+});
+
+/* ═══════════════════════════════════
+   INIT
+═══════════════════════════════════ */
+buildThumbnails();
+document.getElementById('progress').style.width = `${(1/total)*100}%`;
+document.getElementById('slide-counter').textContent = `1 / ${total}`;
+</script>
+</body>
+</html>

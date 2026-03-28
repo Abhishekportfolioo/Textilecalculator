@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>High Performance Fibres — Exam Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c10;
+    --surface: #111318;
+    --surface2: #181c24;
+    --border: #252a35;
+    --accent: #00d4ff;
+    --accent2: #ff6b35;
+    --accent3: #7fff6b;
+    --accent4: #ffcc00;
+    --text: #e8eaf0;
+    --text-muted: #7a8099;
+    --text-dim: #4a5068;
+    --heading-font: 'Playfair Display', serif;
+    --body-font: 'IBM Plex Sans', sans-serif;
+    --mono-font: 'IBM Plex Mono', monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--body-font); font-size: 15px; line-height: 1.7; min-height: 100vh; }
+
+  .sidebar {
+    position: fixed; top: 0; left: 0; width: 260px; height: 100vh;
+    background: var(--surface); border-right: 1px solid var(--border);
+    overflow-y: auto; z-index: 100; padding: 0 0 40px 0; transition: transform 0.3s ease;
+  }
+  .sidebar-logo { padding: 24px 20px 16px; border-bottom: 1px solid var(--border); margin-bottom: 12px; }
+  .sidebar-logo .label { font-family: var(--mono-font); font-size: 10px; color: var(--accent); letter-spacing: 3px; text-transform: uppercase; display: block; margin-bottom: 4px; }
+  .sidebar-logo h1 { font-family: var(--heading-font); font-size: 16px; color: var(--text); font-weight: 700; line-height: 1.3; }
+  .nav-section-label { font-family: var(--mono-font); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim); padding: 12px 20px 6px; }
+  .nav-item { display: block; padding: 8px 20px; text-decoration: none; color: var(--text-muted); font-size: 13px; font-weight: 400; border-left: 2px solid transparent; transition: all 0.2s ease; cursor: pointer; }
+  .nav-item:hover { color: var(--text); border-left-color: var(--accent); background: rgba(0,212,255,0.04); }
+  .nav-item.active { color: var(--accent); border-left-color: var(--accent); background: rgba(0,212,255,0.08); }
+  .nav-item .num { font-family: var(--mono-font); font-size: 10px; color: var(--text-dim); margin-right: 8px; }
+
+  .main { margin-left: 260px; padding: 40px 48px 80px; max-width: 980px; }
+
+  .hero { padding: 60px 0 48px; border-bottom: 1px solid var(--border); margin-bottom: 60px; position: relative; }
+  .hero::before { content: ''; position: absolute; top: 0; left: -48px; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent), transparent); }
+  .hero .tag { display: inline-block; font-family: var(--mono-font); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); background: rgba(0,212,255,0.08); border: 1px solid rgba(0,212,255,0.2); padding: 4px 12px; border-radius: 2px; margin-bottom: 20px; }
+  .hero h1 { font-family: var(--heading-font); font-size: 46px; font-weight: 900; color: var(--text); line-height: 1.15; margin-bottom: 16px; }
+  .hero h1 span { color: var(--accent); }
+  .hero .subtitle { color: var(--text-muted); font-size: 16px; font-weight: 300; max-width: 620px; }
+  .hero-meta { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
+  .meta-pill { font-family: var(--mono-font); font-size: 11px; color: var(--text-muted); background: var(--surface2); border: 1px solid var(--border); padding: 5px 12px; border-radius: 2px; }
+  .meta-pill span { color: var(--accent4); }
+
+  .progress-bar { position: fixed; top: 0; left: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent2)); z-index: 999; transition: width 0.1s ease; width: 0%; }
+
+  .section { margin-bottom: 72px; scroll-margin-top: 32px; }
+  .section-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 28px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+  .section-num { font-family: var(--mono-font); font-size: 11px; color: var(--accent); background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.2); padding: 4px 8px; border-radius: 2px; flex-shrink: 0; margin-top: 6px; }
+  .section-title { font-family: var(--heading-font); font-size: 28px; font-weight: 700; color: var(--text); line-height: 1.2; }
+
+  .subsection { margin-bottom: 36px; }
+  .subsection-title { font-family: var(--heading-font); font-size: 18px; font-weight: 700; color: var(--accent2); margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+  .subsection-title::before { content: '▶'; font-size: 10px; opacity: 0.7; }
+
+  p { color: var(--text); margin-bottom: 12px; font-weight: 300; font-size: 14.5px; }
+
+  .key-fact { background: var(--surface2); border: 1px solid var(--border); border-left: 3px solid var(--accent); padding: 16px 20px; border-radius: 0 4px 4px 0; margin: 20px 0; }
+  .key-fact .kf-label { font-family: var(--mono-font); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+  .key-fact p { margin: 0; font-size: 14px; }
+
+  .exam-tip { background: rgba(255,204,0,0.06); border: 1px solid rgba(255,204,0,0.2); border-left: 3px solid var(--accent4); padding: 16px 20px; border-radius: 0 4px 4px 0; margin: 20px 0; }
+  .exam-tip .et-label { font-family: var(--mono-font); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent4); margin-bottom: 8px; }
+  .exam-tip p { margin: 0; font-size: 14px; }
+
+  .data-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 13px; }
+  .data-table th { background: var(--surface2); color: var(--accent); font-family: var(--mono-font); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; padding: 10px 14px; text-align: left; border: 1px solid var(--border); }
+  .data-table td { padding: 10px 14px; border: 1px solid var(--border); color: var(--text); vertical-align: top; font-weight: 300; }
+  .data-table tr:nth-child(even) td { background: rgba(255,255,255,0.015); }
+  .data-table tr:hover td { background: rgba(0,212,255,0.04); }
+  .data-table .highlight { color: var(--accent3); font-weight: 500; font-family: var(--mono-font); }
+
+  .process-flow { display: flex; align-items: center; gap: 0; margin: 24px 0; overflow-x: auto; padding: 8px 0; flex-wrap: wrap; row-gap: 12px; }
+  .process-step { display: flex; align-items: center; }
+  .step-box { background: var(--surface2); border: 1px solid var(--border); padding: 12px 16px; border-radius: 4px; text-align: center; min-width: 110px; cursor: pointer; transition: all 0.2s ease; position: relative; }
+  .step-box:hover { border-color: var(--accent); background: rgba(0,212,255,0.06); transform: translateY(-2px); }
+  .step-box .step-num { font-family: var(--mono-font); font-size: 9px; color: var(--accent); letter-spacing: 1px; margin-bottom: 4px; }
+  .step-box .step-name { font-size: 12px; font-weight: 500; color: var(--text); line-height: 1.3; }
+  .step-box .tip-popup { display: none; position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); background: var(--surface2); border: 1px solid var(--accent); border-radius: 4px; padding: 10px 14px; font-size: 12px; color: var(--text); z-index: 50; width: 220px; line-height: 1.5; text-align: left; pointer-events: none; }
+  .step-box:hover .tip-popup { display: block; }
+  .step-arrow { color: var(--text-dim); font-size: 18px; padding: 0 6px; flex-shrink: 0; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin: 20px 0; }
+  .card { background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; padding: 18px 20px; transition: border-color 0.2s ease; }
+  .card:hover { border-color: var(--accent2); }
+  .card .card-title { font-family: var(--mono-font); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--accent2); margin-bottom: 10px; }
+  .card ul { padding-left: 16px; }
+  .card li { font-size: 13px; font-weight: 300; color: var(--text); margin-bottom: 5px; line-height: 1.5; }
+  .card p { font-size: 13px; margin: 0; }
+
+  .bullet-list { padding-left: 0; list-style: none; margin: 12px 0; }
+  .bullet-list li { padding: 5px 0 5px 22px; position: relative; font-size: 14px; font-weight: 300; color: var(--text); line-height: 1.6; }
+  .bullet-list li::before { content: '—'; position: absolute; left: 0; color: var(--accent); font-family: var(--mono-font); }
+
+  .badge { display: inline-block; font-family: var(--mono-font); font-size: 10px; padding: 2px 8px; border-radius: 2px; margin: 2px 3px; vertical-align: middle; }
+  .badge-blue { background: rgba(0,212,255,0.1); color: var(--accent); border: 1px solid rgba(0,212,255,0.2); }
+  .badge-green { background: rgba(127,255,107,0.1); color: var(--accent3); border: 1px solid rgba(127,255,107,0.2); }
+
+  .hl { color: var(--accent); font-weight: 500; }
+  .hl-o { color: var(--accent2); font-weight: 500; }
+  .hl-g { color: var(--accent3); font-weight: 500; }
+  .hl-y { color: var(--accent4); font-weight: 500; }
+
+  .structure-visual { background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; padding: 24px; margin: 20px 0; font-family: var(--mono-font); font-size: 13px; line-height: 2; color: var(--text-muted); text-align: center; }
+  .structure-visual .chain { color: var(--accent3); letter-spacing: 4px; font-size: 17px; }
+  .structure-visual .label { font-size: 11px; color: var(--text-dim); margin-top: 4px; display: block; }
+
+  .formula { background: var(--bg); border: 1px solid var(--border); border-radius: 4px; padding: 12px 20px; font-family: var(--mono-font); font-size: 14px; color: var(--accent3); margin: 12px 0; text-align: center; }
+  .formula .formula-label { font-size: 10px; color: var(--text-dim); margin-bottom: 4px; text-align: left; text-transform: uppercase; letter-spacing: 1px; }
+
+  .compare-block { display: grid; grid-template-columns: 1fr auto 1fr; gap: 12px; align-items: start; margin: 20px 0; }
+  .compare-vs { display: flex; align-items: center; justify-content: center; font-family: var(--heading-font); font-size: 24px; font-weight: 900; color: var(--text-dim); padding-top: 40px; }
+  .compare-panel { background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; padding: 16px 20px; }
+  .compare-panel.left { border-top: 2px solid var(--accent); }
+  .compare-panel.right { border-top: 2px solid var(--accent2); }
+  .compare-panel h4 { font-family: var(--mono-font); font-size: 12px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; }
+  .compare-panel.left h4 { color: var(--accent); }
+  .compare-panel.right h4 { color: var(--accent2); }
+  .compare-panel ul { padding-left: 16px; }
+  .compare-panel li { font-size: 13px; font-weight: 300; margin-bottom: 6px; color: var(--text); }
+
+  .quiz-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; padding: 20px 24px; margin: 16px 0; cursor: pointer; transition: border-color 0.2s ease; }
+  .quiz-card:hover { border-color: var(--accent4); }
+  .quiz-card .q { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 0; }
+  .quiz-card .q::before { content: 'Q  '; color: var(--accent4); font-family: var(--mono-font); font-size: 11px; }
+  .quiz-card .a { display: none; font-size: 13.5px; color: var(--text-muted); padding-top: 12px; border-top: 1px solid var(--border); margin-top: 12px; line-height: 1.7; font-weight: 300; }
+  .quiz-card .a::before { content: 'A  '; color: var(--accent3); font-family: var(--mono-font); font-size: 11px; font-weight: 500; }
+  .quiz-card.open .a { display: block; }
+  .quiz-card .toggle-hint { font-family: var(--mono-font); font-size: 10px; color: var(--text-dim); float: right; margin-top: 2px; }
+
+  .search-bar { padding: 16px 20px; border-bottom: 1px solid var(--border); }
+  .search-input { width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text); padding: 8px 12px; font-family: var(--mono-font); font-size: 12px; border-radius: 3px; outline: none; transition: border-color 0.2s; }
+  .search-input:focus { border-color: var(--accent); }
+  .search-input::placeholder { color: var(--text-dim); }
+
+  .scroll-top { position: fixed; bottom: 32px; right: 32px; background: var(--surface2); border: 1px solid var(--border); color: var(--accent); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; border-radius: 4px; font-size: 18px; opacity: 0; transition: all 0.2s ease; z-index: 200; }
+  .scroll-top.visible { opacity: 1; }
+  .scroll-top:hover { background: rgba(0,212,255,0.1); border-color: var(--accent); }
+
+  .hamburger { display: none; position: fixed; top: 16px; left: 16px; z-index: 200; background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 8px 12px; cursor: pointer; border-radius: 3px; font-size: 16px; }
+
+  @media (max-width: 900px) {
+    .sidebar { transform: translateX(-100%); }
+    .sidebar.open { transform: translateX(0); }
+    .main { margin-left: 0; padding: 24px 20px 60px; }
+    .hamburger { display: flex; }
+    .hero h1 { font-size: 30px; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .compare-block { grid-template-columns: 1fr; }
+    .compare-vs { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+<button class="hamburger" id="hamburger" onclick="toggleSidebar()">☰</button>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <span class="label">Exam Notes</span>
+    <h1>High Performance Fibres</h1>
+  </div>
+  <div class="search-bar">
+    <input class="search-input" type="text" placeholder="Search notes..." id="searchInput" oninput="searchNotes(this.value)">
+  </div>
+  <div class="nav-section-label">Contents</div>
+  <a class="nav-item" onclick="scrollTo('s1')"><span class="num">01</span>Introduction & Overview</a>
+  <a class="nav-item" onclick="scrollTo('s2')"><span class="num">02</span>UHMWPE — Structure</a>
+  <a class="nav-item" onclick="scrollTo('s3')"><span class="num">03</span>Gel Spinning</a>
+  <a class="nav-item" onclick="scrollTo('s4')"><span class="num">04</span>Melt Spinning & Drawing</a>
+  <a class="nav-item" onclick="scrollTo('s5')"><span class="num">05</span>Routes for Manufacture</a>
+  <a class="nav-item" onclick="scrollTo('s6')"><span class="num">06</span>Microstructure</a>
+  <a class="nav-item" onclick="scrollTo('s7')"><span class="num">07</span>Mechanical Properties</a>
+  <a class="nav-item" onclick="scrollTo('s8')"><span class="num">08</span>Other Properties</a>
+  <a class="nav-item" onclick="scrollTo('s9')"><span class="num">09</span>Applications</a>
+  <a class="nav-item" onclick="scrollTo('s10')"><span class="num">10</span>Comparison Table</a>
+  <a class="nav-item" onclick="scrollTo('s11')"><span class="num">11</span>Quick Revision Q&A</a>
+  <div class="nav-section-label" style="margin-top:10px;">Related Fibres</div>
+  <a class="nav-item" onclick="scrollTo('s12')"><span class="num">12</span>Aramid (Kevlar / Twaron)</a>
+  <a class="nav-item" onclick="scrollTo('s13')"><span class="num">13</span>PBO / Zylon</a>
+</nav>
+
+<main class="main">
+
+  <div class="hero" id="top">
+    <div class="tag">Materials Science · Polymer Fibres</div>
+    <h1>Flexible Chain<br><span>High-Performance Fibres</span></h1>
+    <p class="subtitle">Comprehensive exam notes covering UHMWPE, gel spinning, melt spinning & drawing, fibre manufacturing routes, microstructure, mechanical & physical properties, and applications.</p>
+    <div class="hero-meta">
+      <div class="meta-pill">Polymer Physics <span>✦</span></div>
+      <div class="meta-pill">Processing Routes <span>✦</span></div>
+      <div class="meta-pill">Structure–Property <span>✦</span></div>
+      <div class="meta-pill">Applications <span>✦</span></div>
+    </div>
+  </div>
+
+  <!-- S1 -->
+  <section class="section" id="s1">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">Introduction & Overview</h2>
+    </div>
+    <p><span class="hl">High-performance fibres</span> are defined by exceptional specific strength and specific stiffness (property per unit density), enabling demanding structural applications at minimum weight. They are broadly divided by molecular chain flexibility:</p>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Flexible Chain Fibres</div>
+        <ul>
+          <li>UHMWPE — Dyneema®, Spectra®</li>
+          <li>Based on extended, aligned polymer chains</li>
+          <li>Properties achieved via chain extension &amp; orientation</li>
+          <li>Processed via gel spinning or solid-state drawing</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">Rigid Chain Fibres</div>
+        <ul>
+          <li>Para-aramids — Kevlar®, Twaron®</li>
+          <li>PBO — Zylon® &nbsp; PIPD — M5</li>
+          <li>Chain rigidity + lyotropic LC processing</li>
+          <li>Alignment achieved in solution before spinning</li>
+        </ul>
+      </div>
+    </div>
+    <div class="key-fact">
+      <div class="kf-label">Core Concept</div>
+      <p>For <span class="hl">flexible-chain polymers</span> like polyethylene, achieving high performance requires overcoming chain entanglement and folding. The goal is a <span class="hl-g">fully extended, highly oriented chain structure</span> — this is fundamentally a processing challenge, not a chemistry one.</p>
+    </div>
+    <div class="subsection">
+      <h3 class="subsection-title">Why Ordinary Polyethylene Falls Short</h3>
+      <p>Standard HDPE has tensile modulus ~1–2 GPa and strength ~0.02–0.04 GPa — far below theoretical. Reasons:</p>
+      <ul class="bullet-list">
+        <li><span class="hl">Chain folding:</span> Crystallisation from the melt gives chain-folded lamellae (~10–20 nm thick). Most chains fold back rather than running parallel to any fibre axis.</li>
+        <li><span class="hl">Entanglements:</span> High-Mw chains are densely entangled, resisting deformation and limiting draw ratio.</li>
+        <li><span class="hl">Spherulitic structure:</span> Randomly oriented spherulites — no preferred direction.</li>
+        <li><span class="hl">Amorphous regions:</span> Disordered tie-molecule zones between lamellae act as weak links.</li>
+      </ul>
+      <p>Theoretical modulus of a fully extended PE chain: <span class="hl-y">~300 GPa</span>. Gel-spun UHMWPE achieves <span class="hl-g">~100–170 GPa</span> — approaching the theoretical value.</p>
+    </div>
+  </section>
+
+  <!-- S2 -->
+  <section class="section" id="s2">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">UHMWPE — Molecular Structure</h2>
+    </div>
+    <div class="subsection">
+      <h3 class="subsection-title">Definition &amp; Molecular Architecture</h3>
+      <p>UHMWPE is a <span class="hl">strictly linear polyethylene</span> with molecular weight <span class="hl">Mw ≥ 1 × 10⁶ g/mol</span>, typically 2–6 × 10⁶ g/mol. Standard HDPE has Mw ~50,000–300,000 g/mol.</p>
+      <div class="structure-visual">
+        <div class="chain">—CH₂—CH₂—CH₂—CH₂—CH₂—CH₂—CH₂—</div>
+        <span class="label">Repeat unit: –(CH₂–CH₂)– &nbsp;|&nbsp; Fully linear backbone &nbsp;|&nbsp; No branching &nbsp;|&nbsp; All-trans conformation (planar zigzag)</span>
+      </div>
+      <div class="formula">
+        <div class="formula-label">Degree of Polymerisation</div>
+        n = Mw / M₀ = (2 × 10⁶) / 28 ≈ 71,400 repeat units per chain
+      </div>
+      <p>Extended chain length of a single UHMWPE molecule (Mw ~2×10⁶) ≈ <span class="hl-g">0.25 mm</span> — macroscopic! This extraordinary length underpins its potential.</p>
+    </div>
+    <div class="subsection">
+      <h3 class="subsection-title">Why Molecular Weight Matters</h3>
+      <ul class="bullet-list">
+        <li><span class="hl">Higher Mw → more entanglements per chain</span> → harder to process but better load transfer in the final fibre</li>
+        <li>Longer chains = fewer chain ends (defects)</li>
+        <li>Melt viscosity scales as Mw³·⁴ — UHMWPE melt viscosity ~10⁸–10⁹ Pa·s, making conventional melt extrusion impossible</li>
+        <li>Higher Mw enables higher achievable draw ratios via solution (gel) route</li>
+      </ul>
+      <div class="exam-tip">
+        <div class="et-label">⚡ Exam Tip</div>
+        <p>Know why UHMWPE cannot be melt-processed: melt viscosity ~10⁸–10⁹ Pa·s vs. practical processing limit ~10⁴–10⁵ Pa·s. This is why gel spinning was invented.</p>
+      </div>
+    </div>
+    <div class="subsection">
+      <h3 class="subsection-title">Crystallographic Data</h3>
+      <div style="overflow-x:auto;">
+        <table class="data-table">
+          <thead><tr><th>Property</th><th>Value</th><th>Significance</th></tr></thead>
+          <tbody>
+            <tr><td>Crystal structure</td><td class="highlight">Orthorhombic</td><td>Close chain packing</td></tr>
+            <tr><td>Crystallinity (gel fibre)</td><td class="highlight">85–95%</td><td>Very high vs. bulk PE (60–80%)</td></tr>
+            <tr><td>C–C bond length</td><td class="highlight">0.154 nm</td><td>—</td></tr>
+            <tr><td>Chain conformation</td><td class="highlight">All-trans (planar zigzag)</td><td>Maximises stiffness along chain</td></tr>
+            <tr><td>Repeat unit length</td><td class="highlight">0.252 nm</td><td>—</td></tr>
+            <tr><td>Tm (bulk PE)</td><td class="highlight">~135°C</td><td>Processing temperature reference</td></tr>
+            <tr><td>Tm (gel-spun fibre)</td><td class="highlight">~145–155°C</td><td>Extended chain crystals — higher Tm</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- S3 -->
+  <section class="section" id="s3">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Gel Spinning</h2>
+    </div>
+    <p><span class="hl">Gel spinning</span> (solution spinning / semi-solid spinning) was pioneered by Smith &amp; Lemstra at DSM (Netherlands, ~1979–1980), leading to commercial <span class="hl">Dyneema®</span>. It is the primary route to the highest-performance UHMWPE fibres.</p>
+    <div class="subsection">
+      <h3 class="subsection-title">Process Steps</h3>
+      <div class="process-flow">
+        <div class="process-step">
+          <div class="step-box">
+            <div class="step-num">STEP 01</div>
+            <div class="step-name">Dissolution</div>
+            <div class="tip-popup">UHMWPE dissolved in solvent (mineral oil, decalin) at 130–160°C. Concentration 1–10 wt%. Disentangles chains in solution — critical for high draw ratio.</div>
+          </div>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="process-step">
+          <div class="step-box">
+            <div class="step-num">STEP 02</div>
+            <div class="step-name">Extrusion</div>
+            <div class="tip-popup">Solution extruded through spinneret at ~120–150°C. Multi-hole spinnerets produce many filaments simultaneously.</div>
+          </div>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="process-step">
+          <div class="step-box">
+            <div class="step-num">STEP 03</div>
+            <div class="step-name">Gelation</div>
+            <div class="tip-popup">Extrudate cooled rapidly in cold water or air. Solvent-swollen gel forms — chains partially crystallise but remain loosely entangled. Low entanglement density is preserved.</div>
+          </div>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="process-step">
+          <div class="step-box">
+            <div class="step-num">STEP 04</div>
+            <div class="step-name">Solvent Removal</div>
+            <div class="tip-popup">Solvent extracted (hexane, ether, evaporation). Porous, low-entanglement gel fibre remains. Porosity facilitates subsequent drawing.</div>
+          </div>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="process-step">
+          <div class="step-box">
+            <div class="step-num">STEP 05</div>
+            <div class="step-name">Hot Drawing</div>
+            <div class="tip-popup">Dried gel fibre drawn at 110–140°C (near Tm). Draw ratio λ = 50–200×. Multi-stage drawing preferred. Chains extend and align along fibre axis.</div>
+          </div>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="process-step">
+          <div class="step-box">
+            <div class="step-num">STEP 06</div>
+            <div class="step-name">Final Fibre</div>
+            <div class="tip-popup">Extended-chain crystal fibre. Crystallinity 85–95%. Herman's orientation factor f ≈ 0.97–0.99. Surface finish/coating applied.</div>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:12px;color:var(--text-dim);margin-top:4px;">💡 Hover over each step for process details</p>
+    </div>
+    <div class="subsection">
+      <h3 class="subsection-title">Role of Solvent — Disentanglement Mechanism</h3>
+      <p>The fundamental insight: dissolving UHMWPE at <span class="hl">low concentration (~1–5 wt%)</span> in a good solvent reduces entanglement density. Near the dilute regime, chains barely overlap.</p>
+      <ul class="bullet-list">
+        <li>In solution: entanglement spacing increases → chains can be extended far more easily on drawing</li>
+        <li>On gelation: transient network formed, preserving disentangled chain topology</li>
+        <li>Allows draw ratios impossible from the melt</li>
+      </ul>
+      <div class="formula">
+        <div class="formula-label">Draw Ratio</div>
+        λ = L_final / L_initial = A_initial / A_final &nbsp; (for incompressible material)
+      </div>
+      <p>Melt-spun PE: max λ ≈ <span class="hl-o">20–30×</span>. &nbsp;Gel-spun UHMWPE: λ ≈ <span class="hl-g">50–200×</span>.</p>
+    </div>
+    <div class="subsection">
+      <h3 class="subsection-title">Solvents Used</h3>
+      <div style="overflow-x:auto;">
+        <table class="data-table">
+          <thead><tr><th>Solvent</th><th>Bp (°C)</th><th>Advantages</th><th>Disadvantages</th></tr></thead>
+          <tbody>
+            <tr><td>Decalin (decahydronaphthalene)</td><td>185–195</td><td>Excellent solvent, well-studied</td><td>Toxic, carcinogenic concerns</td></tr>
+            <tr><td>Paraffin / mineral oil</td><td>&gt;300</td><td>DSM Dyneema® commercial solvent; low volatility</td><td>Hexane extraction step needed</td></tr>
+            <tr><td>Kerosene / naphtha</td><td>150–300</td><td>Low cost</td><td>Fire hazard, environmental issues</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- S4 -->
+  <section class="section" id="s4">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2 class="section-title">Melt Spinning &amp; Drawing</h2>
+    </div>
+    <div class="subsection">
+      <h3 class="subsection-title">Melt Spinning of Lower Mw PE</h3>
+      <p>Lower molecular weight PE (Mw ~10⁵–10⁶) can be melt-spun then drawn. Properties are lower than gel-spun UHMWPE but the process is simpler and cheaper.</p>
+      <div class="process-flow">
+        <div class="process-step">
+          <div class="step-box">
+            <div class="step-num">STEP 01</div>
+            <div class="step-name">Melt Extrusion</div>
+            <div class="tip-popup">PE pellets melted at 180–220°C (T > Tm). Extruded through spinneret under pressure. Some orientation imparted during extrusion (spin draw).</div>
+          </div>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="process-step">
+          <div class="step-box">
+            <div class="step-num">STEP 02</div>
+            <div class="step-name">Quench</div>
+            <div class="tip-popup">Rapid cooling in air or water bath freezes in orientation. Quench rate controls initial crystallinity and crystal size.</div>
+          </div>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="process-step">
+          <div class="step-box">
+            <div class="step-num">STEP 03</div>
+            <div class="step-name">Hot Drawing</div>
+            <div class="tip-popup">Drawn at 80–130°C, λ = 5–30×. Zone drawing with heated pins or ovens ensures uniform deformation. Multiple drawing stages possible.</div>
+          </div>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="process-step">
+          <div class="step-box">
+            <div class="step-num">STEP 04</div>
+            <div class="step-name">Annealing</div>
+            <div class="tip-popup">Optional heat treatment under tension to relieve internal stresses and improve dimensional stability. Prevents shrinkage in service.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="subsection">
+      <h3 class="subsection-title">Structural Transformations During Drawing</h3>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">Microstructural Changes</div>
+          <ul>
+            <li>Spherulites → fibrillar structure</li>
+            <li>Chain-folded lamellae → extended-chain crystals</li>
+            <li>Lamellar blocks fragment and slide</li>
+            <li>Tie molecules extend and align</li>
+            <li>Crystal c-axis aligns with draw direction</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">Zone Drawing</div>
+          <ul>
+            <li>Drawing concentrated in narrow zone (neck)</li>
+            <li>Zone propagates along fibre length</li>
+            <li>More uniform deformation than global drawing</li>
+            <li>Achieves higher λ without localised failure</li>
+          </ul>
+        </div>
+      </div>
+      <div class="key-fact">
+        <div class="kf-label">Draw Ratio–Property Relationship</div>
+        <p>Tensile modulus scales roughly as <span class="hl-g">E ∝ λ²–λ³</span> at intermediate draw ratios. At high λ, modulus asymptotically approaches the crystal modulus as chains become fully extended. Strength similarly increases with λ but is limited by chain-end defects and entanglement points.</p>
+      </div>
+    </div>
+    <div class="subsection">
+      <h3 class="subsection-title">Gel Spinning vs. Melt Spinning — Direct Comparison</h3>
+      <div class="compare-block">
+        <div class="compare-panel left">
+          <h4>Gel Spinning (UHMWPE)</h4>
+          <ul>
+            <li>Mw &gt; 1 × 10⁶ g/mol required</li>
+            <li>Solvent dissolution at 130–160°C</li>
+            <li>Draw ratio: 50–200×</li>
+            <li>Tensile modulus: 100–170 GPa</li>
+            <li>Tensile strength: 2.5–4.0 GPa</li>
+            <li>Crystallinity: 85–95%</li>
+            <li>Complex, higher cost; solvent recovery</li>
+          </ul>
+        </div>
+        <div class="compare-vs">VS</div>
+        <div class="compare-panel right">
+          <h4>Melt Spinning + Drawing</h4>
+          <ul>
+            <li>Mw &lt; 10⁶ g/mol (lower Mw PE)</li>
+            <li>No solvent — simpler, safer process</li>
+            <li>Draw ratio: 5–30×</li>
+            <li>Tensile modulus: 10–50 GPa</li>
+            <li>Tensile strength: 0.5–1.5 GPa</li>
+            <li>Crystallinity: 60–80%</li>
+            <li>Simple, lower cost; continuous process</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S5 -->
+  <section class="section" id="s5">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2 class="section-title">Routes for Fibre Manufacture</h2>
+    </div>
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-title">Route A — Gel Spinning</div>
+        <ul>
+          <li>DSM Dyneema® (Netherlands)</li>
+          <li>Honeywell Spectra® (USA)</li>
+          <li>Highest performance fibres</li>
+          <li>Solvent-based; extraction step</li>
+          <li>UHMWPE only</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">Route B — Solid-State Extrusion</div>
+        <ul>
+          <li>Ram extrusion of UHMWPE powder</li>
+          <li>Below Tm — no melting</li>
+          <li>Used for rods, profiles, sheets</li>
+          <li>Limited draw ratios for fibres</li>
+          <li>Mainly for bulk UHMWPE products</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">Route C — Melt Spin + Draw</div>
+        <ul>
+          <li>Lower Mw PE only</li>
+          <li>Conventional melt extrusion</li>
+          <li>Rope, textile-grade fibres</li>
+          <li>Lowest cost route</li>
+          <li>Moderate properties</li>
+        </ul>
+      </div>
+    </div>
+    <div class="subsection">
+      <h3 class="subsection-title">Commercial Gel Spinning Processes</h3>
+      <p><span class="hl">DSM Dyneema® Process:</span> UHMWPE (Mw ~2–4 × 10⁶) dissolved in <span class="hl">mineral/paraffin oil</span> at ~130°C (8–12 wt%). Extruded through multihole spinnerets → water-quenched gel → <span class="hl">hexane solvent extraction</span> → multi-stage hot drawing at 120–140°C (total λ ~50–150) → surface coating applied. Variants: SK60, SK65, SK75, SK76, SK90.</p>
+      <p><span class="hl">Honeywell Spectra® Process:</span> Proprietary solvent (likely decalin-based). Slightly different Mw and process conditions. Products: Spectra 900 (~modulus 73 GPa), Spectra 1000 (~113 GPa), Spectra 2000 (~170 GPa, strength ~3.3 GPa).</p>
+    </div>
+    <div class="subsection">
+      <h3 class="subsection-title">Nascent Powder Route (Solvent-Free Alternative)</h3>
+      <p>Exploits <span class="hl">nascent (as-polymerised) UHMWPE powder</span>. During Ziegler-Natta or metallocene polymerisation, chains crystallise immediately with fewer entanglements than melt-crystallised polymer. Process:</p>
+      <ul class="bullet-list">
+        <li>Nascent powder sintered at T just below Tm to form a porous compact</li>
+        <li>Drawn in solid state at high draw ratios (lower λ than gel spinning)</li>
+        <li>Properties intermediate between melt-drawn and gel-spun fibres</li>
+        <li><span class="hl-g">Solvent-free</span> — environmentally preferred, lower cost</li>
+        <li>Commercial viability improving; Toyobo and others developing this route</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- S6 -->
+  <section class="section" id="s6">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2 class="section-title">Microstructure of Gel-Spun Fibres</h2>
+    </div>
+    <div class="subsection">
+      <h3 class="subsection-title">Extended-Chain Crystal Morphology</h3>
+      <p>The defining structural feature is the <span class="hl">extended-chain crystal (ECC)</span> morphology — the opposite of the chain-folded crystals (FCC) of bulk PE.</p>
+      <div class="grid-2">
+        <div class="key-fact" style="margin:0;">
+          <div class="kf-label">Bulk PE — Folded-Chain Crystals</div>
+          <p>Lamellae ~10–20 nm thick. Chains fold back repeatedly. Crystallinity ~65–80%. Low modulus — most chain length wasted in folds and amorphous regions.</p>
+        </div>
+        <div class="key-fact" style="margin:0;border-left-color:var(--accent3);">
+          <div class="kf-label" style="color:var(--accent3);">Gel Fibre — Extended-Chain Crystals</div>
+          <p>Crystals extend along fibre axis — ideally no folds. Crystallinity 85–95%. Herman's f ≈ 0.97–0.99. Approaches theoretical stiffness.</p>
+        </div>
+      </div>
+    </div>
+    <div class="subsection">
+      <h3 class="subsection-title">Fibrillar Hierarchy</h3>
+      <ul class="bullet-list">
+        <li><span class="hl">Macroscopic fibre</span> (~5–15 µm diameter) consists of bundles of microfibrils</li>
+        <li><span class="hl">Microfibrils</span> (~10–20 nm diameter) run parallel to fibre axis</li>
+        <li>Within microfibrils: orthorhombic crystalline domains with thin amorphous regions between them</li>
+        <li>At finest scale: extended PE chains packed in crystalline array (all-trans conformation)</li>
+        <li>Inter-microfibrillar amorphous regions contain remaining tie molecules and entanglements</li>
+      </ul>
+      <div class="formula">
+        <div class="formula-label">Herman's Orientation Factor</div>
+        f = (3⟨cos²θ⟩ − 1) / 2 &nbsp;; &nbsp; f=1 (perfect), f=0 (random), f=−0.5 (perpendicular)
+      </div>
+      <p>Gel-spun fibres: <span class="hl-g">f ≈ 0.97–0.99</span>. Measured by <span class="hl">WAXS</span> (wide-angle X-ray scattering) from azimuthal intensity distribution of the 110/200 reflections.</p>
+      <div class="exam-tip">
+        <div class="et-label">⚡ Characterisation Techniques</div>
+        <p><span class="hl-y">WAXS</span> — crystal structure, orientation. &nbsp;<span class="hl-y">SAXS</span> — long period, lamellar spacing. &nbsp;<span class="hl-y">DSC</span> — Tm, crystallinity (ΔHf / ΔH°f). &nbsp;<span class="hl-y">FTIR / Raman</span> — chain conformation, crystallinity index. &nbsp;<span class="hl-y">SEM / TEM</span> — fibrillar morphology, fracture surface. &nbsp;<span class="hl-y">Raman</span> — chain tension in individual microfibrils.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- S7 -->
+  <section class="section" id="s7">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <h2 class="section-title">Mechanical Properties</h2>
+    </div>
+    <div class="subsection">
+      <h3 class="subsection-title">Key Mechanical Data</h3>
+      <div style="overflow-x:auto;">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Property</th><th>UHMWPE (gel)</th><th>Dyneema SK75</th><th>Spectra 2000</th><th>Steel Wire</th><th>E-Glass</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Density (g/cm³)</td><td class="highlight">0.97</td><td>0.97</td><td>0.97</td><td>7.8</td><td>2.54</td></tr>
+            <tr><td>Tensile Modulus (GPa)</td><td class="highlight">100–170</td><td>116</td><td>170</td><td>210</td><td>70</td></tr>
+            <tr><td>Tensile Strength (GPa)</td><td class="highlight">2.5–4.0</td><td>3.5</td><td>3.3</td><td>1.0–3.0</td><td>3.45</td></tr>
+            <tr><td>Specific Modulus (GPa cm³/g)</td><td class="highlight">103–175</td><td>120</td><td>175</td><td>27</td><td>28</td></tr>
+            <tr><td>Specific Strength (GPa cm³/g)</td><td class="highlight">2.6–4.1</td><td>3.6</td><td>3.4</td><td>~0.3</td><td>1.4</td></tr>
+            <tr><td>Strain to failure (%)</td><td class="highlight">2.5–3.5</td><td>3.5</td><td>2.7</td><td>2–5</td><td>4.7</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="key-fact">
+        <div class="kf-label">Outstanding Specific Strength</div>
+        <p>UHMWPE gel-spun fibres have the <span class="hl">highest specific strength of any commercially available fibre</span> — approximately <span class="hl-g">10× that of steel</span> on a per-unit-mass basis. Density only 0.97 g/cm³ — fibres <em>float on water</em>.</p>
+      </div>
+    </div>
+    <div class="subsection">
+      <h3 class="subsection-title">Key Mechanical Limitations</h3>
+      <ul class="bullet-list">
+        <li><span class="hl-o">Low compressive strength:</span> ~0.1 GPa (tensile: 3+ GPa). Highly aligned chains buckle under compression — limits use in structural composites.</li>
+        <li><span class="hl-o">Low transverse/shear strength:</span> Only weak van der Waals inter-chain forces → easy splitting along fibre axis (delamination).</li>
+        <li><span class="hl-o">Creep under sustained load:</span> Significant viscoelastic creep, especially above ~50°C. Limits load-bearing applications.</li>
+        <li><span class="hl-o">Low working temperature:</span> Tm ~145–155°C; max continuous use ~70–80°C.</li>
+        <li><span class="hl-o">Poor matrix adhesion:</span> Chemically inert, very low surface energy (~31 mN/m) → poor wetting/adhesion to polymer matrices. Surface treatments required: plasma, corona discharge, or chemical modification.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- S8 -->
+  <section class="section" id="s8">
+    <div class="section-header">
+      <span class="section-num">08</span>
+      <h2 class="section-title">Other Properties</h2>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Physical</div>
+        <ul>
+          <li>Density 0.97 g/cm³ — <em>floats on water</em></li>
+          <li>White/translucent appearance</li>
+          <li>Very low surface energy (~31 mN/m)</li>
+          <li>Low coefficient of friction</li>
+          <li>Transparent to visible and UV light</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">Thermal</div>
+        <ul>
+          <li>Melting point: 145–155°C</li>
+          <li>Max continuous use: ~70–80°C</li>
+          <li>Shrinks significantly if heated near Tm</li>
+          <li>Low thermal conductivity (except along chain)</li>
+          <li>Not flame resistant</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">Chemical Resistance</div>
+        <ul>
+          <li>Excellent resistance to acids, alkalis, solvents (at RT)</li>
+          <li>No known solvent at room temperature</li>
+          <li>No moisture absorption (hydrophobic)</li>
+          <li>Resists most industrial chemicals</li>
+          <li>Caution: strong oxidising agents at elevated T</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">Other Notable</div>
+        <ul>
+          <li><span style="color:var(--accent)">Excellent impact &amp; energy absorption</span></li>
+          <li>Low dielectric constant (ε ≈ 2.2) — radar transparent</li>
+          <li>Biocompatible — medical grade certified</li>
+          <li>UV stable with appropriate stabilisers</li>
+          <li>Good vibration damping</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- S9 -->
+  <section class="section" id="s9">
+    <div class="section-header">
+      <span class="section-num">09</span>
+      <h2 class="section-title">Applications</h2>
+    </div>
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-title" style="color:var(--accent);">Defence &amp; Armour</div>
+        <ul>
+          <li>Ballistic body armour (vests, helmets)</li>
+          <li>Vehicle armour panels (soft insert)</li>
+          <li>Blast-resistant composites</li>
+          <li>EOD protective equipment</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--accent2);">Marine &amp; Offshore</div>
+        <ul>
+          <li>Deep-sea mooring lines</li>
+          <li>Trawl netting, fishing lines</li>
+          <li>Tow &amp; anchor ropes</li>
+          <li>Yacht running rigging, sails</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--accent3);">Medical</div>
+        <ul>
+          <li>Orthopaedic joint liners (bulk UHMWPE)</li>
+          <li>Surgical sutures</li>
+          <li>Prosthetic components</li>
+          <li>Medical device reinforcement</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--accent4);">Aerospace / Structural</div>
+        <ul>
+          <li>Radomes (low ε — radar transparent)</li>
+          <li>Lightweight composite structures</li>
+          <li>Pressure vessels (filament-wound)</li>
+          <li>Space tethers and cables</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--accent);">Sports &amp; Recreation</div>
+        <ul>
+          <li>Cut-resistant gloves</li>
+          <li>Climbing ropes, paraglider lines</li>
+          <li>Kite surfing lines</li>
+          <li>High-performance sailcloth</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--accent2);">Industrial</div>
+        <ul>
+          <li>Lifting slings and crane ropes</li>
+          <li>Conveyor belts (cut resistance)</li>
+          <li>High-strength cables</li>
+          <li>Anti-cut textiles and protective clothing</li>
+        </ul>
+      </div>
+    </div>
+    <div class="key-fact" style="margin-top:20px;">
+      <div class="kf-label">Primary Application Driver</div>
+      <p>The dominant driver is <span class="hl">specific strength</span> (strength per unit weight). UHMWPE outperforms steel by ~10:1 on this basis. In ropes and cables, this means equal breaking strength at ~⅛ the weight and with the added benefits of no corrosion, no sinking, and easier handling.</p>
+    </div>
+  </section>
+
+  <!-- S10 -->
+  <section class="section" id="s10">
+    <div class="section-header">
+      <span class="section-num">10</span>
+      <h2 class="section-title">Comprehensive Comparison Table</h2>
+    </div>
+    <div style="overflow-x:auto;">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Property</th><th>UHMWPE (gel)</th><th>Kevlar 49</th><th>Carbon HT</th><th>E-Glass</th><th>Steel Wire</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Density (g/cm³)</td><td class="highlight">0.97</td><td>1.45</td><td>1.75</td><td>2.54</td><td>7.8</td></tr>
+          <tr><td>Tensile Modulus (GPa)</td><td>100–170</td><td class="highlight">125</td><td>220–240</td><td>70</td><td>210</td></tr>
+          <tr><td>Tensile Strength (GPa)</td><td class="highlight">2.5–4.0</td><td>3.6</td><td>3.5–4.8</td><td>3.4</td><td>1.0–3.5</td></tr>
+          <tr><td>Specific Strength</td><td class="highlight">2.6–4.1</td><td>2.5</td><td>2.0–2.7</td><td>1.3</td><td>~0.3</td></tr>
+          <tr><td>Specific Modulus</td><td>103–175</td><td>86</td><td class="highlight">126–137</td><td>28</td><td>27</td></tr>
+          <tr><td>Max use temp (°C)</td><td>~80</td><td>~200</td><td class="highlight">&gt;400</td><td>~350</td><td>&gt;300</td></tr>
+          <tr><td>Compressive strength</td><td>Poor ~0.1 GPa</td><td>Poor ~0.6 GPa</td><td class="highlight">Good ~2 GPa</td><td>Good</td><td>Excellent</td></tr>
+          <tr><td>Chemical resistance</td><td class="highlight">Excellent</td><td>Moderate (UV)</td><td>Good</td><td>Moderate (HF)</td><td>Poor</td></tr>
+          <tr><td>Processing route</td><td>Gel spin + draw</td><td>Dry-jet wet spin</td><td>PAN/pitch precursor</td><td>Melt draw</td><td>Wire draw</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="exam-tip" style="margin-top:16px;">
+      <div class="et-label">⚡ Exam Tip</div>
+      <p>Always specify <span class="hl-y">absolute</span> vs <span class="hl-y">specific</span> (per unit density) when comparing fibres. UHMWPE leads on specific strength; carbon leads on specific modulus and temperature; steel leads on compressive strength and high temperature.</p>
+    </div>
+  </section>
+
+  <!-- S11 -->
+  <section class="section" id="s11">
+    <div class="section-header">
+      <span class="section-num">11</span>
+      <h2 class="section-title">Quick Revision Q&amp;A</h2>
+    </div>
+    <p style="margin-bottom:20px; color:var(--text-muted);">Click each card to reveal the answer. Test yourself before flipping!</p>
+
+    <div class="quiz-card" onclick="toggleQuiz(this)">
+      <span class="toggle-hint">tap to reveal</span>
+      <div class="q">Why can UHMWPE not be conventionally melt-processed?</div>
+      <div class="a">UHMWPE has melt viscosity ~10⁸–10⁹ Pa·s — several orders of magnitude above the practical processing limit (~10⁴–10⁵ Pa·s) — because melt viscosity scales as Mw³·⁴. At Mw ~2×10⁶, the chains are so heavily entangled that the melt barely flows. This makes conventional melt extrusion and melt spinning impossible, requiring the gel spinning route instead.</div>
+    </div>
+    <div class="quiz-card" onclick="toggleQuiz(this)">
+      <span class="toggle-hint">tap to reveal</span>
+      <div class="q">What is the critical role of solvent in gel spinning and how does it enable high draw ratios?</div>
+      <div class="a">The solvent dissolves UHMWPE at low concentration (1–10 wt%), reducing chain entanglement density close to the dilute-solution limit. This disentangled topology is preserved on gelation. The low-entanglement gel fibre can then be drawn at ratios of 50–200×, far exceeding the ~20–30× possible from melt-spun PE where entanglements restrict drawing.</div>
+    </div>
+    <div class="quiz-card" onclick="toggleQuiz(this)">
+      <span class="toggle-hint">tap to reveal</span>
+      <div class="q">Describe the microstructural transformation during the hot-drawing step of gel spinning.</div>
+      <div class="a">Drawing at ~120–140°C transforms the loosely ordered gel into a highly oriented extended-chain crystal structure. Residual chain-folded lamellae are destroyed; tie molecules and chain folds are extended; chains align along the draw direction. Crystallinity increases to 85–95%. A microfibrillar morphology develops with near-perfect chain alignment (Herman's f ≈ 0.97–0.99), approaching the theoretical crystal modulus of ~300 GPa.</div>
+    </div>
+    <div class="quiz-card" onclick="toggleQuiz(this)">
+      <span class="toggle-hint">tap to reveal</span>
+      <div class="q">Explain why gel-spun UHMWPE has poor compressive strength despite excellent tensile properties.</div>
+      <div class="a">The highly aligned PE chains are excellent in tension but susceptible to buckling/kinking under compression. Inter-chain interactions are only weak van der Waals forces (~0.1–0.5 kJ/mol), providing little lateral resistance to chain buckling. This is a fundamental limitation of all flexible-chain extended-chain polymer fibres — unlike carbon fibres which have strong covalent bonding in the basal planes providing lateral support.</div>
+    </div>
+    <div class="quiz-card" onclick="toggleQuiz(this)">
+      <span class="toggle-hint">tap to reveal</span>
+      <div class="q">Name two commercial gel-spun UHMWPE fibres, their manufacturers, and give approximate mechanical properties.</div>
+      <div class="a">1) Dyneema® SK75 — DSM (Netherlands, now Avient): tensile strength ~3.5 GPa, modulus ~116 GPa, density 0.97 g/cm³. 2) Spectra® 2000 — Honeywell (USA): tensile strength ~3.3 GPa, modulus ~170 GPa, density 0.97 g/cm³. Both are produced by gel spinning UHMWPE but use different proprietary solvents and process conditions.</div>
+    </div>
+    <div class="quiz-card" onclick="toggleQuiz(this)">
+      <span class="toggle-hint">tap to reveal</span>
+      <div class="q">What is Herman's orientation factor and how is it measured? What value is typical for gel-spun UHMWPE?</div>
+      <div class="a">Herman's orientation factor f = (3⟨cos²θ⟩ − 1)/2 quantifies chain alignment relative to the fibre axis: f = 1 (perfect alignment), f = 0 (random), f = −0.5 (perpendicular). It is measured by WAXS: the azimuthal intensity distribution of crystalline reflections (e.g., 110, 200 planes in orthorhombic PE) is analysed. Gel-spun UHMWPE fibres show f ≈ 0.97–0.99, indicating near-perfect alignment.</div>
+    </div>
+    <div class="quiz-card" onclick="toggleQuiz(this)">
+      <span class="toggle-hint">tap to reveal</span>
+      <div class="q">Compare the manufacturing routes for gel-spun UHMWPE (Dyneema) and para-aramid (Kevlar). What is the key difference in how chain alignment is achieved?</div>
+      <div class="a">UHMWPE (gel spinning): dissolved at low conc. in mineral oil → extruded → gel formed → solvent removed → hot-drawn at λ=50–200×. Alignment is achieved by mechanical drawing of a disentangled gel — the chain extends progressively under tension. Kevlar (dry-jet wet spinning): dissolved in concentrated H₂SO₄ where rigid-rod chains spontaneously form a lyotropic liquid crystal phase. Alignment is achieved in the spinning solution before the jet enters the coagulation bath. Only modest draw (λ~1–2×) is needed because chains are already aligned in the LC phase.</div>
+    </div>
+    <div class="quiz-card" onclick="toggleQuiz(this)">
+      <span class="toggle-hint">tap to reveal</span>
+      <div class="q">What are the main limitations of UHMWPE fibres in composite applications and how can they be addressed?</div>
+      <div class="a">1) Poor matrix adhesion — chemically inert surface, very low surface energy. Addressed by: plasma treatment, corona discharge, or chemical surface modification (oxidation, grafting). 2) Low compressive strength (~0.1 GPa) — limits to tension-dominated structures. Addressed by: hybridising with carbon fibre in composites. 3) Low maximum use temperature (~80°C) — limits to ambient/moderate temperature service. Cannot be addressed without changing polymer chemistry. 4) Creep — use in sustained-load structures must account for relaxation.</div>
+    </div>
+  </section>
+
+  <!-- S12 -->
+  <section class="section" id="s12">
+    <div class="section-header">
+      <span class="section-num">12</span>
+      <h2 class="section-title">Aramid Fibres — Context &amp; Comparison</h2>
+    </div>
+    <p><span class="hl">Aramids</span> (aromatic polyamides) are the principal competing rigid-chain fibre class for ballistic and structural applications.</p>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Para-Aramid (p-PPD-T)</div>
+        <ul>
+          <li>Kevlar® (DuPont), Twaron® (Teijin)</li>
+          <li>Rigid rod-like chains — all-para aromatic backbone</li>
+          <li>Lyotropic LC in H₂SO₄ — spontaneous alignment</li>
+          <li>Dry-jet wet spinning from H₂SO₄ dope</li>
+          <li>Modulus: 70–125 GPa; Strength: 3.0–3.6 GPa</li>
+          <li>Max use temp ~200°C (better than UHMWPE)</li>
+          <li>H-bond network improves properties vs. UHMWPE (but adds weight)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">Meta-Aramid (Nomex®)</div>
+        <ul>
+          <li>Meta-linkage → more flexible chain</li>
+          <li>Low modulus (~10 GPa) — not structural</li>
+          <li>Exceptional flame resistance — LOI &gt; 28%</li>
+          <li>Does not melt — chars at ~370°C</li>
+          <li>Applications: firefighting gear, motorsport, electrical insulation</li>
+          <li>Processed from solution by wet spinning</li>
+        </ul>
+      </div>
+    </div>
+    <div class="exam-tip">
+      <div class="et-label">⚡ Key Processing Contrast</div>
+      <p>UHMWPE: gel spun in neutral solvent → alignment by mechanical drawing. Kevlar: dry-jet wet spun from H₂SO₄ → alignment from lyotropic LC phase in solution. Drawing of Kevlar is only λ ≈ 1–2× because chains are pre-aligned in the liquid crystal state before extrusion.</p>
+    </div>
+  </section>
+
+  <!-- S13 -->
+  <section class="section" id="s13">
+    <div class="section-header">
+      <span class="section-num">13</span>
+      <h2 class="section-title">PBO / Zylon® — Highest Modulus Organic Fibre</h2>
+    </div>
+    <p><span class="hl">PBO</span> (poly-p-phenylene-2,6-benzobisoxazole) — commercial name <span class="hl">Zylon®</span> (Toyobo, Japan). Currently the highest-modulus organic fibre commercially available, exceeding both UHMWPE and Kevlar.</p>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Key Properties</div>
+        <ul>
+          <li>Modulus AS: ~180 GPa; HM: ~270 GPa</li>
+          <li>Tensile strength AS: ~5.8 GPa</li>
+          <li>Density: 1.56 g/cm³</li>
+          <li>Decomposition temp: ~650°C (no melting)</li>
+          <li>Limiting oxygen index: 68% (excellent FR)</li>
+          <li>Processed from polyphosphoric acid (PPA)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">Limitations</div>
+        <ul>
+          <li>Significant degradation on UV and moisture exposure (hydrolysis of oxazole ring)</li>
+          <li>High-profile safety failure (body armour recalled 2003)</li>
+          <li>Very expensive — niche applications</li>
+          <li>Same compressive weakness as other organic fibres</li>
+          <li>Requires careful handling, storage and periodic recertification</li>
+        </ul>
+      </div>
+    </div>
+    <div class="key-fact">
+      <div class="kf-label">Summary — Flexible vs. Rigid Chain Fibres</div>
+      <p>Flexible-chain fibres (UHMWPE) require <span class="hl">processing-induced chain extension</span> (gel spin + drawing) to approach theoretical properties. Rigid-chain fibres (aramid, PBO) are <span class="hl">inherently extended</span> due to backbone rigidity — alignment comes from LC processing. Both families share a fundamental weakness: <span class="hl-o">poor compressive strength</span> due to weak inter-chain forces. Carbon fibre avoids this through its covalently bonded graphitic structure.</p>
+    </div>
+  </section>
+
+</main>
+
+<div class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</div>
+
+<script>
+  window.addEventListener('scroll', () => {
+    const scrollTop = document.documentElement.scrollTop;
+    const scrollH = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    document.getElementById('progressBar').style.width = (scrollTop / scrollH * 100) + '%';
+    document.getElementById('scrollTopBtn').classList.toggle('visible', scrollTop > 300);
+
+    const sections = document.querySelectorAll('.section');
+    const navItems = document.querySelectorAll('.nav-item');
+    sections.forEach((sec, i) => {
+      const r = sec.getBoundingClientRect();
+      if (r.top <= 100 && r.bottom > 100) {
+        navItems.forEach(n => n.classList.remove('active'));
+        if (navItems[i]) navItems[i].classList.add('active');
+      }
+    });
+  });
+
+  function scrollTo(id) {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (window.innerWidth <= 900) document.getElementById('sidebar').classList.remove('open');
+  }
+
+  function toggleQuiz(el) {
+    el.classList.toggle('open');
+    el.querySelector('.toggle-hint').textContent = el.classList.contains('open') ? 'tap to hide' : 'tap to reveal';
+  }
+
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+  }
+
+  function searchNotes(q) {
+    q = q.toLowerCase().trim();
+    document.querySelectorAll('.section').forEach(s => {
+      s.style.display = (!q || s.innerText.toLowerCase().includes(q)) ? '' : 'none';
+    });
+  }
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.04 });
+
+  document.querySelectorAll('.section, .hero').forEach(s => {
+    s.style.opacity = '0';
+    s.style.transform = 'translateY(18px)';
+    s.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
+    observer.observe(s);
+  });
+</script>
+</body>
+</html>

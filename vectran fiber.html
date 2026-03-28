@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vectran Fiber – Exam Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0c0f0a;
+    --surface: #131710;
+    --surface2: #1a1f16;
+    --border: #2a331f;
+    --accent: #a8d060;
+    --accent2: #d4f080;
+    --accent3: #5a8c20;
+    --text: #e8f0d8;
+    --muted: #8a9a70;
+    --highlight: #c8e850;
+    --red: #e84040;
+    --gold: #e0b840;
+    --blue: #60b8d8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Animated background grid */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(168,208,96,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(168,208,96,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Fiber strand animation at top */
+  .fiber-hero {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    background: linear-gradient(180deg, #0a1205 0%, var(--bg) 100%);
+  }
+
+  .fiber-hero canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-label {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 2;
+  }
+
+  .hero-label .tag {
+    display: inline-block;
+    background: var(--accent3);
+    color: var(--accent2);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    padding: 4px 12px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .hero-label h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 5vw, 56px);
+    font-weight: 900;
+    color: var(--accent2);
+    letter-spacing: -1px;
+    line-height: 1;
+  }
+
+  .hero-label h1 span {
+    color: var(--accent);
+  }
+
+  /* Layout */
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Progress / TOC sidebar sticky */
+  .toc-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(12,15,10,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .toc-bar::-webkit-scrollbar { display: none; }
+
+  .toc-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    padding: 5px 12px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+
+  .toc-btn:hover, .toc-btn.active {
+    border-color: var(--accent);
+    color: var(--accent2);
+    background: rgba(168,208,96,0.08);
+  }
+
+  /* Section */
+  .section {
+    margin-top: 56px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 64px;
+    font-weight: 900;
+    color: var(--border);
+    line-height: 1;
+    user-select: none;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 3vw, 32px);
+    font-weight: 700;
+    color: var(--accent2);
+    line-height: 1.1;
+  }
+
+  .section-subtitle {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent3);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  /* Cards */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .card:hover {
+    border-color: var(--accent3);
+    transform: translateY(-2px);
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent3), var(--accent));
+  }
+
+  .card-icon {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  .card h3 {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .card p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text);
+  }
+
+  /* Key-value info rows */
+  .info-table {
+    border: 1px solid var(--border);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+
+  .info-row {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+
+  .info-row:last-child { border-bottom: none; }
+  .info-row:hover { background: rgba(168,208,96,0.04); }
+
+  .info-key {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    padding: 12px 16px;
+    border-right: 1px solid var(--border);
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+  }
+
+  .info-val {
+    font-size: 14px;
+    padding: 12px 16px;
+    line-height: 1.6;
+    color: var(--text);
+  }
+
+  .badge {
+    display: inline-block;
+    background: rgba(168,208,96,0.12);
+    border: 1px solid var(--accent3);
+    color: var(--accent2);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 2px 8px;
+    margin: 2px;
+  }
+
+  /* Process flow */
+  .process-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 20px;
+  }
+
+  .process-step {
+    display: flex;
+    gap: 0;
+    position: relative;
+  }
+
+  .step-connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 40px;
+    flex-shrink: 0;
+  }
+
+  .step-dot {
+    width: 12px;
+    height: 12px;
+    background: var(--accent);
+    border-radius: 50%;
+    margin-top: 18px;
+    flex-shrink: 0;
+    box-shadow: 0 0 8px var(--accent);
+  }
+
+  .step-line {
+    width: 2px;
+    flex: 1;
+    background: linear-gradient(180deg, var(--accent3), var(--border));
+    min-height: 20px;
+  }
+
+  .process-step:last-child .step-line { display: none; }
+
+  .step-body {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 14px 18px;
+    margin: 8px 0 0;
+    margin-bottom: 8px;
+  }
+
+  .step-body h4 {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+
+  .step-body p {
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: var(--text);
+  }
+
+  /* Properties comparison bars */
+  .prop-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .prop-row {
+    display: grid;
+    grid-template-columns: 180px 1fr 60px;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .prop-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    text-align: right;
+  }
+
+  .prop-bar-track {
+    height: 8px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .prop-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent3), var(--accent2));
+    width: 0%;
+    transition: width 1.2s cubic-bezier(0.4,0,0.2,1);
+    box-shadow: 2px 0 8px var(--accent3);
+  }
+
+  .prop-val {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--accent2);
+    text-align: right;
+  }
+
+  /* Applications grid */
+  .app-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .app-tile {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 18px 14px;
+    text-align: center;
+    cursor: default;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .app-tile:hover {
+    border-color: var(--accent);
+    background: var(--surface2);
+    transform: scale(1.02);
+  }
+
+  .app-tile .emoji { font-size: 28px; margin-bottom: 8px; }
+
+  .app-tile h4 {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .app-tile p {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* Comparison table */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+
+  .compare-table th {
+    background: var(--surface2);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: var(--accent);
+    text-transform: uppercase;
+    padding: 10px 14px;
+    text-align: left;
+    border: 1px solid var(--border);
+  }
+
+  .compare-table td {
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: top;
+    line-height: 1.6;
+  }
+
+  .compare-table tr:hover td { background: rgba(168,208,96,0.03); }
+
+  .compare-table .highlight-cell {
+    color: var(--accent2);
+    font-weight: 500;
+  }
+
+  /* Callout box */
+  .callout {
+    border-left: 3px solid var(--accent);
+    background: rgba(168,208,96,0.05);
+    padding: 14px 18px;
+    margin: 20px 0;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .callout strong {
+    color: var(--accent2);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  /* Key facts */
+  .key-facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .fact-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 16px 12px;
+    text-align: center;
+    position: relative;
+  }
+
+  .fact-box::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent3);
+  }
+
+  .fact-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--accent2);
+    line-height: 1;
+  }
+
+  .fact-unit {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent3);
+  }
+
+  .fact-desc {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+
+  /* Exam tip box */
+  .exam-tip {
+    background: rgba(224,184,64,0.06);
+    border: 1px solid rgba(224,184,64,0.3);
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: 13.5px;
+    line-height: 1.7;
+  }
+
+  .exam-tip strong {
+    color: var(--gold);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); }
+
+  /* Print */
+  @media print {
+    .toc-bar { display: none; }
+    .section { opacity: 1; transform: none; }
+    body { background: white; color: #111; }
+  }
+
+  @media (max-width: 600px) {
+    .info-row { grid-template-columns: 1fr; }
+    .info-key { border-right: none; border-bottom: 1px solid var(--border); }
+    .prop-row { grid-template-columns: 120px 1fr 50px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero with animated fiber strands -->
+<div class="fiber-hero">
+  <canvas id="fiberCanvas"></canvas>
+  <div class="hero-label">
+    <div class="tag">Exam Notes · Materials Science</div>
+    <h1>Vectran<span>™</span> Fiber</h1>
+  </div>
+</div>
+
+<!-- Sticky TOC -->
+<nav class="toc-bar" id="tocBar">
+  <button class="toc-btn active" onclick="scrollTo('intro')">01 Overview</button>
+  <button class="toc-btn" onclick="scrollTo('manufacture')">02 Manufacture</button>
+  <button class="toc-btn" onclick="scrollTo('properties')">03 Properties</button>
+  <button class="toc-btn" onclick="scrollTo('applications')">04 Applications</button>
+  <button class="toc-btn" onclick="scrollTo('comparison')">05 Comparison</button>
+  <button class="toc-btn" onclick="scrollTo('summary')">06 Summary</button>
+</nav>
+
+<div class="container">
+
+  <!-- ── SECTION 1: INTRO ── -->
+  <section class="section" id="intro">
+    <div class="section-header">
+      <div class="section-number">01</div>
+      <div>
+        <div class="section-title">Overview & Introduction</div>
+        <div class="section-subtitle">What is Vectran?</div>
+      </div>
+    </div>
+
+    <div class="key-facts">
+      <div class="fact-box">
+        <div class="fact-num">1990</div>
+        <div class="fact-unit">YEAR</div>
+        <div class="fact-desc">Commercialised by Celanese Corp.</div>
+      </div>
+      <div class="fact-box">
+        <div class="fact-num">LCP</div>
+        <div class="fact-unit">TYPE</div>
+        <div class="fact-desc">Liquid Crystal Polymer</div>
+      </div>
+      <div class="fact-box">
+        <div class="fact-num">5×</div>
+        <div class="fact-unit">STRONGER</div>
+        <div class="fact-desc">Strength vs steel by weight</div>
+      </div>
+      <div class="fact-box">
+        <div class="fact-num">TA</div>
+        <div class="fact-unit">CHEMISTRY</div>
+        <div class="fact-desc">Aromatic polyester</div>
+      </div>
+    </div>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">🧬</div>
+        <h3>Chemical Identity</h3>
+        <p>Vectran is a high-performance multifilament yarn spun from a <strong>thermotropic liquid crystal polymer (LCP)</strong>. It is a wholly aromatic copolyester derived from <em>4-hydroxybenzoic acid (HBA)</em> and <em>6-hydroxy-2-naphthoic acid (HNA)</em>.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🏭</div>
+        <h3>Manufacturer</h3>
+        <p>Originally developed by <strong>Celanese Corporation</strong> and later produced by <strong>Kuraray Co., Ltd.</strong> (Japan). Kuraray acquired the Vectran business and remains the primary global manufacturer today.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">⭐</div>
+        <h3>Unique Position</h3>
+        <p>Vectran is the <strong>only commercially available melt-spun LCP fiber</strong> in the world, distinguishing it from other HPFs (High Performance Fibers) like Kevlar or Dyneema.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>Core Definition</strong>
+      Vectran fiber is a synthetic, high-performance fiber produced by the melt spinning of an aromatic liquid crystal polyester. Its rigid-rod polymer chains align parallel during spinning, giving it exceptional mechanical performance without any additional drawing process.
+    </div>
+
+    <div class="exam-tip">
+      <strong>⭐ Exam Tip</strong>
+      Remember: Vectran = LCP (Liquid Crystal Polymer) + Melt Spun + Aromatic Polyester. It is NOT a para-aramid (like Kevlar) and NOT UHMWPE (like Dyneema). This distinction is frequently tested.
+    </div>
+  </section>
+
+  <!-- ── SECTION 2: MANUFACTURE ── -->
+  <section class="section" id="manufacture">
+    <div class="section-header">
+      <div class="section-number">02</div>
+      <div>
+        <div class="section-title">Manufacture</div>
+        <div class="section-subtitle">Synthesis · Polymerisation · Melt Spinning · Post-processing</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>Key Principle</strong>
+      Vectran's manufacturing process is unique: its LCP polymer self-organises into ordered domains in the melt phase. Spinning through a spinneret freezes this orientation, creating intrinsic molecular alignment without the need for post-draw or solution spinning.
+    </div>
+
+    <h3 style="font-family:'DM Mono',monospace;font-size:12px;color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;">Manufacturing Process Flow</h3>
+
+    <div class="process-flow">
+      <div class="process-step">
+        <div class="step-connector"><div class="step-dot"></div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h4>Step 1 — Monomer Selection &amp; Preparation</h4>
+          <p>Two aromatic monomers are used: <strong>4-Hydroxybenzoic acid (HBA)</strong> and <strong>6-Hydroxy-2-naphthoic acid (HNA)</strong>. The ratio is typically <strong>73% HBA : 27% HNA</strong> (molar). HNA disrupts crystallinity just enough to lower the melting point to a processable range (~280–320 °C) while retaining LCP behaviour.</p>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="step-connector"><div class="step-dot"></div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h4>Step 2 — Polycondensation (Polymerisation)</h4>
+          <p>The monomers undergo <strong>melt-phase polycondensation</strong> (esterification). Acetic anhydride is used to acetylate the hydroxyl groups before polymerisation (acetate method). The reaction produces acetic acid as a by-product. High molecular weight aromatic copolyester chains are formed. Reaction temperature: ~250–330 °C under inert atmosphere. Catalyst: metal salt catalysts (antimony or titanium compounds).</p>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="step-connector"><div class="step-dot"></div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h4>Step 3 — Thermotropic LCP Melt</h4>
+          <p>When heated above its glass transition but below decomposition, the LCP polymer forms a <strong>thermotropic mesophase</strong> — a state between solid and isotropic liquid. In this mesophase, rigid-rod polymer chains spontaneously align in domains. Unlike isotropic polymers, the melt is already highly ordered (nematic liquid crystal structure).</p>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="step-connector"><div class="step-dot"></div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h4>Step 4 — Melt Spinning</h4>
+          <p>The LCP melt is forced through a <strong>spinneret</strong> (multihole die). Shear forces in the spinneret channels further align the polymer chains along the fiber axis. The fiber solidifies on cooling, <strong>locking in the molecular orientation</strong>. No drawing step is needed — unlike most synthetic fibers, the orientation is achieved in the melt. Filaments are wound onto bobbins as multifilament yarn.</p>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="step-connector"><div class="step-dot"></div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h4>Step 5 — Solid-State Heat Treatment (Post-Cure)</h4>
+          <p>The as-spun yarn undergoes <strong>heat treatment below the melting point</strong> (solid-state polymerisation / annealing) at ~200–250 °C under tension in an inert atmosphere. This step: (a) increases molecular weight by extending chain length, (b) enhances chain alignment and crystallinity, (c) significantly improves tensile strength and modulus. This is a critical step that dramatically improves fiber properties.</p>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="step-connector"><div class="step-dot"></div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h4>Step 6 — Finishing &amp; Yarn Formation</h4>
+          <p>Filaments are wound, twisted, or plied into multifilament yarns of defined linear density (denier/decitex). Surface finishes (sizing/lubricants) may be applied for processability. Linear density ranges: <strong>110 dtex to 3300 dtex</strong>. Available forms: yarn, braid, woven fabric, and non-woven.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-table">
+      <div class="info-row">
+        <div class="info-key">Polymer Type</div>
+        <div class="info-val">Thermotropic Liquid Crystal Polymer (LCP) — Aromatic copolyester</div>
+      </div>
+      <div class="info-row">
+        <div class="info-key">Monomers</div>
+        <div class="info-val">4-Hydroxybenzoic acid (HBA) + 6-Hydroxy-2-naphthoic acid (HNA)</div>
+      </div>
+      <div class="info-row">
+        <div class="info-key">HBA:HNA Ratio</div>
+        <div class="info-val">~73:27 molar ratio (most common commercial grade)</div>
+      </div>
+      <div class="info-row">
+        <div class="info-key">Spinning Method</div>
+        <div class="info-val">Melt spinning (no solvents required — environmentally cleaner than Kevlar)</div>
+      </div>
+      <div class="info-row">
+        <div class="info-key">Processing Temp.</div>
+        <div class="info-val">~280–320 °C (melt); post-cure at ~200–250 °C</div>
+      </div>
+      <div class="info-row">
+        <div class="info-key">Orientation Method</div>
+        <div class="info-val">Self-aligning LCP chains + shear alignment in spinneret (no drawing needed)</div>
+      </div>
+      <div class="info-row">
+        <div class="info-key">Post-Processing</div>
+        <div class="info-val">Solid-state heat treatment under tension in inert atmosphere</div>
+      </div>
+    </div>
+
+    <div class="exam-tip">
+      <strong>⭐ Exam Tip</strong>
+      A key examiner question: "Why is no drawing step needed for Vectran?" — Answer: Because the LCP chains self-align in the thermotropic mesophase melt. The spinneret shear finalises orientation. Compare to Kevlar (solution spun, wet/dry-jet) or Dyneema (gel-spun, UHMWPE).
+    </div>
+  </section>
+
+  <!-- ── SECTION 3: PROPERTIES ── -->
+  <section class="section" id="properties">
+    <div class="section-header">
+      <div class="section-number">03</div>
+      <div>
+        <div class="section-title">Properties</div>
+        <div class="section-subtitle">Mechanical · Thermal · Chemical · Physical</div>
+      </div>
+    </div>
+
+    <h3 style="font-family:'DM Mono',monospace;font-size:12px;color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;">Relative Performance (vs. other HPFs)</h3>
+
+    <div class="prop-bars" id="propBars">
+      <div class="prop-row">
+        <div class="prop-label">Tensile Strength</div>
+        <div class="prop-bar-track"><div class="prop-bar-fill" data-val="88"></div></div>
+        <div class="prop-val">~3.2 GPa</div>
+      </div>
+      <div class="prop-row">
+        <div class="prop-label">Tensile Modulus</div>
+        <div class="prop-bar-track"><div class="prop-bar-fill" data-val="75"></div></div>
+        <div class="prop-val">~75 GPa</div>
+      </div>
+      <div class="prop-row">
+        <div class="prop-label">Thermal Stability</div>
+        <div class="prop-bar-track"><div class="prop-bar-fill" data-val="85"></div></div>
+        <div class="prop-val">330 °C (melt)</div>
+      </div>
+      <div class="prop-row">
+        <div class="prop-label">Chemical Resistance</div>
+        <div class="prop-bar-track"><div class="prop-bar-fill" data-val="90"></div></div>
+        <div class="prop-val">Excellent</div>
+      </div>
+      <div class="prop-row">
+        <div class="prop-label">Moisture Absorption</div>
+        <div class="prop-bar-track"><div class="prop-bar-fill" data-val="5" style="background:linear-gradient(90deg,#5a8c20,#8aaa40);"></div></div>
+        <div class="prop-val">&lt;0.1%</div>
+      </div>
+      <div class="prop-row">
+        <div class="prop-label">UV Resistance</div>
+        <div class="prop-bar-track"><div class="prop-bar-fill" data-val="45" style="background:linear-gradient(90deg,#8c5a20,#aa8a40);"></div></div>
+        <div class="prop-val">Moderate</div>
+      </div>
+      <div class="prop-row">
+        <div class="prop-label">Abrasion Resistance</div>
+        <div class="prop-bar-track"><div class="prop-bar-fill" data-val="95"></div></div>
+        <div class="prop-val">Outstanding</div>
+      </div>
+      <div class="prop-row">
+        <div class="prop-label">Creep Resistance</div>
+        <div class="prop-bar-track"><div class="prop-bar-fill" data-val="92"></div></div>
+        <div class="prop-val">Excellent</div>
+      </div>
+    </div>
+
+    <div class="card-grid">
+      <div class="card">
+        <h3>🔩 Mechanical Properties</h3>
+        <p>
+          <strong>Tensile strength:</strong> ~2.9–3.2 GPa<br>
+          <strong>Tensile modulus:</strong> ~65–75 GPa<br>
+          <strong>Elongation at break:</strong> ~3.3–3.8%<br>
+          <strong>Specific strength:</strong> ~2.3 N/tex<br>
+          <strong>Density:</strong> 1.40–1.41 g/cm³<br>
+          High <strong>flex fatigue</strong> resistance — superior to para-aramids.
+        </p>
+      </div>
+      <div class="card">
+        <h3>🌡️ Thermal Properties</h3>
+        <p>
+          <strong>Melting point:</strong> ~330 °C<br>
+          <strong>Tg (glass transition):</strong> ~110–120 °C (broad)<br>
+          <strong>LOI:</strong> ~40% (inherently flame retardant)<br>
+          <strong>Continuous use temp:</strong> ~150 °C<br>
+          Low thermal shrinkage. No significant strength loss up to ~170 °C. Does NOT support combustion easily.
+        </p>
+      </div>
+      <div class="card">
+        <h3>⚗️ Chemical Properties</h3>
+        <p>
+          Resistant to most <strong>acids, bases, and organic solvents</strong>.<br>
+          Poor resistance to <strong>strong oxidising acids</strong>.<br>
+          Excellent resistance to <strong>hydrolysis</strong> — unlike nylon or polyester.<br>
+          <strong>Moisture absorption &lt; 0.1%</strong> — virtually zero moisture uptake, maintaining properties in wet conditions.
+        </p>
+      </div>
+      <div class="card">
+        <h3>⚡ Unique Characteristics</h3>
+        <p>
+          <strong>No creep</strong> under sustained load (unlike UHMWPE).<br>
+          Outstanding <strong>cut &amp; abrasion resistance</strong>.<br>
+          Excellent <strong>vibration damping</strong>.<br>
+          <strong>Low dielectric constant</strong> — useful in EMI/radar applications.<br>
+          <strong>UV sensitivity</strong> — degrades with prolonged direct UV exposure (limitation).
+        </p>
+      </div>
+    </div>
+
+    <h3 style="font-family:'DM Mono',monospace;font-size:12px;color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin:24px 0 12px;">Detailed Property Table</h3>
+
+    <div class="info-table">
+      <div class="info-row">
+        <div class="info-key">Density</div>
+        <div class="info-val">1.40–1.41 g/cm³ (lighter than glass fiber 2.54 g/cm³)</div>
+      </div>
+      <div class="info-row">
+        <div class="info-key">Tensile Strength</div>
+        <div class="info-val">2.9–3.2 GPa (fiber); comparable to Kevlar 49</div>
+      </div>
+      <div class="info-row">
+        <div class="info-key">Tensile Modulus</div>
+        <div class="info-val">65–75 GPa (lower than Kevlar 49 at ~125 GPa)</div>
+      </div>
+      <div class="info-row">
+        <div class="info-key">Elongation at Break</div>
+        <div class="info-val">3.3–3.8% (slightly more elongation than Kevlar)</div>
+      </div>
+      <div class="info-row">
+        <div class="info-key">Moisture Regain</div>
+        <div class="info-val">&lt; 0.1% (extremely hydrophobic — best in class)</div>
+      </div>
+      <div class="info-row">
+        <div class="info-key">Melting Point</div>
+        <div class="info-val">~330 °C (processable thermoplastic — recyclable in principle)</div>
+      </div>
+      <div class="info-row">
+        <div class="info-key">LOI (Limiting Oxygen Index)</div>
+        <div class="info-val">~40% — inherently flame retardant, self-extinguishing</div>
+      </div>
+      <div class="info-row">
+        <div class="info-key">Creep</div>
+        <div class="info-val">Negligible creep under sustained tensile load</div>
+      </div>
+      <div class="info-row">
+        <div class="info-key">Flex Fatigue</div>
+        <div class="info-val">Excellent — significantly better than p-aramids under cyclic bending</div>
+      </div>
+      <div class="info-row">
+        <div class="info-key">UV Stability</div>
+        <div class="info-val">Moderate — degrades under prolonged UV; requires protection for outdoor use</div>
+      </div>
+      <div class="info-row">
+        <div class="info-key">Chemical Resistance</div>
+        <div class="info-val">Excellent to most chemicals, solvents, acids, and bases</div>
+      </div>
+      <div class="info-row">
+        <div class="info-key">Electrical Properties</div>
+        <div class="info-val">Low dielectric constant; good electrical insulator</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>⚠ Key Limitation</strong>
+      Vectran has relatively poor compressive strength and low UV resistance. In composite applications, it is often hybridised with carbon fiber (for compression) or given UV-protective coatings. The fiber is also difficult to bond with resins due to its smooth, inert surface — surface treatments (plasma, corona) are required.
+    </div>
+
+    <div class="exam-tip">
+      <strong>⭐ Exam Tip</strong>
+      Vectran's standout properties vs. competitors: (1) Near-zero creep (vs. UHMWPE which creeps significantly), (2) Moisture resistance &lt;0.1% (vs. Kevlar which absorbs ~4%), (3) Better flex fatigue than Kevlar, (4) Melt processable (unlike all other HPFs except LCP). These 4 points are high-value in exams.
+    </div>
+  </section>
+
+  <!-- ── SECTION 4: APPLICATIONS ── -->
+  <section class="section" id="applications">
+    <div class="section-header">
+      <div class="section-number">04</div>
+      <div>
+        <div class="section-title">Applications</div>
+        <div class="section-subtitle">Aerospace · Marine · Medical · Industrial · Defence</div>
+      </div>
+    </div>
+
+    <div class="app-grid">
+      <div class="app-tile">
+        <div class="emoji">🚀</div>
+        <h4>Aerospace</h4>
+        <p>Mars Rover airbags, spacecraft tethers, satellite structures, high-altitude balloon laminates</p>
+      </div>
+      <div class="app-tile">
+        <div class="emoji">⛵</div>
+        <h4>Marine</h4>
+        <p>Sailing ropes, halyards, sheets, mooring lines, anchor rode, deep-sea ROV tethers</p>
+      </div>
+      <div class="app-tile">
+        <div class="emoji">🛡️</div>
+        <h4>Defence</h4>
+        <p>Ballistic helmets, soft body armour, cut-resistant gloves, protective vest panels</p>
+      </div>
+      <div class="app-tile">
+        <div class="emoji">🏥</div>
+        <h4>Medical</h4>
+        <p>Surgical sutures, orthopaedic cables, endoscopic components, catheter reinforcement</p>
+      </div>
+      <div class="app-tile">
+        <div class="emoji">🏗️</div>
+        <h4>Construction</h4>
+        <p>Bridge cables, architectural membranes, high-load lifting slings, reinforcement tendons</p>
+      </div>
+      <div class="app-tile">
+        <div class="emoji">🔌</div>
+        <h4>Electronics</h4>
+        <p>Optical fiber cables, high-strength data cables, EMI shielding fabrics, printed circuit substrates</p>
+      </div>
+      <div class="app-tile">
+        <div class="emoji">🎒</div>
+        <h4>Consumer / Sport</h4>
+        <p>Cut-resistant gloves, high-performance tyres, sports equipment (racket strings, golf shafts)</p>
+      </div>
+      <div class="app-tile">
+        <div class="emoji">🏭</div>
+        <h4>Industrial</h4>
+        <p>Conveyor belts, hose reinforcement, gaskets, filtration media, crane slings</p>
+      </div>
+    </div>
+
+    <h3 style="font-family:'DM Mono',monospace;font-size:12px;color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin:24px 0 12px;">Notable Case Studies</h3>
+
+    <div class="info-table">
+      <div class="info-row">
+        <div class="info-key">NASA Mars Pathfinder</div>
+        <div class="info-val">Vectran airbags used to cushion the Mars Pathfinder and Spirit/Opportunity rovers on landing. Required zero moisture uptake and zero creep in vacuum. Vectran outperformed Kevlar in this application due to superior flex fatigue under repeated inflation cycles.</div>
+      </div>
+      <div class="info-row">
+        <div class="info-key">Deep-Sea Mooring</div>
+        <div class="info-val">Used in mooring lines at depths &gt;3,000 m. Its near-zero moisture absorption ensures consistent mechanical properties under sustained hydrostatic pressure. Creep resistance prevents elongation under long-term static load.</div>
+      </div>
+      <div class="info-row">
+        <div class="info-key">Racing Sailboat Rigging</div>
+        <div class="info-val">America's Cup yachts use Vectran running rigging. High strength, low weight, low stretch, and excellent fatigue resistance under cyclic loading (halyard sheets, control lines) make it ideal vs. traditional wire rope.</div>
+      </div>
+      <div class="info-row">
+        <div class="info-key">Cut-Resistant Gloves</div>
+        <div class="info-val">Vectran yarns woven into gloves provide ANSI/ISEA A6–A9 cut resistance. The hard aromatic polymer backbone resists cutting blades used in glass handling, metalworking, and food processing.</div>
+      </div>
+    </div>
+
+    <div class="exam-tip">
+      <strong>⭐ Exam Tip</strong>
+      The NASA Mars airbag application is a favourite exam question. Key reasons Vectran was chosen: (1) near-zero moisture absorption, (2) excellent flex fatigue over thousands of inflation cycles, (3) good low-temperature performance, (4) no creep. Mention all four if asked.
+    </div>
+  </section>
+
+  <!-- ── SECTION 5: COMPARISON ── -->
+  <section class="section" id="comparison">
+    <div class="section-header">
+      <div class="section-number">05</div>
+      <div>
+        <div class="section-title">Comparative Analysis</div>
+        <div class="section-subtitle">Vectran vs. Other High-Performance Fibers</div>
+      </div>
+    </div>
+
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Property</th>
+          <th>Vectran (LCP)</th>
+          <th>Kevlar 49 (p-Aramid)</th>
+          <th>Dyneema SK75 (UHMWPE)</th>
+          <th>Carbon Fiber (HM)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Polymer Type</td>
+          <td class="highlight-cell">LCP Aromatic Polyester</td>
+          <td>Para-aramid</td>
+          <td>UHMWPE</td>
+          <td>Carbon</td>
+        </tr>
+        <tr>
+          <td>Tensile Strength (GPa)</td>
+          <td class="highlight-cell">~3.0–3.2</td>
+          <td>~3.0–3.6</td>
+          <td>~3.5–4.0</td>
+          <td>~3.5–7.0</td>
+        </tr>
+        <tr>
+          <td>Tensile Modulus (GPa)</td>
+          <td>~65–75</td>
+          <td>~125</td>
+          <td>~100–150</td>
+          <td class="highlight-cell">~230–900</td>
+        </tr>
+        <tr>
+          <td>Density (g/cm³)</td>
+          <td>1.40</td>
+          <td>1.44</td>
+          <td class="highlight-cell">0.97 (floats!)</td>
+          <td>1.76</td>
+        </tr>
+        <tr>
+          <td>Moisture Absorption</td>
+          <td class="highlight-cell">&lt;0.1%</td>
+          <td>~3.5–4%</td>
+          <td>&lt;0.1%</td>
+          <td>~0%</td>
+        </tr>
+        <tr>
+          <td>Creep</td>
+          <td class="highlight-cell">Negligible</td>
+          <td>Very Low</td>
+          <td>Significant</td>
+          <td>Negligible</td>
+        </tr>
+        <tr>
+          <td>Flex Fatigue</td>
+          <td class="highlight-cell">Excellent</td>
+          <td>Moderate</td>
+          <td>Good</td>
+          <td>Poor (brittle)</td>
+        </tr>
+        <tr>
+          <td>UV Resistance</td>
+          <td>Moderate</td>
+          <td>Poor</td>
+          <td>Good</td>
+          <td class="highlight-cell">Excellent</td>
+        </tr>
+        <tr>
+          <td>Max Service Temp.</td>
+          <td class="highlight-cell">~150–170 °C</td>
+          <td>~180 °C</td>
+          <td>~80–100 °C</td>
+          <td>&gt;300 °C</td>
+        </tr>
+        <tr>
+          <td>Melt Processable</td>
+          <td class="highlight-cell">Yes (LCP)</td>
+          <td>No</td>
+          <td>Yes (low Tm)</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>Cost</td>
+          <td>High</td>
+          <td>Moderate–High</td>
+          <td>High</td>
+          <td>Very High</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <strong>Vectran's Niche</strong>
+      Vectran occupies a unique niche where <em>both creep resistance AND flex fatigue resistance</em> are critical, AND where moisture must not affect performance. No other single HPF combines all three. This makes it irreplaceable in marine ropes, aerospace inflatables, and surgical applications.
+    </div>
+  </section>
+
+  <!-- ── SECTION 6: SUMMARY ── -->
+  <section class="section" id="summary">
+    <div class="section-header">
+      <div class="section-number">06</div>
+      <div>
+        <div class="section-title">Exam Summary</div>
+        <div class="section-subtitle">Key Points to Remember</div>
+      </div>
+    </div>
+
+    <div class="card-grid">
+      <div class="card">
+        <h3>📌 Manufacture — Must Know</h3>
+        <p>
+          • LCP = Aromatic copolyester (HBA + HNA)<br>
+          • Only commercially melt-spun LCP fiber<br>
+          • Monomers: 73% HBA + 27% HNA<br>
+          • Thermotropic mesophase — chains self-align<br>
+          • No drawing needed<br>
+          • Post-cure heat treatment ↑ MW &amp; strength<br>
+          • Made by: Kuraray Co., Ltd. (Japan)<br>
+          • No solvents → cleaner process than Kevlar
+        </p>
+      </div>
+      <div class="card">
+        <h3>📌 Properties — Must Know</h3>
+        <p>
+          • Tensile strength ~3.0–3.2 GPa<br>
+          • Density: 1.40 g/cm³<br>
+          • Moisture absorption &lt;0.1%<br>
+          • Melting point ~330 °C<br>
+          • LOI ~40% (flame retardant)<br>
+          • Negligible creep under sustained load<br>
+          • Excellent flex fatigue resistance<br>
+          • Moderate UV resistance (limitation)
+        </p>
+      </div>
+      <div class="card">
+        <h3>📌 Applications — Must Know</h3>
+        <p>
+          • NASA Mars Rover airbags<br>
+          • Marine ropes &amp; deep-sea mooring<br>
+          • Ballistic protection (helmets, vests)<br>
+          • Racing sailboat rigging<br>
+          • Surgical sutures &amp; medical cables<br>
+          • Cut-resistant gloves<br>
+          • Optical fiber cable reinforcement<br>
+          • Architectural / civil engineering cables
+        </p>
+      </div>
+    </div>
+
+    <div class="exam-tip">
+      <strong>⭐ Final Exam Tips</strong>
+      1. Define LCP and explain why no drawing is needed.<br>
+      2. Know the monomer names and ratio (HBA:HNA = 73:27).<br>
+      3. Know that Kuraray is the manufacturer (not Celanese anymore).<br>
+      4. Compare Vectran to Kevlar: moisture absorption (&lt;0.1% vs ~4%), flex fatigue (better), modulus (lower for Vectran).<br>
+      5. Compare Vectran to Dyneema: creep (negligible vs significant), service temp (higher), no UV advantage over Dyneema.<br>
+      6. Mars Rover application: explain why Vectran was chosen (flex fatigue + no moisture + no creep).<br>
+      7. Key limitation: poor UV resistance and compressive strength. Surface treatment needed for composites.
+    </div>
+
+    <div class="callout">
+      <strong>One-Line Definition for Exam</strong>
+      "Vectran is a high-performance multifilament yarn produced by melt spinning of an aromatic thermotropic liquid crystal copolyester (HBA/HNA), manufactured exclusively by Kuraray Co. Ltd., offering exceptional tensile strength, negligible creep, near-zero moisture absorption, and outstanding flex fatigue resistance, with applications spanning aerospace, marine, defence, and medical engineering."
+    </div>
+  </section>
+
+</div>
+
+<script>
+  // ── Fiber strand animation ──
+  const canvas = document.getElementById('fiberCanvas');
+  const ctx = canvas.getContext('2d');
+
+  function resize() {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const strands = Array.from({length: 18}, (_, i) => ({
+    x: (i / 17) * 1.2 - 0.1,
+    phase: Math.random() * Math.PI * 2,
+    amp: 8 + Math.random() * 18,
+    speed: 0.004 + Math.random() * 0.006,
+    color: `hsl(${90 + Math.random() * 40}, ${50 + Math.random() * 30}%, ${30 + Math.random() * 30}%)`,
+    width: 0.5 + Math.random() * 1.2,
+  }));
+
+  let t = 0;
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    t += 1;
+    strands.forEach(s => {
+      ctx.beginPath();
+      ctx.strokeStyle = s.color;
+      ctx.lineWidth = s.width;
+      ctx.globalAlpha = 0.6;
+      const startX = s.x * canvas.width;
+      ctx.moveTo(startX, 0);
+      for (let y = 0; y <= canvas.height; y += 3) {
+        const wave = Math.sin((y / canvas.height) * Math.PI * 4 + s.phase + t * s.speed) * s.amp;
+        ctx.lineTo(startX + wave, y);
+      }
+      ctx.stroke();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+
+  // ── Scroll-triggered section reveal ──
+  const sections = document.querySelectorAll('.section');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        // Animate bars if in properties section
+        if (e.target.id === 'properties') {
+          setTimeout(() => {
+            document.querySelectorAll('.prop-bar-fill').forEach(bar => {
+              bar.style.width = bar.dataset.val + '%';
+            });
+          }, 200);
+        }
+      }
+    });
+  }, { threshold: 0.1 });
+
+  sections.forEach(s => observer.observe(s));
+
+  // ── TOC navigation ──
+  function scrollTo(id) {
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // ── Active TOC highlight ──
+  const tocBtns = document.querySelectorAll('.toc-btn');
+  const sectionIds = ['intro', 'manufacture', 'properties', 'applications', 'comparison', 'summary'];
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sectionIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (el && el.getBoundingClientRect().top < 120) current = id;
+    });
+    tocBtns.forEach((btn, i) => {
+      btn.classList.toggle('active', sectionIds[i] === current);
+    });
+  });
+</script>
+</body>
+</html>
