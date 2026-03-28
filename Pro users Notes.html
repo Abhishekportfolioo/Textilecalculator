@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TextileNotes — Engineering Study Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root {
+      --bg:#07080c; --sf:#10131a; --sf2:#181c28; --sf3:#1e2333;
+      --bd:rgba(255,255,255,.07); --bd2:rgba(255,255,255,.12);
+      --tx:#eef0f8; --tx2:#a8b0c8; --mu:#5e6882;
+      --ac:#ff6b35; --ach:#ff8c5e; --ac2:#ffd166;
+      --gn:#28c76f; --bl:#4a9eff; --rd:#ff4d6d;
+      --glow:rgba(255,107,53,.18);
+      --fd:'Syne',sans-serif; --fb:'DM Sans',sans-serif;
+      --r:14px; --r2:20px;
+      --ease:cubic-bezier(.4,0,.2,1); --dur:.28s;
+    }
+    [data-theme=light]{
+      --bg:#f1f3f8; --sf:#fff; --sf2:#e8ecf4; --sf3:#dde2ef;
+      --bd:rgba(0,0,0,.07); --bd2:rgba(0,0,0,.12);
+      --tx:#0f1220; --tx2:#3c4560; --mu:#7a85a0;
+      --glow:rgba(255,107,53,.08);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--fb);background:var(--bg);color:var(--tx);min-height:100vh;overflow-x:hidden;transition:background var(--dur) var(--ease),color var(--dur) var(--ease);}
+    ::-webkit-scrollbar{width:5px;}
+    ::-webkit-scrollbar-thumb{background:var(--sf3);border-radius:99px;}
+
+    /* BG */
+    .bg-fx{position:fixed;inset:0;z-index:0;pointer-events:none;
+      background:radial-gradient(ellipse 70% 55% at 5% 0%,rgba(255,107,53,.13) 0%,transparent 65%),
+                 radial-gradient(ellipse 55% 45% at 95% 100%,rgba(74,158,255,.10) 0%,transparent 65%),
+                 radial-gradient(ellipse 40% 40% at 50% 50%,rgba(255,209,102,.04) 0%,transparent 70%);}
+    [data-theme=light] .bg-fx{
+      background:radial-gradient(ellipse 70% 55% at 5% 0%,rgba(255,107,53,.06) 0%,transparent 65%),
+                 radial-gradient(ellipse 55% 45% at 95% 100%,rgba(74,158,255,.05) 0%,transparent 65%);}
+
+    .wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:0 22px 100px;}
+
+    /* NAVBAR */
+    .navbar{position:sticky;top:0;z-index:200;display:flex;align-items:center;justify-content:space-between;
+      padding:14px 24px;background:rgba(7,8,12,.84);backdrop-filter:blur(22px) saturate(160%);
+      border-bottom:1px solid var(--bd);transition:background var(--dur) var(--ease);}
+    [data-theme=light] .navbar{background:rgba(241,243,248,.9);}
+    .nav-brand{display:flex;align-items:center;gap:9px;text-decoration:none;}
+    .nav-brand-icon{font-size:1.5rem;line-height:1;}
+    .nav-brand-name{font-family:var(--fd);font-size:1.25rem;font-weight:800;color:var(--tx);letter-spacing:-.5px;}
+    .nav-brand-name em{color:var(--ac);font-style:normal;}
+    .nav-right{display:flex;align-items:center;gap:10px;}
+
+    /* Nav chat btn */
+    .nav-chat-btn{display:flex;align-items:center;gap:7px;padding:8px 16px;border-radius:99px;
+      background:linear-gradient(135deg,var(--ac),#e8501f);color:#fff;border:none;
+      font-family:var(--fb);font-size:.83rem;font-weight:700;cursor:pointer;
+      transition:var(--dur) var(--ease);box-shadow:0 4px 18px rgba(255,107,53,.35);}
+    .nav-chat-btn:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(255,107,53,.45);}
+    .dot-live{width:7px;height:7px;border-radius:50%;background:#fff;display:inline-block;
+      animation:pdot 1.8s infinite;}
+    @keyframes pdot{0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,.4);}50%{box-shadow:0 0 0 5px rgba(255,255,255,0);}}
+
+    /* Theme toggle */
+    .theme-track{width:52px;height:28px;border-radius:99px;cursor:pointer;
+      background:var(--sf3);border:1px solid var(--bd2);position:relative;
+      transition:background var(--dur) var(--ease);flex-shrink:0;}
+    .theme-track:hover{border-color:var(--ac);}
+    .theme-pip{position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;
+      background:var(--ac);display:flex;align-items:center;justify-content:center;
+      font-size:.65rem;color:#fff;
+      transition:transform .35s cubic-bezier(.34,1.56,.64,1),background var(--dur) var(--ease);
+      box-shadow:0 2px 8px rgba(255,107,53,.5);}
+    [data-theme=light] .theme-pip{transform:translateX(24px);}
+
+    /* HERO */
+    .hero{padding:72px 0 56px;text-align:center;}
+    .hero-pill{display:inline-flex;align-items:center;gap:7px;
+      background:rgba(255,107,53,.11);border:1px solid rgba(255,107,53,.28);
+      color:var(--ac);padding:5px 15px;border-radius:99px;
+      font-size:.82rem;font-weight:700;margin-bottom:26px;letter-spacing:.3px;
+      animation:fup .55s var(--ease) both;}
+    .hero-h1{font-family:var(--fd);font-size:clamp(2.2rem,5.5vw,4rem);
+      font-weight:800;line-height:1.08;margin-bottom:18px;
+      animation:fup .6s var(--ease) .08s both;}
+    .ca{color:var(--ac);} .ca2{color:var(--ac2);}
+    .hero-p{color:var(--tx2);font-size:1.1rem;max-width:580px;margin:0 auto 36px;line-height:1.7;
+      animation:fup .6s var(--ease) .16s both;}
+    .hero-kpis{display:flex;justify-content:center;gap:36px;flex-wrap:wrap;
+      animation:fup .6s var(--ease) .24s both;}
+    .kpi-v{font-family:var(--fd);font-size:2rem;font-weight:800;color:var(--ac);line-height:1;}
+    .kpi-l{font-size:.76rem;color:var(--mu);text-transform:uppercase;letter-spacing:1px;margin-top:3px;}
+    @keyframes fup{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:none;}}
+
+    /* ANNOUNCE */
+    .announce{display:flex;gap:14px;align-items:flex-start;
+      background:linear-gradient(100deg,rgba(255,209,102,.10),rgba(255,107,53,.10));
+      border:1px solid rgba(255,209,102,.25);border-radius:var(--r2);
+      padding:16px 20px;margin-bottom:44px;}
+    .an-icon{font-size:1.25rem;flex-shrink:0;margin-top:1px;}
+    .an-lbl{font-size:.72rem;font-weight:800;color:var(--ac2);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;}
+    .an-body{font-size:.88rem;color:var(--tx2);line-height:1.55;}
+    .an-body li{list-style:none;padding:2px 0;}
+    .an-body li::before{content:"→ ";color:var(--ac);font-weight:800;}
+
+    /* SEARCH */
+    .search-row{display:flex;gap:12px;align-items:center;margin-bottom:16px;flex-wrap:wrap;}
+    .s-box{position:relative;flex:1;min-width:220px;}
+    .s-box i{position:absolute;left:16px;top:50%;transform:translateY(-50%);
+      color:var(--mu);font-size:.95rem;pointer-events:none;transition:color var(--dur) var(--ease);}
+    .s-box.focused i{color:var(--ac);}
+    .s-input{width:100%;padding:12px 38px 12px 44px;
+      background:var(--sf);border:1.5px solid var(--bd);border-radius:99px;
+      color:var(--tx);font-family:var(--fb);font-size:.94rem;outline:none;
+      transition:border-color var(--dur) var(--ease),box-shadow var(--dur) var(--ease),background var(--dur) var(--ease);}
+    .s-input::placeholder{color:var(--mu);}
+    .s-input:focus{border-color:var(--ac);box-shadow:0 0 0 3px rgba(255,107,53,.14);background:var(--sf2);}
+    .s-clear{position:absolute;right:14px;top:50%;transform:translateY(-50%);
+      background:none;border:none;color:var(--mu);cursor:pointer;font-size:.95rem;
+      display:none;line-height:1;transition:color var(--dur) var(--ease);}
+    .s-clear:hover{color:var(--ac);}
+    .s-clear.vis{display:block;}
+    .filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:36px;}
+    .chip{padding:7px 16px;border-radius:99px;font-size:.82rem;font-weight:600;
+      border:1.5px solid var(--bd);background:var(--sf2);color:var(--tx2);
+      cursor:pointer;transition:var(--dur) var(--ease);white-space:nowrap;}
+    .chip:hover{border-color:var(--ac);color:var(--ac);}
+    .chip.active{background:var(--ac);border-color:var(--ac);color:#fff;}
+    .s-info{font-size:.82rem;color:var(--mu);margin-bottom:16px;min-height:18px;}
+
+    /* GRID */
+    .sec-ttl{font-family:var(--fd);font-size:1.45rem;font-weight:700;
+      display:flex;align-items:center;gap:10px;margin-bottom:22px;}
+    .sec-ttl::after{content:'';flex:1;height:1px;background:var(--bd);}
+    .sem-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px;margin-bottom:60px;}
+    .sem-card{background:var(--sf);border:1.5px solid var(--bd);border-radius:var(--r2);
+      padding:22px;cursor:pointer;position:relative;overflow:hidden;
+      transition:transform var(--dur) var(--ease),border-color var(--dur) var(--ease),box-shadow var(--dur) var(--ease);}
+    .sem-card::after{content:'';position:absolute;inset:0;background:var(--glow);opacity:0;transition:opacity var(--dur) var(--ease);}
+    .sem-card:hover{transform:translateY(-5px);box-shadow:0 14px 44px rgba(0,0,0,.28);}
+    .sem-card:hover::after{opacity:1;}
+    .sem-card.av{border-color:rgba(40,199,111,.28);} .sem-card.av:hover{border-color:var(--gn);}
+    .sem-card.cs{opacity:.75;} .sem-card.cs:hover{border-color:rgba(255,107,53,.4);opacity:1;}
+    .sem-n{font-family:var(--fd);font-size:3.2rem;font-weight:800;color:var(--ac);line-height:1;margin-bottom:4px;}
+    .sem-nm{font-weight:700;font-size:.94rem;margin-bottom:12px;}
+    .sem-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
+    .tag{padding:2px 10px;border-radius:99px;font-size:.68rem;font-weight:700;letter-spacing:.4px;text-transform:uppercase;}
+    .tg{background:rgba(40,199,111,.13);color:var(--gn);border:1px solid rgba(40,199,111,.28);}
+    .to{background:rgba(255,107,53,.13);color:var(--ac);border:1px solid rgba(255,107,53,.28);}
+    .tb{background:rgba(74,158,255,.13);color:var(--bl);border:1px solid rgba(74,158,255,.28);}
+    .sem-sb{font-size:.81rem;color:var(--tx2);line-height:1.55;margin-bottom:12px;}
+    .sem-stars{display:flex;gap:3px;}
+    .star{font-size:.88rem;color:var(--mu);cursor:pointer;transition:color .15s,transform .15s;}
+    .star:hover,.star.on{color:var(--ac2);} .star:hover{transform:scale(1.25);}
+    .no-res{grid-column:1/-1;text-align:center;padding:56px 20px;color:var(--mu);}
+    .no-res-icon{font-size:2.5rem;margin-bottom:14px;}
+
+    /* COUNTDOWN */
+    .cd-card{background:var(--sf);border:1.5px solid var(--bd);border-radius:var(--r2);
+      padding:40px 24px;text-align:center;margin-bottom:60px;}
+    .cd-ttl{font-family:var(--fd);font-size:1.35rem;font-weight:700;margin-bottom:5px;}
+    .cd-sub{color:var(--mu);font-size:.88rem;margin-bottom:30px;}
+    .cd-row{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;}
+    .cd-box{background:var(--sf2);border:1px solid var(--bd);border-radius:12px;padding:14px 20px;min-width:82px;}
+    .cd-v{font-family:var(--fd);font-size:2.6rem;font-weight:800;color:var(--ac);line-height:1;}
+    .cd-l{font-size:.68rem;color:var(--mu);text-transform:uppercase;letter-spacing:1px;margin-top:3px;}
+
+    /* SUBSCRIBE */
+    .sub-card{background:linear-gradient(135deg,rgba(255,107,53,.09),rgba(74,158,255,.09));
+      border:1.5px solid var(--bd);border-radius:var(--r2);padding:44px 28px;text-align:center;margin-bottom:60px;}
+    .sub-h{font-family:var(--fd);font-size:1.55rem;font-weight:700;margin-bottom:8px;}
+    .sub-p{color:var(--tx2);font-size:.94rem;margin-bottom:26px;}
+    .sub-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;max-width:480px;margin:0 auto;}
+    .sub-in{flex:1;min-width:210px;padding:12px 20px;background:var(--sf);
+      border:1.5px solid var(--bd);border-radius:99px;color:var(--tx);
+      font-family:var(--fb);font-size:.94rem;outline:none;
+      transition:border-color var(--dur) var(--ease),box-shadow var(--dur) var(--ease);}
+    .sub-in::placeholder{color:var(--mu);}
+    .sub-in:focus{border-color:var(--ac);box-shadow:0 0 0 3px rgba(255,107,53,.14);}
+    .sub-btn{padding:12px 26px;border-radius:99px;border:none;background:var(--ac);color:#fff;
+      font-weight:700;font-family:var(--fb);font-size:.94rem;cursor:pointer;transition:var(--dur) var(--ease);}
+    .sub-btn:hover{background:#e8501f;transform:translateY(-2px);}
+    .fm{margin-top:13px;font-size:.88rem;display:none;}
+    .fm.ok{color:var(--gn);} .fm.er{color:var(--rd);}
+
+    /* MODAL */
+    .overlay{display:none;position:fixed;inset:0;z-index:400;
+      background:rgba(0,0,0,.72);backdrop-filter:blur(10px);
+      align-items:center;justify-content:center;padding:18px;}
+    .overlay.open{display:flex;}
+    .modal{background:var(--sf);border:1.5px solid var(--bd2);border-radius:var(--r2);
+      width:100%;max-width:680px;max-height:88vh;overflow-y:auto;position:relative;
+      animation:pop .3s cubic-bezier(.34,1.56,.64,1) both;}
+    @keyframes pop{from{opacity:0;transform:scale(.9) translateY(16px);}}
+    .m-head{padding:26px 26px 0;display:flex;align-items:flex-start;gap:12px;justify-content:space-between;}
+    .m-ttl{font-family:var(--fd);font-size:1.4rem;font-weight:700;}
+    .m-x{width:32px;height:32px;border-radius:99px;flex-shrink:0;
+      background:var(--sf2);border:1px solid var(--bd);color:var(--mu);cursor:pointer;font-size:.9rem;
+      display:flex;align-items:center;justify-content:center;transition:var(--dur) var(--ease);}
+    .m-x:hover{background:var(--rd);border-color:var(--rd);color:#fff;}
+    .m-body{padding:22px 26px 28px;}
+    .m-sub{margin-bottom:22px;}
+    .m-sub-ttl{font-weight:700;font-size:.95rem;padding-bottom:8px;
+      border-bottom:1px solid var(--bd);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+    .m-sub-ttl i{color:var(--ac);}
+    .m-topics{list-style:none;display:flex;flex-direction:column;gap:5px;margin-bottom:12px;}
+    .m-topics li{font-size:.85rem;color:var(--tx2);padding:6px 12px;
+      background:var(--sf2);border-radius:8px;display:flex;align-items:center;gap:8px;}
+    .m-topics li::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--ac);flex-shrink:0;}
+    .m-btns{display:flex;gap:8px;flex-wrap:wrap;}
+    .m-dl,.m-vw{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;
+      font-size:.83rem;font-weight:700;text-decoration:none;transition:var(--dur) var(--ease);
+      cursor:pointer;border:1.5px solid transparent;}
+    .m-dl{background:rgba(40,199,111,.12);color:var(--gn);border-color:rgba(40,199,111,.25);}
+    .m-dl:hover{background:var(--gn);color:#fff;}
+
+
+    /* ═══ CHAPTER NOTE CARDS — generic, colour via --nc CSS variable ═══ */
+    .note-cards-label{
+      display:flex;align-items:center;gap:8px;
+      font-size:.72rem;font-weight:800;color:var(--tx2);
+      text-transform:uppercase;letter-spacing:.6px;
+      margin:16px 0 10px;padding-top:14px;
+      border-top:1px dashed var(--bd2);}
+    .note-cards-label i{color:var(--ac2);}
+    .note-cards-grid{
+      display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));
+      gap:10px;margin-bottom:4px;}
+
+    /* Single reusable card — colour driven entirely by --nc:R,G,B set inline */
+    .note-card-btn{
+      --nc:74,158,255;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      gap:8px;padding:16px 10px;border-radius:14px;text-decoration:none;
+      background:linear-gradient(135deg,rgba(var(--nc),.13),rgba(var(--nc),.05));
+      border:1.5px solid rgba(var(--nc),.28);
+      cursor:pointer;position:relative;overflow:hidden;
+      transition:transform .22s cubic-bezier(.34,1.56,.64,1),
+                 box-shadow .22s ease,border-color .2s ease;}
+    .note-card-btn::before{
+      content:'';position:absolute;inset:0;opacity:0;
+      background:linear-gradient(135deg,rgba(var(--nc),.20),rgba(var(--nc),.07));
+      transition:opacity .2s ease;}
+    .note-card-btn:hover{
+      transform:translateY(-5px) scale(1.03);
+      border-color:rgba(var(--nc),1);
+      box-shadow:0 10px 30px rgba(var(--nc),.28);}
+    .note-card-btn:hover::before{opacity:1;}
+    .note-card-btn:active{transform:translateY(-1px) scale(.98);}
+
+    .ncb-icon{
+      width:42px;height:42px;border-radius:12px;
+      display:flex;align-items:center;justify-content:center;
+      font-size:1.15rem;flex-shrink:0;
+      background:rgba(var(--nc),.18);color:rgb(var(--nc));
+      transition:transform .2s ease;}
+    .note-card-btn:hover .ncb-icon{transform:scale(1.14) rotate(-5deg);}
+    .ncb-label{
+      font-size:.8rem;font-weight:700;text-align:center;
+      line-height:1.3;color:rgb(var(--nc));}
+    .ncb-arrow{
+      font-size:.62rem;opacity:.6;margin-top:-2px;
+      color:rgb(var(--nc));}
+
+    /* FOOTER */
+    footer{text-align:center;color:var(--mu);font-size:.83rem;padding:36px 0 0;border-top:1px solid var(--bd);}
+    .f-soc{display:flex;justify-content:center;gap:10px;margin-top:14px;}
+    .f-a{width:36px;height:36px;border-radius:50%;background:var(--sf2);border:1px solid var(--bd);
+      color:var(--mu);display:flex;align-items:center;justify-content:center;
+      text-decoration:none;font-size:.88rem;transition:var(--dur) var(--ease);}
+    .f-a:hover{background:var(--ac);border-color:var(--ac);color:#fff;transform:translateY(-3px);}
+
+    /* TOAST */
+    #toast{position:fixed;bottom:24px;right:24px;z-index:9000;
+      background:var(--sf2);border:1px solid var(--bd2);border-radius:12px;padding:12px 18px;
+      font-size:.88rem;display:flex;align-items:center;gap:9px;
+      box-shadow:0 8px 36px rgba(0,0,0,.32);
+      transform:translateY(60px);opacity:0;
+      transition:.32s cubic-bezier(.34,1.56,.64,1);pointer-events:none;max-width:320px;}
+    #toast.show{transform:none;opacity:1;}
+
+
+    /* ═══════════════════ SUGGESTION FORM ═══════════════════ */
+    .suggest-card{background:var(--sf);border:1.5px solid var(--bd);border-radius:var(--r2);padding:40px 32px;margin-bottom:60px;}
+    .suggest-head{display:flex;align-items:center;gap:12px;margin-bottom:6px;}
+    .suggest-icon{width:42px;height:42px;border-radius:12px;background:rgba(74,158,255,.13);
+      border:1px solid rgba(74,158,255,.25);display:flex;align-items:center;justify-content:center;
+      font-size:1.1rem;flex-shrink:0;}
+    .suggest-h{font-family:var(--fd);font-size:1.4rem;font-weight:700;}
+    .suggest-p{color:var(--tx2);font-size:.92rem;margin-bottom:28px;padding-left:54px;}
+    .suggest-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+    @media(max-width:560px){.suggest-grid{grid-template-columns:1fr;}}
+    .sg-field{display:flex;flex-direction:column;gap:6px;}
+    .sg-field.full{grid-column:1/-1;}
+    .sg-label{font-size:.78rem;font-weight:700;color:var(--tx2);text-transform:uppercase;letter-spacing:.5px;}
+    .sg-input,.sg-select,.sg-textarea{width:100%;padding:11px 15px;background:var(--sf2);
+      border:1.5px solid var(--bd);border-radius:10px;color:var(--tx);
+      font-family:var(--fb);font-size:.9rem;outline:none;
+      transition:border-color var(--dur) var(--ease),box-shadow var(--dur) var(--ease);}
+    .sg-input:focus,.sg-select:focus,.sg-textarea:focus{border-color:var(--bl);box-shadow:0 0 0 3px rgba(74,158,255,.13);}
+    .sg-input::placeholder,.sg-textarea::placeholder{color:var(--mu);}
+    .sg-select{cursor:pointer;appearance:none;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237a85a0' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat:no-repeat;background-position:right 14px center;}
+    .sg-select option{background:var(--sf2);color:var(--tx);}
+    .sg-textarea{resize:vertical;min-height:100px;}
+    .sg-char{font-size:.72rem;color:var(--mu);text-align:right;margin-top:2px;}
+    .sg-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:4px;}
+    .sg-note{font-size:.8rem;color:var(--mu);display:flex;align-items:center;gap:6px;}
+    .sg-btn{padding:12px 28px;border-radius:99px;border:none;
+      background:linear-gradient(135deg,var(--bl),#2563eb);color:#fff;
+      font-weight:700;font-family:var(--fb);font-size:.94rem;cursor:pointer;
+      transition:var(--dur) var(--ease);display:flex;align-items:center;gap:8px;}
+    .sg-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(74,158,255,.35);}
+    .sg-btn:disabled{opacity:.5;cursor:default;transform:none;box-shadow:none;}
+    .sg-msg{margin-top:14px;font-size:.88rem;display:none;padding:10px 16px;border-radius:10px;}
+    .sg-msg.ok{background:rgba(40,199,111,.1);color:var(--gn);border:1px solid rgba(40,199,111,.25);}
+    .sg-msg.er{background:rgba(255,77,109,.1);color:var(--rd);border:1px solid rgba(255,77,109,.25);}
+    .type-pills{display:flex;gap:8px;flex-wrap:wrap;}
+    .type-pill{padding:6px 14px;border-radius:99px;font-size:.78rem;font-weight:600;
+      border:1.5px solid var(--bd);background:var(--sf2);color:var(--tx2);
+      cursor:pointer;transition:var(--dur) var(--ease);}
+    .type-pill:hover{border-color:var(--bl);color:var(--bl);}
+    .type-pill.sel{background:rgba(74,158,255,.15);border-color:var(--bl);color:var(--bl);}
+
+
+    /* ═══ NEW SCHEME COUNTDOWN ═══ */
+    .cd-card2{background:linear-gradient(135deg,rgba(255,209,102,.10),rgba(255,107,53,.08));
+      border:1.5px solid rgba(255,209,102,.30);border-radius:var(--r2);
+      padding:40px 24px;text-align:center;margin-bottom:60px;position:relative;overflow:hidden;}
+    .cd-card2::before{content:'';position:absolute;inset:0;
+      background:radial-gradient(ellipse 60% 60% at 50% 0%,rgba(255,209,102,.08),transparent 70%);
+      pointer-events:none;}
+    .cd-card2 .cd-badge{display:inline-flex;align-items:center;gap:7px;
+      background:rgba(255,209,102,.18);border:1px solid rgba(255,209,102,.35);
+      color:var(--ac2);padding:4px 14px;border-radius:99px;
+      font-size:.72rem;font-weight:800;letter-spacing:.5px;text-transform:uppercase;margin-bottom:14px;}
+    .cd-card2 .cd-ttl{font-family:var(--fd);font-size:1.35rem;font-weight:700;margin-bottom:5px;color:var(--tx);}
+    .cd-card2 .cd-sub{color:var(--tx2);font-size:.88rem;margin-bottom:30px;}
+    .cd-card2 .cd-box{background:rgba(255,209,102,.10);border:1px solid rgba(255,209,102,.25);border-radius:12px;padding:14px 20px;min-width:82px;}
+    .cd-card2 .cd-v{font-family:var(--fd);font-size:2.6rem;font-weight:800;color:var(--ac2);line-height:1;}
+    .cd-card2 .cd-l{font-size:.68rem;color:var(--mu);text-transform:uppercase;letter-spacing:1px;margin-top:3px;}
+
+
+    /* ═══ 8TH SEM COUNTDOWN ═══ */
+    .cd-card3{background:linear-gradient(135deg,rgba(40,199,111,.09),rgba(74,158,255,.07));
+      border:1.5px solid rgba(40,199,111,.28);border-radius:var(--r2);
+      padding:40px 24px;text-align:center;margin-bottom:60px;position:relative;overflow:hidden;}
+    .cd-card3::before{content:'';position:absolute;inset:0;
+      background:radial-gradient(ellipse 60% 60% at 50% 0%,rgba(40,199,111,.07),transparent 70%);
+      pointer-events:none;}
+    .cd-card3 .cd-badge{display:inline-flex;align-items:center;gap:7px;
+      background:rgba(40,199,111,.15);border:1px solid rgba(40,199,111,.32);
+      color:var(--gn);padding:4px 14px;border-radius:99px;
+      font-size:.72rem;font-weight:800;letter-spacing:.5px;text-transform:uppercase;margin-bottom:14px;}
+    .cd-card3 .cd-ttl{font-family:var(--fd);font-size:1.35rem;font-weight:700;margin-bottom:5px;color:var(--tx);}
+    .cd-card3 .cd-sub{color:var(--tx2);font-size:.88rem;margin-bottom:30px;}
+    .cd-card3 .cd-box{background:rgba(40,199,111,.09);border:1px solid rgba(40,199,111,.22);border-radius:12px;padding:14px 20px;min-width:82px;}
+    .cd-card3 .cd-v{font-family:var(--fd);font-size:2.6rem;font-weight:800;color:var(--gn);line-height:1;}
+    .cd-card3 .cd-l{font-size:.68rem;color:var(--mu);text-transform:uppercase;letter-spacing:1px;margin-top:3px;}
+
+    /* ═══════════════════ CHATBOT ═══════════════════ */
+    .chat-fab{position:fixed;bottom:28px;left:28px;z-index:500;
+      width:56px;height:56px;border-radius:50%;
+      background:linear-gradient(135deg,var(--ac),#e8501f);
+      border:none;cursor:pointer;color:#fff;font-size:1.25rem;
+      display:flex;align-items:center;justify-content:center;
+      box-shadow:0 6px 28px rgba(255,107,53,.5);
+      transition:transform .25s cubic-bezier(.34,1.56,.64,1),box-shadow var(--dur) var(--ease);}
+    .chat-fab:hover{transform:scale(1.1);box-shadow:0 8px 36px rgba(255,107,53,.6);}
+    .fab-badge{position:absolute;top:-3px;right:-3px;width:16px;height:16px;border-radius:50%;
+      background:var(--gn);border:2px solid var(--bg);
+      display:flex;align-items:center;justify-content:center;
+      font-size:.55rem;font-weight:900;color:#fff;}
+
+    .chat-win{position:fixed;bottom:96px;left:28px;z-index:499;
+      width:370px;max-width:calc(100vw - 40px);height:520px;max-height:calc(100vh - 130px);
+      background:var(--sf);border:1.5px solid var(--bd2);border-radius:20px;
+      box-shadow:0 20px 60px rgba(0,0,0,.45);
+      display:flex;flex-direction:column;overflow:hidden;
+      transform:scale(.92) translateY(16px);opacity:0;pointer-events:none;
+      transition:transform .3s cubic-bezier(.34,1.56,.64,1),opacity .25s var(--ease);}
+    .chat-win.open{transform:none;opacity:1;pointer-events:all;}
+
+    .chat-head{display:flex;align-items:center;gap:11px;padding:15px 16px 14px;
+      background:linear-gradient(135deg,rgba(255,107,53,.18),rgba(255,107,53,.06));
+      border-bottom:1px solid var(--bd);flex-shrink:0;}
+    .chat-av{width:36px;height:36px;border-radius:50%;
+      background:linear-gradient(135deg,var(--ac),#e8501f);
+      display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+    .chat-info{flex:1;min-width:0;}
+    .chat-nm{font-weight:700;font-size:.92rem;}
+    .chat-st{font-size:.72rem;color:var(--gn);display:flex;align-items:center;gap:5px;}
+    .chat-st::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gn);animation:pdot 2s infinite;}
+    .chat-xb{background:none;border:none;color:var(--mu);cursor:pointer;font-size:1rem;
+      width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+      transition:background var(--dur) var(--ease),color var(--dur) var(--ease);}
+    .chat-xb:hover{background:rgba(255,77,109,.15);color:var(--rd);}
+
+    .chat-chips{display:flex;gap:7px;flex-wrap:wrap;padding:10px 14px 0;flex-shrink:0;}
+    .cchip{padding:5px 11px;border-radius:99px;font-size:.72rem;font-weight:600;
+      border:1px solid var(--bd2);background:var(--sf2);color:var(--tx2);
+      cursor:pointer;transition:var(--dur) var(--ease);white-space:nowrap;}
+    .cchip:hover{border-color:var(--ac);color:var(--ac);background:rgba(255,107,53,.08);}
+
+    .chat-msgs{flex:1;overflow-y:auto;padding:14px 14px 8px;display:flex;flex-direction:column;gap:10px;}
+    .chat-msgs::-webkit-scrollbar{width:4px;}
+    .chat-msgs::-webkit-scrollbar-thumb{background:var(--sf3);border-radius:99px;}
+
+    .msg{display:flex;gap:8px;animation:min .28s var(--ease) both;}
+    @keyframes min{from{opacity:0;transform:translateY(8px);}}
+    .msg.usr{flex-direction:row-reverse;}
+    .msg-av{width:28px;height:28px;border-radius:50%;flex-shrink:0;
+      display:flex;align-items:center;justify-content:center;font-size:.8rem;margin-top:2px;}
+    .msg-av.bot{background:linear-gradient(135deg,var(--ac),#e8501f);}
+    .msg-av.usr{background:var(--sf3);color:var(--tx2);}
+    .msg-bub{max-width:78%;padding:9px 13px;border-radius:14px;font-size:.87rem;line-height:1.55;}
+    .msg.bot .msg-bub{background:var(--sf2);color:var(--tx);border-bottom-left-radius:4px;}
+    .msg.usr .msg-bub{background:var(--ac);color:#fff;border-bottom-right-radius:4px;}
+    .typing{display:flex;gap:4px;padding:10px 13px;}
+    .tdot{width:7px;height:7px;border-radius:50%;background:var(--mu);animation:blink 1.2s infinite ease-in-out;}
+    .tdot:nth-child(2){animation-delay:.2s;} .tdot:nth-child(3){animation-delay:.4s;}
+    @keyframes blink{0%,80%,100%{transform:scale(.7);opacity:.4;}40%{transform:scale(1);opacity:1;}}
+
+    .chat-in-row{display:flex;gap:8px;padding:12px 14px;border-top:1px solid var(--bd);flex-shrink:0;background:var(--sf);}
+    .chat-in{flex:1;padding:9px 14px;border-radius:99px;background:var(--sf2);
+      border:1.5px solid var(--bd);color:var(--tx);font-family:var(--fb);
+      font-size:.88rem;outline:none;transition:border-color var(--dur) var(--ease);
+      resize:none;max-height:80px;}
+    .chat-in:focus{border-color:var(--ac);}
+    .chat-in::placeholder{color:var(--mu);}
+    .chat-send{width:36px;height:36px;border-radius:50%;border:none;flex-shrink:0;
+      background:var(--ac);color:#fff;cursor:pointer;font-size:.9rem;
+      display:flex;align-items:center;justify-content:center;align-self:flex-end;
+      transition:var(--dur) var(--ease);}
+    .chat-send:hover{background:#e8501f;transform:scale(1.08);}
+    .chat-send:disabled{opacity:.45;cursor:default;transform:none;}
+
+    .msg-bub strong{font-weight:700;} .msg-bub em{font-style:italic;}
+    .msg-bub ul{padding-left:16px;margin:4px 0;} .msg-bub li{margin-bottom:3px;}
+    .msg-bub code{background:rgba(255,255,255,.1);padding:1px 5px;border-radius:4px;font-size:.82rem;font-family:monospace;}
+  </style>
+</head>
+<body>
+<div class="bg-fx"></div>
+
+<nav class="navbar">
+  <a class="nav-brand" href="#">
+    <span class="nav-brand-icon">🧵</span>
+    <span class="nav-brand-name">Textile<em>Notes</em></span>
+  </a>
+  <div class="nav-right">
+    <button class="nav-chat-btn" id="navChatBtn">
+      <span class="dot-live"></span> Ask AI
+    </button>
+    <div class="theme-track" id="themeTrack" title="Toggle theme">
+      <div class="theme-pip" id="themePip"><i class="fas fa-moon" id="themeIco"></i></div>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-pill"><i class="fas fa-graduation-cap"></i> Department of Textile Engineering</div>
+    <h1 class="hero-h1">Semester-Wise Notes <span class="ca">Coming Soon</span><br>— <span class="ca2">Stay Ahead</span></h1>
+    <p class="hero-p">Comprehensive study materials covering Fiber Science, Yarn &amp; Fabric Manufacturing, Chemical Processing, and more — now with a live AI study assistant.</p>
+    <div class="hero-kpis">
+      <div><div class="kpi-v">300+</div><div class="kpi-l">Notes</div></div>
+      <div><div class="kpi-v">8</div><div class="kpi-l">Semesters</div></div>
+      <div><div class="kpi-v" id="kpiDl">0</div><div class="kpi-l">Downloads</div></div>
+      <div><div class="kpi-v" id="kpiSub">0</div><div class="kpi-l">Subscribers</div></div>
+    </div>
+  </section>
+
+  <!-- ANNOUNCE -->
+  <div class="announce">
+    <div class="an-icon">📢</div>
+    <div>
+      <div class="an-lbl">Latest Updates</div>
+      <ul class="an-body">
+        <li>🆕 Semesters 1, 2, 3, 4, 5, 6, 7 &amp; 8 notes now LIVE!</li>
+        <li>Sem 3: E&amp;IE, FM I, ITIP, TRM, WP, YM I — all uploaded</li>
+        <li>Sem 5: AWT I, GMT, YM III, TT, PEO &amp; Papers — all uploaded</li>
+        <li>Sem 7: Non Woven, PCS, POMT, Papers — uploaded</li>
+        <li>Sem 8: Technical Textiles, HPF, Textile Costing — uploaded</li>
+        <li>🤖 AI Study Assistant is LIVE — tap "Ask AI" to try it!</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SEARCH + FILTER -->
+  <div class="search-row">
+    <div class="s-box" id="sBox">
+      <i class="fas fa-search"></i>
+      <input class="s-input" id="sIn" type="text" placeholder="Search semesters, subjects, topics… (Ctrl+K)" autocomplete="off"/>
+      <button class="s-clear" id="sClear">×</button>
+    </div>
+  </div>
+  <div class="filter-row" id="filterRow">
+    <button class="chip active" data-f="all">All</button>
+    <button class="chip" data-f="av">✓ Available</button>
+    <button class="chip" data-f="cs">⏳ Coming Soon</button>
+    <button class="chip" data-f="s1">Sem 1</button>
+    <button class="chip" data-f="s2">Sem 2</button>
+    <button class="chip" data-f="s3-4">Sem 3–4</button>
+    <button class="chip" data-f="s5-8">Sem 5–8</button>
+  </div>
+  <div class="s-info" id="sInfo"></div>
+
+  <!-- GRID -->
+  <h2 class="sec-ttl"><i class="fas fa-book-open" style="color:var(--ac)"></i> Semester Notes</h2>
+  <div class="sem-grid" id="semGrid"></div>
+
+  <!-- COUNTDOWN -->
+  <div class="cd-card">
+    <div class="cd-ttl">⏳ Next Release In</div>
+    <div class="cd-sub">Semester 3 &amp; 4 notes are being prepared</div>
+    <div class="cd-row">
+      <div class="cd-box"><div class="cd-v" id="cdD">00</div><div class="cd-l">Days</div></div>
+      <div class="cd-box"><div class="cd-v" id="cdH">00</div><div class="cd-l">Hours</div></div>
+      <div class="cd-box"><div class="cd-v" id="cdM">00</div><div class="cd-l">Mins</div></div>
+      <div class="cd-box"><div class="cd-v" id="cdS">00</div><div class="cd-l">Secs</div></div>
+    </div>
+  </div>
+
+
+  <!-- NEW SCHEME COUNTDOWN -->
+  <div class="cd-card2">
+    <div class="cd-badge">🆕 Coming Soon</div>
+    <div class="cd-ttl">New Scheme Notes Available In</div>
+    <div class="cd-sub">Fresh syllabus, updated content — new scheme notes are on their way!</div>
+    <div class="cd-row">
+      <div class="cd-box"><div class="cd-v" id="ns-D">00</div><div class="cd-l">Days</div></div>
+      <div class="cd-box"><div class="cd-v" id="ns-H">00</div><div class="cd-l">Hours</div></div>
+      <div class="cd-box"><div class="cd-v" id="ns-M">00</div><div class="cd-l">Mins</div></div>
+      <div class="cd-box"><div class="cd-v" id="ns-S">00</div><div class="cd-l">Secs</div></div>
+    </div>
+  </div>
+
+
+  <!-- 8TH SEM COMPLETE COUNTDOWN -->
+  <div class="cd-card3">
+    <div class="cd-badge">🎓 Final Semester</div>
+    <div class="cd-ttl">Complete 8th Semester Notes Available In</div>
+    <div class="cd-sub">Full coverage of TT, HPF, Textile Costing, Question Papers &amp; more — coming soon!</div>
+    <div class="cd-row">
+      <div class="cd-box"><div class="cd-v" id="s8-D">00</div><div class="cd-l">Days</div></div>
+      <div class="cd-box"><div class="cd-v" id="s8-H">00</div><div class="cd-l">Hours</div></div>
+      <div class="cd-box"><div class="cd-v" id="s8-M">00</div><div class="cd-l">Mins</div></div>
+      <div class="cd-box"><div class="cd-v" id="s8-S">00</div><div class="cd-l">Secs</div></div>
+    </div>
+  </div>
+
+  <!-- SUBSCRIBE -->
+  <div class="sub-card">
+    <div class="sub-h">Get Notified on New Releases</div>
+    <div class="sub-p">We'll email you when new semester notes drop. No spam, ever.</div>
+    <div class="sub-row">
+      <input class="sub-in" id="emailIn" type="email" placeholder="your@email.com"/>
+      <button class="sub-btn" id="subBtn">Notify Me</button>
+    </div>
+    <div class="fm" id="formMsg"></div>
+  </div>
+
+
+  <!-- SUGGESTION FORM -->
+  <div class="suggest-card" id="suggestSection">
+    <div class="suggest-head">
+      <div class="suggest-icon"><i class="fas fa-lightbulb" style="color:var(--bl)"></i></div>
+      <div class="suggest-h">Share Your Suggestions</div>
+    </div>
+    <p class="suggest-p">Help us improve TextileNotes — request missing notes, report errors, or suggest new features.</p>
+
+    <div class="suggest-grid">
+      <!-- Type pills -->
+      <div class="sg-field full">
+        <div class="sg-label">Type of Suggestion</div>
+        <div class="type-pills" id="typePills">
+          <span class="type-pill sel" data-v="Request Missing Notes">📚 Request Notes</span>
+          <span class="type-pill" data-v="Report an Error">🐛 Report Error</span>
+          <span class="type-pill" data-v="Feature Request">✨ Feature Request</span>
+          <span class="type-pill" data-v="General Feedback">💬 General Feedback</span>
+        </div>
+        <input type="hidden" id="sgType" value="Request Missing Notes"/>
+      </div>
+
+      <!-- Name -->
+      <div class="sg-field">
+        <label class="sg-label" for="sgName">Your Name <span style="color:var(--mu)">(optional)</span></label>
+        <input class="sg-input" id="sgName" type="text" placeholder="e.g. Rahul Sharma" maxlength="60"/>
+      </div>
+
+      <!-- Semester -->
+      <div class="sg-field">
+        <label class="sg-label" for="sgSem">Related Semester</label>
+        <select class="sg-select" id="sgSem">
+          <option value="General">General / All Semesters</option>
+          <option value="Semester 1">Semester 1</option>
+          <option value="Semester 2">Semester 2</option>
+          <option value="Semester 3">Semester 3</option>
+          <option value="Semester 4">Semester 4</option>
+          <option value="Semester 5">Semester 5</option>
+          <option value="Semester 6">Semester 6</option>
+          <option value="Semester 7">Semester 7</option>
+          <option value="Semester 8">Semester 8</option>
+        </select>
+      </div>
+
+      <!-- Subject -->
+      <div class="sg-field full">
+        <label class="sg-label" for="sgSubject">Subject / Topic <span style="color:var(--mu)">(optional)</span></label>
+        <input class="sg-input" id="sgSubject" type="text" placeholder="e.g. Yarn Manufacturing, Fabric Structure…" maxlength="80"/>
+      </div>
+
+      <!-- Message -->
+      <div class="sg-field full">
+        <label class="sg-label" for="sgMsg">Your Message <span style="color:var(--rd)">*</span></label>
+        <textarea class="sg-textarea" id="sgMsg" placeholder="Describe what you'd like us to add, fix, or improve…" maxlength="600"></textarea>
+        <div class="sg-char"><span id="sgCharCount">0</span> / 600</div>
+      </div>
+    </div>
+
+    <div class="sg-footer">
+      <div class="sg-note"><i class="fas fa-lock" style="color:var(--mu)"></i> Your feedback is private and goes directly to our team</div>
+      <button class="sg-btn" id="sgBtn"><i class="fas fa-paper-plane"></i> Send Suggestion</button>
+    </div>
+    <div class="sg-msg" id="sgFormMsg"></div>
+  </div>
+
+  <footer>
+    <p>© 2025 TextileNotes · Made for Textile Engineering students worldwide</p>
+    <div class="f-soc">
+      <a class="f-a" href="#"><i class="fab fa-facebook-f"></i></a>
+      <a class="f-a" href="#"><i class="fab fa-twitter"></i></a>
+      <a class="f-a" href="#"><i class="fab fa-instagram"></i></a>
+      <a class="f-a" href="#"><i class="fab fa-linkedin-in"></i></a>
+    </div>
+  </footer>
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay">
+  <div class="modal" id="modal">
+    <div class="m-head">
+      <div class="m-ttl" id="mTtl"></div>
+      <button class="m-x" id="mX"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="m-body" id="mBody"></div>
+  </div>
+</div>
+
+<!-- CHATBOT FAB -->
+<button class="chat-fab" id="chatFab" title="Ask AI Tutor">
+  <i class="fas fa-robot"></i>
+  <span class="fab-badge">AI</span>
+</button>
+
+<!-- CHAT WINDOW -->
+<div class="chat-win" id="chatWin">
+  <div class="chat-head">
+    <div class="chat-av">🤖</div>
+    <div class="chat-info">
+      <div class="chat-nm">TextileBot AI</div>
+      <div class="chat-st">Online — Ask me anything</div>
+    </div>
+    <button class="chat-xb" id="chatXb"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="chat-chips" id="chatChips">
+    <span class="cchip" data-q="What topics are covered in Semester 1?">📚 Sem 1</span>
+    <span class="cchip" data-q="Explain yarn manufacturing in simple terms">🧵 Yarn Mfg</span>
+    <span class="cchip" data-q="What is fiber science and why is it important?">🔬 Fiber Sci</span>
+    <span class="cchip" data-q="Give me 5 tips to prepare for textile engineering exams">✏️ Exam Tips</span>
+  </div>
+  <div class="chat-msgs" id="chatMsgs"></div>
+  <div class="chat-in-row">
+    <textarea class="chat-in" id="chatIn" placeholder="Ask about any textile topic…" rows="1"></textarea>
+    <button class="chat-send" id="chatSend"><i class="fas fa-paper-plane"></i></button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"><span id="toastIco">✅</span><span id="toastTxt"></span></div>
+
+<script>
+/* ═══ HELPERS ═══ */
+const $=(s,c=document)=>c.querySelector(s);
+const $$=(s,c=document)=>[...c.querySelectorAll(s)];
+const ls=(k,fb)=>{try{const v=localStorage.getItem(k);return v!==null?JSON.parse(v):fb;}catch{return fb;}};
+const lss=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));}catch{}};
+
+/* ═══ DATA ═══ */
+const SEMS=[
+  {sem:1,av:true,notes:45,subs:["Mathematics-I","Physics","Basic Engineering","Communication Skills"],
+   topics:{"Mathematics-I":["Differential Calculus","Integral Calculus","Vector Algebra","Matrices & Determinants","Probability & Statistics"],
+           "Physics":["Properties of Matter","Thermodynamics","Optics","Modern Physics","Physics of Textile Materials"],
+           "Basic Engineering":["Engineering Drawing","Workshop Practice","Computer Basics","Engineering Materials","Safety Engineering"],
+           "Communication Skills":["Technical Writing","Presentation Skills","Report Writing","Professional Communication","Language Lab"]},
+   links:{"Mathematics-I":"https://drive.google.com/drive/folders/1Ffk8fn7oTBcnmC0dAhtyZ2m_jKzzWS4M","Physics":"https://drive.google.com/drive/folders/1FNCmzE1zGekeysF7DgJ0hGP_4dxgAyBZ","Basic Engineering":"https://drive.google.com/drive/folders/1EtM4lcmtjMqlRKW5M3u4Op223RUb6hGx","Communication Skills":"#"}},
+  {sem:2,av:true,notes:38,subs:["Mathematics-II","Electrical Engineering","Mechanical Engineering","Computer Fundamentals","Environmental Studies"],
+   topics:{"Mathematics-II":["Complex Numbers","Differential Equations","Laplace Transforms","Fourier Series","Numerical Methods"],
+           "Electrical Engineering":["DC Circuits","AC Circuits","Transformers","Electrical Machines","Mill Electrical Systems"],
+           "Mechanical Engineering":["Engineering Mechanics","Strength of Materials","Thermodynamics","Fluid Mechanics","Textile Machinery Basics"],
+           "Computer Fundamentals":["Programming in C","Data Structures","Computer Organisation","Operating Systems","CAD for Textiles"],
+           "Environmental Studies":["Ecosystems","Pollution Control","Environmental Laws","Sustainable Production","Waste Management"]},
+   links:{"Mathematics-II":"https://drive.google.com/drive/folders/1Ffk8fn7oTBcnmC0dAhtyZ2m_jKzzWS4M","Electrical Engineering":"https://drive.google.com/drive/folders/1EtM4lcmtjMqlRKW5M3u4Op223RUb6hGx","Mechanical Engineering":"https://drive.google.com/drive/folders/1FNCmzE1zGekeysF7DgJ0hGP_4dxgAyBZ","Computer Fundamentals":"#","Environmental Studies":"#"}},
+  {sem:3,av:true,notes:28,subs:["E&IE","FM I","ITIP","TRM","WP","YM I"],
+   topics:{"E&IE":["Electrical Principles","Industrial Electronics","Power Systems","Electrical Safety","Motor Control","Sensors & Transducers","Electrical Drives"],"FM I":["Fabric Manufacturing Basics","Warp Preparation","Weft Insertion","Loom Types","Weave Mechanisms","Shedding Motion","Beat-up & Take-up"],"ITIP":["Introduction to Industrial Processes","Process Flow","Plant Layout","Material Handling","Production Systems","Automation Basics","Industry Standards"],"TRM":["Textile Raw Materials","Natural Fibers","Synthetic Fibers","Fiber Properties","Fiber Grading","Raw Material Testing","Supply Chain"],"WP":["Winding & Pirning","Winding Machines","Yarn Tension","Package Build","Yarn Faults","Yarn Clearing","Speed & Efficiency"],"YM I":["Yarn Manufacturing I","Blow Room","Carding","Drawing","Combing","Speed Frame","Yarn Count & Twist"]},
+   links:{"E&IE":"https://drive.google.com/folderview?id=1Fd2TLPDurI8vTZPpkLmkgA59BBHhd5i6","FM I":"https://drive.google.com/folderview?id=1Ej-CXbHUbbkNaV2KcIWkmtIfNDbFPhN5","ITIP":"https://drive.google.com/folderview?id=1DiAKwdgtvCIVY9U1oE4QvfaornrNGlUN","TRM":"https://drive.google.com/folderview?id=1FJqkWrlah2IX6ZyGgLISml184qtsk4Rm","WP":"https://drive.google.com/folderview?id=1FPmTY7fQotvkvtRvRoW98z18dZKItz7x","YM I":"https://drive.google.com/folderview?id=1EF6oK9BVHpCGtYVJo48AW4rX06Q3nX9e"}},
+  {sem:4,av:true,notes:35,subs:["Yarn Manufacturing-II","Fabric Structure","Man Made Fiber Production","Computer Aided Textile Designing","Applied Statistics & Operation Research","Practicals"],
+   topics:{"Yarn Manufacturing-II":["Ring Spinning","Rotor Spinning","Air-Jet Spinning","Yarn Numbering","Twist & Winding","Open-End Spinning","Yarn Evenness"],
+           "Fabric Structure":["Plain Weave","Twill Weave","Satin Weave","Knit Structures","Non-woven Fabrics","Fabric Geometry","Woven Fabric Analysis"],
+           "Man Made Fiber Production":["Melt Spinning","Wet Spinning","Dry Spinning","Fiber Drawing","Surface Treatment","Polyester Production","Nylon Manufacturing"],
+           "Computer Aided Textile Designing":["2D Pattern Design","Weave Design Software","Color Matching","3D Garment Simulation","CAD Tools","Repeat Design","Jacquard Design"],
+           "Applied Statistics & Operation Research":["Descriptive Statistics","Probability Distributions","Linear Programming","Transportation Problems","Queuing Theory","Inventory Models","Simulation Techniques"],
+           "Practicals":["Yarn Count Determination","Fabric Sett Analysis","Weave Drafting","CAD Lab Exercises","Statistical Data Analysis","Fiber Identification","Spinning Experiments"]},
+   links:{"Yarn Manufacturing-II":"https://drive.google.com/folderview?id=1KnOzHxTt6wKX_V69sJGeBIGLTfKwT1Wu","Fabric Structure":"https://drive.google.com/folderview?id=1p3Sa1J9R7GRKm9ANHoYqqKsZ0AhDGjOw","Man Made Fiber Production":"https://drive.google.com/folderview?id=1O9EaMNfzhKYuGJ3uf2cdANeumdegKJgz","Computer Aided Textile Designing":"https://drive.google.com/folderview?id=1og3TJ1W6EqGc3Y5utvMsDwM8abzJaJiP","Applied Statistics & Operation Research":"https://drive.google.com/folderview?id=1KhyRvyk34ONO5EV83s7zbT58yaVRvRo3","Practicals":"https://drive.google.com/folderview?id=1dgH8cVui6HEf_otvUgPy4ngvZ3JeK5P_"}},
+  {sem:5,av:true,notes:32,subs:["5th Sem Papers","AWT I","GMT","YM III","TT (Textile Testing)","PEO"],
+   topics:{"5th Sem Papers":["Previous Year Question Papers","Model Papers","Exam Pattern","Important Questions","Solved Papers","Guess Papers","Unit-wise Questions"],"AWT I":["Advanced Weaving Technology I","Rapier Loom","Projectile Loom","Air-Jet Loom","Water-Jet Loom","Loom Settings","Weaving Defects"],"GMT":["Garment Manufacturing Technology","Pattern Making","Cutting Technology","Sewing Operations","Quality in Garments","Production Planning","Finishing Processes"],"YM III":["Yarn Manufacturing III","Ring Frame","Rotor Spinning","Friction Spinning","Winding","Yarn Quality","Productivity & Efficiency"],"TT (Textile Testing)":["Fiber Testing","Yarn Testing","Fabric Testing","Colour Fastness","Tensile Testing","Statistical Methods","Testing Standards"],"PEO":["Post Extrusion Operations","Drawing","Texturising","Winding","Heat Setting","Crimping","Fibre Cutting & Baling"]},
+   links:{"5th Sem Papers":"https://drive.google.com/folderview?id=1Z898ksrx7gsqCp0dnD_w2kRzAbkwfxDD","AWT I":"https://drive.google.com/folderview?id=1hGHsTIhd1micUDhK5ZGSi4xVfhakVrGQ","GMT":"https://drive.google.com/folderview?id=1z_L6TCQ1VEbBZjFeScYJjEvLtfpnk1q4","YM III":"https://drive.google.com/folderview?id=1UGTPMoS86YapcRRBNNgvQ_wu0QmCHM0C","TT (Textile Testing)":"https://drive.google.com/folderview?id=1aE4BM4_K_ckbI4eNBJ3DKWAJtfSOaEJQ","PEO":"https://drive.google.com/folderview?id=1-ZlXK4KDmf2saSxeQ4KK5WUbN6SNwW9d"}},
+  {sem:6,av:true,notes:30, subs:["ATT","SPF","ETS","MEM","AWT II","USYF","PMGC Lab"],
+   topics:{"ATT":["Advanced Textile Testing","Testing Instruments","Quality Parameters","Mechanical Testing","Chemical Testing","Standard Test Methods","Report Writing"],
+           "SPF":["Specialty & Performance Fibers","High-Performance Fibers","Aramid Fibers","Carbon Fibers","Ceramic Fibers","Smart Fibers","Application Areas"],
+           "ETS":["Entrepreneurship & Textile Science","Business Planning","Market Analysis","Textile Industry Economics","Start-up Management","Financial Planning","Case Studies"],
+           "MEM":["Mill Engineering & Management","Production Planning","Maintenance Systems","Resource Management","Costing Methods","Mill Layouts","Safety Management"],
+           "AWT II":["Advanced Weaving Technology II","High-Speed Looms","Shuttleless Weaving","Weave Defects","Loom Mechanisms","Fabric Inspection","Automation in Weaving"],
+           "USYF":["Unconventional Spinning & Yarn Formation","Air-Jet Spinning","Friction Spinning","Vortex Spinning","Core Spinning","Wrap Spinning","Fancy Yarns"],
+           "PMGC Lab":["PMGC Practical Work","Lab Exercises","Measurement Techniques","Sample Preparation","Testing Procedures","Data Analysis","Lab Reports"]},
+   links:{"ATT":"https://drive.google.com/folderview?id=1RPMuy8CeouZseGLPdhGxVehYi2VQBLIJ","SPF":"https://drive.google.com/folderview?id=1SnjkVDwlHHFDsWzU6dToN3hr_hG_FYJy","ETS":"https://drive.google.com/folderview?id=1SPEDk2aJXEEdEjxWy9qiS5N1M0NTvkfp","MEM":"https://drive.google.com/folderview?id=1SToZXr1LNefjhlGEwRsVAp1rZHPdNW5h","AWT II":"https://drive.google.com/folderview?id=1SHB6nTeAguq7Oyvu-7hSZrE-i85086XJ","USYF":"https://drive.google.com/folderview?id=1TNCKy31YyQgD6ql6es2EyHQGm49G0UnC","PMGC Lab":"https://drive.google.com/file/d/1Qnk7mnV1FuUSmDDI09rupErm9T0fKKH5/view?usp=drivesdk"}},
+  {sem:7,av:true,notes:22,subs:["Non Woven","PCS","POMT","Training","Seminars","7th Sem Papers"],
+   topics:{"Non Woven":["Introduction to Nonwovens","Dry-Laid Nonwovens","Wet-Laid Nonwovens","Spunbonded Fabrics","Meltblown Process","Bonding Methods","Applications of Nonwovens"],"PCS":["Process Control Systems","Statistical Process Control","Control Charts","Quality Management","Six Sigma Basics","Process Capability","SPC Tools"],"POMT":["Production Operation & Management in Textiles","Production Planning","Operations Research","Mill Management","Costing & Budgeting","Supply Chain Management","Lean Manufacturing"],"Training":["Industrial Training Notes","Practical Exposure","Factory Visits","Training Reports","Observations","Skill Development","Industry Practices"],"Seminars":["Seminar Presentations","Research Topics","Paper Writing","Presentation Skills","Technical Seminars","Guest Lectures","Industry Talks"],"7th Sem Papers":["Previous Year Question Papers","Model Papers","Important Questions","Solved Papers","Exam Pattern","Unit-wise MCQs","Short & Long Answer Questions"]},
+   links:{"Non Woven":"https://drive.google.com/folderview?id=11pWsccj2zlypRjAIM_ji2f4H4YkCRTB5","PCS":"https://drive.google.com/folderview?id=1FVjbmKXScJjWMr9oyeh4h7t9ILMVU8y7","POMT":"https://drive.google.com/folderview?id=1JC0ESbUSKo1HLIUlRa2vbZOjsAi099SA","Training":"#","Seminars":"#","7th Sem Papers":"https://drive.google.com/file/d/1fUIJnFHkAzDDD71wtPOa9TqbbdoP5baN/view?usp=drivesdk"}},
+  {sem:8,av:true,notes:22,subs:["TT (Technical Textile)","HPF","TC (Textile Costing)","Question Papers"],
+   topics:{
+     "TT (Technical Textile)":["Introduction to Technical Textiles","Geotextiles","Medical Textiles","Protective Textiles","Agrotextiles","Buildtech","Smart & Electronic Textiles"],
+     "HPF":["High Performance Fibers","Aramid Fibers","Carbon Fibers","UHMWPE","PBO Fibers","Ceramic Fibers","Applications of HPF"],
+     "TC (Textile Costing)":["Costing Fundamentals","Yarn Costing","Fabric Costing","Garment Costing","Overhead Allocation","Profitability Analysis","Export Costing"],
+     "Question Papers":["Previous Year Papers","Model Question Papers","Important Questions","Exam Pattern","Short Answer Questions","Long Answer Questions","Unit-wise Questions"]
+   },
+   links:{
+     "TT (Technical Textile)":"https://drive.google.com/folderview?id=15zF7QNXR5BydNqILdeGh7pLUgZrJH_y2",
+     "HPF":"https://drive.google.com/folderview?id=10RHJuCVU2osqcpwjoCgtLx40ombz7Xy4",
+     "TC (Textile Costing)":"https://drive.google.com/folderview?id=12mLkmpAIOzCSlj1e6ZrJJLhBxn5Y5QYj",
+     "Question Papers":"#"
+   },
+   subLinks:{
+     "TT (Technical Textile)":[
+       {label:"Technical",              file:"Technical.html",                       icon:"fas fa-cogs",          color:"74,158,255"},
+       {label:"Meditech",               file:"Meditech.html",                        icon:"fas fa-heartbeat",     color:"255,77,109"},
+       {label:"Meditech",               file:"Meditech ppt.html",                        icon:"fas fa-heartbeat",     color:"255,77,109"},
+
+       {label:"Agrotech",               file:"agrotech.html",                        icon:"fas fa-seedling",      color:"40,199,111"},
+       {label:"Geotextile",             file:"Geotextile.html",                      icon:"fas fa-layer-group",   color:"255,209,102"},
+       {label:"Protective Cloth",       file:"protective cloth.html",                icon:"fas fa-shield-alt",    color:"168,99,255"},
+       {label:"Automotive Textile",     file:"Automotive Textiles notes.html",              icon:"fas fa-car",           color:"255,107,53"},
+       {label:"Automotive Textile",     file:"Automotive Textiles ppt.html",              icon:"fas fa-car",           color:"255,107,53"},
+       {label:"Composites Textiles",    file:"Composites textiles.html",             icon:"fas fa-cubes",         color:"0,210,210",   coming:true},
+       {label:"Filtration",             file:"Filtration.html",                      icon:"fas fa-filter",        color:"255,165,0",   coming:true},
+       {label:"Ropes & Cordage",        file:"Ropes and Cordage.html",               icon:"fas fa-link",          color:"40,199,111",  coming:true},
+       {label:"Fibers in Tech Textiles",file:"Fibers in technical textiles.html",    icon:"fas fa-microscope",    color:"255,77,109",  coming:true}
+     ],
+     "HPF":[
+       {label:"Nomex",             file:"Nomex.html",             icon:"fas fa-fire-alt",      color:"255,107,53"},
+       {label:"Kevlar",            file:"Kevlar.html",            icon:"fas fa-shield-alt",    color:"255,209,102"},
+       {label:"Polyethylene",      file:"polyethylene.html",      icon:"fas fa-atom",          color:"74,158,255"},
+       {label:"Carbon Fibres",     file:"Carbon fibres.html",     icon:"fas fa-bolt",          color:"80,80,80"},
+       {label:"Vectran",           file:"Vectran.html",           icon:"fas fa-dna",           color:"40,199,111"},
+       {label:"PBO",               file:"PBO fiber.html",           icon:"fas fa-dna",           color:"40,199,111"},
+       {label:"PBO slides",               file:"PBO fiber notes slide.html", icon:"fas fa-dna",           color:"0,99,111"},
+
+       //{label:"Vectran",           file:"Vectran.html",           icon:"fas fa-dna",           color:"40,199,111"},
+
+       {label:"Glass Fibre",       file:"glass fibre.html",       icon:"fas fa-vial",          color:"0,210,210",   coming:true},
+       {label:"Optical Fibres",    file:"optical fibres.html",    icon:"fas fa-broadcast-tower",color:"168,99,255", coming:true},
+       {label:"Polymeric Fibres",  file:"polymeric fibres.html",  icon:"fas fa-project-diagram",color:"255,77,109", coming:true},
+       {label:"Nano Fibres",       file:"nano fibres.html",       icon:"fas fa-microscope",    color:"255,165,0",   coming:true}
+     ]
+   }},
+];
+
+/* ═══ STATE ═══ */
+let downloads=ls('tn_dl',0),subscribers=ls('tn_subs',[]),ratings=ls('tn_ratings',{});
+let chatHistory=[],curFilter='all',curQuery='';
+const save=()=>{lss('tn_dl',downloads);lss('tn_subs',subscribers);lss('tn_ratings',ratings);};
+
+/* ═══ TOAST ═══ */
+let toastT;
+function toast(msg,ico='✅'){
+  $('#toastTxt').textContent=msg;$('#toastIco').textContent=ico;
+  const el=$('#toast');el.classList.add('show');clearTimeout(toastT);
+  toastT=setTimeout(()=>el.classList.remove('show'),3400);}
+
+/* ═══ KPIS ═══ */
+const updKPI=()=>{$('#kpiDl').textContent=downloads;$('#kpiSub').textContent=subscribers.length;};
+
+/* ═══ THEME ═══ */
+let dark=ls('tn_dark',true);
+function applyTheme(){
+  document.documentElement.dataset.theme=dark?'dark':'light';
+  $('#themeIco').className=dark?'fas fa-moon':'fas fa-sun';
+  lss('tn_dark',dark);}
+$('#themeTrack').addEventListener('click',()=>{dark=!dark;applyTheme();
+  toast(dark?'Switched to dark mode 🌙':'Switched to light mode ☀️','');});
+applyTheme();
+
+/* ═══ SEARCH / FILTER ═══ */
+const semOkFilter=(s,f)=>{
+  if(f==='all')return true;if(f==='av')return s.av;if(f==='cs')return!s.av;
+  if(f==='s1')return s.sem===1;if(f==='s2')return s.sem===2;
+  if(f==='s3-4')return s.sem===3||s.sem===4;if(f==='s5-8')return s.sem>=5;
+  return true;};
+const semOkQuery=(s,q)=>{
+  if(!q)return true;const l=q.toLowerCase();
+  if(`semester ${s.sem}`.includes(l))return true;
+  if(s.subs.some(x=>x.toLowerCase().includes(l)))return true;
+  if(Object.values(s.topics).flat().some(x=>x.toLowerCase().includes(l)))return true;
+  return false;};
+
+function buildGrid(){
+  const grid=$('#semGrid');grid.innerHTML='';
+  const q=curQuery.toLowerCase().trim();let shown=0;
+  SEMS.forEach(s=>{
+    if(!semOkFilter(s,curFilter)||!semOkQuery(s,q))return;shown++;
+    const r=ratings[s.sem]||0;
+    const stars=[1,2,3,4,5].map(i=>`<span class="star ${i<=r?'on':''}" data-sem="${s.sem}" data-v="${i}">★</span>`).join('');
+    const card=document.createElement('div');
+    card.className=`sem-card ${s.av?'av':'cs'}`;
+    card.innerHTML=`
+      <div class="sem-n">${s.sem}</div>
+      <div class="sem-nm">Semester ${s.sem}</div>
+      <div class="sem-tags">${s.av?`<span class="tag tg">✓ Available</span><span class="tag tb">${s.notes} Notes</span>`:`<span class="tag to">⏳ Coming Soon</span>`}</div>
+      <div class="sem-sb">${s.subs.slice(0,3).join(' · ')}${s.subs.length>3?'…':''}</div>
+      <div class="sem-stars">${stars}</div>`;
+    card.querySelectorAll('.star').forEach(st=>{
+      st.addEventListener('click',e=>{e.stopPropagation();
+        ratings[+st.dataset.sem]=+st.dataset.v;save();buildGrid();
+        toast(`Rated Semester ${st.dataset.sem}: ${st.dataset.v} ★`,'⭐');});});
+    card.addEventListener('click',()=>{
+      if(s.av&&Object.keys(s.topics).length)openModal(s);
+      else toast(`Semester ${s.sem} notes coming soon!`,'⏳');});
+    grid.appendChild(card);});
+  if(!shown)grid.innerHTML=`<div class="no-res"><div class="no-res-icon">🔍</div><div>No results for "<strong>${escH(curQuery)}</strong>"</div></div>`;
+  $('#sInfo').textContent=q?`Showing ${shown} of ${SEMS.length} semesters for "${curQuery}"`:'';}
+
+$$('.chip',document).forEach(c=>{c.addEventListener('click',()=>{
+  $$('.chip').forEach(x=>x.classList.remove('active'));c.classList.add('active');
+  curFilter=c.dataset.f;buildGrid();});});
+
+const sIn=$('#sIn'),sClear=$('#sClear'),sBox=$('#sBox');
+sIn.addEventListener('focus',()=>sBox.classList.add('focused'));
+sIn.addEventListener('blur',()=>sBox.classList.remove('focused'));
+sIn.addEventListener('input',e=>{curQuery=e.target.value;sClear.classList.toggle('vis',!!curQuery);buildGrid();});
+sClear.addEventListener('click',()=>{sIn.value='';curQuery='';sClear.classList.remove('vis');sIn.focus();buildGrid();});
+document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();sIn.focus();}});
+
+/* ═══ MODAL ═══ */
+function openModal(s){
+  $('#mTtl').textContent=`Semester ${s.sem} — Notes`;
+  const b=$('#mBody');b.innerHTML='';
+  Object.entries(s.topics).forEach(([sub,tops])=>{
+    const lnk=s.links[sub]||'#';
+    const subs=(s.subLinks||{})[sub]||[];
+    // main button
+    let mainBtn;
+    if(lnk!=='#'){
+      mainBtn=`<a class="m-dl" href="${lnk}" target="_blank" rel="noopener"><i class="fas fa-download"></i> Download Folder</a>`;
+    } else {
+      mainBtn=`<span class="m-dl" style="opacity:.45;cursor:default"><i class="fas fa-download"></i> Coming Soon</span>`;
+    }
+    // sub-note cards — generic colour palette cycles automatically
+    // To customise a card: add  color:"R,G,B"  and/or  icon:"fas fa-xxx"  to its subLinks entry
+    const NC_PALETTE=[
+      '74,158,255',   // blue
+      '255,107,53',   // orange
+      '40,199,111',   // green
+      '255,209,102',  // gold
+      '255,77,109',   // red/pink
+      '168,99,255',   // purple
+      '0,210,210',    // cyan
+      '255,165,0',    // amber
+    ];
+    const NC_ICONS=[
+      'fas fa-file-alt','fas fa-book-open','fas fa-cogs','fas fa-seedling',
+      'fas fa-heartbeat','fas fa-layer-group','fas fa-flask','fas fa-microscope',
+    ];
+    const subBtns=subs.map((n,i)=>{
+      const rgb  = n.color || NC_PALETTE[i % NC_PALETTE.length];
+      const icon = n.icon  || NC_ICONS[i % NC_ICONS.length];
+      if(n.coming){
+        // Coming soon card — muted, not clickable
+        return `<div class="note-card-btn ncb-soon" style="--nc:${rgb};opacity:.45;cursor:default;pointer-events:none;">
+          <div class="ncb-icon" style="position:relative;">
+            <i class="${icon}"></i>
+            <span style="position:absolute;top:-5px;right:-5px;background:rgba(var(--nc),.9);
+              color:#fff;font-size:.52rem;font-weight:900;padding:1px 5px;border-radius:99px;
+              letter-spacing:.3px;text-transform:uppercase;">Soon</span>
+          </div>
+          <div class="ncb-label">${n.label}</div>
+          <div class="ncb-arrow">Coming Soon</div>
+        </div>`;
+      }
+      return `<a class="note-card-btn m-open-notes" href="${n.file}" target="_blank" rel="noopener"
+                 style="--nc:${rgb}">
+        <div class="ncb-icon"><i class="${icon}"></i></div>
+        <div class="ncb-label">${n.label}</div>
+        <div class="ncb-arrow">Open Notes ↗</div>
+      </a>`;
+    }).join('');
+    // sub-notes section
+    const subRow=subs.length
+      ? `<div>
+           <div class="note-cards-label"><i class="fas fa-star"></i> Chapter Notes</div>
+           <div class="note-cards-grid">${subBtns}</div>
+         </div>`
+      : '';
+    const d=document.createElement('div');d.className='m-sub';
+    d.innerHTML=`<div class="m-sub-ttl"><i class="fas fa-book"></i>${sub}</div>
+      <ul class="m-topics">${tops.map(t=>`<li>${escH(t)}</li>`).join('')}</ul>
+      <div class="m-btns">${mainBtn}</div>
+      ${subRow}`;
+    d.querySelectorAll('.m-dl[href],.m-open-notes[href]').forEach(a=>{a.addEventListener('click',()=>{
+      if(a.getAttribute('href')!=='#'){downloads++;save();updKPI();
+        toast(a.classList.contains('m-open-notes')?'Opening notes 📄':'Download started! 📥');}});});
+    b.appendChild(d);});
+  $('#overlay').classList.add('open');}
+$('#mX').addEventListener('click',()=>$('#overlay').classList.remove('open'));
+$('#overlay').addEventListener('click',e=>{if(e.target.id==='overlay')$('#overlay').classList.remove('open');});
+
+/* ═══ SUBSCRIBE ═══ */
+$('#subBtn').addEventListener('click',async()=>{
+  const email=$('#emailIn').value.trim(),msg=$('#formMsg');
+  if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    msg.className='fm er';msg.textContent='Please enter a valid email.';msg.style.display='block';return;}
+  if(subscribers.includes(email)){
+    msg.className='fm er';msg.textContent="Already subscribed! 🎉";msg.style.display='block';return;}
+  $('#subBtn').textContent='Sending…';$('#subBtn').disabled=true;
+  try{await fetch("https://formspree.io/f/xzdgkbla",{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({email})});}catch{}
+  subscribers.push(email);save();updKPI();$('#emailIn').value='';
+  msg.className='fm ok';msg.textContent="✅ You're subscribed!";msg.style.display='block';
+  toast('Subscribed! 🎉');$('#subBtn').textContent='Notify Me';$('#subBtn').disabled=false;});
+
+/* ═══ COUNTDOWN — global fixed target (same for every visitor) ═══ */
+// Target: 1 April 2025 00:00:00 UTC — change this date to set the next release deadline
+const CD_TARGET = new Date('2025-04-01T00:00:00Z').getTime();
+function tickCD(){
+  const d = CD_TARGET - Date.now();
+  if(d<=0){
+    $('#cdD').textContent='00';$('#cdH').textContent='00';
+    $('#cdM').textContent='00';$('#cdS').textContent='00';
+    return;
+  }
+  $('#cdD').textContent=String(Math.floor(d/86400000)).padStart(2,'0');
+  $('#cdH').textContent=String(Math.floor(d%86400000/3600000)).padStart(2,'0');
+  $('#cdM').textContent=String(Math.floor(d%3600000/60000)).padStart(2,'0');
+  $('#cdS').textContent=String(Math.floor(d%60000/1000)).padStart(2,'0');}
+setInterval(tickCD,1000);tickCD();
+
+
+/* ═══ NEW SCHEME COUNTDOWN — global fixed target ═══ */
+// Target: 1 July 2025 00:00:00 UTC — update this date when new scheme notes are ready
+const NS_TARGET = new Date('2025-07-01T00:00:00Z').getTime();
+function tickNS(){
+  const d = NS_TARGET - Date.now();
+  if(d<=0){
+    $('#ns-D').textContent='00';$('#ns-H').textContent='00';
+    $('#ns-M').textContent='00';$('#ns-S').textContent='00';
+    return;
+  }
+  $('#ns-D').textContent=String(Math.floor(d/86400000)).padStart(2,'0');
+  $('#ns-H').textContent=String(Math.floor(d%86400000/3600000)).padStart(2,'0');
+  $('#ns-M').textContent=String(Math.floor(d%3600000/60000)).padStart(2,'0');
+  $('#ns-S').textContent=String(Math.floor(d%60000/1000)).padStart(2,'0');}
+setInterval(tickNS,1000);tickNS();
+
+
+/* ═══ 8TH SEM COMPLETE COUNTDOWN — global fixed target ═══ */
+// Target: 1 June 2025 00:00:00 UTC — update when complete 8th sem notes are ready
+const S8_TARGET = new Date('2025-06-01T00:00:00Z').getTime();
+function tickS8(){
+  const d = S8_TARGET - Date.now();
+  if(d<=0){
+    $('#s8-D').textContent='00';$('#s8-H').textContent='00';
+    $('#s8-M').textContent='00';$('#s8-S').textContent='00';
+    return;
+  }
+  $('#s8-D').textContent=String(Math.floor(d/86400000)).padStart(2,'0');
+  $('#s8-H').textContent=String(Math.floor(d%86400000/3600000)).padStart(2,'0');
+  $('#s8-M').textContent=String(Math.floor(d%3600000/60000)).padStart(2,'0');
+  $('#s8-S').textContent=String(Math.floor(d%60000/1000)).padStart(2,'0');}
+setInterval(tickS8,1000);tickS8();
+
+/* ═══ AI CHATBOT ═══ */
+const chatWin=$('#chatWin'),chatMsgs=$('#chatMsgs'),chatIn=$('#chatIn'),chatSend=$('#chatSend');
+
+function toggleChat(force){
+  const open=force!==undefined?force:!chatWin.classList.contains('open');
+  chatWin.classList.toggle('open',open);
+  if(open&&chatMsgs.children.length===0){
+    addBotMsg("👋 Hi! I'm **TextileBot**, your AI tutor for Textile Engineering.\n\nAsk me about any subject — fiber science, yarn manufacturing, weave structures, exam preparation, or what notes are available on this site. I'm here to help!");}}
+
+$('#chatFab').addEventListener('click',()=>toggleChat());
+$('#navChatBtn').addEventListener('click',()=>toggleChat(true));
+$('#chatXb').addEventListener('click',()=>toggleChat(false));
+
+$$('.cchip',document).forEach(c=>{c.addEventListener('click',()=>sendMsg(c.dataset.q));});
+chatIn.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}});
+chatSend.addEventListener('click',()=>sendMsg());
+chatIn.addEventListener('input',()=>{chatIn.style.height='auto';chatIn.style.height=Math.min(chatIn.scrollHeight,80)+'px';});
+
+function escH(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function md2h(s){
+  return s.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+          .replace(/\*(.+?)\*/g,'<em>$1</em>')
+          .replace(/`(.+?)`/g,'<code>$1</code>')
+          .replace(/^- (.+)$/gm,'<li>$1</li>')
+          .replace(/(<li>[\s\S]*?<\/li>)/,'<ul>$1</ul>')
+          .replace(/\n/g,'<br>');}
+
+function addUserMsg(txt){
+  const d=document.createElement('div');d.className='msg usr';
+  d.innerHTML=`<div class="msg-av usr"><i class="fas fa-user"></i></div><div class="msg-bub">${escH(txt)}</div>`;
+  chatMsgs.appendChild(d);chatMsgs.scrollTop=chatMsgs.scrollHeight;}
+
+function addBotMsg(md){
+  const d=document.createElement('div');d.className='msg bot';
+  d.innerHTML=`<div class="msg-av bot">🤖</div><div class="msg-bub">${md2h(md)}</div>`;
+  chatMsgs.appendChild(d);chatMsgs.scrollTop=chatMsgs.scrollHeight;return d;}
+
+function showTyping(){
+  const d=document.createElement('div');d.className='msg bot';d.id='typing';
+  d.innerHTML=`<div class="msg-av bot">🤖</div><div class="msg-bub"><div class="typing"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div></div>`;
+  chatMsgs.appendChild(d);chatMsgs.scrollTop=chatMsgs.scrollHeight;}
+const removeTyping=()=>{const t=$('#typing');if(t)t.remove();};
+
+function buildSysPrompt(){
+  let s="You are TextileBot, an expert and friendly AI tutor for Textile Engineering students. ";
+  s+="Help students understand textile concepts, give study tips, and guide them on what notes are available on the TextileNotes website. ";
+  s+="Format responses clearly — use bullet points when listing things, bold key terms, and keep answers concise but complete.\n\n";
+  s+="NOTES AVAILABILITY:\n";
+  SEMS.forEach(x=>{
+    s+=`Semester ${x.sem}: ${x.av?'AVAILABLE':'Coming Soon'} | Subjects: ${x.subs.join(', ')}\n`;
+    Object.entries(x.topics).forEach(([sub,tops])=>{s+=`  ${sub}: ${tops.join(', ')}\n`;});});
+  return s;}
+
+async function sendMsg(override){
+  const txt=(override||chatIn.value).trim();if(!txt)return;
+  chatIn.value='';chatIn.style.height='auto';chatSend.disabled=true;
+  const chips=$('#chatChips');if(chips)chips.style.display='none';
+  addUserMsg(txt);
+  showTyping();
+  try{
+    const GEMINI_KEY='AIzaSyCbq4GfT09fpeCeERwCkWJpF2x8KKJxeO0';
+    const sysPrompt=buildSysPrompt();
+    // Build contents array: system instruction + history + new user message
+    const contents=[];
+    chatHistory.forEach(m=>{
+      contents.push({role:m.role==='assistant'?'model':'user',parts:[{text:m.content}]});
+    });
+    contents.push({role:'user',parts:[{text:txt}]});
+    const res=await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`,
+      {method:'POST',headers:{'Content-Type':'application/json'},
+       body:JSON.stringify({
+         system_instruction:{parts:[{text:sysPrompt}]},
+         contents,
+         generationConfig:{maxOutputTokens:1000,temperature:0.7}
+       })});
+    const data=await res.json();
+    const reply=data?.candidates?.[0]?.content?.parts?.[0]?.text||"Sorry, I couldn't get a response. Please try again.";
+    removeTyping();addBotMsg(reply);
+    chatHistory.push({role:'user',content:txt});
+    chatHistory.push({role:'assistant',content:reply});
+    if(chatHistory.length>20)chatHistory=chatHistory.slice(-20);
+  }catch(err){removeTyping();addBotMsg("⚠️ Connection issue. Please try again in a moment.");console.error(err);}
+  chatSend.disabled=false;}
+
+
+/* ═══ SUGGESTION FORM ═══ */
+(()=>{
+  // Type pill toggle
+  $$('.type-pill').forEach(p=>{
+    p.addEventListener('click',()=>{
+      $$('.type-pill').forEach(x=>x.classList.remove('sel'));
+      p.classList.add('sel');
+      $('#sgType').value=p.dataset.v;
+    });
+  });
+
+  // Char counter
+  $('#sgMsg').addEventListener('input',()=>{
+    $('#sgCharCount').textContent=$('#sgMsg').value.length;
+  });
+
+  // Submit
+  $('#sgBtn').addEventListener('click', async()=>{
+    const type   = $('#sgType').value;
+    const name   = $('#sgName').value.trim();
+    const sem    = $('#sgSem').value;
+    const subject= $('#sgSubject').value.trim();
+    const msg    = $('#sgMsg').value.trim();
+    const fmsg   = $('#sgFormMsg');
+
+    if(!msg){
+      fmsg.className='sg-msg er';fmsg.textContent='⚠️ Please enter your message before sending.';fmsg.style.display='block';return;
+    }
+
+    $('#sgBtn').disabled=true;
+    $('#sgBtn').innerHTML='<i class="fas fa-spinner fa-spin"></i> Sending…';
+
+    try{
+      const res = await fetch('https://formspree.io/f/xvzbjlgj',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body:JSON.stringify({
+          type, name:name||'Anonymous', semester:sem,
+          subject:subject||'—', message:msg,
+          _subject:`TextileNotes Suggestion: ${type} (${sem})`
+        })
+      });
+      if(res.ok){
+        fmsg.className='sg-msg ok';
+        fmsg.textContent='✅ Thank you! Your suggestion has been sent. We appreciate your feedback!';
+        fmsg.style.display='block';
+        // Reset form
+        $('#sgName').value='';$('#sgSubject').value='';$('#sgMsg').value='';
+        $('#sgCharCount').textContent='0';$('#sgSem').value='General';
+        $$('.type-pill').forEach(x=>x.classList.remove('sel'));
+        $$('.type-pill')[0].classList.add('sel');$('#sgType').value='Request Missing Notes';
+        toast('Suggestion sent! Thanks 🙏','💡');
+      } else {
+        throw new Error('Failed');
+      }
+    }catch{
+      fmsg.className='sg-msg er';
+      fmsg.textContent='❌ Something went wrong. Please try again or contact us directly.';
+      fmsg.style.display='block';
+    }finally{
+      $('#sgBtn').disabled=false;
+      $('#sgBtn').innerHTML='<i class="fas fa-paper-plane"></i> Send Suggestion';
+    }
+  });
+})();
+
+/* ═══ INIT ═══ */
+buildGrid();updKPI();
+</script>
+</body>
+</html>
