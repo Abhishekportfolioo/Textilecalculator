@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ropes & Cordage — Exam Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=JetBrains+Mono:wght@400;600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0c09;
+    --surface: #161410;
+    --card: #1e1a14;
+    --card2: #231f18;
+    --accent: #c8963e;
+    --accent2: #e8b85a;
+    --accent3: #7a5c2e;
+    --text: #e8dcc8;
+    --muted: #8a7d68;
+    --highlight: #f0c96a;
+    --rope: #a07840;
+    --green: #5a8a4a;
+    --blue: #4a6a8a;
+    --red: #8a4a4a;
+    --border: #2e2820;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* Rope texture background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: 
+      repeating-linear-gradient(
+        92deg,
+        transparent 0px,
+        transparent 3px,
+        rgba(160,120,64,0.03) 3px,
+        rgba(160,120,64,0.03) 4px
+      ),
+      repeating-linear-gradient(
+        180deg,
+        transparent 0px,
+        transparent 12px,
+        rgba(160,120,64,0.02) 12px,
+        rgba(160,120,64,0.02) 13px
+      );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: relative;
+    padding: 60px 40px 50px;
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(200,150,62,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .subject-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .subject-tag::before {
+    content: '';
+    display: inline-block;
+    width: 32px; height: 1px;
+    background: var(--accent);
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.8rem);
+    font-weight: 900;
+    line-height: 1.1;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  h1 span { color: var(--accent2); font-style: italic; }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 14px;
+    letter-spacing: 1px;
+    margin-top: 12px;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(14,12,9,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+  }
+
+  nav a {
+    text-decoration: none;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 16px 20px;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  nav a:hover, nav a.active {
+    color: var(--accent2);
+    border-bottom-color: var(--accent);
+  }
+
+  /* ── LAYOUT ── */
+  .main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 50px 40px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── SECTION ── */
+  .section {
+    margin-bottom: 70px;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .section.visible { opacity: 1; transform: translateY(0); }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 30px;
+  }
+
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 2px;
+    min-width: 40px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text);
+    flex: 1;
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--accent3), transparent);
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 28px 32px;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--accent);
+  }
+
+  .card.green::before { background: var(--green); }
+  .card.blue::before { background: var(--blue); }
+  .card.red::before { background: var(--red); }
+  .card.gold::before { background: var(--accent2); }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--accent2);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .card.green .card-title { color: #7aba6a; }
+  .card.blue .card-title { color: #6a9aba; }
+  .card.red .card-title { color: #ba7a7a; }
+
+  /* ── GRID ── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+  @media (max-width: 768px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .main { padding: 30px 20px 60px; }
+    header { padding: 40px 20px 36px; }
+    nav { padding: 0 20px; }
+  }
+
+  /* ── DEFINITION BOX ── */
+  .def-box {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px 24px;
+    margin-bottom: 12px;
+  }
+
+  .def-term {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--highlight);
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+
+  .def-body { color: var(--text); font-size: 14px; }
+
+  /* ── TABLE ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    margin-top: 8px;
+  }
+
+  th {
+    background: rgba(200,150,62,0.15);
+    color: var(--accent2);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--accent3);
+  }
+
+  td {
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: top;
+  }
+
+  tr:hover td { background: rgba(200,150,62,0.04); }
+
+  /* ── PROCESS STEPS ── */
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+  }
+
+  .steps::before {
+    content: '';
+    position: absolute;
+    left: 22px; top: 44px; bottom: 20px;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+  }
+
+  .step {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    padding: 16px 0;
+  }
+
+  .step-num {
+    width: 44px; height: 44px;
+    min-width: 44px;
+    background: var(--card2);
+    border: 1px solid var(--accent3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--accent2);
+    font-weight: 600;
+    position: relative;
+    z-index: 1;
+  }
+
+  .step-content { flex: 1; padding-top: 10px; }
+  .step-label {
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+    font-size: 15px;
+  }
+  .step-desc { color: var(--muted); font-size: 13.5px; }
+
+  /* ── HIGHLIGHT BOX ── */
+  .highlight-box {
+    background: rgba(200,150,62,0.08);
+    border: 1px solid rgba(200,150,62,0.25);
+    border-radius: 4px;
+    padding: 20px 24px;
+    margin: 20px 0;
+  }
+
+  .highlight-box .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  /* ── LIST ── */
+  ul.nice { list-style: none; padding: 0; }
+  ul.nice li {
+    padding: 6px 0 6px 20px;
+    position: relative;
+    color: var(--text);
+    font-size: 14px;
+    border-bottom: 1px solid rgba(46,40,32,0.5);
+  }
+  ul.nice li:last-child { border-bottom: none; }
+  ul.nice li::before {
+    content: '◆';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 8px;
+    top: 10px;
+  }
+
+  /* ── ROPE DIAGRAM SVG ── */
+  .diagram-wrap {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 24px;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+
+  .diagram-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+  }
+
+  /* ── FORMULA BOX ── */
+  .formula {
+    background: #0a0d12;
+    border: 1px solid var(--blue);
+    border-radius: 4px;
+    padding: 16px 24px;
+    font-family: 'JetBrains Mono', monospace;
+    color: #6a9aba;
+    font-size: 13px;
+    margin: 10px 0;
+    line-height: 2;
+  }
+
+  /* ── EXAM TIP ── */
+  .exam-tip {
+    background: rgba(90,138,74,0.08);
+    border-left: 3px solid var(--green);
+    border-radius: 0 4px 4px 0;
+    padding: 14px 20px;
+    margin: 16px 0;
+    font-size: 13.5px;
+    color: #aad0a0;
+  }
+  .exam-tip strong {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 4px;
+    color: #7aba6a;
+  }
+
+  /* ── BADGE ── */
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    background: rgba(200,150,62,0.15);
+    border: 1px solid var(--accent3);
+    border-radius: 2px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--accent2);
+    text-transform: uppercase;
+    margin-right: 6px;
+    margin-bottom: 4px;
+  }
+
+  /* ── PROGRESS / TOC ── */
+  .toc {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 28px 32px;
+    margin-bottom: 50px;
+  }
+  .toc-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .toc-list { list-style: none; }
+  .toc-list li {
+    border-bottom: 1px solid var(--border);
+  }
+  .toc-list a {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 0;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s;
+  }
+  .toc-list a:hover { color: var(--accent2); }
+  .toc-list .n {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    min-width: 28px;
+  }
+
+  p { margin-bottom: 10px; font-size: 14px; }
+  strong { color: var(--accent2); font-weight: 700; }
+  em { color: var(--highlight); font-style: italic; }
+
+  .two-col { columns: 2; gap: 24px; }
+  @media(max-width:600px){ .two-col { columns: 1; } }
+
+  /* search */
+  .search-wrap {
+    margin-bottom: 30px;
+  }
+  #search {
+    width: 100%;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 14px 20px;
+    color: var(--text);
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  #search:focus { border-color: var(--accent); }
+  #search::placeholder { color: var(--muted); }
+
+  .highlight-search { background: rgba(200,150,62,0.25); border-radius: 2px; }
+
+  hr.thin {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 20px 0;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid var(--border)">
+    <div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--accent);text-transform:uppercase;margin-bottom:6px">Created By</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;color:var(--text)">Abhishek Dangi</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:3px">Department of Textile Technology &nbsp;&middot;&nbsp; <span style="color:var(--accent2);font-weight:700">TIT&amp;S College</span></div>
+    </div>
+    <div style="text-align:right">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase">Subject</div>
+      <div style="font-size:12px;color:var(--text);margin-top:4px">Fibre Science &amp; Textile Technology</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--accent);margin-top:4px;letter-spacing:1px">EXAM NOTES</div>
+    </div>
+  </div>
+  <div class="subject-tag">Textile Technology · Fiber Science</div>
+  <h1>Ropes &amp; <span>Cordage</span></h1>
+  <p style="color:var(--muted);margin-top:10px;font-size:14px;">Production Methods · Structure · Applications · Twines · Exam Notes</p>
+</header>
+
+<nav id="topnav">
+  <a href="#intro" class="active">Introduction</a>
+  <a href="#raw-materials">Raw Materials</a>
+  <a href="#production">Production</a>
+  <a href="#structure">Structure</a>
+  <a href="#types">Types</a>
+  <a href="#applications">Applications</a>
+  <a href="#testing">Testing</a>
+  <a href="#quick-ref">Quick Ref</a>
+</nav>
+
+<div class="main">
+
+  <!-- SEARCH -->
+  <div class="search-wrap">
+    <input type="text" id="search" placeholder="🔍  Search within notes…">
+  </div>
+
+  <!-- TOC -->
+  <div class="toc">
+    <div class="toc-title">Table of Contents</div>
+    <ul class="toc-list">
+      <li><a href="#intro"><span class="n">01</span> Introduction & Definitions</a></li>
+      <li><a href="#raw-materials"><span class="n">02</span> Raw Materials & Fibres</a></li>
+      <li><a href="#production"><span class="n">03</span> Method of Production</a></li>
+      <li><a href="#structure"><span class="n">04</span> Application-Oriented Structure</a></li>
+      <li><a href="#types"><span class="n">05</span> Types of Ropes, Cordage & Twines</a></li>
+      <li><a href="#applications"><span class="n">06</span> Applications</a></li>
+      <li><a href="#testing"><span class="n">07</span> Testing & Quality</a></li>
+      <li><a href="#quick-ref"><span class="n">08</span> Quick Reference & Formulas</a></li>
+    </ul>
+  </div>
+
+  <!-- ═══════════ SECTION 1: INTRO ═══════════ -->
+  <div class="section" id="intro">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">Introduction & Definitions</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="def-box">
+        <div class="def-term">ROPE</div>
+        <div class="def-body">A thick, strong cord made by twisting or braiding together several strands of natural or synthetic fibres, wire, or other materials. Generally <strong>&gt; 10 mm</strong> in diameter. Used for load-bearing applications requiring high tensile strength.</div>
+      </div>
+      <div class="def-box">
+        <div class="def-term">CORDAGE</div>
+        <div class="def-body">A general term encompassing all products made from twisted, braided, or laid fibres — including ropes, cords, twines, and lines. The collective term for all flexible linear products made from fibrous materials.</div>
+      </div>
+      <div class="def-box">
+        <div class="def-term">CORD</div>
+        <div class="def-body">A thinner flexible string or line, generally <strong>4–10 mm</strong> in diameter. Made from multiple twisted yarns. Intermediate between twine and rope.</div>
+      </div>
+      <div class="def-box">
+        <div class="def-term">TWINE</div>
+        <div class="def-body">A light string made by twisting together two or more thinner strands. Diameter generally <strong>&lt; 4 mm</strong>. Used in packaging, agriculture, and crafts. Available in various plies (2-ply, 3-ply).</div>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <div class="label">📌 Hierarchy of Cordage Products</div>
+      <p style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text)">
+        Fibre → Yarn → Strand → Cord/Rope<br>
+        Twine (&lt;4mm) &lt; Cord (4–10mm) &lt; Rope (&gt;10mm)
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Historical Background</div>
+      <p>Rope-making is one of humanity's oldest technologies, dating back <strong>17,000+ years</strong>. Ancient Egyptians used twisted plant fibres (papyrus, grass) to construct ropes used in building the pyramids. The industrial rope-making machine was patented in the early 19th century, transforming the industry.</p>
+    </div>
+  </div>
+
+  <!-- ═══════════ SECTION 2: RAW MATERIALS ═══════════ -->
+  <div class="section" id="raw-materials">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Raw Materials & Fibres</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="card green">
+      <div class="card-title">🌿 Natural Fibres</div>
+      <table>
+        <thead>
+          <tr><th>Fibre</th><th>Source</th><th>Key Properties</th><th>Use</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Manila (Abacá)</strong></td><td>Musa textilis plant, Philippines</td><td>High tensile strength, water-resistant, floats</td><td>Marine ropes, hawsers</td></tr>
+          <tr><td><strong>Sisal</strong></td><td>Agave sisalana, Africa/Americas</td><td>Stiff, durable, good abrasion resistance</td><td>Agricultural twine, general purpose</td></tr>
+          <tr><td><strong>Coir</strong></td><td>Coconut husk fibres</td><td>Very elastic, rot-resistant, floats in seawater</td><td>Marine, fenders, matting</td></tr>
+          <tr><td><strong>Hemp</strong></td><td>Cannabis sativa</td><td>Strong, durable, UV resistant</td><td>General cordage, packaging</td></tr>
+          <tr><td><strong>Jute</strong></td><td>Corchorus spp.</td><td>Cheap, biodegradable, low wet strength</td><td>Twines, bags, baling</td></tr>
+          <tr><td><strong>Cotton</strong></td><td>Gossypium spp.</td><td>Soft, flexible, absorbs moisture</td><td>Decorative, clothesline, crafts</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card blue">
+      <div class="card-title">⚗️ Synthetic Fibres</div>
+      <table>
+        <thead>
+          <tr><th>Fibre</th><th>Polymer</th><th>Key Properties</th><th>Use</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Nylon (PA)</strong></td><td>Polyamide</td><td>High strength, elastic (30%), absorbs shock, sinks</td><td>Marine, climbing, towing</td></tr>
+          <tr><td><strong>Polyester (PES)</strong></td><td>PET</td><td>Low stretch (10%), UV resistant, does not absorb water</td><td>Sailing, marine, general</td></tr>
+          <tr><td><strong>Polypropylene (PP)</strong></td><td>Polyolefin</td><td>Lightest, floats, cheap, low melting point</td><td>Fishing, water rescue</td></tr>
+          <tr><td><strong>HMPE/Dyneema®</strong></td><td>UHMWPE</td><td>Strongest, lightest (floats), low stretch</td><td>Offshore mooring, aerospace</td></tr>
+          <tr><td><strong>Aramid (Kevlar®)</strong></td><td>Para-aramid</td><td>Very high strength, heat resistant, UV sensitive</td><td>Safety, military, lifting</td></tr>
+          <tr><td><strong>PEEK / LCP</strong></td><td>High-performance</td><td>Extreme temperature resistance</td><td>Technical/industrial</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="exam-tip">
+      <strong>⭐ EXAM TIP</strong>
+      Manila = best natural fibre for marine use. Polypropylene floats. Nylon has maximum elasticity. HMPE/Dyneema has the highest strength-to-weight ratio of any rope material.
+    </div>
+
+    <div class="card">
+      <div class="card-title">Fibre Preparation Before Rope Making</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-label">Retting / Decortication</div>
+            <div class="step-desc">Natural fibres are separated from plant tissue. Retting (water/dew) for bast fibres; decortication (mechanical scraping) for leaf fibres like sisal and abacá.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-label">Hackling / Combing</div>
+            <div class="step-desc">Fibres are drawn through pins to remove short fibres (tow) and align long fibres (line). Produces parallelised fibre bundles.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-label">Drawing / Roving</div>
+            <div class="step-desc">Aligned fibres drawn into a loose, slightly twisted rope called a roving or sliver.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <div class="step-label">Spinning into Yarn</div>
+            <div class="step-desc">Roving is twisted into yarn — the basic unit. Twist direction: S-twist (left-hand) or Z-twist (right-hand).</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ SECTION 3: PRODUCTION ═══════════ -->
+  <div class="section" id="production">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Method of Production</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="highlight-box">
+      <div class="label">Core Principle — Twist & Counter-Twist</div>
+      <p>The fundamental principle of rope making is <strong>helical twisting</strong>. Each successive level (yarn → strand → rope) is twisted in the <em>opposite direction</em> to the previous level. This "balanced twist" prevents the rope from untwisting under load.</p>
+    </div>
+
+    <!-- TWISTING METHOD -->
+    <div class="card">
+      <div class="card-title">Method 1 — Twisting / Laying (Traditional)</div>
+      <p>The oldest and most traditional method. Fibres are twisted into yarn, yarns into strands, and strands into rope using a <strong>rope-laying machine</strong>.</p>
+      <hr class="thin">
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-label">Yarn Formation</div>
+            <div class="step-desc">Individual fibres twisted together in one direction (e.g. Z-twist) to form <strong>yarn</strong>. The amount of twist (TPI — Twists Per Inch) controls yarn strength and flexibility.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-label">Strand Formation</div>
+            <div class="step-desc">Multiple yarns are twisted together in the <strong>opposite direction</strong> (S-twist) to form <strong>strands</strong>. The counter-twist locks the yarns together.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-label">Rope Laying</div>
+            <div class="step-desc">Three or more strands are twisted together again in the <strong>original direction</strong> (Z-twist) to form the final rope. The balanced twist system gives stability.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <div class="step-label">Finishing</div>
+            <div class="step-desc">Rope ends are whipped or heat-fused (synthetic). Rope may be tarred (natural fibre) or coated for protection.</div>
+          </div>
+        </div>
+      </div>
+      <div class="highlight-box" style="margin-top:16px">
+        <div class="label">Twist Direction Convention</div>
+        <p style="font-family:'JetBrains Mono',monospace;font-size:12px">
+          Yarn: <strong style="color:var(--accent2)">Z-twist</strong> → Strand: <strong style="color:#6a9aba">S-twist</strong> → Rope: <strong style="color:var(--accent2)">Z-twist</strong><br>
+          (Common 3-strand hawser-laid rope pattern)
+        </p>
+      </div>
+    </div>
+
+    <!-- BRAIDING METHOD -->
+    <div class="card blue">
+      <div class="card-title">Method 2 — Braiding (Plaiting)</div>
+      <p>Strands are interlaced at angles (usually 45°) using a <strong>braiding machine</strong>. The strands from bobbins interweave over and under each other in a maypole pattern.</p>
+      <hr class="thin">
+      <div class="grid-2">
+        <div>
+          <div class="def-term" style="color:#6a9aba;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:1px;margin-bottom:8px">SOLID / ROUND BRAID</div>
+          <ul class="nice">
+            <li>All strands participate in the core</li>
+            <li>Does not flatten under load</li>
+            <li>Diamond braid, 8-carrier braid</li>
+            <li>Used in sash cord, clothesline</li>
+          </ul>
+        </div>
+        <div>
+          <div class="def-term" style="color:#6a9aba;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:1px;margin-bottom:8px">HOLLOW BRAID</div>
+          <ul class="nice">
+            <li>Braided sheath with hollow centre</li>
+            <li>Can accept a core insert</li>
+            <li>Easy to splice</li>
+            <li>Used in ski rope, water sports</li>
+          </ul>
+        </div>
+      </div>
+      <hr class="thin">
+      <div class="grid-2" style="margin-top:8px">
+        <div>
+          <div class="def-term" style="color:#6a9aba;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:1px;margin-bottom:8px">KERNMANTLE (SHEATH-CORE)</div>
+          <ul class="nice">
+            <li>Inner core (kern) carries load</li>
+            <li>Outer sheath (mantle) protects</li>
+            <li>Core: parallel or twisted strands</li>
+            <li>Used in climbing, rescue ropes</li>
+          </ul>
+        </div>
+        <div>
+          <div class="def-term" style="color:#6a9aba;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:1px;margin-bottom:8px">PLAITED (8-STRAND)</div>
+          <ul class="nice">
+            <li>4 pairs of strands, 2 Z + 2 S in each pair</li>
+            <li>Square or round cross-section</li>
+            <li>Very flexible, non-rotating</li>
+            <li>Used in marine, anchor lines</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- MACHINERY -->
+    <div class="card gold">
+      <div class="card-title">Key Machines in Production</div>
+      <table>
+        <thead>
+          <tr><th>Machine</th><th>Function</th><th>Output</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Spinning Frame</strong></td><td>Twists fibres into yarn; controls TPI and linear density</td><td>Yarn (tex/denier count)</td></tr>
+          <tr><td><strong>Stranding Machine</strong></td><td>Twists multiple yarns into strands</td><td>Strands</td></tr>
+          <tr><td><strong>Rope-Laying Machine</strong></td><td>Lays strands into rope with controlled tension and twist</td><td>Twisted rope</td></tr>
+          <tr><td><strong>Braiding Machine</strong></td><td>Interlaces strands in maypole pattern (8, 16, 24, 32 carriers)</td><td>Braided rope/cord</td></tr>
+          <tr><td><strong>Twisting Machine</strong></td><td>Produces 2-ply or 3-ply twines by twisting yarns</td><td>Twine</td></tr>
+          <tr><td><strong>Closing Machine</strong></td><td>Final twisting/laying with tension control</td><td>Finished rope</td></tr>
+          <tr><td><strong>Coiling Machine</strong></td><td>Coils finished rope for packaging and storage</td><td>Coiled product</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card red">
+      <div class="card-title">Method 3 — Wire Rope Production (Steel Cordage)</div>
+      <p>Steel wire ropes follow the same principle — individual wires twisted into strands, strands laid around a core. Core types:</p>
+      <div class="grid-3" style="margin-top:14px">
+        <div class="def-box"><div class="def-term">FC (Fibre Core)</div><div class="def-body">Natural/synthetic fibre core. More flexible, lubricant reservoir. Less crush resistance.</div></div>
+        <div class="def-box"><div class="def-term">IWRC (Independent Wire Rope Core)</div><div class="def-body">A separate wire rope as core. Greater strength and crush resistance. Stiffer.</div></div>
+        <div class="def-box"><div class="def-term">WSC (Wire Strand Core)</div><div class="def-body">Single wire strand core. Intermediate properties. Used in haulage.</div></div>
+      </div>
+      <div class="formula">
+        Common wire rope designation: 6 × 19 + FC<br>
+        → 6 strands × 19 wires per strand + Fibre Core<br><br>
+        Breaking force (approx): F = d² × k<br>
+        where d = diameter (mm), k = material constant
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ SECTION 4: STRUCTURE ═══════════ -->
+  <div class="section" id="structure">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2 class="section-title">Application-Oriented Structure</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <p>The structural design of a rope is chosen based on its intended application. Key parameters include: <strong>twist/lay direction</strong>, <strong>lay length</strong>, <strong>number of strands</strong>, <strong>construction type</strong>, and <strong>fibre material</strong>.</p>
+
+    <!-- DIAGRAM PLACEHOLDER -->
+    <div class="diagram-wrap">
+      <div class="diagram-label">Rope Construction Cross-Sections</div>
+      <svg viewBox="0 0 700 180" xmlns="http://www.w3.org/2000/svg" width="100%" style="max-width:700px">
+        <!-- 3-strand twisted -->
+        <g transform="translate(80,90)">
+          <circle cx="0" cy="-28" r="24" fill="none" stroke="#c8963e" stroke-width="2"/>
+          <circle cx="-24" cy="14" r="24" fill="none" stroke="#c8963e" stroke-width="2"/>
+          <circle cx="24" cy="14" r="24" fill="none" stroke="#c8963e" stroke-width="2"/>
+          <circle cx="0" cy="-28" r="10" fill="#c8963e" opacity="0.2"/>
+          <circle cx="-24" cy="14" r="10" fill="#c8963e" opacity="0.2"/>
+          <circle cx="24" cy="14" r="10" fill="#c8963e" opacity="0.2"/>
+          <text y="75" text-anchor="middle" fill="#8a7d68" font-size="11" font-family="JetBrains Mono, monospace">3-Strand Twisted</text>
+        </g>
+        <!-- 8-strand plaited -->
+        <g transform="translate(230,90)">
+          <circle cx="0" cy="-32" r="12" fill="#7a5c2e" opacity="0.8"/>
+          <circle cx="22.6" cy="-22.6" r="12" fill="#a07840" opacity="0.8"/>
+          <circle cx="32" cy="0" r="12" fill="#7a5c2e" opacity="0.8"/>
+          <circle cx="22.6" cy="22.6" r="12" fill="#a07840" opacity="0.8"/>
+          <circle cx="0" cy="32" r="12" fill="#7a5c2e" opacity="0.8"/>
+          <circle cx="-22.6" cy="22.6" r="12" fill="#a07840" opacity="0.8"/>
+          <circle cx="-32" cy="0" r="12" fill="#7a5c2e" opacity="0.8"/>
+          <circle cx="-22.6" cy="-22.6" r="12" fill="#a07840" opacity="0.8"/>
+          <text y="75" text-anchor="middle" fill="#8a7d68" font-size="11" font-family="JetBrains Mono, monospace">8-Strand Plaited</text>
+        </g>
+        <!-- Kernmantle -->
+        <g transform="translate(400,90)">
+          <circle cx="0" cy="0" r="50" fill="none" stroke="#4a6a8a" stroke-width="3"/>
+          <circle cx="0" cy="0" r="34" fill="rgba(74,106,138,0.15)" stroke="#4a6a8a" stroke-width="1" stroke-dasharray="3,3"/>
+          <circle cx="0" cy="0" r="22" fill="rgba(74,106,138,0.25)" stroke="#4a6a8a" stroke-width="2"/>
+          <text y="75" text-anchor="middle" fill="#8a7d68" font-size="11" font-family="JetBrains Mono, monospace">Kernmantle</text>
+          <text x="0" y="-4" text-anchor="middle" fill="#4a6a8a" font-size="9" font-family="JetBrains Mono, monospace">kern</text>
+          <text x="40" y="-30" fill="#4a6a8a" font-size="9" font-family="JetBrains Mono, monospace">mantle</text>
+          <line x1="36" y1="-26" x2="24" y2="-10" stroke="#4a6a8a" stroke-width="0.5"/>
+        </g>
+        <!-- Double Braid -->
+        <g transform="translate(570,90)">
+          <circle cx="0" cy="0" r="48" fill="none" stroke="#5a8a4a" stroke-width="3"/>
+          <circle cx="0" cy="0" r="32" fill="rgba(90,138,74,0.1)" stroke="#5a8a4a" stroke-width="1.5" stroke-dasharray="4,2"/>
+          <circle cx="0" cy="0" r="18" fill="rgba(90,138,74,0.2)" stroke="#5a8a4a" stroke-width="2"/>
+          <text y="75" text-anchor="middle" fill="#8a7d68" font-size="11" font-family="JetBrains Mono, monospace">Double Braid</text>
+          <text x="0" y="-4" text-anchor="middle" fill="#5a8a4a" font-size="9" font-family="JetBrains Mono, monospace">braid core</text>
+          <text x="38" y="-32" fill="#5a8a4a" font-size="9" font-family="JetBrains Mono, monospace">braid cover</text>
+          <line x1="34" y1="-28" x2="22" y2="-10" stroke="#5a8a4a" stroke-width="0.5"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Structure vs Application table -->
+    <div class="card">
+      <div class="card-title">Structure → Application Matrix</div>
+      <table>
+        <thead>
+          <tr><th>Construction</th><th>Characteristics</th><th>Ideal Application</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>3-Strand Hawser-Laid</strong></td>
+            <td>Flexible, good energy absorption, easy to splice, low cost</td>
+            <td>General purpose, mooring, anchor lines, agriculture</td>
+          </tr>
+          <tr>
+            <td><strong>4-Strand Shroud-Laid</strong></td>
+            <td>Stiffer, rounder cross-section, heart prevents collapse</td>
+            <td>Standing rigging, towing, heavy hauling</td>
+          </tr>
+          <tr>
+            <td><strong>8-Strand Plaited</strong></td>
+            <td>Excellent flexibility, non-kinking, easy handling</td>
+            <td>Marine docking lines, yacht sheets</td>
+          </tr>
+          <tr>
+            <td><strong>Kernmantle (Static)</strong></td>
+            <td>Low elongation (~2%), high strength, abrasion protection</td>
+            <td>Technical climbing, caving, rescue, rigging</td>
+          </tr>
+          <tr>
+            <td><strong>Kernmantle (Dynamic)</strong></td>
+            <td>High elongation (~35%), absorbs fall energy (UIAA)</td>
+            <td>Lead climbing, fall arrest</td>
+          </tr>
+          <tr>
+            <td><strong>Double Braid (Braid-on-Braid)</strong></td>
+            <td>Very smooth, high strength, minimal stretch, easy to splice</td>
+            <td>Halliards, sheets, control lines on sailboats</td>
+          </tr>
+          <tr>
+            <td><strong>Parallel Core / Sub-Rope</strong></td>
+            <td>Maximum strength, minimum stretch (for parallel fibres)</td>
+            <td>Load-bearing slings, bridge cables (parallel wire)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card green">
+      <div class="card-title">Key Structural Parameters</div>
+      <div class="grid-2">
+        <div>
+          <ul class="nice">
+            <li><strong>Lay Length:</strong> Distance for one complete twist of strand in rope. Shorter lay = stiffer, higher strength; Longer lay = more flexible</li>
+            <li><strong>Lay Angle:</strong> Helix angle of strand. Typically 15°–25° for balanced twist ropes</li>
+            <li><strong>Number of Strands:</strong> 3, 4, 8, 12 or more strands. More strands = rounder, smoother, more flexible</li>
+          </ul>
+        </div>
+        <div>
+          <ul class="nice">
+            <li><strong>Fill Factor:</strong> Ratio of fibre area to total rope area. Higher fill = stronger rope for given diameter</li>
+            <li><strong>Linear Density:</strong> Mass per unit length (tex or kg/100m). Determines weight and strength</li>
+            <li><strong>Cover Factor:</strong> In braided ropes, proportion of surface covered by braid. Affects appearance and protection</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="card red">
+      <div class="card-title">Influence of Structure on Performance</div>
+      <table>
+        <thead>
+          <tr><th>Property</th><th>Twisted Rope</th><th>Braided Rope</th><th>Kernmantle</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Tensile Strength</td><td>Good</td><td>Very Good</td><td>Excellent</td></tr>
+          <tr><td>Elongation</td><td>Medium–High</td><td>Low–Medium</td><td>Controlled (design)</td></tr>
+          <tr><td>Flexibility</td><td>Medium</td><td>High</td><td>Medium–High</td></tr>
+          <tr><td>Torque-free</td><td>No (rotates under load)</td><td>Yes</td><td>Yes</td></tr>
+          <tr><td>Spliceability</td><td>Easy</td><td>Moderate</td><td>Difficult</td></tr>
+          <tr><td>Abrasion Resistance</td><td>Fair</td><td>Good (sheath)</td><td>Excellent (mantle)</td></tr>
+          <tr><td>Cost</td><td>Low</td><td>Medium</td><td>High</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ═══════════ SECTION 5: TYPES ═══════════ -->
+  <div class="section" id="types">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2 class="section-title">Types of Ropes, Cordage & Twines</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Classification of Ropes</div>
+      <div class="grid-2">
+        <div>
+          <p><span class="badge">By Material</span></p>
+          <ul class="nice">
+            <li>Natural fibre ropes (hemp, manila, sisal, coir, jute)</li>
+            <li>Synthetic fibre ropes (nylon, polyester, PP, HMPE)</li>
+            <li>Wire ropes (steel, stainless steel, galvanised)</li>
+            <li>Hybrid/composite ropes (fibre + wire)</li>
+          </ul>
+        </div>
+        <div>
+          <p><span class="badge">By Construction</span></p>
+          <ul class="nice">
+            <li>Twisted / Laid ropes (hawser, shroud, cable-laid)</li>
+            <li>Braided ropes (solid braid, hollow braid, 8-strand plait)</li>
+            <li>Kernmantle ropes (static, dynamic, semi-static)</li>
+            <li>Parallel core / sub-rope construction</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="card blue">
+      <div class="card-title">Types of Twines</div>
+      <table>
+        <thead>
+          <tr><th>Twine Type</th><th>Construction</th><th>Application</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Baler/Baling Twine</strong></td><td>2-ply or 3-ply PP or sisal, Z-twist</td><td>Hay baling, agricultural straw baling</td></tr>
+          <tr><td><strong>Packaging Twine</strong></td><td>2-ply jute or PP</td><td>Parcel tying, bundle wrapping</td></tr>
+          <tr><td><strong>Netting Twine</strong></td><td>Twisted or braided nylon/PP, fine gauge</td><td>Fishing nets, safety nets</td></tr>
+          <tr><td><strong>Butcher's Twine</strong></td><td>Multi-ply cotton, food-safe</td><td>Meat processing, food industry</td></tr>
+          <tr><td><strong>Garden Twine</strong></td><td>Jute or degradable polymer</td><td>Plant support, horticulture</td></tr>
+          <tr><td><strong>Carpet/Sewing Thread</strong></td><td>Linen or polyester, tight twist</td><td>Tufting, seaming carpets</td></tr>
+          <tr><td><strong>Seine Twine</strong></td><td>Tarred hemp or nylon, heavy duty</td><td>Deep-sea fishing lines</td></tr>
+          <tr><td><strong>Bank/Post Office Twine</strong></td><td>Polished cotton or linen</td><td>Office/stationery use</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid-2">
+      <div class="card green">
+        <div class="card-title">Hawser-Laid Rope</div>
+        <p>3 strands twisted together. The most common construction. Right-hand (Z) lay is standard. <strong>Cable-laid rope</strong> = 3 hawser-laid ropes twisted together (very large diameter, used for anchors).</p>
+        <div class="formula">
+          Z-twist yarn → S-twist strand → Z-twist rope
+        </div>
+      </div>
+      <div class="card red">
+        <div class="card-title">Shroud-Laid Rope</div>
+        <p>4 strands with a central heart strand (often fibre or wire). Gives a rounder cross-section. Used in standing rigging where minimal stretch is needed.</p>
+        <div class="formula">
+          4 outer strands + 1 central heart
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ SECTION 6: APPLICATIONS ═══════════ -->
+  <div class="section" id="applications">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2 class="section-title">Applications</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="grid-3">
+      <div class="card green">
+        <div class="card-title">🚢 Marine & Offshore</div>
+        <ul class="nice">
+          <li>Mooring lines (nylon/polyester)</li>
+          <li>Anchor rodes (nylon for stretch)</li>
+          <li>Towing hawsers (manila/HMPE)</li>
+          <li>Fishing lines & nets (PP, nylon)</li>
+          <li>Vessel rigging (wire rope)</li>
+          <li>Offshore mooring (HMPE/polyester)</li>
+          <li>Buoy ropes (PP — floats)</li>
+        </ul>
+      </div>
+      <div class="card blue">
+        <div class="card-title">🏗️ Industrial & Construction</div>
+        <ul class="nice">
+          <li>Crane lifting slings (wire rope)</li>
+          <li>Elevator / hoist ropes (wire)</li>
+          <li>Scaffolding ties</li>
+          <li>Conveyor ropes</li>
+          <li>Mine haulage ropes</li>
+          <li>Bridge suspenders (wire/HMPE)</li>
+          <li>Bungee/safety lifelines</li>
+        </ul>
+      </div>
+      <div class="card red">
+        <div class="card-title">🧗 Safety & Sport</div>
+        <ul class="nice">
+          <li>Climbing ropes (kernmantle dynamic)</li>
+          <li>Caving ropes (kernmantle static)</li>
+          <li>Rescue/rappel ropes</li>
+          <li>Parachute suspension lines</li>
+          <li>Arborist/tree surgeon ropes</li>
+          <li>Water ski / wakeboard ropes</li>
+          <li>Tug-of-war ropes (manila)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">🌾 Agriculture & Horticulture</div>
+        <ul class="nice">
+          <li>Baling twine (sisal/PP)</li>
+          <li>Livestock tethering ropes</li>
+          <li>Greenhouse netting twine</li>
+          <li>Vine/plant support twines</li>
+          <li>Potato / root crop netting</li>
+          <li>Fruit tree training cordage</li>
+        </ul>
+      </div>
+      <div class="card gold">
+        <div class="card-title">📦 Packaging & Logistics</div>
+        <ul class="nice">
+          <li>Bale and bundle tying twines</li>
+          <li>Parcel string (jute/cotton)</li>
+          <li>Lashing ropes for cargo</li>
+          <li>Cargo nets (PP/polyester)</li>
+          <li>Pallet strapping</li>
+        </ul>
+      </div>
+      <div class="card green">
+        <div class="card-title">🏠 Domestic & Decorative</div>
+        <ul class="nice">
+          <li>Clotheslines (PP/cotton)</li>
+          <li>Macramé cordage (cotton/jute)</li>
+          <li>Decorative ropes (Manila)</li>
+          <li>Hammock ropes (cotton/PP)</li>
+          <li>Pet leads / leashes</li>
+          <li>Shoe laces (polyester braid)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exam-tip">
+      <strong>⭐ EXAM TIP — Material Selection Principle</strong>
+      Match fibre properties to application: Use <strong>Nylon</strong> where shock absorption is needed (mooring, towing). Use <strong>Polyester</strong> where low stretch and UV resistance matter (sailing sheets). Use <strong>Polypropylene</strong> where flotation is required (water rescue). Use <strong>HMPE</strong> for maximum strength with minimum weight. Use <strong>Natural fibres</strong> where biodegradability or tradition matters.
+    </div>
+  </div>
+
+  <!-- ═══════════ SECTION 7: TESTING ═══════════ -->
+  <div class="section" id="testing">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <h2 class="section-title">Testing & Quality Parameters</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Mechanical Tests</div>
+        <ul class="nice">
+          <li><strong>Breaking Strength (MBL)</strong> — Maximum tensile load at failure. Tested on universal testing machine. Most critical parameter.</li>
+          <li><strong>Elongation at Break (%)</strong> — Extension relative to gauge length at failure. Dynamic ropes need high elongation.</li>
+          <li><strong>Elastic/Working Elongation</strong> — Stretch at working load (typically 10–50% of MBL). Key for mooring and sailing.</li>
+          <li><strong>Cyclic / Fatigue Testing</strong> — Repeated loading to simulate service life and detect fatigue failure.</li>
+          <li><strong>Knot Strength</strong> — Rope with overhand knot tested; measures strength loss due to knot (~50% reduction typical).</li>
+        </ul>
+      </div>
+      <div class="card green">
+        <div class="card-title">Other Quality Tests</div>
+        <ul class="nice">
+          <li><strong>Linear Density (tex)</strong> — Mass per 1000m. Determines weight and sizing accuracy.</li>
+          <li><strong>Twist / Lay Count</strong> — TPI (twists per inch) or TPM (twists per metre). Affects strength and flexibility.</li>
+          <li><strong>Abrasion Resistance</strong> — Taber abrasion or drum abrasion test. Important for ropes in pulleys/capstans.</li>
+          <li><strong>UV Resistance</strong> — Xenon arc lamp exposure (ISO 105-B02). Synthetic fibres degrade with UV.</li>
+          <li><strong>Moisture Regain</strong> — Water absorption at standard conditions. Natural fibres absorb significantly.</li>
+          <li><strong>Construction Check</strong> — Verify lay length, number of strands, diameter by measurement.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card blue">
+      <div class="card-title">Relevant Standards & Certifications</div>
+      <table>
+        <thead>
+          <tr><th>Standard</th><th>Scope</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>ISO 2307</strong></td><td>Fibre ropes — general methods of testing</td></tr>
+          <tr><td><strong>EN 892</strong></td><td>Mountaineering equipment — dynamic ropes</td></tr>
+          <tr><td><strong>EN 1891</strong></td><td>Low stretch kernmantle ropes for rescue</td></tr>
+          <tr><td><strong>ISO 2408</strong></td><td>Steel wire ropes for general purposes</td></tr>
+          <tr><td><strong>NFPA 1983</strong></td><td>Fire service life safety rope standard (US)</td></tr>
+          <tr><td><strong>UIAA 101</strong></td><td>Dynamic ropes — UIAA fall rating</td></tr>
+          <tr><td><strong>EN 21669</strong></td><td>Jute yarns — linear density methods</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ═══════════ SECTION 8: QUICK REFERENCE ═══════════ -->
+  <div class="section" id="quick-ref">
+    <div class="section-header">
+      <span class="section-num">08</span>
+      <h2 class="section-title">Quick Reference & Formulas</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="grid-2">
+      <div>
+        <div class="card gold">
+          <div class="card-title">Important Formulas</div>
+          <div class="formula">
+            Linear Density:<br>
+            tex = mass (g) / length (km)<br>
+            1 tex = 1 g/1000m<br><br>
+            Twist Factor (α):<br>
+            α = TPI × √(tex)<br><br>
+            Rope Diameter (approx):<br>
+            d (mm) ≈ 0.05 × C (circumference in mm)<br><br>
+            Strength Ratio (% of straight pull):<br>
+            Knot: ~50% | Bend: ~70% | Splice: ~90%<br><br>
+            Safety Factor = Breaking Load / Working Load<br>
+            Typical SF: 5:1 (general) to 10:1 (life safety)
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Twist Balance Rule</div>
+          <div class="formula">
+            Level 1 (yarn):   Z twist<br>
+            Level 2 (strand): S twist (opposite)<br>
+            Level 3 (rope):   Z twist (same as yarn)<br><br>
+            Rule: Each successive level reverses direction
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="card blue">
+          <div class="card-title">Memory Aids</div>
+          <ul class="nice">
+            <li><strong>"Z" twists like the middle of the letter Z</strong> — top-right to bottom-left when vertical</li>
+            <li><strong>"S" twists like the middle of S</strong> — top-left to bottom-right when vertical</li>
+            <li><strong>Nylon = Noodle</strong> = stretchy (elastic)</li>
+            <li><strong>PP = Ping-Pong ball</strong> = floats</li>
+            <li><strong>Polyester = Precise</strong> = minimal stretch, UV stable</li>
+            <li><strong>Manila = Marine classic</strong> = best traditional marine rope</li>
+            <li><strong>HMPE = Highest strength</strong> = ultra-high molecular polyethylene</li>
+            <li><strong>Kernmantle = Kern (German: core)</strong> = structural separation</li>
+          </ul>
+        </div>
+
+        <div class="card green">
+          <div class="card-title">Diameter vs Breaking Strength (Approx)</div>
+          <table>
+            <thead><tr><th>Dia (mm)</th><th>3-strand nylon (kN)</th><th>Wire 6×19 (kN)</th></tr></thead>
+            <tbody>
+              <tr><td>8</td><td>~18</td><td>~40</td></tr>
+              <tr><td>12</td><td>~38</td><td>~90</td></tr>
+              <tr><td>16</td><td>~66</td><td>~160</td></tr>
+              <tr><td>20</td><td>~100</td><td>~250</td></tr>
+              <tr><td>24</td><td>~140</td><td>~360</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card red" style="margin-top:8px">
+      <div class="card-title">Common Exam Questions & Answers</div>
+      <div id="qa-list">
+        <div class="def-box" style="cursor:pointer" onclick="toggleAnswer(this)">
+          <div class="def-term">Q: What is the significance of counter-twisting in rope production?</div>
+          <div class="def-body answer" style="display:none">Counter-twisting at each level prevents the rope from unravelling. Yarn is twisted in Z direction; strands are S-twisted (so yarns lock together), rope is Z-twisted (so strands lock). The balanced twist system keeps the rope stable under load without rotation.</div>
+        </div>
+        <div class="def-box" style="cursor:pointer" onclick="toggleAnswer(this)">
+          <div class="def-term">Q: Differentiate between hawser-laid and cable-laid rope.</div>
+          <div class="def-body answer" style="display:none">Hawser-laid rope is made of 3 strands twisted together — it is the standard 3-strand rope. Cable-laid rope consists of 3 hawser-laid ropes twisted together as a "super rope," resulting in very large diameter and stiffness. Cable-laid ropes are used in anchor chains and heavy mooring applications.</div>
+        </div>
+        <div class="def-box" style="cursor:pointer" onclick="toggleAnswer(this)">
+          <div class="def-term">Q: Why is polypropylene preferred for water rescue ropes?</div>
+          <div class="def-body answer" style="display:none">Polypropylene has a density less than water (0.91 g/cm³), so it floats. This makes it ideal for throw bags, buoy lines, and lifeline applications where the rope must remain visible and accessible at the water surface. It is also inexpensive and resistant to most chemicals.</div>
+        </div>
+        <div class="def-box" style="cursor:pointer" onclick="toggleAnswer(this)">
+          <div class="def-term">Q: Explain the structure of a kernmantle rope and its application.</div>
+          <div class="def-body answer" style="display:none">Kernmantle has two functional parts: the kern (inner core) which provides the load-bearing strength and controlled elongation, and the mantle (outer braided sheath) which protects the core from abrasion, UV, chemicals, and mechanical damage. Dynamic kernmantle ropes (high stretch) are used in lead climbing; static kernmantle (low stretch ~2%) are used in rescue, caving, and industrial rope access.</div>
+        </div>
+        <div class="def-box" style="cursor:pointer" onclick="toggleAnswer(this)">
+          <div class="def-term">Q: What is the difference between dynamic and static rope?</div>
+          <div class="def-body answer" style="display:none">Dynamic ropes are designed to absorb energy from a fall by elongating significantly (up to 35%). They are UIAA/EN 892 rated and used in lead climbing. Static ropes have very low elongation (&lt;6%) under load, making them unsuitable for lead falls but ideal for rescue, rappelling, hauling, and rope access where minimal stretch is essential for precision.</div>
+        </div>
+        <div class="def-box" style="cursor:pointer" onclick="toggleAnswer(this)">
+          <div class="def-term">Q: Name the machines used in rope production and their functions.</div>
+          <div class="def-body answer" style="display:none">Spinning frame: converts fibres to yarn. Stranding machine: twists yarns into strands. Rope-laying machine: lays strands into finished rope. Braiding machine: interlaces strands (maypole pattern). Twisting machine: produces plied twines. Coiling machine: packages the finished rope. Each machine controls tension, twist rate, and speed for consistent quality.</div>
+        </div>
+      </div>
+      <p style="color:var(--muted);font-size:12px;margin-top:12px;font-family:'JetBrains Mono',monospace">↑ Click any question to reveal the answer</p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div style="border-top:1px solid var(--border);padding-top:36px;padding-bottom:10px;text-align:center">
+    <div style="display:inline-block;background:var(--card);border:1px solid var(--border);border-radius:4px;padding:24px 40px;position:relative;overflow:hidden">
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(200,150,62,0.07) 0%,transparent 70%);pointer-events:none"></div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--accent);text-transform:uppercase;margin-bottom:14px">Created By</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--text);margin-bottom:6px">Abhishek Dangi</div>
+      <div style="width:48px;height:1px;background:var(--accent);margin:0 auto 12px"></div>
+      <div style="font-family:'Lato',sans-serif;font-size:13px;color:var(--muted);letter-spacing:0.5px;margin-bottom:4px">Department of Textile Technology</div>
+      <div style="font-family:'Lato',sans-serif;font-size:13px;color:var(--accent2);font-weight:700;letter-spacing:0.5px">TIT&amp;S College</div>
+    </div>
+    <p style="color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;margin-top:24px">ROPES &amp; CORDAGE — EXAM NOTES · TEXTILE TECHNOLOGY</p>
+  </div>
+
+</div>
+
+<script>
+  // Intersection Observer for section animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.07 });
+  document.querySelectorAll('.section').forEach(s => observer.observe(s));
+
+  // Active nav link
+  const sections = document.querySelectorAll('.section');
+  const navLinks = document.querySelectorAll('nav a');
+  window.addEventListener('scroll', () => {
+    let cur = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) cur = s.id;
+    });
+    navLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + cur);
+    });
+  });
+
+  // Search highlight
+  const searchInput = document.getElementById('search');
+  searchInput.addEventListener('input', function () {
+    const q = this.value.trim().toLowerCase();
+    document.querySelectorAll('.highlight-search').forEach(el => {
+      el.outerHTML = el.innerHTML;
+    });
+    if (!q) return;
+    const walker = document.createTreeWalker(document.querySelector('.main'), NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(node => {
+      if (!node.textContent.toLowerCase().includes(q)) return;
+      if (node.parentElement.closest('#search')) return;
+      const span = document.createElement('span');
+      span.innerHTML = node.textContent.replace(new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi'),
+        '<span class="highlight-search">$1</span>');
+      node.replaceWith(...span.childNodes);
+    });
+  });
+
+  // Q&A toggle
+  function toggleAnswer(el) {
+    const ans = el.querySelector('.answer');
+    const term = el.querySelector('.def-term');
+    if (ans.style.display === 'none') {
+      ans.style.display = 'block';
+      term.style.color = 'var(--accent2)';
+    } else {
+      ans.style.display = 'none';
+      term.style.color = 'var(--highlight)';
+    }
+  }
+</script>
+</body>
+</html>

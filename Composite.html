@@ -1,0 +1,1647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Composites — Exam Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c10;
+    --surface: #111318;
+    --surface2: #181c24;
+    --border: #232834;
+    --accent: #e8c97a;
+    --accent2: #4fc3f7;
+    --accent3: #81c784;
+    --accent4: #f48fb1;
+    --accent5: #ce93d8;
+    --text: #e8eaf0;
+    --muted: #7b8094;
+    --heading-font: 'Playfair Display', serif;
+    --mono: 'IBM Plex Mono', monospace;
+    --body: 'IBM Plex Sans', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* ── HEADER ── */
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,12,16,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 32px;
+    display: flex; align-items: center; gap: 20px;
+  }
+
+  .header-badge {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    background: rgba(232,201,122,0.1);
+    border: 1px solid rgba(232,201,122,0.3);
+    padding: 4px 10px;
+    border-radius: 3px;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+
+  .header-title {
+    font-family: var(--heading-font);
+    font-size: 18px;
+    color: var(--text);
+    flex: 1;
+  }
+
+  .progress-bar {
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    width: 160px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 2px;
+    width: 0%;
+    transition: width 0.3s ease;
+  }
+
+  /* ── LAYOUT ── */
+  .layout {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    max-width: 1280px;
+    margin: 0 auto;
+    min-height: calc(100vh - 60px);
+  }
+
+  /* ── SIDEBAR ── */
+  aside {
+    border-right: 1px solid var(--border);
+    padding: 28px 0;
+    position: sticky;
+    top: 57px;
+    height: calc(100vh - 57px);
+    overflow-y: auto;
+  }
+
+  .sidebar-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0 20px 12px;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-left: 2px solid transparent;
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .nav-item:hover { color: var(--text); background: var(--surface); }
+  .nav-item.active { color: var(--accent); border-left-color: var(--accent); background: rgba(232,201,122,0.05); }
+
+  .nav-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    flex-shrink: 0;
+    opacity: 0.6;
+  }
+  .nav-item.active .nav-dot { opacity: 1; }
+
+  /* ── MAIN CONTENT ── */
+  main {
+    padding: 40px 48px;
+    max-width: 900px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    margin-bottom: 52px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent2);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .hero h1 {
+    font-family: var(--heading-font);
+    font-size: clamp(32px, 4vw, 52px);
+    line-height: 1.1;
+    color: var(--text);
+    margin-bottom: 18px;
+  }
+
+  .hero h1 span { color: var(--accent); }
+
+  .hero-desc {
+    color: var(--muted);
+    font-size: 15px;
+    max-width: 540px;
+    margin-bottom: 24px;
+  }
+
+  .topic-chips {
+    display: flex; flex-wrap: wrap; gap: 8px;
+  }
+
+  .chip {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid;
+    letter-spacing: 0.04em;
+  }
+  .chip-gold  { color: var(--accent);  border-color: rgba(232,201,122,0.3); background: rgba(232,201,122,0.06); }
+  .chip-blue  { color: var(--accent2); border-color: rgba(79,195,247,0.3);  background: rgba(79,195,247,0.06); }
+  .chip-green { color: var(--accent3); border-color: rgba(129,199,132,0.3); background: rgba(129,199,132,0.06); }
+  .chip-pink  { color: var(--accent4); border-color: rgba(244,143,177,0.3); background: rgba(244,143,177,0.06); }
+  .chip-purple{ color: var(--accent5); border-color: rgba(206,147,216,0.3); background: rgba(206,147,216,0.06); }
+
+  /* ── SECTIONS ── */
+  .section {
+    margin-bottom: 60px;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .section.visible { opacity: 1; transform: none; }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+
+  .section-num {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    flex-shrink: 0;
+  }
+
+  .section h2 {
+    font-family: var(--heading-font);
+    font-size: 26px;
+    color: var(--text);
+  }
+
+  .section-divider {
+    width: 40px; height: 2px;
+    border-radius: 1px;
+    margin-bottom: 22px;
+  }
+
+  /* ── CARDS ── */
+  .cards { display: grid; gap: 14px; }
+  .cards-2 { grid-template-columns: 1fr 1fr; }
+  .cards-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .card:hover { transform: translateY(-2px); }
+
+  .card-accent-gold  { border-top: 2px solid var(--accent); }
+  .card-accent-blue  { border-top: 2px solid var(--accent2); }
+  .card-accent-green { border-top: 2px solid var(--accent3); }
+  .card-accent-pink  { border-top: 2px solid var(--accent4); }
+  .card-accent-purple{ border-top: 2px solid var(--accent5); }
+
+  .card-icon {
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+
+  .card h3 {
+    font-family: var(--body);
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+
+  .card p, .card li {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .card ul { padding-left: 16px; }
+  .card li { margin-bottom: 4px; }
+
+  /* ── KEY-VALUE ── */
+  .kv-grid {
+    display: grid;
+    gap: 2px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .kv-row {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    background: var(--surface);
+    transition: background 0.2s;
+  }
+  .kv-row:hover { background: var(--surface2); }
+
+  .kv-key {
+    padding: 12px 16px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    border-right: 1px solid var(--border);
+    display: flex; align-items: center;
+  }
+
+  .kv-val {
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  /* ── TABLE ── */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    font-size: 13px;
+  }
+
+  .data-table th {
+    background: var(--surface2);
+    padding: 11px 14px;
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .data-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--muted);
+    vertical-align: top;
+  }
+
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: var(--surface); }
+
+  .data-table td:first-child {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  /* ── CALLOUT ── */
+  .callout {
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin: 16px 0;
+    display: flex; gap: 12px; align-items: flex-start;
+    font-size: 13px;
+  }
+
+  .callout-gold   { background: rgba(232,201,122,0.07); border: 1px solid rgba(232,201,122,0.2); }
+  .callout-blue   { background: rgba(79,195,247,0.07);  border: 1px solid rgba(79,195,247,0.2);  }
+  .callout-green  { background: rgba(129,199,132,0.07); border: 1px solid rgba(129,199,132,0.2); }
+  .callout-pink   { background: rgba(244,143,177,0.07); border: 1px solid rgba(244,143,177,0.2); }
+  .callout-purple { background: rgba(206,147,216,0.07); border: 1px solid rgba(206,147,216,0.2); }
+
+  .callout-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .callout-text { color: var(--text); line-height: 1.65; }
+  .callout-text strong { font-weight: 600; }
+
+  /* ── BADGE ── */
+  .badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+  }
+  .badge-gold   { background: rgba(232,201,122,0.15); color: var(--accent); }
+  .badge-blue   { background: rgba(79,195,247,0.15);  color: var(--accent2);}
+  .badge-green  { background: rgba(129,199,132,0.15); color: var(--accent3);}
+  .badge-pink   { background: rgba(244,143,177,0.15); color: var(--accent4);}
+  .badge-purple { background: rgba(206,147,216,0.15); color: var(--accent5);}
+
+  /* ── ACCORDION ── */
+  .accordion { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+
+  .acc-item { border-bottom: 1px solid var(--border); }
+  .acc-item:last-child { border-bottom: none; }
+
+  .acc-trigger {
+    width: 100%;
+    background: var(--surface);
+    border: none;
+    padding: 14px 18px;
+    text-align: left;
+    cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center;
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+  }
+  .acc-trigger:hover { background: var(--surface2); }
+  .acc-trigger.open  { background: var(--surface2); color: var(--accent); }
+
+  .acc-arrow {
+    font-size: 12px;
+    transition: transform 0.3s;
+    color: var(--muted);
+  }
+  .acc-trigger.open .acc-arrow { transform: rotate(180deg); color: var(--accent); }
+
+  .acc-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    background: var(--bg);
+  }
+  .acc-body.open { max-height: 800px; }
+
+  .acc-content {
+    padding: 16px 20px;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  .acc-content ul { padding-left: 18px; }
+  .acc-content li { margin-bottom: 5px; }
+  .acc-content strong { color: var(--text); font-weight: 500; }
+
+  /* ── TAG ROW ── */
+  .tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 3px 9px;
+    border-radius: 4px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+
+  /* ── PROCESS STEPS ── */
+  .steps { display: flex; flex-direction: column; gap: 0; }
+
+  .step {
+    display: flex; gap: 18px;
+    padding: 0 0 0 0;
+  }
+
+  .step-left {
+    display: flex; flex-direction: column; align-items: center;
+    width: 36px; flex-shrink: 0;
+  }
+
+  .step-num {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
+    background: var(--surface);
+    flex-shrink: 0;
+  }
+
+  .step-line {
+    width: 2px;
+    flex: 1;
+    background: var(--border);
+    margin: 4px 0;
+    min-height: 20px;
+  }
+
+  .step:last-child .step-line { display: none; }
+
+  .step-body {
+    padding: 4px 0 24px;
+    flex: 1;
+  }
+
+  .step-title {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .step-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  /* ── COMPARISON ── */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  /* ── BACK TO TOP ── */
+  #backTop {
+    position: fixed; bottom: 28px; right: 28px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--accent);
+    width: 40px; height: 40px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s, background 0.2s;
+    z-index: 50;
+  }
+  #backTop.show { opacity: 1; }
+  #backTop:hover { background: var(--surface); }
+
+  /* ── SEARCH ── */
+  .search-wrap {
+    position: relative;
+    margin-bottom: 10px;
+    padding: 0 16px;
+  }
+  .search-input {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 12px 8px 30px;
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 12px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-input:focus { border-color: rgba(232,201,122,0.4); }
+  .search-input::placeholder { color: var(--muted); }
+  .search-icon {
+    position: absolute; left: 26px; top: 50%; transform: translateY(-50%);
+    color: var(--muted); font-size: 12px;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    aside { display: none; }
+    main { padding: 28px 20px; }
+    .cards-2, .cards-3 { grid-template-columns: 1fr; }
+    .compare-grid { grid-template-columns: 1fr; }
+  }
+
+  .highlight { background: rgba(232,201,122,0.2); border-radius: 2px; padding: 0 2px; }
+
+  /* ── CREATOR CARD ── */
+  .creator-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 28px;
+    padding: 16px 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px;
+    position: relative;
+    max-width: 420px;
+  }
+
+  .creator-avatar {
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(232,201,122,0.25), rgba(79,195,247,0.15));
+    border: 2px solid rgba(232,201,122,0.4);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--heading-font);
+    font-size: 16px;
+    color: var(--accent);
+    flex-shrink: 0;
+    letter-spacing: 0.5px;
+  }
+
+  .creator-info {
+    flex: 1;
+  }
+
+  .creator-name {
+    font-family: var(--heading-font);
+    font-size: 17px;
+    color: var(--text);
+    line-height: 1.2;
+    margin-bottom: 2px;
+  }
+
+  .creator-dept {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent2);
+    letter-spacing: 0.04em;
+    margin-bottom: 1px;
+  }
+
+  .creator-college {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .creator-badge {
+    position: absolute;
+    top: -10px; right: 14px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--accent);
+    background: var(--bg);
+    border: 1px solid rgba(232,201,122,0.25);
+    padding: 2px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.06em;
+  }
+
+  /* ── FOOTER CREDIT ── */
+  .footer-credit {
+    text-align: center;
+    padding: 32px 20px;
+    border-top: 1px solid var(--border);
+    margin-top: 20px;
+    font-size: 12px;
+    color: var(--muted);
+    font-family: var(--mono);
+  }
+
+  .footer-credit strong {
+    color: var(--accent);
+  }
+
+  /* subtle scan-line atmosphere */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; pointer-events: none; z-index: 200;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0,0,0,0.03) 3px,
+      rgba(0,0,0,0.03) 4px
+    );
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-badge">EXAM NOTES</div>
+  <div class="header-title">Composite Materials</div>
+  <div style="display:flex;align-items:center;gap:6px;margin-left:auto;margin-right:16px;">
+    <span style="font-family:var(--mono);font-size:11px;color:var(--muted);">by</span>
+    <span style="font-family:var(--heading-font);font-size:13px;color:var(--accent);">Abhishek Dangi</span>
+    <span style="font-family:var(--mono);font-size:10px;color:var(--muted);border-left:1px solid var(--border);padding-left:8px;">Textile Tech · TIT&amp;S</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <span style="font-family:var(--mono);font-size:11px;color:var(--muted)">Reading progress</span>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+</header>
+
+<div class="layout">
+  <!-- SIDEBAR -->
+  <aside>
+    <div class="search-wrap" style="margin-bottom:18px;">
+      <span class="search-icon">⌕</span>
+      <input class="search-input" id="searchInput" placeholder="Search sections…" oninput="filterNav(this.value)">
+    </div>
+    <div class="sidebar-label">Contents</div>
+    <div id="navLinks">
+      <a class="nav-item active" href="#s1" data-nav="s1"><span class="nav-dot"></span>Overview</a>
+      <a class="nav-item" href="#s2" data-nav="s2"><span class="nav-dot"></span>Types of Fibers</a>
+      <a class="nav-item" href="#s3" data-nav="s3"><span class="nav-dot"></span>Types of Resins</a>
+      <a class="nav-item" href="#s4" data-nav="s4"><span class="nav-dot"></span>Methods of Construction</a>
+      <a class="nav-item" href="#s5" data-nav="s5"><span class="nav-dot"></span>Types of Preforms</a>
+      <a class="nav-item" href="#s6" data-nav="s6"><span class="nav-dot"></span>Preform Properties</a>
+      <a class="nav-item" href="#s7" data-nav="s7"><span class="nav-dot"></span>Typical Applications</a>
+      <a class="nav-item" href="#s8" data-nav="s8"><span class="nav-dot"></span>3D Fabrics</a>
+      <a class="nav-item" href="#s9" data-nav="s9"><span class="nav-dot"></span>Triaxially Braided</a>
+      <a class="nav-item" href="#s10" data-nav="s10"><span class="nav-dot"></span>Quick Reference</a>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-tag">Materials Engineering · Composite Structures</div>
+      <h1>Composite<br><span>Materials</span></h1>
+      <p class="hero-desc">A comprehensive study guide covering fibers, resins, construction methods, preforms, 3D fabrics, and triaxially braided composites.</p>
+      <div class="topic-chips">
+        <span class="chip chip-gold">Fiber Types</span>
+        <span class="chip chip-blue">Resin Systems</span>
+        <span class="chip chip-green">Construction</span>
+        <span class="chip chip-pink">Preforms</span>
+        <span class="chip chip-purple">3D Fabrics</span>
+        <span class="chip chip-gold">Triaxial Braiding</span>
+        <span class="chip chip-blue">Applications</span>
+      </div>
+
+      <!-- CREATOR CARD -->
+      <div class="creator-card">
+        <div class="creator-avatar">AD</div>
+        <div class="creator-info">
+          <div class="creator-name">Abhishek Dangi</div>
+          <div class="creator-dept">Department of Textile Technology</div>
+          <div class="creator-college">TIT&amp;S College</div>
+        </div>
+        <div class="creator-badge">✍ Notes by</div>
+      </div>
+    </div>
+
+    <!-- SECTION 1: OVERVIEW -->
+    <div class="section" id="s1">
+      <div class="section-header">
+        <span class="section-num">01</span>
+        <h2>Overview of Composites</h2>
+      </div>
+      <div class="section-divider" style="background: var(--accent);"></div>
+
+      <div class="callout callout-gold">
+        <span class="callout-icon">📌</span>
+        <div class="callout-text">
+          <strong>Definition:</strong> A composite material is a combination of two or more constituent materials (a <em>matrix</em> and a <em>reinforcement</em>) with significantly different physical or chemical properties that, when combined, produce a material with characteristics different from the individual components.
+        </div>
+      </div>
+
+      <div class="cards cards-2" style="margin-top:18px;">
+        <div class="card card-accent-gold">
+          <div class="card-icon">🧱</div>
+          <h3>Matrix (Binder)</h3>
+          <ul>
+            <li>Holds fibres together</li>
+            <li>Transfers load between fibres</li>
+            <li>Protects fibres from environment</li>
+            <li>Determines service temp & chemical resistance</li>
+          </ul>
+        </div>
+        <div class="card card-accent-blue">
+          <div class="card-icon">🪡</div>
+          <h3>Reinforcement (Fibre)</h3>
+          <ul>
+            <li>Carries principal mechanical loads</li>
+            <li>Provides stiffness and strength</li>
+            <li>Continuous, woven, or chopped forms</li>
+            <li>Oriented to match load paths</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout callout-blue" style="margin-top:18px;">
+        <span class="callout-icon">💡</span>
+        <div class="callout-text"><strong>Key Advantage:</strong> High specific strength (strength/weight) and specific stiffness (stiffness/weight) — superior to most metals for structural applications.</div>
+      </div>
+    </div>
+
+    <!-- SECTION 2: FIBERS -->
+    <div class="section" id="s2">
+      <div class="section-header">
+        <span class="section-num">02</span>
+        <h2>Types of Fibers</h2>
+      </div>
+      <div class="section-divider" style="background: var(--accent2);"></div>
+
+      <div class="accordion">
+
+        <div class="acc-item">
+          <button class="acc-trigger" onclick="toggleAcc(this)">
+            <span>🔷 Carbon / Graphite Fibers</span>
+            <span class="acc-arrow">▼</span>
+          </button>
+          <div class="acc-body">
+            <div class="acc-content">
+              <ul>
+                <li><strong>Manufacture:</strong> Pyrolysis of PAN (Polyacrylonitrile) or pitch precursor at 1000–3000 °C</li>
+                <li><strong>Tensile strength:</strong> 3.5 – 7 GPa | <strong>Modulus:</strong> 230 – 900 GPa</li>
+                <li><strong>Density:</strong> ~1.75 g/cm³ (lightest high-performance fibre)</li>
+                <li><strong>Grades:</strong> Standard Modulus (SM), Intermediate Modulus (IM), High Modulus (HM), Ultra-High Modulus (UHM)</li>
+                <li><strong>Properties:</strong> Excellent fatigue, near-zero thermal expansion, electrically conductive</li>
+                <li><strong>Weakness:</strong> Brittle, poor impact resistance, galvanic corrosion with metals</li>
+              </ul>
+              <div class="tag-row">
+                <span class="tag">Aerospace</span><span class="tag">Sporting goods</span><span class="tag">Automotive</span><span class="tag">Wind turbines</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-trigger" onclick="toggleAcc(this)">
+            <span>🟡 Glass Fibers (E-glass, S-glass, R-glass)</span>
+            <span class="acc-arrow">▼</span>
+          </button>
+          <div class="acc-body">
+            <div class="acc-content">
+              <ul>
+                <li><strong>E-glass:</strong> Electrical grade; most common; tensile strength ~3.5 GPa; modulus ~73 GPa</li>
+                <li><strong>S-glass:</strong> High-strength grade; ~4.6 GPa strength; used in ballistic & aerospace</li>
+                <li><strong>R-glass:</strong> European equivalent of S-glass; superior fatigue life</li>
+                <li><strong>ECR-glass:</strong> Corrosion-resistant variant</li>
+                <li><strong>Density:</strong> 2.54 – 2.60 g/cm³</li>
+                <li><strong>Properties:</strong> Good chemical resistance, low cost, good electrical insulation</li>
+                <li><strong>Weakness:</strong> Lower stiffness vs. carbon; susceptible to moisture absorption</li>
+              </ul>
+              <div class="tag-row">
+                <span class="tag">Marine</span><span class="tag">Pipe & tanks</span><span class="tag">Construction</span><span class="tag">PCBs</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-trigger" onclick="toggleAcc(this)">
+            <span>🟣 Aramid Fibers (Kevlar®, Twaron®)</span>
+            <span class="acc-arrow">▼</span>
+          </button>
+          <div class="acc-body">
+            <div class="acc-content">
+              <ul>
+                <li><strong>Chemistry:</strong> Aromatic polyamide (PPTA) — para-aramid</li>
+                <li><strong>Tensile strength:</strong> 2.9 – 3.6 GPa | <strong>Modulus:</strong> 70 – 130 GPa</li>
+                <li><strong>Density:</strong> 1.44 g/cm³ — very low!</li>
+                <li><strong>Outstanding:</strong> Impact energy absorption, vibration damping, cut/abrasion resistance</li>
+                <li><strong>Weakness:</strong> Poor compression, UV-sensitive, moisture uptake, difficult to machine</li>
+                <li><strong>Grades:</strong> Kevlar 29 (ballistic), Kevlar 49 (structural), Kevlar 149 (ultra-high modulus)</li>
+              </ul>
+              <div class="tag-row">
+                <span class="tag">Body armour</span><span class="tag">Helmets</span><span class="tag">Pressure vessels</span><span class="tag">Ropes</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-trigger" onclick="toggleAcc(this)">
+            <span>⚪ Boron Fibers</span>
+            <span class="acc-arrow">▼</span>
+          </button>
+          <div class="acc-body">
+            <div class="acc-content">
+              <ul>
+                <li><strong>Manufacture:</strong> CVD of boron on tungsten wire substrate</li>
+                <li><strong>Modulus:</strong> ~400 GPa — very high compressive strength</li>
+                <li><strong>Density:</strong> 2.6 g/cm³</li>
+                <li><strong>Properties:</strong> Excellent compressive performance (unlike carbon); radiation-resistant</li>
+                <li><strong>Weakness:</strong> Very expensive, large diameter (100–140 µm), brittle</li>
+              </ul>
+              <div class="tag-row">
+                <span class="tag">Military aircraft</span><span class="tag">Stealth tech</span><span class="tag">Patch repairs</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-trigger" onclick="toggleAcc(this)">
+            <span>🔶 Ceramic & Other High-Temp Fibers (SiC, Al₂O₃)</span>
+            <span class="acc-arrow">▼</span>
+          </button>
+          <div class="acc-body">
+            <div class="acc-content">
+              <ul>
+                <li><strong>Silicon Carbide (SiC):</strong> CVD-produced; modulus ~400 GPa; used in CMCs; service temp &gt;1200 °C</li>
+                <li><strong>Alumina (Al₂O₃):</strong> Nextel™ family; creep-resistant; good oxidation resistance</li>
+                <li><strong>Basalt:</strong> Natural volcanic rock; cheap alternative to E-glass; better at high temps</li>
+                <li><strong>UHMWPE (Dyneema®, Spectra®):</strong> Highest specific strength; but low max temp (80–100 °C)</li>
+              </ul>
+              <div class="tag-row">
+                <span class="tag">CMC turbine blades</span><span class="tag">Heat shields</span><span class="tag">Brake discs</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="callout callout-green" style="margin-top:18px;">
+        <span class="callout-icon">📊</span>
+        <div class="callout-text"><strong>Fibre Selection Criteria:</strong> Specific strength, specific stiffness, cost, thermal stability, compatibility with matrix, elongation to failure, and ease of processing.</div>
+      </div>
+
+      <div style="margin-top:18px; overflow-x:auto;">
+        <table class="data-table">
+          <tr>
+            <th>Fiber</th><th>Density (g/cm³)</th><th>Tensile Strength (GPa)</th><th>Modulus (GPa)</th><th>Cost</th>
+          </tr>
+          <tr><td>E-Glass</td><td>2.54</td><td>3.4–3.5</td><td>73</td><td>Low</td></tr>
+          <tr><td>S-Glass</td><td>2.49</td><td>4.6</td><td>87</td><td>Medium</td></tr>
+          <tr><td>Carbon (SM)</td><td>1.75</td><td>3.5–4.9</td><td>230–240</td><td>High</td></tr>
+          <tr><td>Carbon (HM)</td><td>1.80</td><td>2.5–3.5</td><td>350–900</td><td>Very High</td></tr>
+          <tr><td>Aramid (Kv49)</td><td>1.44</td><td>3.0–3.6</td><td>125</td><td>High</td></tr>
+          <tr><td>Boron</td><td>2.60</td><td>3.4</td><td>400</td><td>Very High</td></tr>
+          <tr><td>SiC</td><td>2.55</td><td>3.4</td><td>400</td><td>Extreme</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- SECTION 3: RESINS -->
+    <div class="section" id="s3">
+      <div class="section-header">
+        <span class="section-num">03</span>
+        <h2>Types of Resins (Matrix)</h2>
+      </div>
+      <div class="section-divider" style="background: var(--accent3);"></div>
+
+      <p style="color:var(--muted); margin-bottom:20px; font-size:14px;">Resins are categorised as <strong style="color:var(--text)">Thermoset</strong> (cure irreversibly via chemical cross-linking) or <strong style="color:var(--text)">Thermoplastic</strong> (melt and re-process).</p>
+
+      <div class="cards cards-2">
+        <div class="card card-accent-gold">
+          <h3>🔥 Thermoset Resins</h3>
+          <ul>
+            <li><strong>Epoxy:</strong> Most common; excellent adhesion; low shrinkage; 120–180 °C service</li>
+            <li><strong>Polyester (UP):</strong> Low cost; used in marine/construction; higher shrinkage</li>
+            <li><strong>Vinyl Ester:</strong> Better chemical resistance than polyester; improved toughness</li>
+            <li><strong>Phenolic:</strong> Excellent fire/smoke/toxicity (FST); used in aircraft interiors</li>
+            <li><strong>Bismaleimide (BMI):</strong> Higher temp than epoxy; 200–230 °C service</li>
+            <li><strong>Polyimide (PMR-15, PETI):</strong> Extreme temp &gt;300 °C; aerospace engines</li>
+            <li><strong>Cyanate Ester:</strong> Low moisture uptake; good dielectric; radome structures</li>
+          </ul>
+        </div>
+        <div class="card card-accent-blue">
+          <h3>🔄 Thermoplastic Resins</h3>
+          <ul>
+            <li><strong>PEEK (Polyether ether ketone):</strong> Excellent toughness; 250 °C; impact-tolerant</li>
+            <li><strong>PPS (Polyphenylene sulfide):</strong> Chemical-resistant; 220 °C</li>
+            <li><strong>PEI (Polyetherimide):</strong> FST-compliant; aircraft interiors</li>
+            <li><strong>PA (Nylon 6/66):</strong> Low cost; moisture-absorbing; auto parts</li>
+            <li><strong>Polypropylene:</strong> Cheapest; natural fibre composites</li>
+            <li><strong>PEKK:</strong> Tougher than PEEK; additive manufacturing compatible</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout callout-pink" style="margin-top:18px;">
+        <span class="callout-icon">⚖️</span>
+        <div class="callout-text">
+          <strong>Thermoset vs Thermoplastic:</strong> Thermosets offer better creep resistance and are easier to process at room temp. Thermoplastics offer unlimited shelf life, re-processability, weldability, and superior impact toughness — but require high-temperature/pressure processing.
+        </div>
+      </div>
+
+      <div style="overflow-x:auto; margin-top:18px;">
+        <table class="data-table">
+          <tr>
+            <th>Resin</th><th>Type</th><th>Max Service Temp</th><th>Key Advantage</th><th>Key Limitation</th>
+          </tr>
+          <tr><td>Epoxy</td><td>Thermoset</td><td>120–180 °C</td><td>Versatile, good adhesion</td><td>Brittle, moisture uptake</td></tr>
+          <tr><td>Polyester</td><td>Thermoset</td><td>80–120 °C</td><td>Low cost</td><td>High shrinkage, styrene VOC</td></tr>
+          <tr><td>Vinyl Ester</td><td>Thermoset</td><td>100–130 °C</td><td>Corrosion-resistant</td><td>Higher cost vs polyester</td></tr>
+          <tr><td>Phenolic</td><td>Thermoset</td><td>150–200 °C</td><td>FST performance</td><td>Releases volatiles; voids</td></tr>
+          <tr><td>BMI</td><td>Thermoset</td><td>200–230 °C</td><td>High-temp, aircraft use</td><td>Brittle, costly</td></tr>
+          <tr><td>PEEK</td><td>Thermoplastic</td><td>250 °C</td><td>Tough, reprocessable</td><td>High process temp, cost</td></tr>
+          <tr><td>PPS</td><td>Thermoplastic</td><td>220 °C</td><td>Chemical resistance</td><td>Low fracture toughness</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- SECTION 4: METHODS OF CONSTRUCTION -->
+    <div class="section" id="s4">
+      <div class="section-header">
+        <span class="section-num">04</span>
+        <h2>Methods of Construction</h2>
+      </div>
+      <div class="section-divider" style="background: var(--accent4);"></div>
+
+      <div class="steps">
+
+        <div class="step">
+          <div class="step-left">
+            <div class="step-num" style="border-color:rgba(232,201,122,0.5);color:var(--accent);">1</div>
+            <div class="step-line"></div>
+          </div>
+          <div class="step-body">
+            <div class="step-title">Hand Lay-up / Wet Lay-up</div>
+            <div class="step-desc">Fibres placed manually on open mould; resin applied by brush/roller. Simple, low tooling cost. Suitable for large, low-volume parts (boats, wind blades). <span class="badge badge-gold">Low Cost</span> <span class="badge badge-pink">Low Volume</span> — high void content possible; operator-dependent quality.</div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-left">
+            <div class="step-num" style="border-color:rgba(79,195,247,0.5);color:var(--accent2);">2</div>
+            <div class="step-line"></div>
+          </div>
+          <div class="step-body">
+            <div class="step-title">Spray Lay-up</div>
+            <div class="step-desc">Chopped fibre and resin simultaneously sprayed onto mould. Faster than hand lay-up; lower fibre volume fraction; used for tubs, tanks, caravans. Random fibre orientation limits mechanical performance.</div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-left">
+            <div class="step-num" style="border-color:rgba(129,199,132,0.5);color:var(--accent3);">3</div>
+            <div class="step-line"></div>
+          </div>
+          <div class="step-body">
+            <div class="step-title">Autoclave / Prepreg Processing</div>
+            <div class="step-desc">Pre-impregnated fibre layers laid up; vacuum-bagged; cured in autoclave under elevated pressure (5–7 bar) and temperature (120–180 °C). <span class="badge badge-blue">Aerospace Grade</span> — excellent fibre volume fraction (~60%), low voids (&lt;1%). High capital cost.</div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-left">
+            <div class="step-num" style="border-color:rgba(244,143,177,0.5);color:var(--accent4);">4</div>
+            <div class="step-line"></div>
+          </div>
+          <div class="step-body">
+            <div class="step-title">Resin Transfer Moulding (RTM)</div>
+            <div class="step-desc">Dry fibre preform placed in closed mould; resin injected under pressure. Good surface finish both sides; controlled fibre volume. Variants: Light RTM, HP-RTM (fast automotive), VARI (vacuum-assisted). <span class="badge badge-green">Medium-High Volume</span></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-left">
+            <div class="step-num" style="border-color:rgba(206,147,216,0.5);color:var(--accent5);">5</div>
+            <div class="step-line"></div>
+          </div>
+          <div class="step-body">
+            <div class="step-title">Vacuum Infusion / VARTM</div>
+            <div class="step-desc">Dry fibre on one-sided mould; vacuum draws resin through; cured at room temperature. Low tooling cost; large parts possible (yacht hulls, wind blades). Cannot achieve as high Vf as autoclave.</div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-left">
+            <div class="step-num" style="border-color:rgba(232,201,122,0.5);color:var(--accent);">6</div>
+            <div class="step-line"></div>
+          </div>
+          <div class="step-body">
+            <div class="step-title">Filament Winding</div>
+            <div class="step-desc">Continuous fibre tow wound over rotating mandrel in precise helical/hoop patterns. Optimal for pressure vessels, pipes, rocket motor casings. <span class="badge badge-gold">High Vf</span> — limited to convex shapes.</div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-left">
+            <div class="step-num" style="border-color:rgba(79,195,247,0.5);color:var(--accent2);">7</div>
+            <div class="step-line"></div>
+          </div>
+          <div class="step-body">
+            <div class="step-title">Pultrusion</div>
+            <div class="step-desc">Continuous fibres pulled through resin bath, shaped in heated die — constant cross-section profiles (I-beams, channels, rods). <span class="badge badge-blue">Continuous Production</span> — very high throughput, excellent fibre alignment along pull axis.</div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-left">
+            <div class="step-num" style="border-color:rgba(129,199,132,0.5);color:var(--accent3);">8</div>
+            <div class="step-line"></div>
+          </div>
+          <div class="step-body">
+            <div class="step-title">Sheet Moulding Compound (SMC) / Compression Moulding</div>
+            <div class="step-desc">Glass/carbon mat pre-impregnated; heated in matched metal dies at 150–170 °C. High-volume automotive parts; good surface finish. Short fibres → lower properties than continuous.</div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-left">
+            <div class="step-num" style="border-color:rgba(244,143,177,0.5);color:var(--accent4);">9</div>
+            <div class="step-line"></div>
+          </div>
+          <div class="step-body">
+            <div class="step-title">Automated Fibre Placement (AFP) / Automated Tape Laying (ATL)</div>
+            <div class="step-desc">Robotic head places narrow prepreg tapes/slit tows with precise angle control. Used for large aerospace structures (fuselage skins, wing covers). Reduces labour; enables complex tow-steering; reduces scrap.</div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-left">
+            <div class="step-num" style="border-color:rgba(206,147,216,0.5);color:var(--accent5);">10</div>
+            <div class="step-line"></div>
+          </div>
+          <div class="step-body">
+            <div class="step-title">Braiding (2D / 3D)</div>
+            <div class="step-desc">Fibres interlaced at ±θ angles over mandrel or through-thickness. Near-net-shape preforms; excellent damage tolerance and torsional stiffness. Covered in detail in later sections.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SECTION 5: PREFORMS -->
+    <div class="section" id="s5">
+      <div class="section-header">
+        <span class="section-num">05</span>
+        <h2>Types of Preforms</h2>
+      </div>
+      <div class="section-divider" style="background: var(--accent5);"></div>
+
+      <div class="callout callout-purple">
+        <span class="callout-icon">📋</span>
+        <div class="callout-text"><strong>Preform:</strong> A shaped arrangement of fibres prior to resin infusion or consolidation. It defines the fibre architecture, orientation, and near-net shape of the final part.</div>
+      </div>
+
+      <div class="cards" style="margin-top:18px; gap:12px;">
+
+        <div class="card card-accent-gold">
+          <h3>1. Unidirectional (UD) Tape / Tow</h3>
+          <p>All fibres aligned in one direction. Highest mechanical properties along fibre axis. Used in laminates stacked at multiple angles. Forms: prepreg tape, dry UD fabric with stitch binder.</p>
+        </div>
+
+        <div class="card card-accent-blue">
+          <h3>2. Woven Fabrics</h3>
+          <p><strong>Plain weave:</strong> 1×1 interlace — high crimp, moderate strength, good handleability<br>
+          <strong>Twill weave:</strong> Diagonal pattern (2×2, 3×3); lower crimp; better drape — aerospace panels<br>
+          <strong>Satin weave:</strong> Minimal interlace (4H, 5H, 8H); lowest crimp; excellent surface finish; poor stability<br>
+          <strong>Harness satin:</strong> Used for complex-curved surfaces</p>
+        </div>
+
+        <div class="card card-accent-green">
+          <h3>3. Non-Crimp Fabrics (NCF)</h3>
+          <p>Multiple UD plies stitched together (0°, ±45°, 90°). No weave crimp → superior in-plane properties vs woven. Available as biaxial, triaxial, quadraxial. Used with RTM/VARTM. <span class="badge badge-green">High Performance</span></p>
+        </div>
+
+        <div class="card card-accent-pink">
+          <h3>4. Chopped Strand Mat (CSM)</h3>
+          <p>Short randomly-oriented glass fibres bound with powder or emulsion. Quasi-isotropic but low Vf (20–25%). Used in hand lay-up/spray-up. Cheap; good conformability.</p>
+        </div>
+
+        <div class="card card-accent-purple">
+          <h3>5. Braided Preforms (2D & 3D)</h3>
+          <p>Fibres interlaced at bias angles. 2D braid: tubular or flat; 3D braid: through-thickness fibres — addressed in detail in Section 8 & 9.</p>
+        </div>
+
+        <div class="card card-accent-gold">
+          <h3>6. Knitted Fabrics</h3>
+          <p>Fibre loops interlocked — very high conformability; can drape complex 3D surfaces. Low in-plane properties due to high fibre curvature. Warp-knit NCF is distinct (no loops in structural plies).</p>
+        </div>
+
+        <div class="card card-accent-blue">
+          <h3>7. Sandwich Core (Preform Concept)</h3>
+          <p>Face skins + lightweight core (Nomex honeycomb, foam, balsa). High bending stiffness-to-weight. Cores: PVC foam, PET foam, PMI foam, aluminium honeycomb, Nomex honeycomb.</p>
+        </div>
+
+        <div class="card card-accent-green">
+          <h3>8. Z-Pinned / Stitched Preforms</h3>
+          <p>Through-thickness reinforcement in 2D laminate via stitching (Kevlar/carbon thread) or metallic Z-pins. Dramatically improves delamination resistance and Mode I/II fracture toughness.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SECTION 6: PREFORM PROPERTIES -->
+    <div class="section" id="s6">
+      <div class="section-header">
+        <span class="section-num">06</span>
+        <h2>Preform Properties</h2>
+      </div>
+      <div class="section-divider" style="background: var(--accent);"></div>
+
+      <div class="kv-grid">
+        <div class="kv-row"><div class="kv-key">Fibre Volume Fraction (Vf)</div><div class="kv-val">Ratio of fibre volume to total composite volume. Higher Vf → better mechanical properties. Typical: UD/woven 55–65%, NCF 55–60%, CSM 20–30%.</div></div>
+        <div class="kv-row"><div class="kv-key">Areal Weight (gsm)</div><div class="kv-val">Mass per unit area (g/m²). Controls ply thickness and affects permeability in LCM processes.</div></div>
+        <div class="kv-row"><div class="kv-key">Drapeability</div><div class="kv-val">Ability to conform to curved tooling without wrinkling. Woven &gt; NCF &gt; UD. Critical for complex double-curvature parts.</div></div>
+        <div class="kv-row"><div class="kv-key">Permeability</div><div class="kv-val">Ease of resin flow through preform (important for RTM/VARTM). Braided/woven higher permeability than tight UD; binder can reduce permeability.</div></div>
+        <div class="kv-row"><div class="kv-key">Nesting / Compaction</div><div class="kv-val">Ability of plies to compact under pressure — affects achievable Vf and spring-back.</div></div>
+        <div class="kv-row"><div class="kv-key">Binder Content</div><div class="kv-val">Thermoplastic binder (1–5%) holds preform shape for handling. Can affect resin flow if excessive.</div></div>
+        <div class="kv-row"><div class="kv-key">Architecture</div><div class="kv-val">Fibre crimp angle, interlace frequency, and orientation determine stiffness, strength, and damage tolerance.</div></div>
+        <div class="kv-row"><div class="kv-key">Damage Tolerance</div><div class="kv-val">Through-thickness reinforcement (3D, stitched, Z-pins) dramatically improves delamination resistance (Mode I GIc, Mode II GIIc).</div></div>
+        <div class="kv-row"><div class="kv-key">Near-Net-Shape</div><div class="kv-val">Preforms closer to final part shape reduce trim waste and handling. Key benefit of braiding and 3D weaving.</div></div>
+      </div>
+
+      <div class="compare-grid" style="margin-top:20px;">
+        <div class="card card-accent-gold">
+          <h3>✅ UD Tape Strengths</h3>
+          <ul>
+            <li>Highest specific strength & stiffness</li>
+            <li>Precise fibre placement</li>
+            <li>Low crimp → better translation efficiency</li>
+          </ul>
+        </div>
+        <div class="card card-accent-blue">
+          <h3>❌ UD Tape Limitations</h3>
+          <ul>
+            <li>Poor drape on complex curves</li>
+            <li>Sensitive to delamination</li>
+            <li>Many ply angles needed for quasi-isotropic</li>
+          </ul>
+        </div>
+        <div class="card card-accent-green">
+          <h3>✅ Woven Fabric Strengths</h3>
+          <ul>
+            <li>Excellent drape & conformability</li>
+            <li>Balanced in-plane properties</li>
+            <li>Easy handling & draping</li>
+          </ul>
+        </div>
+        <div class="card card-accent-pink">
+          <h3>❌ Woven Fabric Limitations</h3>
+          <ul>
+            <li>Fibre crimp reduces axial properties (~10–15%)</li>
+            <li>Complex crimped geometry</li>
+            <li>Limited through-thickness strength</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 7: APPLICATIONS -->
+    <div class="section" id="s7">
+      <div class="section-header">
+        <span class="section-num">07</span>
+        <h2>Typical Applications</h2>
+      </div>
+      <div class="section-divider" style="background: var(--accent2);"></div>
+
+      <div class="cards cards-3">
+        <div class="card card-accent-gold">
+          <div class="card-icon">✈️</div>
+          <h3>Aerospace</h3>
+          <ul>
+            <li>Wing skins & spars (CFRP)</li>
+            <li>Fuselage panels (787, A350: &gt;50% composite)</li>
+            <li>Control surfaces & fairings</li>
+            <li>Engine nacelles (woven CFRP)</li>
+            <li>Radomes (cyanate ester + glass)</li>
+            <li>Satellite structures (HM carbon)</li>
+          </ul>
+        </div>
+        <div class="card card-accent-blue">
+          <div class="card-icon">🚗</div>
+          <h3>Automotive</h3>
+          <ul>
+            <li>Body panels (SMC/CFRP)</li>
+            <li>Chassis tubs (F1, BMW i3)</li>
+            <li>Drive shafts (filament wound)</li>
+            <li>Leaf springs (GFRP)</li>
+            <li>Crash structures (braided CFRP)</li>
+            <li>Interior trims (natural fibre/PP)</li>
+          </ul>
+        </div>
+        <div class="card card-accent-green">
+          <div class="card-icon">⛵</div>
+          <h3>Marine</h3>
+          <ul>
+            <li>Boat hulls (GFRP hand lay-up)</li>
+            <li>Racing yacht masts (CFRP)</li>
+            <li>Offshore modules</li>
+            <li>Sonar domes</li>
+          </ul>
+        </div>
+        <div class="card card-accent-pink">
+          <div class="card-icon">🌬️</div>
+          <h3>Wind Energy</h3>
+          <ul>
+            <li>Turbine blades (GFRP/CFRP spar cap)</li>
+            <li>Blade roots (braided preform)</li>
+            <li>Nacelle covers (GFRP)</li>
+          </ul>
+        </div>
+        <div class="card card-accent-purple">
+          <div class="card-icon">🏗️</div>
+          <h3>Civil / Construction</h3>
+          <ul>
+            <li>Bridge decks & rebars (GFRP)</li>
+            <li>Retrofitting columns (CFRP wrap)</li>
+            <li>FRP pipes & tanks</li>
+            <li>Pedestrian bridges</li>
+          </ul>
+        </div>
+        <div class="card card-accent-gold">
+          <div class="card-icon">🏅</div>
+          <h3>Sports & Consumer</h3>
+          <ul>
+            <li>Bicycle frames (CFRP)</li>
+            <li>Tennis rackets, golf clubs</li>
+            <li>Ski poles & snowboards</li>
+            <li>Prosthetics (CFRP)</li>
+          </ul>
+        </div>
+        <div class="card card-accent-blue">
+          <div class="card-icon">🛡️</div>
+          <h3>Defence & Ballistic</h3>
+          <ul>
+            <li>Body armour (Kevlar/UHMWPE)</li>
+            <li>Helmets (hybrid CFRP/aramid)</li>
+            <li>Armour plates</li>
+            <li>Pressure vessels (missile casings)</li>
+          </ul>
+        </div>
+        <div class="card card-accent-green">
+          <div class="card-icon">🏥</div>
+          <h3>Medical</h3>
+          <ul>
+            <li>CT scanner tables (radiolucent CFRP)</li>
+            <li>Prosthetic limbs & sockets</li>
+            <li>Orthopaedic implants</li>
+          </ul>
+        </div>
+        <div class="card card-accent-pink">
+          <div class="card-icon">🚀</div>
+          <h3>Space</h3>
+          <ul>
+            <li>Rocket motor casings (filament wound)</li>
+            <li>Payload fairings</li>
+            <li>Truss structures (UHM carbon)</li>
+            <li>Solar panel substrates</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 8: 3D FABRICS -->
+    <div class="section" id="s8">
+      <div class="section-header">
+        <span class="section-num">08</span>
+        <h2>3-Dimensional (3D) Fabrics</h2>
+      </div>
+      <div class="section-divider" style="background: var(--accent3);"></div>
+
+      <div class="callout callout-green">
+        <span class="callout-icon">🔬</span>
+        <div class="callout-text">
+          <strong>Motivation:</strong> Conventional 2D laminates have negligible through-thickness (z-direction) reinforcement → vulnerable to interlaminar delamination under impact or out-of-plane loads. 3D fabrics integrate z-direction fibres to solve this.
+        </div>
+      </div>
+
+      <div style="margin-top:20px;">
+        <div class="accordion">
+
+          <div class="acc-item">
+            <button class="acc-trigger" onclick="toggleAcc(this)">
+              <span>3D Woven Fabrics</span>
+              <span class="acc-arrow">▼</span>
+            </button>
+            <div class="acc-body">
+              <div class="acc-content">
+                <ul>
+                  <li><strong>Architecture Types:</strong> 3D orthogonal (x, y, z yarns no interlacing), layer-to-layer interlock, through-thickness angle interlock, and warp-weave architectures.</li>
+                  <li><strong>3D Orthogonal:</strong> Warp (x), weft (y), and binder/z-yarn independent — highest in-plane properties preserved; binder yarn holds layers.</li>
+                  <li><strong>Layer-to-Layer Interlock:</strong> Warp yarn links adjacent layers — moderate z-reinforcement with good in-plane properties.</li>
+                  <li><strong>Through-Thickness Angle Interlock:</strong> Warp traverses ALL layers — maximum z-reinforcement; some in-plane property sacrifice.</li>
+                  <li><strong>Properties:</strong> High delamination resistance (GIc ×5–10 vs 2D laminate); excellent damage tolerance under impact; no catastrophic delamination propagation.</li>
+                  <li><strong>Limitations:</strong> Complex loom equipment; fibre damage during weaving; lower in-plane properties than UD for same fibre content.</li>
+                  <li><strong>Applications:</strong> Fan blades (GE LEAP engine), T-joints, I-beams, thick-section aerospace structures.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="acc-item">
+            <button class="acc-trigger" onclick="toggleAcc(this)">
+              <span>3D Braided Fabrics</span>
+              <span class="acc-arrow">▼</span>
+            </button>
+            <div class="acc-body">
+              <div class="acc-content">
+                <ul>
+                  <li><strong>Concept:</strong> Carriers on 2D track plate travel in competing paths — fibres interlace through entire thickness of the preform.</li>
+                  <li><strong>Architectures:</strong> 4-step (1×1) braid — Cartesian; 2-step braid — axial yarns dominant with bias carriers; Circular 3D braid.</li>
+                  <li><strong>Braid angle range:</strong> 10° – 75° from preform axis; controls axial vs. torsional stiffness trade-off.</li>
+                  <li><strong>Advantages:</strong> Seamless net-shape preforms, extremely high damage tolerance, no interlaminar planes, complex cross-sections (I, C, T, hollow).</li>
+                  <li><strong>Disadvantages:</strong> Limited to relatively small cross-sections; slow production; complex yarn paths complicate analysis.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="acc-item">
+            <button class="acc-trigger" onclick="toggleAcc(this)">
+              <span>3D Stitched Preforms</span>
+              <span class="acc-arrow">▼</span>
+            </button>
+            <div class="acc-body">
+              <div class="acc-content">
+                <ul>
+                  <li>2D fabric layers joined by through-thickness stitching (lock stitch, modified lock stitch, chain stitch).</li>
+                  <li><strong>Materials:</strong> Kevlar, carbon, glass thread; 0.2–0.5 mm pitch; 1–4% volume fraction z-yarn.</li>
+                  <li><strong>Benefits:</strong> Retrofit onto existing 2D fabrics; large area coverage; automated stitching possible (Robbin Needle System).</li>
+                  <li><strong>Drawback:</strong> In-plane fibre damage from needle penetration; reduced in-plane strength.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="acc-item">
+            <button class="acc-trigger" onclick="toggleAcc(this)">
+              <span>Z-Pinning</span>
+              <span class="acc-arrow">▼</span>
+            </button>
+            <div class="acc-body">
+              <div class="acc-content">
+                <ul>
+                  <li>Metallic (titanium, steel) or CFRP pins (0.28–0.5 mm dia.) inserted through-thickness into uncured prepreg laminates using ultrasonic insertion tool (UAZ).</li>
+                  <li>Areal density: 0.5–4%; volume fraction: 0.5–2%</li>
+                  <li><strong>Properties:</strong> Mode I GIc ×6–10 increase; Mode II ×3–5; improved pull-off strength at joints and flanges.</li>
+                  <li><strong>Applications:</strong> T-joints, co-cured stiffeners, fuselage frame attachments, trailing edge wedges.</li>
+                  <li><strong>Drawback:</strong> Compressive knockdown ~10–20% due to fibre waviness from pin insertion.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div style="overflow-x:auto; margin-top:18px;">
+        <table class="data-table">
+          <tr>
+            <th>3D Method</th><th>Through-Thickness Volume</th><th>GIc Improvement</th><th>In-plane Property Retention</th><th>Cost/Complexity</th>
+          </tr>
+          <tr><td>3D Orthogonal Weave</td><td>2–5%</td><td>×5–8</td><td>High (~95%)</td><td>High</td></tr>
+          <tr><td>Angle Interlock Weave</td><td>5–15%</td><td>×8–15</td><td>Moderate (~85%)</td><td>High</td></tr>
+          <tr><td>3D Braid</td><td>Full integration</td><td>No delamination</td><td>Moderate (architecture-dep.)</td><td>Very High</td></tr>
+          <tr><td>Through-thickness Stitch</td><td>1–3%</td><td>×3–6</td><td>Moderate (~85%)</td><td>Medium</td></tr>
+          <tr><td>Z-Pinning</td><td>0.5–4%</td><td>×6–10</td><td>Moderate (~80–90%)</td><td>Medium</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- SECTION 9: TRIAXIALLY BRAIDED -->
+    <div class="section" id="s9">
+      <div class="section-header">
+        <span class="section-num">09</span>
+        <h2>Triaxially Braided Materials</h2>
+      </div>
+      <div class="section-divider" style="background: var(--accent4);"></div>
+
+      <div class="callout callout-pink">
+        <span class="callout-icon">🎯</span>
+        <div class="callout-text">
+          <strong>Definition:</strong> Triaxial braid incorporates three yarn families: bias yarns at +θ and −θ (braid yarns) PLUS axial yarns (0°) locked between them. Unlike biaxial braid (2 directions only), the axial tows dramatically improve longitudinal stiffness and strength.
+        </div>
+      </div>
+
+      <div class="cards cards-2" style="margin-top:18px;">
+        <div class="card card-accent-pink">
+          <h3>Architecture Details</h3>
+          <ul>
+            <li><strong>Bias angle (θ):</strong> Typically ±30°, ±45°, or ±60° — adjustable during braiding</li>
+            <li><strong>Axial tow placement:</strong> Between bias carriers — can be different fibre type (e.g., carbon bias + glass axial)</li>
+            <li><strong>Cover factor:</strong> Proportion of surface covered by braided tows — affects resin content</li>
+            <li><strong>Mandrel shapes:</strong> Circular, rectangular, T, I, C, hat sections — near net shape</li>
+            <li><strong>Hybrid possible:</strong> Carbon bias ± Kevlar axial for multi-functional</li>
+          </ul>
+        </div>
+        <div class="card card-accent-gold">
+          <h3>Mechanical Advantages</h3>
+          <ul>
+            <li>Balanced biaxial and axial properties</li>
+            <li>Excellent torsional and axial stiffness combination</li>
+            <li>Damage tolerance — no delamination planes</li>
+            <li>Energy absorption in crash: progressive crushing</li>
+            <li>Notch-insensitivity (interlocked fibres blunt crack)</li>
+            <li>Near-net shape → less waste</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top:20px;">
+        <div class="accordion">
+
+          <div class="acc-item">
+            <button class="acc-trigger" onclick="toggleAcc(this)">
+              <span>Comparison: Biaxial vs Triaxial Braid</span>
+              <span class="acc-arrow">▼</span>
+            </button>
+            <div class="acc-body">
+              <div class="acc-content">
+                <table class="data-table" style="margin-top:4px;">
+                  <tr><th>Property</th><th>Biaxial Braid (±θ)</th><th>Triaxial Braid (±θ + 0°)</th></tr>
+                  <tr><td>Axial stiffness</td><td>Low</td><td>High (dominated by 0° tow)</td></tr>
+                  <tr><td>Shear stiffness</td><td>High</td><td>Moderate–High</td></tr>
+                  <tr><td>Torsional stiffness</td><td>Excellent</td><td>Excellent</td></tr>
+                  <tr><td>Axial tensile strength</td><td>Low–Moderate</td><td>High</td></tr>
+                  <tr><td>Drapeability</td><td>Very Good</td><td>Good</td></tr>
+                  <tr><td>Production speed</td><td>Faster</td><td>Slower (extra carriers)</td></tr>
+                  <tr><td>Complexity</td><td>Low</td><td>Moderate</td></tr>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="acc-item">
+            <button class="acc-trigger" onclick="toggleAcc(this)">
+              <span>Manufacturing Process of Triaxial Braid</span>
+              <span class="acc-arrow">▼</span>
+            </button>
+            <div class="acc-body">
+              <div class="acc-content">
+                <ul>
+                  <li><strong>Maypole braider:</strong> Carriers on sinusoidal track; alternate carriers move in opposite directions creating ±θ braid yarns.</li>
+                  <li><strong>Axial yarn insertion:</strong> Separate spools supply 0° yarns stationary through the fell point alongside bias carriers.</li>
+                  <li><strong>Fell point:</strong> Point where yarns converge onto mandrel — controls braid angle (take-up speed vs. carrier speed ratio).</li>
+                  <li><strong>Overbraiding:</strong> Multiple layers applied sequentially to build up wall thickness.</li>
+                  <li><strong>RTM/VARTM after braiding:</strong> Preform removed from mandrel (if collapsible) or infused on mandrel.</li>
+                  <li><strong>Automated braiding:</strong> Robotic arm moves mandrel through stationary braider — enables variable angle and complex shapes.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="acc-item">
+            <button class="acc-trigger" onclick="toggleAcc(this)">
+              <span>Applications of Triaxially Braided Composites</span>
+              <span class="acc-arrow">▼</span>
+            </button>
+            <div class="acc-body">
+              <div class="acc-content">
+                <ul>
+                  <li><strong>Aircraft fuselage frames:</strong> Airbus A380 fuselage frames use 3D braided carbon CFRP — first large-scale structural use.</li>
+                  <li><strong>Fan blades (aeroengine):</strong> GE GE90 fan blade; CFM LEAP fan blade — 3D woven carbon; triaxial provides bird-strike tolerance and vibration damping.</li>
+                  <li><strong>Automotive crash structures:</strong> BMW i-series, Lamborghini monocoque — braided CFRP tubes for progressive crushing energy absorption.</li>
+                  <li><strong>Bicycle frames:</strong> Overbraided CFRP tubes joined with RTM nodes.</li>
+                  <li><strong>Medical prosthetics and stents.</strong></li>
+                  <li><strong>Wind turbine blade roots:</strong> Circular triaxial braid provides quasi-isotropic bolt-load-bearing region.</li>
+                  <li><strong>Helicopter drive shafts and rotor torque tubes.</strong></li>
+                  <li><strong>Pressure vessels and rocket casings.</strong></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="acc-item">
+            <button class="acc-trigger" onclick="toggleAcc(this)">
+              <span>Analysis Approaches for Triaxial Braid</span>
+              <span class="acc-arrow">▼</span>
+            </button>
+            <div class="acc-body">
+              <div class="acc-content">
+                <ul>
+                  <li><strong>Classical Laminate Theory (CLT):</strong> Treat as equivalent laminate [+θ / 0 / −θ] — quick but ignores crimp and interlacing.</li>
+                  <li><strong>Fabric Geometry Model (FGM):</strong> Accounts for yarn path geometry and undulation.</li>
+                  <li><strong>Mosaic Model:</strong> RUC divided into blocks of UD material; rule of mixtures at scale.</li>
+                  <li><strong>Finite Element Unit Cell:</strong> Detailed periodic FE model of repeating unit cell — most accurate; computationally expensive.</li>
+                  <li><strong>Meso-scale FE:</strong> Commercial tools (WiseTex, TexGen, ABAQUS plugin) model tow paths explicitly.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 10: QUICK REFERENCE -->
+    <div class="section" id="s10">
+      <div class="section-header">
+        <span class="section-num">10</span>
+        <h2>Quick Reference / Exam Summary</h2>
+      </div>
+      <div class="section-divider" style="background: var(--accent);"></div>
+
+      <div class="callout callout-gold">
+        <span class="callout-icon">⭐</span>
+        <div class="callout-text"><strong>High-Yield Facts for Exam</strong></div>
+      </div>
+
+      <div class="kv-grid" style="margin-top:14px;">
+        <div class="kv-row"><div class="kv-key">Highest stiffness fibre</div><div class="kv-val">Ultra-High Modulus (UHM) Carbon: up to 900 GPa modulus</div></div>
+        <div class="kv-row"><div class="kv-key">Highest impact resistance fibre</div><div class="kv-val">Aramid (Kevlar) / UHMWPE (Dyneema)</div></div>
+        <div class="kv-row"><div class="kv-key">Cheapest fibre</div><div class="kv-val">E-glass (~$2–3/kg vs carbon ~$20–50/kg)</div></div>
+        <div class="kv-row"><div class="kv-key">Highest service temp resin</div><div class="kv-val">Polyimide (PMR-15): &gt;300 °C</div></div>
+        <div class="kv-row"><div class="kv-key">Best FST resin</div><div class="kv-val">Phenolic (also BMI, PEI thermoplastic)</div></div>
+        <div class="kv-row"><div class="kv-key">Highest Vf achievable</div><div class="kv-val">Autoclave prepreg: ~60–65%</div></div>
+        <div class="kv-row"><div class="kv-key">Most damage-tolerant preform</div><div class="kv-val">3D woven / 3D braided (no interlaminar planes)</div></div>
+        <div class="kv-row"><div class="kv-key">Triaxial braid advantage over biaxial</div><div class="kv-val">Added 0° axial tow → high longitudinal stiffness + strength</div></div>
+        <div class="kv-row"><div class="kv-key">3D weave GIc benefit</div><div class="kv-val">×5–10 improvement over 2D laminate</div></div>
+        <div class="kv-row"><div class="kv-key">Best process for pressure vessels</div><div class="kv-val">Filament winding (optimal hoop/helical angle control)</div></div>
+        <div class="kv-row"><div class="kv-key">Best process for constant cross-section</div><div class="kv-val">Pultrusion (continuous, high throughput)</div></div>
+        <div class="kv-row"><div class="kv-key">787 / A350 composite content</div><div class="kv-val">~50% by weight (primary structure: wings, fuselage)</div></div>
+        <div class="kv-row"><div class="kv-key">GE LEAP fan blade material</div><div class="kv-val">3D woven carbon fibre / epoxy (CFM International)</div></div>
+        <div class="kv-row"><div class="kv-key">Z-pin compressive knockdown</div><div class="kv-val">~10–20% reduction due to fibre waviness around pins</div></div>
+      </div>
+
+      <div class="callout callout-blue" style="margin-top:20px;">
+        <span class="callout-icon">📝</span>
+        <div class="callout-text">
+          <strong>Key Equations to Remember:</strong><br>
+          • Fibre Volume Fraction: <code>Vf = Vfibre / Vtotal</code><br>
+          • Rule of Mixtures (axial): <code>E₁ = Ef·Vf + Em·Vm</code><br>
+          • Inverse Rule (transverse): <code>1/E₂ = Vf/Ef + Vm/Em</code><br>
+          • Specific Strength: <code>σ/ρ</code> | Specific Stiffness: <code>E/ρ</code>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<div class="footer-credit">
+  Prepared by &nbsp;<strong>Abhishek Dangi</strong>&nbsp; · &nbsp;Department of Textile Technology&nbsp; · &nbsp;TIT&amp;S College
+</div>
+
+<button id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+  // ── Scroll progress ──
+  window.addEventListener('scroll', () => {
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = (window.scrollY / total) * 100;
+    document.getElementById('progressFill').style.width = progress + '%';
+    document.getElementById('backTop').classList.toggle('show', window.scrollY > 400);
+  });
+
+  // ── Intersection Observer for section animations + active nav ──
+  const sections = document.querySelectorAll('.section');
+  const navItems = document.querySelectorAll('[data-nav]');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        const id = entry.target.id;
+        navItems.forEach(n => {
+          n.classList.toggle('active', n.dataset.nav === id);
+        });
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '-60px 0px -40% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+
+  // ── Accordion ──
+  function toggleAcc(btn) {
+    const body = btn.nextElementSibling;
+    const isOpen = btn.classList.contains('open');
+    // close siblings
+    btn.closest('.accordion').querySelectorAll('.acc-trigger').forEach(b => {
+      b.classList.remove('open');
+      b.nextElementSibling.classList.remove('open');
+    });
+    if (!isOpen) {
+      btn.classList.add('open');
+      body.classList.add('open');
+    }
+  }
+
+  // ── Sidebar search filter ──
+  function filterNav(query) {
+    const q = query.toLowerCase();
+    navItems.forEach(item => {
+      const text = item.textContent.toLowerCase();
+      item.style.display = text.includes(q) ? 'flex' : 'none';
+    });
+  }
+
+  // Smooth scroll for sidebar links
+  document.querySelectorAll('[data-nav]').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.getElementById(link.dataset.nav);
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>
+</body>
+</html>
